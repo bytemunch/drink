@@ -22,7 +22,9 @@ class LoginPage extends Page {
         btnLogin.addEventListener('click', e => {
             firebase.auth().signInWithEmailAndPassword(emailInput.value,passInput.value)
             .catch(err=>console.log(err))
-            .then(user => console.log(user))
+            .then(user => {
+                user ? ()=>{} : console.error('no such user');
+            })
         })
 
         
@@ -32,7 +34,9 @@ class LoginPage extends Page {
         btnSignup.addEventListener('click', e => {
             firebase.auth().createUserWithEmailAndPassword(emailInput.value,passInput.value)
             .catch(err=>console.log(err))
-            .then(user => console.log(user))
+            .then(user=>{
+                user ? ()=>{} : console.error('no such user');
+            })
         })
 
 

@@ -3,14 +3,16 @@
     "compilerOptions": {
         "module": "none",
         "target": "es5",
-        "noImplicitAny": true,
+        "noImplicitAny": false,
         "removeComments": true,
         "preserveConstEnums": true,
         "outFile": "public/main.js",
         "sourceMap": true
     },
     "include": [
-        "ts/**/*"
+        "ts/class/*",
+        "ts/pages/*",
+        "ts/index.ts"
     ],
     "exclude": [
         "node_modules",

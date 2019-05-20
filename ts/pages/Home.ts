@@ -10,7 +10,5 @@ class HomePage extends Page {
 
         this.page.appendChild(title);
 
-
-
     }
 }

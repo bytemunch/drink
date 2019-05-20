@@ -23,8 +23,11 @@ class AccountPage extends Page {
             let l = document.createElement('p');
             l.textContent = inputs[input].label;
             this.page.appendChild(l);
-            let i = document.createElement('input');
+            let i:HTMLInputElement = document.createElement('input');
+            i.setAttribute('id',`acc-input-${input}`);
             i.setAttribute('type',inputs[input].type);
+
+            i.value = userdata[input] || null;
             this.page.appendChild(i);
         }
 
@@ -32,7 +35,17 @@ class AccountPage extends Page {
         btnUpdate.textContent = 'Update';
 
         btnUpdate.addEventListener('click', e=>{
-            console.log('TODO add update functionalityyyyy');
+
+            for (let input in inputs) {
+                if ((input == 'name') && (<HTMLInputElement>document.querySelector(`#acc-input-${input}`)).value == '') {
+                    console.error('no name input');
+                    return false;
+                }
+                userdata[input] = (<HTMLInputElement>document.querySelector(`#acc-input-${input}`)).value;
+            }
+
+            userdata.sendData()
+            .then(()=>openPage('home'),e=>console.error);
         })
 
         this.page.appendChild(btnUpdate);

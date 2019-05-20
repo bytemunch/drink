@@ -1,7 +1,6 @@
 /// <reference types="firebase"/>
 
-
-let userdata: any = {};
+let userdata = new UserData;
 
 let db: any;
 
@@ -54,22 +53,16 @@ function openPage(name: string) {
 
 async function authHandler(user: any) {
     if (user) {
+        // logged in
+
         // console.log(user);
 
-        // Pull user data into memory
-        await db.collection("users").doc(user.uid).get().then((doc: { id: any; data: { (): void; (): void; }; }) => {
-            userdata.uid = doc.id;
-
-            let retrievedData:any = doc.data();
-
-            for (let field in retrievedData) {
-                userdata[field] = retrievedData[field];
-            }
-            // userdata = doc.data();
-        })
-        openPage('home');
+        userdata.populateFrom(user.uid)
+        .then(userExists => { userExists && userdata.name ? openPage('home') : openPage('account') },
+              e => { console.error(e) });
     } else {
-        userdata = {  }; //clear user info
+        // logged out
+        userdata = new UserData; //clear user info
         openPage('login');
     }
 }
