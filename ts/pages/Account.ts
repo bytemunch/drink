@@ -37,18 +37,18 @@ class AccountPage extends Page {
         btnUpdate.addEventListener('click', e=>{
 
             for (let input in inputs) {
-                if ((input == 'name') && (<HTMLInputElement>document.querySelector(`#acc-input-${input}`)).value == '') {
-                    console.error('no name input');
-                    return false;
-                }
                 userdata[input] = (<HTMLInputElement>document.querySelector(`#acc-input-${input}`)).value;
             }
 
+            if (userdata.name == '') {
+                console.error('no name input');
+                return false;
+            }
+            
             userdata.sendData()
             .then(()=>openPage('home'),e=>console.error);
         })
 
         this.page.appendChild(btnUpdate);
-
     }
 }

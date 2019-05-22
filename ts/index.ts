@@ -66,3 +66,11 @@ async function authHandler(user: any) {
         openPage('login');
     }
 }
+
+async function joinRoom(roomId:string,roomPass:string) {
+    console.log(`TODO join room function. ID:${roomId} PW:${roomPass}`);
+    // attempt to write user info to room
+    // cloud function returns acceptance/rejection
+    // > acceptance is in for of room info, we then set up a live listen to updates in room
+    // > rejection is null, error out here
+}

@@ -18,5 +18,8 @@
   "homepage": "https://github.com/bytemunch/ring-of-fire#readme",
   "dependencies": {
     "firebase": "^6.0.2"
+  },
+  "devDependencies": {
+    "@firebase/testing": "^0.9.4"
   }
 }
