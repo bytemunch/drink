@@ -45,6 +45,8 @@ function openPage(name: string) {
             return;
     }
 
+    // side effects here hmmmmm
+
     let appContainer = document.querySelector('#app');
     appContainer.innerHTML = "";
     appContainer.appendChild(page.page);
@@ -112,48 +114,53 @@ async function getRoomId(len: number = 4) {
     return newRoomId;
 }
 
-async function tCreateRoom() {
-    return getRoomId()
-        .then(roomId => {
-            let roomDocRef = db.collection('rooms').doc(roomId);
 
-            return db.runTransaction(t => {
-                return t.get(roomDocRef).then(roomDoc => {
-                    if (!roomDoc.exists) {
-                        return t.set(roomDocRef, { owner: userdata.uid }, { merge: true });
-                    } else {
-                        throw `Room ${roomId} already exists!`
-                    }
-                })
-            })
-        })
-}
-
-async function requestJoinRoom(user: UserData = userdata, roomId: string, pin: string) {
-    if (!roomId) return Promise.reject('requestJoinRoom: No Room ID provided!');
-    if (!pin) return Promise.reject('requestJoinRoom: No Room PIN provided!');
-    if (!user) return Promise.reject('requestJoinRoom: No user provided!');
-
-    let data = { user, pin, roomId }
-
-    // TODO rate limiting to prevent bruteforce room entry
-    // as it would only take 26^4*10000 attempts to find any single room
-    // also even pentesting that would far exceed my quotas
-    // i need a revenue stream fffffffffffffff
-
-    fetch('https://us-central1-ring-of-fire-5d1a4.cloudfunctions.net/joinRoom', {
+async function easyPOST(fn:string, data:any) {
+    return fetch(`https://us-central1-ring-of-fire-5d1a4.cloudfunctions.net/${fn}`, {
         method: 'POST',
         mode:'cors',
         body: JSON.stringify(data)
     })
+}
+
+async function rCreateRoom() {
+    const roomId = await getRoomId().catch(e=>console.error(e));
+
+    const data = {user: userdata, roomId};
+    easyPOST('createRoom', data)
+    .then(res=>res.json())
+    .then(data=>console.log(data))
+
+    // TODO after room created success start listening to changes on room ref
+    // When changes detected grab PIN as we should be owner
+    // Then go ahead and join the room
+}
+
+async function requestJoinRoom(user: UserData = userdata, roomId: string, pin: string) {
+    // REFAC put this in the userdata class?
+    if (!roomId) return Promise.reject('requestJoinRoom: No Room ID provided!');
+    if (!pin) return Promise.reject('requestJoinRoom: No Room PIN provided!');
+    if (!user.uid) return Promise.reject('requestJoinRoom: No user provided!');
+
+    let data = { user, pin, roomId }
+
+    // TODO rate limiting to prevent bruteforce room entry
+    // as it would only take 26^4*10000 attempts to find any single room + pin
+    // also even pentesting that would far exceed my quotas
+    // i need a revenue stream fffffffffffffff
+
+    // fetch('https://us-central1-ring-of-fire-5d1a4.cloudfunctions.net/joinRoom', {
+    //     method: 'POST',
+    //     mode:'cors',
+    //     body: JSON.stringify(data)
+    // })
+    easyPOST('joinRoom',data)
     .then(res=>{return res.json()})
     .then(data=>console.log(data));
 
     // Send data to cloud function to compare PIN
     // TODO setup security to prevent room snooping from non owners
     // > and people that haven't joined yet
-
-
 
 }
 

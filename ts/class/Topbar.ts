@@ -15,6 +15,8 @@ class Topbar {
 
         this.html.appendChild(btnLogout);
 
+        // TODO only show this when logged in
+        // tbf there's a lot more to do before this shite haha
         let accountLink = document.createElement('img');
         accountLink.classList.add('account-img');
         accountLink.setAttribute('src','yeet.png');

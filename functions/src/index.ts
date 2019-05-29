@@ -75,6 +75,8 @@ export const joinRoom = functions.https.onRequest((req, res) => {
         roomRef.get()
             .then(snap => {
                 const doc = snap.data();
+
+                if (!data.user) return Promise.reject('joinRoom: User not provided!');
                 if (!snap.exists) {
                     return Promise.reject('joinRoom: Room not found!');
                 }
@@ -117,6 +119,37 @@ export const joinRoom = functions.https.onRequest((req, res) => {
     });
 })
 
+export const createRoom = functions.https.onRequest((req, res) => {
+    cors(req, res, () => {
+        // Create room request, takes user, responds success or failure
+        const data = JSON.parse(req.body);
+        const user = data.user;
+        const roomId = data.roomId;
+
+        const roomDocRef = db.collection('rooms').doc(roomId);
+
+        db.runTransaction(t => {
+            return t.get(roomDocRef)
+                .then(roomDoc => {
+                    if (!roomDoc.exists) {
+                        console.log('setting room...')
+                        t.set(roomDocRef, { owner: user.uid }, { merge: true })
+                        return Promise.resolve();
+                    } else {
+                        return Promise.reject('Room already exists!');
+                    }
+                })
+        })
+        .then(result => {
+                res.send({ roomId, result });
+        })
+        .catch(err => {
+                console.log(err);
+                res.send( { roomId: false, err });
+        });
+    })
+})
+
 // TODO on room update: change modified timestamp
 // REMEMBER TO NOT MAKE AN INFINITE LOOP HERE SAM!!!!!!!!
 
@@ -135,13 +168,18 @@ export const roomCreated = functions.firestore
             return pin;
         }
 
+        // TODO check if creating user already owns a room, if so
+        // > IF ROOM IN PLAY CANCEL CREATION ?
+        // > ELSE DELETE OTHER ROOM AND CONTINUE
+
         if (roomId !== 'roomsinfo') {
             const deck = new Deck();
             const rules = new RuleSet();
             const pin = createPin(4);
             const infoRef = snap.ref.parent.doc('roomsinfo');
 
-            infoRef.set({ roomlist: {[roomId]:false} }, { merge: true });
+            // Add to roomlist
+            infoRef.set({ roomlist: { [roomId]: true } }, { merge: true });
 
             await db.runTransaction(t => {
                 return t.get(infoRef).then(infoDoc => {
@@ -179,7 +217,7 @@ export const roomDeleted = functions.firestore
         if (roomId !== 'roomsinfo') {
             const infoRef = snap.ref.parent.doc('roomsinfo');
 
-            infoRef.set({ roomlist: {[roomId]:false} }, { merge: true });
+            infoRef.set({ roomlist: { [roomId]: false } }, { merge: true });
 
             await db.runTransaction(t => {
                 return t.get(infoRef).then(infoDoc => {

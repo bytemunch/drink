@@ -19,7 +19,7 @@ class UserData {
         this.uid = uid;
         // Pull user data into memory
         return await db.collection("users").doc(uid).get()
-            .then((doc: any) => { //{ id: any; data: { (): void; (): void; }; }) => {
+            .then((doc: any) => {
                 if (doc.exists) {
                     let retrievedData: any = doc.data();
 
