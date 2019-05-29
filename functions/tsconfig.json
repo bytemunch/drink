@@ -6,11 +6,12 @@
     "outDir": "lib",
     "noImplicitAny": false,
     "sourceMap": true,
-    "strict": true,
+    "strict": false,
     "target": "es2017"
   },
   "compileOnSave": true,
   "include": [
+      "src/class",
     "src"
   ]
 }
