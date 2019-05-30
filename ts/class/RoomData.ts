@@ -1,6 +1,9 @@
 class RoomData {
     public roomId;
     public data;
+    private listener;
+    public initialised;
+
     constructor() {
 
     }
@@ -10,14 +13,20 @@ class RoomData {
 
         console.log(`Joined ${roomId}!`);
 
-        db.collection('rooms').doc(this.roomId).onSnapshot(doc=>{
-                this.data = doc.data();
+
+
+        return db.collection('rooms').doc(this.roomId).get()
+        .then(doc=>{
+            this.data = doc.data();
+            this.listener = db.collection('rooms').doc(this.roomId).onSnapshot(doc => {
+                this.data = doc.data()
+                // blanket update everything OR specific updates?
+                updater.initEvent('update');
             })
+        })
+
+
     }
 
-    getRoomData() {
-        // Pull data from firestore into this object
-    }
 
-    
 }

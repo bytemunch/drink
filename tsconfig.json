@@ -11,6 +11,7 @@
     },
     "include": [
         "ts/class/*",
+        "ts/elements/*",
         "ts/pages/*",
         "ts/index.ts"
     ],

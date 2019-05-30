@@ -3,6 +3,8 @@
 let userdata = new UserData;
 let roomdata = new RoomData;
 
+let updater = new Event('update');
+
 let db: any;
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -40,6 +42,9 @@ function openPage(name: string) {
             break;
         case 'account':
             page = new AccountPage();
+            break;
+        case 'lobby':
+            page = new LobbyPage();
             break;
         default:
             console.log(`Page ${name} not found!`);
@@ -139,7 +144,7 @@ async function rCreateRoom() {
     // Then go ahead and join the room
 }
 
-async function requestJoinRoom(roomId: string, pin: string) {
+async function requestJoinRoom(roomId: string, pin: string, firstRun = true) {
     // REFAC put this in the userdata class?
     if (!roomId) return Promise.reject('requestJoinRoom: No Room ID provided!');
     if (!pin) return Promise.reject('requestJoinRoom: No Room PIN provided!');
@@ -153,23 +158,29 @@ async function requestJoinRoom(roomId: string, pin: string) {
                     if (!data.joined) {
                         return Promise.reject(data.error);
                     }
-                    roomdata.init(roomId); //TODO promisify init
-                    return Promise.resolve();
+                    return roomdata.init(roomId); //TODO promisify init
                 })
                 .then(() => {
                     // RoomData is initialised here
-
+                    // go to lobby I guess
+                    openPage('lobby')
                 })
                 .catch(e => {
                     console.error(e);
-                    let unsubscribe = db.collection('rooms').doc(roomId)
-                        .onSnapshot(change=>{
-                            let state = change.data().state
-                            if (state && state == 'lobby') {
-                                requestJoinRoom(roomId,pin);
-                                unsubscribe();
-                            }
-                        })
+
+                    // I think this is safe but I'm not sure...
+                    // need to make sure there's only one of these for each recursion
+                    if (firstRun) {
+                        let unsubscribe = db.collection('rooms').doc(roomId)
+                            .onSnapshot(change => {
+                                let state = change.data() ? change.data().state : null
+                                if (state && state == 'lobby') {
+                                    requestJoinRoom(roomId, pin, false);
+                                    unsubscribe();
+                                }
+                            })
+                    }
+
                 });
         })
 
