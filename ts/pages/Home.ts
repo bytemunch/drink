@@ -43,7 +43,7 @@ class HomePage extends Page {
             }
 
             // Hand validated input to join function
-            joinRoom(roomId, roomPass);
+            return requestJoinRoom(userdata,roomId, roomPass);
         })
 
         this.page.appendChild(btnJoin);
@@ -51,8 +51,15 @@ class HomePage extends Page {
         let btnCreate = document.createElement('button');
         btnCreate.textContent = 'Create Room';
 
-        btnCreate.addEventListener('click',e=>{
-            console.log('TODO add create room page');
+        btnCreate.addEventListener('click',async e=>{
+            e.preventDefault();
+
+            rCreateRoom()
+            .then(room=>{
+                // wait until room is in 'lobby' state
+                console.log(room);
+                requestJoinRoom(userdata,room.roomId, "OWNER");
+            })
         })
 
         this.page.appendChild(btnCreate);

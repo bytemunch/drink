@@ -77,12 +77,23 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                 const doc = snap.data();
 
                 if (!data.user) return Promise.reject('joinRoom: User not provided!');
+                
                 if (!snap.exists) {
                     return Promise.reject('joinRoom: Room not found!');
+                }
+                
+                if (doc.state !== 'lobby') {
+                    // send state in error message to be regexed out for use in
+                    // UI error. REFAC: find a less hacky solution. maybe throw something?
+                    return Promise.reject(`joinRoom: Room not ready. State: <${doc.state}>`);
                 }
 
                 if (!doc.pin) {
                     return Promise.reject('joinRoom: Room has no pin!');
+                }
+
+                if (data.pin == "OWNER" && data.user.uid == doc.owner) {
+                    return Promise.resolve();
                 }
 
                 if (doc.pin == data.pin) {
@@ -114,7 +125,7 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                         })
                 })
             })
-            .then(() => res.send({ joined: true }))
+            .then(() => res.send({ joined: true, roomId: data.roomId }))
             .catch(error => res.send({ error, joined: false }))
     });
 })
@@ -132,21 +143,27 @@ export const createRoom = functions.https.onRequest((req, res) => {
             return t.get(roomDocRef)
                 .then(roomDoc => {
                     if (!roomDoc.exists) {
-                        console.log('setting room...')
-                        t.set(roomDocRef, { owner: user.uid }, { merge: true })
+                        t.set(roomDocRef, {
+                            owner: user.uid,
+                            state: 'preparing',
+                            timestamp: {
+                                created: admin.firestore.FieldValue.serverTimestamp(),
+                                modified: admin.firestore.FieldValue.serverTimestamp()
+                            }
+                        }, { merge: true })
                         return Promise.resolve();
                     } else {
-                        return Promise.reject('Room already exists!');
+                        return Promise.reject('createRoom: Room already exists!');
                     }
                 })
         })
-        .then(result => {
+            .then(result => {
                 res.send({ roomId, result });
-        })
-        .catch(err => {
+            })
+            .catch(err => {
                 console.log(err);
-                res.send( { roomId: false, err });
-        });
+                res.send({ roomId: false, err });
+            });
     })
 })
 
@@ -184,14 +201,15 @@ export const roomCreated = functions.firestore
             await db.runTransaction(t => {
                 return t.get(infoRef).then(infoDoc => {
                     if (!infoDoc.exists) {
-                        throw "No roomsinfo!";
+                        return Promise.reject("No roomsinfo!");
                     }
 
                     // let newCount = infoDoc.data().roomcount + 1;
-                    t.update(infoRef, { roomcount: admin.firestore.FieldValue.increment(1) });
+                    t.update(infoRef, { roomcount: admin.firestore.FieldValue.increment(1) })
+                    return Promise.resolve();
                 })
-            }).then(() => { console.log('Transaction roomcount done') })
-                .catch(e => console.error);
+            })
+            .catch(e => console.error);
 
             snap.ref.set({
                 deck: deck.cards,
@@ -200,10 +218,7 @@ export const roomCreated = functions.firestore
                 pin: pin,
                 players: {},
                 turnOrder: [],
-                timestamp: {
-                    created: admin.firestore.FieldValue.serverTimestamp(),
-                    modified: admin.firestore.FieldValue.serverTimestamp()
-                }
+                state: 'lobby'
             }, { merge: true })
                 .then(() => { console.log('Added deck, rules, currentCard, pin, turnOrder.') }, e => console.error)
         }

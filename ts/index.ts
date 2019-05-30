@@ -1,6 +1,7 @@
 /// <reference types="firebase"/>
 
 let userdata = new UserData;
+let roomdata: RoomData;
 
 let db: any;
 
@@ -115,21 +116,21 @@ async function getRoomId(len: number = 4) {
 }
 
 
-async function easyPOST(fn:string, data:any) {
+async function easyPOST(fn: string, data: any) {
     return fetch(`https://us-central1-ring-of-fire-5d1a4.cloudfunctions.net/${fn}`, {
         method: 'POST',
-        mode:'cors',
+        mode: 'cors',
         body: JSON.stringify(data)
     })
 }
 
 async function rCreateRoom() {
-    const roomId = await getRoomId().catch(e=>console.error(e));
+    const roomId = await getRoomId().catch(e => console.error(e));
 
-    const data = {user: userdata, roomId};
-    easyPOST('createRoom', data)
-    .then(res=>res.json())
-    .then(data=>console.log(data))
+    const data = { user: userdata, roomId };
+    return easyPOST('createRoom', data)
+        .then(res => res.json())
+        // .then(data => console.log(data))
 
     // TODO after room created success start listening to changes on room ref
     // When changes detected grab PIN as we should be owner
@@ -149,16 +150,23 @@ async function requestJoinRoom(user: UserData = userdata, roomId: string, pin: s
     // also even pentesting that would far exceed my quotas
     // i need a revenue stream fffffffffffffff
 
-    // fetch('https://us-central1-ring-of-fire-5d1a4.cloudfunctions.net/joinRoom', {
-    //     method: 'POST',
-    //     mode:'cors',
-    //     body: JSON.stringify(data)
-    // })
-    easyPOST('joinRoom',data)
-    .then(res=>{return res.json()})
-    .then(data=>console.log(data));
-
     // Send data to cloud function to compare PIN
+    await easyPOST('joinRoom', data)
+        .then(res => { return res.json() })
+        .then(data => {
+            if (!data.joined) {
+                return Promise.reject(data.error);
+            }
+            roomdata = new RoomData(data.roomId);
+            return Promise.resolve();
+        })
+        .then(() => {
+            // RoomData is initialised here
+
+        })
+        .catch(e => console.error(e));
+
+
     // TODO setup security to prevent room snooping from non owners
     // > and people that haven't joined yet
 
