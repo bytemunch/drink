@@ -49,6 +49,7 @@ class RuleSet {
 
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+
 admin.initializeApp(functions.config().firebase);
 
 const cors = require('cors')({ origin: true });
@@ -63,70 +64,74 @@ export const helloWorld = functions.https.onRequest((request, response) => {
 });
 
 export const joinRoom = functions.https.onRequest((req, res) => {
+    //TODO async await this shit up
     cors(req, res, () => {
         const data = JSON.parse(req.body);
-
-        // TODO some sort of auth stuff
-
-        // Check provided room exists
-
         const roomRef = db.collection('rooms').doc(data.roomId)
 
-        roomRef.get()
-            .then(snap => {
-                const doc = snap.data();
+        admin.auth().verifyIdToken(data.token)
+            .then(userToken => {
+                roomRef.get()
+                    .then(snap => {
+                        const doc = snap.data();
 
-                if (!data.user) return Promise.reject('joinRoom: User not provided!');
-                
-                if (!snap.exists) {
-                    return Promise.reject('joinRoom: Room not found!');
-                }
-                
-                if (doc.state !== 'lobby') {
-                    // send state in error message to be regexed out for use in
-                    // UI error. REFAC: find a less hacky solution. maybe throw something?
-                    return Promise.reject(`joinRoom: Room not ready. State: <${doc.state}>`);
-                }
+                        if (!userToken.uid) return Promise.reject('joinRoom: User not provided!');
 
-                if (!doc.pin) {
-                    return Promise.reject('joinRoom: Room has no pin!');
-                }
+                        if (!snap.exists) {
+                            return Promise.reject('joinRoom: Room not found!');
+                        }
 
-                if (data.pin == "OWNER" && data.user.uid == doc.owner) {
-                    return Promise.resolve();
-                }
+                        if (doc.state !== 'lobby') {
+                            // send state in error message to be regexed out for use in
+                            // UI error. REFAC: find a less hacky solution. maybe throw something?
+                            return Promise.reject(`joinRoom: Room not ready. State: <${doc.state}>`);
+                        }
 
-                if (doc.pin == data.pin) {
-                    return Promise.resolve();
-                }
+                        if (!doc.pin) {
+                            return Promise.reject('joinRoom: Room has no pin!');
+                        }
 
-                return Promise.reject('joinRoom: Incorret PIN!');
-            })
-            .then(() => {
-                // add player to room
-                return db.runTransaction(t => {
-                    return t.get(roomRef)
-                        .then(roomDoc => {
-                            if (!roomDoc.exists) {
-                                return Promise.reject('joinRoom: Room doesn\'t exist!')
-                            }
+                        if (data.pin == "OWNER" && userToken.uid == doc.owner) {
+                            return Promise.resolve();
+                        }
 
-                            let players = roomDoc.data().players;
+                        if (doc.pin == data.pin) {
+                            return Promise.resolve();
+                        }
 
-                            if (!players[data.user.uid]) {
+                        return Promise.reject('joinRoom: Incorret PIN!');
+                    })
+                    .then(() => {
+                        return db.collection('users').doc(userToken.uid).get();
+                    })
+                    .then(userdata => {
+                        // add player to room
+                        return db.runTransaction(t => {
+                            return t.get(roomRef)
+                                .then(roomDoc => {
+                                    if (!roomDoc.exists) {
+                                        return Promise.reject('joinRoom: Room doesn\'t exist!')
+                                    }
 
-                                players[data.user.uid] = data.user;
+                                    let players = roomDoc.data().players;
 
-                                t.update(roomRef, { players: players });
-                                return Promise.resolve();
-                            } else {
-                                return Promise.reject('joinRoom: Player already in room!')
-                            }
+                                    if (!players[userToken.uid]) {
+
+                                        players[userToken.uid] = userdata.data();
+
+                                        t.update(roomRef, { players: players });
+                                        return Promise.resolve();
+                                    } else {
+                                        return Promise.reject('joinRoom: Player already in room!')
+                                    }
+                                })
                         })
-                })
+                    })
+                    .then(() => res.send({ joined: true, roomId: data.roomId }))
+                    .catch(error => res.send({ error, joined: false }))
             })
-            .then(() => res.send({ joined: true, roomId: data.roomId }))
             .catch(error => res.send({ error, joined: false }))
+
     });
 })
 
@@ -134,31 +139,33 @@ export const createRoom = functions.https.onRequest((req, res) => {
     cors(req, res, () => {
         // Create room request, takes user, responds success or failure
         const data = JSON.parse(req.body);
-        const user = data.user;
-        const roomId = data.roomId;
 
-        const roomDocRef = db.collection('rooms').doc(roomId);
+        const roomDocRef = db.collection('rooms').doc(data.roomId);
 
-        db.runTransaction(t => {
-            return t.get(roomDocRef)
-                .then(roomDoc => {
-                    if (!roomDoc.exists) {
-                        t.set(roomDocRef, {
-                            owner: user.uid,
-                            state: 'preparing',
-                            timestamp: {
-                                created: admin.firestore.FieldValue.serverTimestamp(),
-                                modified: admin.firestore.FieldValue.serverTimestamp()
+        admin.auth().verifyIdToken(data.token)
+            .then(token => {
+                db.runTransaction(t => {
+                    return t.get(roomDocRef)
+                        .then(roomDoc => {
+                            if (!roomDoc.exists) {
+                                t.set(roomDocRef, {
+                                    owner: token.uid,//TODO refrence here?
+                                    state: 'preparing',
+                                    timestamp: {
+                                        created: admin.firestore.FieldValue.serverTimestamp(),
+                                        modified: admin.firestore.FieldValue.serverTimestamp()
+                                    }
+                                }, { merge: true })
+                                return Promise.resolve();
+                            } else {
+                                return Promise.reject('createRoom: Room already exists!');
                             }
-                        }, { merge: true })
-                        return Promise.resolve();
-                    } else {
-                        return Promise.reject('createRoom: Room already exists!');
-                    }
+                        })
                 })
-        })
+            })
+
             .then(result => {
-                res.send({ roomId, result });
+                res.send({ roomId: data.roomId, result });
             })
             .catch(err => {
                 console.log(err);
@@ -209,7 +216,7 @@ export const roomCreated = functions.firestore
                     return Promise.resolve();
                 })
             })
-            .catch(e => console.error);
+                .catch(e => console.error);
 
             snap.ref.set({
                 deck: deck.cards,

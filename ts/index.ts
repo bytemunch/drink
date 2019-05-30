@@ -1,7 +1,7 @@
 /// <reference types="firebase"/>
 
 let userdata = new UserData;
-let roomdata: RoomData;
+let roomdata = new RoomData;
 
 let db: any;
 
@@ -127,45 +127,56 @@ async function easyPOST(fn: string, data: any) {
 async function rCreateRoom() {
     const roomId = await getRoomId().catch(e => console.error(e));
 
-    const data = { user: userdata, roomId };
-    return easyPOST('createRoom', data)
+    return firebase.auth().currentUser.getIdToken(true)
+        .then(token => {
+            return easyPOST('createRoom', { token, roomId })
+        })
         .then(res => res.json())
-        // .then(data => console.log(data))
+    // .then(data => console.log(data))
 
     // TODO after room created success start listening to changes on room ref
     // When changes detected grab PIN as we should be owner
     // Then go ahead and join the room
 }
 
-async function requestJoinRoom(user: UserData = userdata, roomId: string, pin: string) {
+async function requestJoinRoom(roomId: string, pin: string) {
     // REFAC put this in the userdata class?
     if (!roomId) return Promise.reject('requestJoinRoom: No Room ID provided!');
     if (!pin) return Promise.reject('requestJoinRoom: No Room PIN provided!');
-    if (!user.uid) return Promise.reject('requestJoinRoom: No user provided!');
 
-    let data = { user, pin, roomId }
+    firebase.auth().currentUser.getIdToken(true)
+        .then(token => {
+            // Send data to cloud function to compare PIN
+            easyPOST('joinRoom', { pin, roomId, token })
+                .then(res => { return res.json() })
+                .then(data => {
+                    if (!data.joined) {
+                        return Promise.reject(data.error);
+                    }
+                    roomdata.init(roomId); //TODO promisify init
+                    return Promise.resolve();
+                })
+                .then(() => {
+                    // RoomData is initialised here
+
+                })
+                .catch(e => {
+                    console.error(e);
+                    let unsubscribe = db.collection('rooms').doc(roomId)
+                        .onSnapshot(change=>{
+                            let state = change.data().state
+                            if (state && state == 'lobby') {
+                                requestJoinRoom(roomId,pin);
+                                unsubscribe();
+                            }
+                        })
+                });
+        })
 
     // TODO rate limiting to prevent bruteforce room entry
     // as it would only take 26^4*10000 attempts to find any single room + pin
     // also even pentesting that would far exceed my quotas
     // i need a revenue stream fffffffffffffff
-
-    // Send data to cloud function to compare PIN
-    await easyPOST('joinRoom', data)
-        .then(res => { return res.json() })
-        .then(data => {
-            if (!data.joined) {
-                return Promise.reject(data.error);
-            }
-            roomdata = new RoomData(data.roomId);
-            return Promise.resolve();
-        })
-        .then(() => {
-            // RoomData is initialised here
-
-        })
-        .catch(e => console.error(e));
-
 
     // TODO setup security to prevent room snooping from non owners
     // > and people that haven't joined yet
