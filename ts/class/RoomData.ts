@@ -5,7 +5,6 @@ class RoomData {
     public initialised;
 
     constructor() {
-
     }
 
     init(roomId) {
@@ -16,14 +15,14 @@ class RoomData {
 
 
         return db.collection('rooms').doc(this.roomId).get()
-        .then(doc=>{
-            this.data = doc.data();
-            this.listener = db.collection('rooms').doc(this.roomId).onSnapshot(doc => {
-                this.data = doc.data()
-                // blanket update everything OR specific updates?
-                updater.initEvent('update');
+            .then(doc => {
+                this.data = doc.data();
+                this.listener = db.collection('rooms').doc(this.roomId).onSnapshot(doc => {
+                    this.data = doc.data()
+                    // blanket update everything OR specific updates?
+                    // BOTH!!
+                })
             })
-        })
 
 
     }

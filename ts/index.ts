@@ -1,5 +1,7 @@
 /// <reference types="firebase"/>
 
+const DEBUG_MODE = true;
+
 let userdata = new UserData;
 let roomdata = new RoomData;
 
@@ -24,11 +26,22 @@ document.addEventListener('DOMContentLoaded', function () {
         let app: any = firebase.app();
         let features = ['auth', 'firestore', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
         document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
+
+        if (DEBUG_MODE) roomdata.init('TEST');
+
     } catch (e) {
         console.error(e);
         document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
     }
 });
+
+function updateDOM() {
+    const elements = document.querySelectorAll('.updateable-element');
+    elements.forEach(element=>{
+        const castElement = element as UpdateableElement;
+        castElement.update()
+    })
+}
 
 function openPage(name: string) {
     let page: Page;
@@ -66,7 +79,7 @@ async function authHandler(user: any) {
         // console.log(user);
 
         userdata.populateFrom(user.uid)
-            .then(userExists => { userExists && userdata.name ? openPage('home') : openPage('account') },
+            .then(userExists => { userExists && userdata.name ? DEBUG_MODE?openPage('lobby'):openPage('home') : openPage('account') },
                 e => { console.error(e) });
     } else {
         // logged out

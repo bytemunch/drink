@@ -1,9 +1,18 @@
-class CePlayerList extends HTMLElement {    
+/// <reference path='UpdateableElement.ts'/>
+
+class CePlayerList extends UpdateableElement {    
     constructor() {
         super();
+    }
 
-        this.addEventListener('update', e=>{
-            console.log('Updated!');
-        })
+    connectedCallback() {
+        super.connectedCallback();
+    }
+
+    update() {
+        super.update();
+        console.log('updated',this)
     }
 }
+
+customElements.define('ce-player-list', CePlayerList);

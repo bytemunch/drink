@@ -11,13 +11,12 @@ class LobbyPage extends Page {
         this.page.appendChild(title);
 
         let pin = document.createElement('h2');
-        console.log(roomdata);
 
         pin.textContent = `PIN: ${roomdata.data.pin}`;
         this.page.appendChild(pin);
 
-        // let playerInfo = new CePlayerList;
-        // this.page.appendChild(playerInfo);
+        let playerInfo = document.createElement('ce-player-list');
+        this.page.appendChild(playerInfo);
 
     }
 }
