@@ -3,7 +3,7 @@
 const DEBUG_MODE = true;
 
 let userdata = new UserData;
-let roomdata = new RoomData;
+let room = new Room;
 
 let updater = new Event('update');
 
@@ -27,8 +27,6 @@ document.addEventListener('DOMContentLoaded', function () {
         let features = ['auth', 'firestore', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
         document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
 
-        if (DEBUG_MODE) roomdata.init('TEST');
-
     } catch (e) {
         console.error(e);
         document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
@@ -36,10 +34,11 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function updateDOM() {
+    // console.log('updateDom: Started...')
     const elements = document.querySelectorAll('.updateable-element');
     elements.forEach(element=>{
         const castElement = element as UpdateableElement;
-        castElement.update()
+        castElement.update();
     })
 }
 
@@ -79,21 +78,13 @@ async function authHandler(user: any) {
         // console.log(user);
 
         userdata.populateFrom(user.uid)
-            .then(userExists => { userExists && userdata.name ? DEBUG_MODE?openPage('lobby'):openPage('home') : openPage('account') },
+            .then(userExists => { userExists && userdata.name ? DEBUG_MODE?openPage('home'):openPage('home') : openPage('account') },
                 e => { console.error(e) });
     } else {
         // logged out
         userdata = new UserData; //clear user info
         openPage('login');
     }
-}
-
-async function joinRoom(roomId: string, roomPass: string) {
-    console.log(`TODO join room function. ID:${roomId} PW:${roomPass}`);
-    // attempt to write user info to room
-    // cloud function returns acceptance/rejection
-    // > acceptance is in for of room info, we then set up a live listen to updates in room
-    // > rejection is null, error out here
 }
 
 async function getRoomId(len: number = 4) {
@@ -140,71 +131,6 @@ async function easyPOST(fn: string, data: any) {
         mode: 'cors',
         body: JSON.stringify(data)
     })
-}
-
-async function rCreateRoom() {
-    const roomId = await getRoomId().catch(e => console.error(e));
-
-    return firebase.auth().currentUser.getIdToken(true)
-        .then(token => {
-            return easyPOST('createRoom', { token, roomId })
-        })
-        .then(res => res.json())
-    // .then(data => console.log(data))
-
-    // TODO after room created success start listening to changes on room ref
-    // When changes detected grab PIN as we should be owner
-    // Then go ahead and join the room
-}
-
-async function requestJoinRoom(roomId: string, pin: string, firstRun = true) {
-    // REFAC put this in the userdata class?
-    if (!roomId) return Promise.reject('requestJoinRoom: No Room ID provided!');
-    if (!pin) return Promise.reject('requestJoinRoom: No Room PIN provided!');
-
-    firebase.auth().currentUser.getIdToken(true)
-        .then(token => {
-            // Send data to cloud function to compare PIN
-            easyPOST('joinRoom', { pin, roomId, token })
-                .then(res => { return res.json() })
-                .then(data => {
-                    if (!data.joined) {
-                        return Promise.reject(data.error);
-                    }
-                    return roomdata.init(roomId); //TODO promisify init
-                })
-                .then(() => {
-                    // RoomData is initialised here
-                    // go to lobby I guess
-                    openPage('lobby')
-                })
-                .catch(e => {
-                    console.error(e);
-
-                    // I think this is safe but I'm not sure...
-                    // need to make sure there's only one of these for each recursion
-                    if (firstRun) {
-                        let unsubscribe = db.collection('rooms').doc(roomId)
-                            .onSnapshot(change => {
-                                let state = change.data() ? change.data().state : null
-                                if (state && state == 'lobby') {
-                                    requestJoinRoom(roomId, pin, false);
-                                    unsubscribe();
-                                }
-                            })
-                    }
-
-                });
-        })
-
-    // TODO rate limiting to prevent bruteforce room entry
-    // as it would only take 26^4*10000 attempts to find any single room + pin
-    // also even pentesting that would far exceed my quotas
-    // i need a revenue stream fffffffffffffff
-
-    // TODO setup security to prevent room snooping from non owners
-    // > and people that haven't joined yet
-
 }
 
 async function deleteAllRooms() {

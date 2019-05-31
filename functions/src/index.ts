@@ -106,6 +106,7 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                     })
                     .then(userdata => {
                         // add player to room
+                        // TODO maybe split this out?
                         return db.runTransaction(t => {
                             return t.get(roomRef)
                                 .then(roomDoc => {
@@ -118,6 +119,8 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                                     if (!players[userToken.uid]) {
 
                                         players[userToken.uid] = userdata.data();
+
+                                        players[userToken.uid].ready = false;
 
                                         t.update(roomRef, { players: players });
                                         return Promise.resolve();

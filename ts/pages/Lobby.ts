@@ -6,13 +6,26 @@ class LobbyPage extends Page {
 
         let title = document.createElement('h1');
 
-        title.textContent = `Room ${roomdata.roomId}.`;
+        title.textContent = `Lobby.`;
 
         this.page.appendChild(title);
 
-        let pin = document.createElement('h2');
+        
+        let roomDisplay = document.createElement('h2');
+        roomDisplay.style.display = 'inline';
+        roomDisplay.style.cssFloat = 'left';
+        roomDisplay.style.marginLeft = '3vw';
 
-        pin.textContent = `PIN: ${roomdata.data.pin}`;
+        roomDisplay.textContent = `Room: ${room.roomId}`;
+        this.page.appendChild(roomDisplay);
+
+        let pin = document.createElement('h2');
+        pin.style.display = 'inline';
+        pin.style.cssFloat = 'right';
+        pin.style.marginRight = '5vw';
+
+
+        pin.textContent = `PIN: ${room.data.pin}`;
         this.page.appendChild(pin);
 
         let playerInfo = document.createElement('ce-player-list');

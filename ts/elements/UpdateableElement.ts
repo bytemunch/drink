@@ -1,10 +1,12 @@
-class UpdateableElement extends HTMLElement {
+/// <reference path='CustomElement.ts'/>
+class UpdateableElement extends CustomElement {
     
     constructor() {
         super();
     }
 
     connectedCallback() {
+        super.connectedCallback();
         this.classList.add('updateable-element');
     }
 
