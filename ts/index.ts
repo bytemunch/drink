@@ -7,12 +7,19 @@ let room = new Room;
 
 let updater = new Event('update');
 
+let loadMan = new LoadMan;
+
 let db: any;
+
+loadMan.addLoader('homeLoaded');
+
 
 document.addEventListener('DOMContentLoaded', function () {
     // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
     // // The Firebase SDK is initialized and available here!
     //
+
+
     firebase.auth().onAuthStateChanged(authHandler);
 
     db = firebase.firestore();
@@ -51,6 +58,7 @@ function openPage(name: string) {
             break;
         case 'home':
             page = new HomePage();
+            loadMan.killLoader('homeLoaded')
             break;
         case 'account':
             page = new AccountPage();

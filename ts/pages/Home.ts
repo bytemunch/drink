@@ -6,7 +6,7 @@ class HomePage extends Page {
 
         let title = document.createElement('h1');
 
-        title.textContent = `Hello${userdata.name?' '+userdata.name:''}.`;
+        title.textContent = `Hello${userdata.name ? ' ' + userdata.name : ''}.`;
 
         this.page.appendChild(title);
 
@@ -27,7 +27,7 @@ class HomePage extends Page {
         let btnJoin = document.createElement('button');
         btnJoin.textContent = 'Join';
 
-        btnJoin.addEventListener('click',e=>{
+        btnJoin.addEventListener('click', e => {
             let roomId = roomIdInput.value.toUpperCase();
             let roomPass = roomPassInput.value;
 
@@ -43,7 +43,7 @@ class HomePage extends Page {
             }
 
             // Hand validated input to join function
-            return room.join(roomId, roomPass);
+            return room.join([roomId, roomPass]);
         })
 
         this.page.appendChild(btnJoin);
@@ -51,15 +51,12 @@ class HomePage extends Page {
         let btnCreate = document.createElement('button');
         btnCreate.textContent = 'Create Room';
 
-        btnCreate.addEventListener('click',async e=>{
+        btnCreate.addEventListener('click', async e => {
             e.preventDefault();
-
-            room.create()
-            .then(createdResult=>{
-                // wait until room is in 'lobby' state
-                console.log(createdResult);
-                room.join(createdResult.roomId, "OWNER");
-            })
+            loadMan.addLoader('roomJoined')
+            let createdResult = await room.create();
+            console.log(createdResult);
+            await room.join([createdResult.roomId, "OWNER"]);
         })
 
         this.page.appendChild(btnCreate);

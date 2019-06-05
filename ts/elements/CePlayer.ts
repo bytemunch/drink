@@ -1,4 +1,4 @@
-/// <reference path='UpdateableElement.ts'/>
+/// <reference path='CustomElement.ts'/>
 
 interface ICePlayerElements {
     name:HTMLElement,
