@@ -244,7 +244,7 @@ export const roomDeleted = functions.firestore
 
             infoRef.set({ roomlist: { [roomId]: false } }, { merge: true });
 
-            await db.runTransaction(t => {
+            db.runTransaction(t => {
                 return t.get(infoRef).then(infoDoc => {
                     if (!infoDoc.exists) {
                         throw "No roomsinfo!";
@@ -253,7 +253,7 @@ export const roomDeleted = functions.firestore
                     // let newCount = infoDoc.data().roomcount - 1;
                     t.update(infoRef, { roomcount: admin.firestore.FieldValue.increment(-1) });
                 })
-            }).then(() => { console.log('Transaction roomcount done') })
-                .catch(e => console.error);
+            })
+            .catch(e => console.error);
         }
     });

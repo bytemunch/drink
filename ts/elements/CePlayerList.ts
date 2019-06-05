@@ -16,10 +16,14 @@ class CePlayerList extends UpdateableElement {
     applyStyles() {
         this.style.display = 'grid'
         this.style.width = '100vw';
+        this.style.height = '40vh'
         this.style.gridTemplateColumns = 'repeat(2,45vw)';
+        this.style.gridAutoRows = '20%';
         this.style.gridAutoFlow = 'row'
         this.style.gridGap = '2.5vw';
-        this.style.marginLeft = '3.5vw';
+        this.style.paddingLeft = '3.5vw';
+
+        this.style.position = 'relative';
     }
 
     update() {

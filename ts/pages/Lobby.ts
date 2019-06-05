@@ -14,7 +14,7 @@ class LobbyPage extends Page {
         let roomDisplay = document.createElement('h2');
         roomDisplay.style.display = 'inline';
         roomDisplay.style.cssFloat = 'left';
-        roomDisplay.style.marginLeft = '3vw';
+        roomDisplay.style.paddingLeft = '3vw';
 
         roomDisplay.textContent = `Room: ${room.roomId}`;
         this.page.appendChild(roomDisplay);
@@ -22,7 +22,7 @@ class LobbyPage extends Page {
         let pin = document.createElement('h2');
         pin.style.display = 'inline';
         pin.style.cssFloat = 'right';
-        pin.style.marginRight = '5vw';
+        pin.style.paddingRight = '5vw';
 
 
         pin.textContent = `PIN: ${room.data.pin}`;

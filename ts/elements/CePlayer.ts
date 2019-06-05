@@ -9,7 +9,7 @@ interface ICePlayerElements {
 class CePlayer extends CustomElement {
     elements:ICePlayerElements = {
         name : document.createElement('h3'),
-        ready : document.createElement('img'),
+        ready : document.createElement('ce-player-ready'),
         avatar : document.createElement('img')
     };
 
@@ -23,12 +23,26 @@ class CePlayer extends CustomElement {
         for (let e in this.elements) {
             this.appendChild(this.elements[e]);
         }
+
+        this.applyStyles();
+    }
+
+    applyStyles() {
+        // SELF
+        this.style.height = '100%';
+        this.style.borderWidth = '2px';
+        this.style.borderStyle = 'solid';
+        this.style.overflow = 'hidden';
+        this.style.position = 'relative';
+
+        // TITLE
+        this.elements.name.style.position = 'absolute';
     }
 
     set player (player) {
         this.elements.name.textContent = player.name;
         this.elements.avatar.setAttribute('src',player.avatar);
-        this.style.backgroundColor = player.color;
+        this.style.borderColor = player.color;
     }
 }
 

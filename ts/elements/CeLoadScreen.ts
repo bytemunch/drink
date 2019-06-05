@@ -9,7 +9,7 @@ class CeLoadScreen extends CustomElement {
         title: document.createElement('h2'),
         flavor: document.createElement('h3')
     }
-
+    timer;
     killTrigger:string;
 
     constructor() {
@@ -26,35 +26,22 @@ class CeLoadScreen extends CustomElement {
         this.style.left = '0';
     }
 
-    // show() {
-    //     this.style.display = 'block';
-    // }
+    dots() {
+        let currentText = this.elements.title.textContent;
+        let matches = currentText.match(/[\.]/g);
 
-    // hide() {
-    //     this.style.display = 'none';
-    // }
-
-    kill() {
-        this.parentElement.removeChild(this);
+        if (matches && matches.length>=3) {
+            currentText = currentText.replace(/[\.]/g,'');
+        } else {
+            currentText = currentText + '.';
+        }
+        this.elements.title.textContent = currentText;
     }
 
-    // async load(messages:Array<string>,waitFor:Function,params:Array<any>) {
-    //     this.pickLoadMessage(messages);
-    //     this.show();
-
-    //     try {
-    //         let result = await waitFor(params);
-    //         if (!result) throw 'load: Failure.'
-    //         this.hide();
-    //         return result;
-    //     } catch (e) {
-    //         console.error(e);
-    //         return setTimeout(()=>{
-    //             return this.load(messages,waitFor,params);
-    //         },500);
-    //         console.log('oof');
-    //     }
-    // }
+    kill() {
+        clearInterval(this.timer);
+        this.parentElement.removeChild(this);
+    }
 
     pickLoadMessage(messages:Array<string>) {
         let rNum = Math.floor(Math.random()*messages.length);
@@ -71,6 +58,8 @@ class CeLoadScreen extends CustomElement {
 
         this.elements.flavor.textContent = 'won\'t be long...';
         this.appendChild(this.elements.flavor);
+
+        this.timer = setInterval(this.dots.bind(this),500);
     }
 
 }
