@@ -45,5 +45,14 @@ class LobbyPage extends Page {
 
         this.page.appendChild(readyButton);
 
+        let startButton = new CeStartButton;//document.createElement('ce-start-button');
+
+        startButton.addEventListener('click', e=>{
+            console.log('clicked');
+
+        })
+
+        this.page.appendChild(startButton);
+
     }
 }
