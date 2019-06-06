@@ -16,6 +16,7 @@ class LoadMan {
         for (let l of this.loaders) {
             if (killTrigger == l.killTrigger) {
                 l.kill();
+                this.loaders.splice(this.loaders.indexOf(l),1);
             }
         }
     }

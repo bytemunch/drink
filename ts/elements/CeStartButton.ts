@@ -3,11 +3,9 @@
 class CeStartButton extends HTMLButtonElement {
     constructor() {
         super();
-        console.log('constructor');
     }
 
     connectedCallback() {
-        console.log('connCall');
         this.textContent = 'Start';
         this.classList.add('updateable-element');
     }
