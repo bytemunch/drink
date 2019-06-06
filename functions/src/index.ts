@@ -78,17 +78,17 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                         if (!userToken.uid) return Promise.reject('joinRoom: User not provided!');
 
                         if (!snap.exists) {
-                            return Promise.reject('joinRoom: Room not found!');
+                            return Promise.reject({err:'joinRoom: Room not found!',code:'404'}); // not found
                         }
 
                         if (doc.state !== 'lobby') {
-                            // send state in error message to be regexed out for use in
-                            // UI error. REFAC: find a less hacky solution. maybe throw something?
-                            return Promise.reject(`joinRoom: Room not ready. State: <${doc.state}>`);
+                            // send state in error message
+                            return Promise.reject({err:`joinRoom: Room not ready. State: <${doc.state}>`,code:'425',state:doc.state}); // too early
                         }
 
                         if (!doc.pin) {
-                            return Promise.reject('joinRoom: Room has no pin!');
+                            // TODO this error code?
+                            return Promise.reject({err:'joinRoom: Room has no pin!',code:'425'});// too early
                         }
 
                         if (data.pin == "OWNER" && userToken.uid == doc.owner) {
@@ -99,7 +99,7 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                             return Promise.resolve();
                         }
 
-                        return Promise.reject('joinRoom: Incorret PIN!');
+                        return Promise.reject({err:'joinRoom: Incorret PIN!',code:'403'}); //forbidden
                     })
                     .then(() => {
                         return db.collection('users').doc(userToken.uid).get();
@@ -111,7 +111,7 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                             return t.get(roomRef)
                                 .then(roomDoc => {
                                     if (!roomDoc.exists) {
-                                        return Promise.reject('joinRoom: Room doesn\'t exist!')
+                                        return Promise.reject({err:'joinRoom: Room doesn\'t exist!',code:'500'}) // unknown server error
                                     }
 
                                     let players = roomDoc.data().players;
@@ -125,7 +125,7 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                                         t.update(roomRef, { players: players });
                                         return Promise.resolve();
                                     } else {
-                                        return Promise.reject('joinRoom: Player already in room!')
+                                        return Promise.reject({err:'joinRoom: Player already in room!',code:'409'}) // conflict
                                     }
                                 })
                         })

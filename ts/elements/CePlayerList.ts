@@ -50,8 +50,8 @@ class CePlayerList extends UpdateableElement {
         // Update DOM
         this.players.forEach(p => {
             let pElement = document.createElement('ce-player') as CePlayer;
-            pElement.player = p;
             this.appendChild(pElement);
+            pElement.player = p;
         });
     }
 }

@@ -1,17 +1,13 @@
 /// <reference path='CustomElement.ts'/>
 
 interface ICePlayerElements {
-    name:HTMLElement,
-    ready:HTMLElement,
-    avatar:HTMLElement,
+    name: HTMLElement,
+    ready: CePlayerReady,
+    avatar: HTMLElement,
 }
 
 class CePlayer extends CustomElement {
-    elements:ICePlayerElements = {
-        name : document.createElement('h3'),
-        ready : document.createElement('ce-player-ready'),
-        avatar : document.createElement('img')
-    };
+    elements: ICePlayerElements;
 
     constructor() {
         super();
@@ -19,6 +15,13 @@ class CePlayer extends CustomElement {
 
     connectedCallback() {
         super.connectedCallback();
+
+        this.elements = {
+            name: document.createElement('h3'),
+            ready: document.createElement('ce-player-ready') as CePlayerReady,
+            avatar: document.createElement('img')
+        };
+
 
         for (let e in this.elements) {
             this.appendChild(this.elements[e]);
@@ -39,9 +42,10 @@ class CePlayer extends CustomElement {
         this.elements.name.style.position = 'absolute';
     }
 
-    set player (player) {
+    set player(player) {
         this.elements.name.textContent = player.name;
-        this.elements.avatar.setAttribute('src',player.avatar);
+        this.elements.avatar.setAttribute('src', player.avatar);
+        this.elements.ready.ready = player.ready;
         this.style.borderColor = player.color;
     }
 }
