@@ -11,7 +11,7 @@ let loadMan = new LoadMan;
 
 let db: any;
 
-loadMan.addLoader('homeLoaded');
+loadMan.addLoader('initialLoad');
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -58,7 +58,6 @@ function openPage(name: string) {
             break;
         case 'home':
             page = new HomePage();
-            loadMan.killLoader('homeLoaded')
             break;
         case 'account':
             page = new AccountPage();
@@ -82,17 +81,16 @@ function openPage(name: string) {
 async function authHandler(user: any) {
     if (user) {
         // logged in
-
-        // console.log(user);
-
         userdata.populateFrom(user.uid)
-            .then(userExists => { userExists && userdata.name ? DEBUG_MODE?openPage('home'):openPage('home') : openPage('account') },
+            .then(userExists => { userExists && userdata.name ? openPage('home') : openPage('account') },
                 e => { console.error(e) });
     } else {
         // logged out
         userdata = new UserData; //clear user info
         openPage('login');
     }
+
+    loadMan.killLoader('initialLoad')
 }
 
 async function getRoomId(len: number = 4) {
