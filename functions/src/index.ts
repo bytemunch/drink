@@ -224,7 +224,7 @@ export const roomCreated = functions.firestore
             snap.ref.set({
                 deck: deck.cards,
                 rules: rules.rules,
-                currentCard: '',
+                currentCard: {},
                 pin: pin,
                 players: {},
                 turnOrder: [],
@@ -288,8 +288,60 @@ export const startGame = functions.https.onRequest((req, res) => {
 
                     })
             })
-            
+
             .catch(e => {
+                res.send(e);
+            })
+    })
+})
+
+export const drawCard = functions.https.onRequest((req, res) => {
+    cors(req, res, () => {
+        const data = JSON.parse(req.body);
+
+        admin.auth().verifyIdToken(data.token)
+            .then(token => {
+                db.collection('rooms').doc(data.roomId).get()
+                    .then(doc => {
+                        const room = doc.data();
+                        if (token.uid != room.turnOrder[room.turnCounter]) {
+                            Promise.reject({ err: 'Not your turn!', code: '403' })//forbidden
+                        }
+
+                        let newTurnCount = 0;
+                        // Reset turn counter to 0
+
+                        // IF turn counter is less than turnOrder.length
+                        if (room.turnCounter < room.turnOrder.length - 1) {
+                            // Increment turn counter
+                            newTurnCount = room.turnCounter + 1;
+                        } // else leave at 0
+
+                        // Pick card
+                        let newCards = room.deck;
+                        const cardsInDeck = room.deck.length;
+
+                        const selectedCardNumber = Math.floor(Math.random() * cardsInDeck)
+                        const selectedCard = room.deck[selectedCardNumber];
+                        newCards.splice(selectedCardNumber, 1)
+
+                        let newDataToMerge = {
+                            // Set current card
+                            currentCard: selectedCard,
+                            // Remove current card from deck in room
+                            deck: newCards,
+                            // set turn counter
+                            turnCounter: newTurnCount
+                        }
+
+                        doc.ref.set(newDataToMerge, { merge: true })
+                            .then(() => {
+                                res.send({ info: 'Turn taken', code: '200' })//OK
+                            })
+                    })
+            })
+            .catch(e => {
+                console.error(e);
                 res.send(e);
             })
     })
