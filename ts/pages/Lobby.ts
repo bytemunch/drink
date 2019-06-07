@@ -47,9 +47,19 @@ class LobbyPage extends Page {
 
         let startButton = new CeStartButton;//document.createElement('ce-start-button');
 
-        startButton.addEventListener('click', e=>{
-            console.log('clicked');
+        startButton.addEventListener('click', async e=>{
+            // TODO this is NOT safe. trusts client.
+            // Pull room owner from database again here?
+            if (userdata.uid == room.data.owner) {
+                console.log("Start game now!");
 
+                const token = await firebase.auth().currentUser.getIdToken(true)
+                const result = easyPOST('startGame', { token, roomId:room.roomId })
+                console.log(result);
+
+            } else {
+                console.log("INFO: Only the room owner can start the game!")
+            }
         })
 
         this.page.appendChild(startButton);

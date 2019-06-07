@@ -18,9 +18,17 @@ class Room {
                 updateDOM();
                 loadMan.killLoader('roomJoined');
                 this.listener = db.collection('rooms').doc(this.roomId).onSnapshot(doc => {
-                    this.data = doc.data()
+                    const oldData = this.data;
+                    this.data = doc.data();
                     // blanket update everything OR specific updates?
                     // BOTH!!
+
+                    if (oldData.state !== this.data.state) {
+                        console.log('State change:', oldData.state, this.data.state)
+                        if (oldData.state == 'lobby' && this.data.state == 'playing') {
+                            openPage('play');
+                        }
+                    }
 
                     // Somewhere here decide if we're changing pages based on data
                     updateDOM();// pass data to function to save cycles?

@@ -65,6 +65,9 @@ function openPage(name: string) {
         case 'lobby':
             page = new LobbyPage();
             break;
+        case 'play':
+            page = new PlayPage();
+            break;
         default:
             console.log(`Page ${name} not found!`);
             return;

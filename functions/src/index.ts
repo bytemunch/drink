@@ -78,17 +78,17 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                         if (!userToken.uid) return Promise.reject('joinRoom: User not provided!');
 
                         if (!snap.exists) {
-                            return Promise.reject({err:'joinRoom: Room not found!',code:'404'}); // not found
+                            return Promise.reject({ err: 'joinRoom: Room not found!', code: '404' }); // not found
                         }
 
                         if (doc.state !== 'lobby') {
                             // send state in error message
-                            return Promise.reject({err:`joinRoom: Room not ready. State: <${doc.state}>`,code:'425',state:doc.state}); // too early
+                            return Promise.reject({ err: `joinRoom: Room not ready. State: <${doc.state}>`, code: '425', state: doc.state }); // too early
                         }
 
                         if (!doc.pin) {
                             // TODO this error code?
-                            return Promise.reject({err:'joinRoom: Room has no pin!',code:'425'});// too early
+                            return Promise.reject({ err: 'joinRoom: Room has no pin!', code: '425' });// too early
                         }
 
                         if (data.pin == "OWNER" && userToken.uid == doc.owner) {
@@ -99,7 +99,7 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                             return Promise.resolve();
                         }
 
-                        return Promise.reject({err:'joinRoom: Incorret PIN!',code:'403'}); //forbidden
+                        return Promise.reject({ err: 'joinRoom: Incorret PIN!', code: '403' }); //forbidden
                     })
                     .then(() => {
                         return db.collection('users').doc(userToken.uid).get();
@@ -111,7 +111,7 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                             return t.get(roomRef)
                                 .then(roomDoc => {
                                     if (!roomDoc.exists) {
-                                        return Promise.reject({err:'joinRoom: Room doesn\'t exist!',code:'500'}) // unknown server error
+                                        return Promise.reject({ err: 'joinRoom: Room doesn\'t exist!', code: '500' }) // unknown server error
                                     }
 
                                     let players = roomDoc.data().players;
@@ -125,7 +125,7 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                                         t.update(roomRef, { players: players });
                                         return Promise.resolve();
                                     } else {
-                                        return Promise.reject({err:'joinRoom: Player already in room!',code:'409'}) // conflict
+                                        return Promise.reject({ err: 'joinRoom: Player already in room!', code: '409' }) // conflict
                                     }
                                 })
                         })
@@ -228,7 +228,8 @@ export const roomCreated = functions.firestore
                 pin: pin,
                 players: {},
                 turnOrder: [],
-                state: 'lobby'
+                state: 'lobby',
+                turnCounter: 0
             }, { merge: true })
                 .then(() => { console.log('Added deck, rules, currentCard, pin, turnOrder.') }, e => console.error)
         }
@@ -254,6 +255,42 @@ export const roomDeleted = functions.firestore
                     t.update(infoRef, { roomcount: admin.firestore.FieldValue.increment(-1) });
                 })
             })
-            .catch(e => console.error);
+                .catch(e => console.error);
         }
     });
+
+export const startGame = functions.https.onRequest((req, res) => {
+    cors(req, res, () => {
+        const data = JSON.parse(req.body);
+        // Auth user == owner
+        admin.auth().verifyIdToken(data.token)
+            .then(token => {
+                db.collection('rooms').doc(data.roomId).get()
+                    .then(doc => {
+                        const room = doc.data();
+                        if (token.uid != room.owner) {
+                            Promise.reject({ err: 'User does not own room!', code: '403' })//forbidden
+                        }
+
+                        let turnOrder = [];
+                        // Set turn order
+                        // TODO pull this from data
+
+                        for (let p in room.players) {
+                            turnOrder.push(p);
+                        }
+
+                        // Set room state to playing
+                        doc.ref.set({ turnOrder: turnOrder, state: 'playing' }, { merge: true })
+                            .then(result => {
+                                res.send({ info: 'Room set up!', code: '200' })//OK
+                            })
+
+                    })
+            })
+            
+            .catch(e => {
+                res.send(e);
+            })
+    })
+})
