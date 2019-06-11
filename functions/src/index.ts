@@ -145,6 +145,7 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                                         players[userToken.uid].hand = {};
 
                                         t.update(roomRef, { players: players });
+                                        t.update(roomRef, {turnOrder: admin.firestore.FieldValue.arrayUnion(userToken.uid)})
                                         return Promise.resolve();
                                     } else {
                                         return Promise.reject({ err: 'joinRoom: Player already in room!', code: '409' }) // conflict
@@ -335,16 +336,8 @@ export const startGame = functions.https.onRequest((req, res) => {
                             Promise.reject({ err: 'User does not own room!', code: '403' })//forbidden
                         }
 
-                        let turnOrder = [];
-                        // Set turn order
-                        // TODO pull this from data
-
-                        for (let p in room.players) {
-                            turnOrder.push(p);
-                        }
-
                         // Set room state to playing
-                        doc.ref.set({ turnOrder: turnOrder, state: 'playing' }, { merge: true })
+                        doc.ref.set({ state: 'playing' }, { merge: true })
                             .then(result => {
                                 res.send({ info: 'Room set up!', code: '200' })//OK
                             })
