@@ -22,5 +22,13 @@ class PlayPage extends Page {
         pickCard.textContent = 'Card';
 
         this.page.appendChild(pickCard);
+
+        let card = document.createElement('ce-card-display');
+
+        this.page.appendChild(card);
+
+        let rule = document.createElement('ce-rule-display');
+
+        this.page.appendChild(rule);
     }
 }

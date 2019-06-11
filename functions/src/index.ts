@@ -29,20 +29,20 @@ class RuleSet {
     public rules: Object;
     constructor() {
         this.rules = {
-            "A": 'Waterfall',
-            "2": 'Choose',
-            "3": 'Me',
-            "4": 'Whores',
-            "5": 'ThumbMaster',
-            "6": 'Dicks',
-            "7": 'Heaven',
-            "8": 'Mate',
-            "9": 'Bust-a-Rhyme',
-            "10": 'Categories',
-            "J": 'Make a Rule',
-            "Q": 'QuestionMaster',
-            "K": 'Pour',
-            "JK": 'Travolta',
+            "A": {title:'Waterfall',desc:'desc'},
+            "2": {title:'Choose',desc:'Choose someone to drink!'},
+            "3": {title:'Me',desc:'You drink!'},
+            "4": {title:'Whores',desc:'Girls drink!'},
+            "5": {title:'Thumb Master',desc:'desc'},
+            "6": {title:'Dicks',desc:'Boys drink!'},
+            "7": {title:'Heaven',desc:'desc'},
+            "8": {title:'Mate',desc:'Choose a mate to drink when you drink.'},
+            "9": {title:'Bust a Rhyme',desc:'desc'},
+            "10": {title:'Categories',desc:'desc'},
+            "J": {title:'Make a Rule',desc:'desc'},
+            "Q": {title:'Question Master',desc:'desc'},
+            "K": {title:'Pour',desc:'desc'},
+            "JK": {title:'Travolta',desc:'desc'},
         }
     }
 }
