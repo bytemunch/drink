@@ -22,8 +22,8 @@ class CePlayer extends CustomElement {
             avatar: document.createElement('img')
         };
 
-
         for (let e in this.elements) {
+            this.elements[e].classList.add(e);
             this.appendChild(this.elements[e]);
         }
 
@@ -32,20 +32,24 @@ class CePlayer extends CustomElement {
 
     applyStyles() {
         // SELF
-        this.style.height = '100%';
-        this.style.borderWidth = '2px';
-        this.style.borderStyle = 'solid';
-        this.style.overflow = 'hidden';
-        this.style.position = 'relative';
+        // this.style.height = '100%';
+        // this.style.borderWidth = '2px';
+        // this.style.borderStyle = 'solid';
+        // this.style.overflow = 'hidden';
+        // this.style.position = 'relative';
 
         // TITLE
-        this.elements.name.style.position = 'absolute';
+        // this.elements.name.style.position = 'absolute';
     }
 
     set player(player) {
+        const avatarLink = player.avatar?player.avatar:'/img/noimg.png';
+        this.elements.avatar.setAttribute('src', avatarLink);
+
         this.elements.name.textContent = player.name;
-        this.elements.avatar.setAttribute('src', player.avatar);
+
         this.elements.ready.ready = player.ready;
+
         this.style.borderColor = player.color;
     }
 }

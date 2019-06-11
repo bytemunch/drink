@@ -1,7 +1,7 @@
 /// <reference path='UpdateableElement.ts'/>
 
 class CePlayerList extends UpdateableElement {
-    private players:Array<any> = [];
+    private players: Array<any> = [];
 
     constructor() {
         super();
@@ -14,16 +14,16 @@ class CePlayerList extends UpdateableElement {
     }
 
     applyStyles() {
-        this.style.display = 'grid'
-        this.style.width = '100vw';
-        this.style.height = '40vh'
-        this.style.gridTemplateColumns = 'repeat(2,45vw)';
-        this.style.gridAutoRows = '20%';
-        this.style.gridAutoFlow = 'row'
-        this.style.gridGap = '2.5vw';
-        this.style.paddingLeft = '3.5vw';
+        // this.style.display = 'grid'
+        // this.style.width = '100vw';
+        // this.style.height = '40vh'
+        // this.style.gridTemplateColumns = 'repeat(2,45vw)';
+        // this.style.gridAutoRows = '20%';
+        // this.style.gridAutoFlow = 'row'
+        // this.style.gridGap = '2.5vw';
+        // this.style.paddingLeft = '3.5vw';
 
-        this.style.position = 'relative';
+        // this.style.position = 'relative';
     }
 
     update() {
@@ -45,7 +45,7 @@ class CePlayerList extends UpdateableElement {
         }
 
         // Clear DOM
-        Array.from(this.childNodes).forEach(el=>this.removeChild(el));
+        Array.from(this.childNodes).forEach(el => this.removeChild(el));
 
         // Update DOM
         this.players.forEach(p => {

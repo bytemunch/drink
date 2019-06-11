@@ -29,6 +29,7 @@ class LobbyPage extends Page {
         this.page.appendChild(pin);
 
         let playerInfo = document.createElement('ce-player-list');
+        playerInfo.classList.add('bigGrid');
         this.page.appendChild(playerInfo);
 
         let readyButton = document.createElement('button');

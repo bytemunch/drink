@@ -21,5 +21,9 @@ class PlayPage extends Page {
         let rule = document.createElement('ce-rule-display');
 
         this.page.appendChild(rule);
+
+        let playerInfo = document.createElement('ce-player-list');
+        playerInfo.classList.add('smallList');
+        this.page.appendChild(playerInfo);
     }
 }
