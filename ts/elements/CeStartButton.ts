@@ -11,17 +11,19 @@ class CeStartButton extends HTMLButtonElement {
     }
 
     update() {
-        let ready = true;
+        let ready = room.data.owner == userdata.uid;
 
         for (let p in room.data.players) {
             if (!room.data.players[p].ready) ready = false;
         }
 
-        if (ready) {
-            this.disabled = false;
-        } else {
-            this.disabled = true;
-        }
+        this.disabled = !ready;
+
+        // if (ready) {
+        //     this.disabled = false;
+        // } else {
+        //     this.disabled = true;
+        // }
     }
 
 

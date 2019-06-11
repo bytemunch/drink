@@ -10,17 +10,7 @@ class PlayPage extends Page {
 
         this.page.appendChild(title);
 
-        let pickCard = document.createElement('button');
-
-        pickCard.addEventListener('click', async e=>{
-            const token = await firebase.auth().currentUser.getIdToken(true);
-            easyPOST('drawCard', {token, roomId:room.roomId})
-            .then(res=>res.json())
-            .then(data=>console.log(data))
-
-        })
-
-        pickCard.textContent = 'Card';
+        let pickCard = new CeDrawButton;//document.createElement('button');
 
         this.page.appendChild(pickCard);
 
