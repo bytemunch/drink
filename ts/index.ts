@@ -68,6 +68,9 @@ function openPage(name: string) {
         case 'play':
             page = new PlayPage();
             break;
+        case 'finished':
+            page = new GameOverPage();
+            break;
         default:
             console.log(`Page ${name} not found!`);
             return;
@@ -94,43 +97,6 @@ async function authHandler(user: any) {
     }
 
     loadMan.killLoader('initialLoad')
-}
-
-async function getRoomId(len: number = 4) {
-    const roomsinfo = await db.collection('rooms').doc('roomsinfo').get()
-        .then(doc => {
-            if (doc.exists) {
-                return doc.data();
-            } else {
-                return doc.ref.set({ roomcount: 0 })
-                    .then((e) => { return e })
-            }
-        })
-
-    function createId(len) {
-        let str = '';
-        for (let i = 0; i < len; i++) {
-            str = str + String.fromCharCode(Math.ceil((Math.random()) * 26) + 64);
-        }
-        // return 'test';
-        return str;
-    }
-
-    let newRoomId = createId(len);
-    let breakCounter = 0;
-
-    while ((roomsinfo.roomlist[newRoomId] != undefined) && (roomsinfo.roomlist[newRoomId] != false) && (breakCounter < 26 ** len)) {
-        newRoomId = createId(len);
-        breakCounter++;
-    }
-
-    if (breakCounter >= 26 ** len) {
-        //randomness has failed us!
-        // TODO sequentially check for available rooms here
-        return Promise.reject('Room slots full!')
-    }
-
-    return newRoomId;
 }
 
 

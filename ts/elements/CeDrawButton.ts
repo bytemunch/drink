@@ -9,20 +9,30 @@ class CeDrawButton extends HTMLButtonElement {
         this.textContent = 'Start';
         this.classList.add('updateable-element');
 
-        this.addEventListener('click', async e=>{
-            const token = await firebase.auth().currentUser.getIdToken(true);
-            easyPOST('drawCard', {token, roomId:room.roomId})
-            .then(res=>res.json())
-            .then(data=>console.log(data))
+        this.addEventListener('click', async e => {
+            if (room.data.state !== 'finished') {
+                const token = await firebase.auth().currentUser.getIdToken(true);
+                easyPOST('drawCard', { token, roomId: room.roomId })
+                    .then(res => res.json())
+                    .then(data => console.log(data))
+            } else {
+                openPage('finished');
+            }
         })
 
         this.textContent = 'Card';
     }
 
     update() {
-        let nextPlayer = room.data.turnOrder[room.data.turnCounter] == userdata.uid;
+        if (room.data.state !== 'finished') {
+            let nextPlayer = room.data.turnOrder[room.data.turnCounter] == userdata.uid;
 
-        this.disabled = !nextPlayer;
+            this.disabled = !nextPlayer;
+        } else {
+            this.textContent = 'Quit Game';
+            this.disabled = false;
+        }
+
         // if (nextPlayer) {
         //     this.disabled = false;
         // } else {
@@ -33,4 +43,4 @@ class CeDrawButton extends HTMLButtonElement {
 
 }
 
-customElements.define('ce-draw-button',CeDrawButton, {extends:'button'});
+customElements.define('ce-draw-button', CeDrawButton, { extends: 'button' });

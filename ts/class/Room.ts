@@ -19,7 +19,8 @@ class Room {
                 loadMan.killLoader('roomJoined');
                 this.listener = db.collection('rooms').doc(this.roomId).onSnapshot(doc => {
                     const oldData = this.data;
-                    this.data = doc.data();
+                    const newData = doc.data();
+                    newData?this.data=newData:this.listener();
                     // blanket update everything OR specific updates?
                     // BOTH!!
 
@@ -27,6 +28,10 @@ class Room {
                         console.log('State change:', oldData.state, this.data.state)
                         if (oldData.state == 'lobby' && this.data.state == 'playing') {
                             openPage('play');
+                        }
+
+                        if (oldData.state == 'playing' && this.data.state == 'finished') {
+                            //openPage('finished');
                         }
                     }
 
@@ -36,13 +41,10 @@ class Room {
             })
     }
 
-
     async create() {
-        const roomId = await getRoomId().catch(e => console.error(e));
-
         return firebase.auth().currentUser.getIdToken(true)
             .then(token => {
-                return easyPOST('createRoom', { token, roomId })
+                return easyPOST('createRoom', { token })
             })
             .then(res => res.json())
         // .then(data => console.log(data))
@@ -86,9 +88,12 @@ class Room {
                         // room not found (404 not found)
                         // room preparing (425 too early)
 
-                        let allowedErrors = ['404','425'];
+                        let allowedErrors = ['404', '425'];
 
                         if (allowedErrors.indexOf(e.code) == -1) {
+                            loadMan.killLoader('roomJoined');
+                            // SHOW USER ERROR
+                            console.log('INFO: ', e);
                             return e;
                         }
 

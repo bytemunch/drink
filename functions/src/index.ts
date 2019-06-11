@@ -67,7 +67,7 @@ class RuleSet {
         this.addRule('K', 'Pour', 'desc', this.createAction('IRL', 'Immediate', 'Self'));
         this.addRule('JK', 'Travolta', 'desc', this.createAction('IRL', 'User', 'Choose'));
 
-        this.winState = { if: 'LAST_KING', then: 'END_GAME' }
+        this.winState = { if: 'LAST_KING', then: { action: this.createAction('IRL', 'Immediate', 'Self'), desc: 'Down the middle cup!' } }
     }
 }
 
@@ -165,37 +165,77 @@ export const createRoom = functions.https.onRequest((req, res) => {
         // Create room request, takes user, responds success or failure
         const data = JSON.parse(req.body);
 
-        const roomDocRef = db.collection('rooms').doc(data.roomId);
+        async function getRoomId(len: number = 4) {
+            const roomsinfo = await db.collection('rooms').doc('roomsinfo').get()
+                .then(doc => {
+                    if (doc.exists) {
+                        return doc.data();
+                    } else {
+                        return doc.ref.set({ roomcount: 0 })
+                            .then((e) => { return e })
+                    }
+                })
+
+            function createId(len) {
+                let str = '';
+                for (let i = 0; i < len; i++) {
+                    str = str + String.fromCharCode(Math.ceil((Math.random()) * 26) + 64);
+                }
+                // return 'test';
+                return str;
+            }
+
+            let newRoomId = createId(len);
+            let breakCounter = 0;
+
+            while ((roomsinfo.roomlist[newRoomId] != undefined) && (roomsinfo.roomlist[newRoomId] != false) && (breakCounter < 26 ** len)) {
+                newRoomId = createId(len);
+                breakCounter++;
+            }
+
+            if (breakCounter >= 26 ** len) {
+                //randomness has failed us!
+                // TODO sequentially check for available rooms here
+                return Promise.reject('Room slots full!')
+            }
+
+            return newRoomId;
+        }
+
 
         admin.auth().verifyIdToken(data.token)
             .then(token => {
-                db.runTransaction(t => {
-                    return t.get(roomDocRef)
-                        .then(roomDoc => {
-                            if (!roomDoc.exists) {
-                                t.set(roomDocRef, {
-                                    owner: token.uid,//TODO refrence here?
-                                    state: 'preparing',
-                                    timestamp: {
-                                        created: admin.firestore.FieldValue.serverTimestamp(),
-                                        modified: admin.firestore.FieldValue.serverTimestamp()
+                getRoomId(4)
+                    .then(roomId => {
+                        const roomDocRef = db.collection('rooms').doc(roomId);
+                        return db.runTransaction(t => {
+                            return t.get(roomDocRef)
+                                .then(roomDoc => {
+                                    if (!roomDoc.exists) {
+                                        t.set(roomDocRef, {
+                                            owner: token.uid,//TODO refrence here?
+                                            state: 'preparing',
+                                            timestamp: {
+                                                created: admin.firestore.FieldValue.serverTimestamp(),
+                                                modified: admin.firestore.FieldValue.serverTimestamp()
+                                            }
+                                        }, { merge: true })
+                                        return Promise.resolve({roomId});
+                                    } else {
+                                        return Promise.reject('createRoom: Room already exists!');
                                     }
-                                }, { merge: true })
-                                return Promise.resolve();
-                            } else {
-                                return Promise.reject('createRoom: Room already exists!');
-                            }
+                                })
                         })
-                })
-            })
+                    })
 
-            .then(result => {
-                res.send({ roomId: data.roomId, result });
+                    .then(result => {
+                        res.send({ roomId: result.roomId, result });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.send({ roomId: false, err });
+                    });
             })
-            .catch(err => {
-                console.log(err);
-                res.send({ roomId: false, err });
-            });
     })
 })
 
@@ -246,6 +286,7 @@ export const roomCreated = functions.firestore
             snap.ref.set({
                 deck: deck.cards,
                 rules: rules.rules,
+                winState: rules.winState,
                 currentCard: {},
                 pin: pin,
                 players: {},
@@ -317,6 +358,18 @@ export const startGame = functions.https.onRequest((req, res) => {
     })
 })
 
+function checkWin(room) {
+    const winState = room.winState;
+
+    switch (winState.if) {
+        case 'LAST_KING':
+        default:
+            if (!room.deck.find(c => { return c.number == 'K' })) return winState.then;
+    }
+
+    return false;
+}
+
 export const drawCard = functions.https.onRequest((req, res) => {
     cors(req, res, () => {
         const data = JSON.parse(req.body);
@@ -353,13 +406,25 @@ export const drawCard = functions.https.onRequest((req, res) => {
                             // Remove current card from deck in room
                             deck: newCards,
                             // set turn counter
-                            turnCounter: newTurnCount
+                            turnCounter: newTurnCount,
+                            state: room.state,
+                            rules: room.rules
                         }
 
-                        // TODO check winState here
+                        const gameOver = checkWin(room);
+
+                        if (gameOver) {
+                            // set room  state
+                            newDataToMerge.currentCard.action = gameOver.action;
+                            newDataToMerge.state = 'finished';
+
+                            // REFAC dont like this
+                            newDataToMerge.rules[selectedCard.number].desc = gameOver.desc;
+                        }
 
                         return doc.ref.set(newDataToMerge, { merge: true })
                             .then(result => {
+                                if (gameOver) doc.ref.delete();
                                 return res.send({ info: 'Turn Taken', code: '200', result });
                             })
                     })
