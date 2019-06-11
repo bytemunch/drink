@@ -36,13 +36,24 @@ class CePlayerList extends UpdateableElement {
 
         for (let p in players) {
             // sort into this.players in position of turnorder array
-            let turnorder = room.data.turnorder;
-            if (turnorder) {
-                this.players[turnorder.indexOf(players[p].uid)] = players[p];
+            let turnOrder = room.data.turnOrder;
+            if (turnOrder.length == Object.keys(room.data.players).length) {// JS casting doing bits here ugh
+                const pIdx = turnOrder.indexOf(players[p].uid);
+                pIdx==-1?this.players.push(players[p]):this.players[pIdx] = players[p];
             } else {
                 this.players.push(players[p]);
             }
         }
+
+        // Re-order array if turns have been taken
+        let tmp;
+        console.log(this.players);
+        for (let i=0;i<room.data.turnCounter;i++) {
+            tmp = this.players.shift();
+            console.log(tmp);
+            this.players.push(tmp);
+        }
+        console.log(this.players);
 
         // Clear DOM
         Array.from(this.childNodes).forEach(el => this.removeChild(el));

@@ -13,8 +13,8 @@ body {
 }
 
 img {
-    width:32px;
-    height:32px;
+    width:24px;
+    height:24px;
 }
 
 ce-player-list.bigGrid {
@@ -65,3 +65,8 @@ ce-player-list.smallList .name {
     left:24px;/*avatar width*/
 }
 
+ce-player-list.smallList ce-player {
+    position: relative;
+	display: block;
+	height: 24px;
+}
