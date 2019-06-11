@@ -15,7 +15,8 @@ class PlayPage extends Page {
         pickCard.addEventListener('click', async e=>{
             const token = await firebase.auth().currentUser.getIdToken(true);
             easyPOST('drawCard', {token, roomId:room.roomId})
-            .then(res=>console.log(res.json()))
+            .then(res=>res.json())
+            .then(data=>console.log(data))
 
         })
 

@@ -25,25 +25,49 @@ class Deck {
     }
 }
 
+interface IAction {
+    type: string,
+    trigger: string,
+    target: string
+}
+
 class RuleSet {
     public rules: Object;
-    constructor() {
-        this.rules = {
-            "A": {title:'Waterfall',desc:'desc'},
-            "2": {title:'Choose',desc:'Choose someone to drink!'},
-            "3": {title:'Me',desc:'You drink!'},
-            "4": {title:'Whores',desc:'Girls drink!'},
-            "5": {title:'Thumb Master',desc:'desc'},
-            "6": {title:'Dicks',desc:'Boys drink!'},
-            "7": {title:'Heaven',desc:'desc'},
-            "8": {title:'Mate',desc:'Choose a mate to drink when you drink.'},
-            "9": {title:'Bust a Rhyme',desc:'desc'},
-            "10": {title:'Categories',desc:'desc'},
-            "J": {title:'Make a Rule',desc:'desc'},
-            "Q": {title:'Question Master',desc:'desc'},
-            "K": {title:'Pour',desc:'desc'},
-            "JK": {title:'Travolta',desc:'desc'},
+    public winState: Object;
+    constructor(ruleset) {
+        this.rules = {};
+        switch (ruleset) {
+            case 'IRL':
+            default:
+                this.setupIRL();
         }
+    }
+
+    addRule(card: string, title: string, desc: string, action: IAction) {
+        this.rules[card] = { title, desc, action };
+    }
+
+    createAction(type: string, trigger: string, target: string) {
+        return { type, trigger, target };
+    }
+
+    setupIRL() {
+        this.addRule('A', 'Waterfall', 'desc', this.createAction('IRL', 'Immediate', 'All'));
+        this.addRule('2', 'Choose', 'desc', this.createAction('Target', 'Immediate', 'Choose'));
+        this.addRule('3', 'Me', 'desc', this.createAction('Target', 'Immediate', 'Self'));
+        this.addRule('4', 'Whores', 'desc', this.createAction('Target', 'Immediate', 'Females'));
+        this.addRule('5', 'Thumb Master', 'desc', this.createAction('IRL', 'User', 'Choose'));
+        this.addRule('6', 'Dicks', 'desc', this.createAction('Target', 'Immediate', 'Males'));
+        this.addRule('7', 'Heaven', 'desc', this.createAction('IRL', 'User', 'Choose'));
+        this.addRule('8', 'Mate', 'desc', this.createAction('Target', 'Immediate', 'Mate'));
+        this.addRule('9', 'Bust a Rhyme', 'desc', this.createAction('IRL', 'Immediate', 'Vote'));
+        this.addRule('10', 'Categories', 'desc', this.createAction('IRL', 'Immediate', 'Vote'));
+        this.addRule('J', 'Make a Rule', 'desc', this.createAction('IRL', 'User', 'Choose'));
+        this.addRule('Q', 'Question Master', 'desc', this.createAction('IRL', 'User', 'Choose'));
+        this.addRule('K', 'Pour', 'desc', this.createAction('IRL', 'Immediate', 'Self'));
+        this.addRule('JK', 'Travolta', 'desc', this.createAction('IRL', 'User', 'Choose'));
+
+        this.winState = { if: 'LAST_KING', then: 'END_GAME' }
     }
 }
 
@@ -59,9 +83,6 @@ const db = admin.firestore();
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
 //
-export const helloWorld = functions.https.onRequest((request, response) => {
-    response.send("Hello from Firebase!");
-});
 
 export const joinRoom = functions.https.onRequest((req, res) => {
     //TODO async await this shit up
@@ -121,6 +142,7 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                                         players[userToken.uid] = userdata.data();
 
                                         players[userToken.uid].ready = false;
+                                        players[userToken.uid].hand = {};
 
                                         t.update(roomRef, { players: players });
                                         return Promise.resolve();
@@ -201,7 +223,7 @@ export const roomCreated = functions.firestore
 
         if (roomId !== 'roomsinfo') {
             const deck = new Deck();
-            const rules = new RuleSet();
+            const rules = new RuleSet('IRL');
             const pin = createPin(4);
             const infoRef = snap.ref.parent.doc('roomsinfo');
 
@@ -305,7 +327,7 @@ export const drawCard = functions.https.onRequest((req, res) => {
                     .then(doc => {
                         const room = doc.data();
                         if (token.uid != room.turnOrder[room.turnCounter]) {
-                            Promise.reject({ err: 'Not your turn!', code: '403' })//forbidden
+                            return Promise.reject({ err: 'Not your turn!', code: '403' })//forbidden
                         }
 
                         let newTurnCount = 0;
@@ -334,15 +356,17 @@ export const drawCard = functions.https.onRequest((req, res) => {
                             turnCounter: newTurnCount
                         }
 
-                        doc.ref.set(newDataToMerge, { merge: true })
-                            .then(() => {
-                                res.send({ info: 'Turn taken', code: '200' })//OK
+                        // TODO check winState here
+
+                        return doc.ref.set(newDataToMerge, { merge: true })
+                            .then(result => {
+                                return res.send({ info: 'Turn Taken', code: '200', result });
                             })
                     })
-            })
-            .catch(e => {
-                console.error(e);
-                res.send(e);
+                    .catch(e => {
+                        console.error(e);
+                        res.send(e);
+                    })
             })
     })
 })

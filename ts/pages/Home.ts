@@ -28,6 +28,9 @@ class HomePage extends Page {
         btnJoin.textContent = 'Join';
 
         btnJoin.addEventListener('click', e => {
+            e.preventDefault();
+            loadMan.addLoader('roomJoined');
+            
             let roomId = roomIdInput.value.toUpperCase();
             let roomPass = roomPassInput.value;
 
