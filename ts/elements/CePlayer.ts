@@ -31,15 +31,7 @@ class CePlayer extends CustomElement {
     }
 
     applyStyles() {
-        // SELF
-        // this.style.height = '100%';
-        // this.style.borderWidth = '2px';
-        // this.style.borderStyle = 'solid';
-        // this.style.overflow = 'hidden';
-        // this.style.position = 'relative';
-
-        // TITLE
-        // this.elements.name.style.position = 'absolute';
+        // for later when shadow dom done
     }
 
     set player(player) {
