@@ -1,0 +1,84 @@
+* {
+    color: rgba(240, 248, 255, 0.87);
+}
+
+body {
+    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    -webkit-user-select: text;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+    background-color:rgb(76, 123, 224);
+    background-image:linear-gradient(top, rgb(115, 133, 212) 0%, rgb(76, 123, 224) 51%);
+    background-image:-webkit-linear-gradient(top, rgb(115, 133, 212) 0%, rgb(76, 123, 224) 51%);
+    background-image:-ms-linear-gradient(top, rgb(115, 133, 212) 0%, rgb(76, 123, 224) 51%);
+    background-image:-webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0, rgb(76, 123, 224)),
+        color-stop(0.51, rgb(115, 133, 212))
+    );
+    background-attachment:fixed;
+    height: 100vh;
+    width:100vw;
+}
+
+button {
+    border: none;
+    background-color: rgb(0, 191, 255);
+    color: rgb(240, 248, 255);
+    overflow:hidden;
+}
+
+.green {
+    background-color: rgb(75, 148, 105);
+}
+
+.red {
+    background-color: rgb(148, 75, 75);
+}
+
+.grey {
+    background-color: rgb(148, 148, 148);
+}
+
+/* button:focus {
+    outline: none;
+} */
+
+button.small {
+    font-size: 5vw;
+    float:left;
+    margin-left:20vw;
+    margin-bottom:20vw;
+    width:20vw;
+    height:20vw;
+}
+
+button.big {
+    font-size: 10vw;
+    float:left;
+    margin-left:10vw;
+    margin-bottom:10vh;
+    margin-top:10vh;
+    width:80vw;
+    height:20vw;
+}
+
+input {
+    color: black;
+    font-family: sans-serif;
+    font-size:20pt;
+    width:80vw;
+    margin-left:10vw;
+    position: relative;
+    text-align: center;
+}
+
+p.label {
+    font-size: 20pt;
+    width:80vw;
+    margin-left:10vw;
+    margin-top:4vh;
+    text-align: center;
+    position: relative;
+}

@@ -9,7 +9,7 @@ class CeStartReadyButton extends HTMLButtonElement {
 
     connectedCallback() {
         this.textContent = 'Start';
-        this.classList.add('updateable-element');
+        this.classList.add('updateable-element','big');
 
         this.addEventListener('click', async e => {
             if (this.owner) {
@@ -39,8 +39,24 @@ class CeStartReadyButton extends HTMLButtonElement {
 
             this.disabled = !allReady;
 
-            allReady ? this.textContent = 'Start' : this.textContent = 'Waiting for players...';
-        } else { this.textContent = room.data.players[userdata.uid].ready ? 'UnReady' : 'Ready' }
+            if (allReady) {
+                this.textContent = 'Start';
+                this.style.backgroundColor = palette.green;
+            } else {
+                //this.textContent = 'Waiting for players...';
+                this.textContent = 'Waiting...';// is this descriptive enough?
+                this.style.backgroundColor = palette.grey;
+            }
+
+        } else {
+            if (room.data.players[userdata.uid].ready) {
+                this.textContent = 'UnReady';
+                this.style.backgroundColor = palette.red;
+            } else {
+                this.textContent = 'Ready';
+                this.style.backgroundColor = palette.green;
+            }
+        }
     }
 
 

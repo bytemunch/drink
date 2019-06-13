@@ -3,3 +3,9 @@ loadMan should be able to recieve and display updates
 rooms joinable by link, pass info through after auth
 
 use real errors
+
+joinable mid game
+
+notice disconnections
+
+indicate current player in lobby and playerlist in case of samenames

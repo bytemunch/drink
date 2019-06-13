@@ -12,10 +12,12 @@ class HomePage extends Page {
 
         let roomIdLabel = document.createElement('p');
         roomIdLabel.textContent = 'Room ID:';
+        roomIdLabel.classList.add('label');
         let roomIdInput = document.createElement('input');
 
         let roomPassLabel = document.createElement('p');
         roomPassLabel.textContent = 'Room Pass:';
+        roomPassLabel.classList.add('label');
         let roomPassInput = document.createElement('input');
 
         this.page.appendChild(roomIdLabel);
@@ -49,6 +51,8 @@ class HomePage extends Page {
             return room.join([roomId, roomPass]);
         })
 
+        btnJoin.classList.add('big');
+
         this.page.appendChild(btnJoin);
 
         let btnCreate = document.createElement('button');
@@ -61,6 +65,8 @@ class HomePage extends Page {
             console.log(createdResult);
             await room.join([createdResult.roomId, "OWNER"]);
         })
+
+        btnCreate.classList.add('big','green');
 
         this.page.appendChild(btnCreate);
 

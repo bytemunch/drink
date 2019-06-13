@@ -13,6 +13,14 @@ let db: any;
 
 loadMan.addLoader('initialLoad');
 
+const palette = {
+    red: `rgb(148, 75, 75)`,
+    green: `rgb(75, 148, 105)`,
+    blue: `rgb(0, 191, 255)`,
+    grey: `rgb(148, 148, 148)`,
+    white: `rgb(240, 248, 255)`
+}
+
 
 document.addEventListener('DOMContentLoaded', function () {
     // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
