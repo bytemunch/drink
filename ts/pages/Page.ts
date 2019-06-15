@@ -5,9 +5,6 @@ class Page {
 
     constructor() {
         this.page = document.createElement('div');
-        this.page.setAttribute('id','page');
-        let top = new Topbar;
-
-        this.page.appendChild(top.html);
+        this.page.setAttribute('id','pageInner');
     };
 }

@@ -4,7 +4,7 @@ class Topbar {
     constructor() {
         this.html = document.createElement('div');
 
-        this.html.classList.add('Topbar')
+        this.html.classList.add('topbar')
 
         let btnLogout = document.createElement('button');
         btnLogout.textContent = 'Log Out';
@@ -12,6 +12,8 @@ class Topbar {
         btnLogout.addEventListener('click', e=>{
             firebase.auth().signOut();
         })
+
+        btnLogout.classList.add('small', 'logout');
 
         this.html.appendChild(btnLogout);
 

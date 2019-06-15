@@ -84,11 +84,15 @@ function openPage(name: string) {
             return;
     }
 
-    // side effects here hmmmmm
+    let pageContainer = document.querySelector('#page');
+    if (!pageContainer) {
+        pageContainer = document.createElement('div');
+        pageContainer.setAttribute('id','page');
+        document.querySelector('#app').appendChild(pageContainer)
+    }
 
-    let appContainer = document.querySelector('#app');
-    appContainer.innerHTML = "";
-    appContainer.appendChild(page.page);
+    pageContainer.innerHTML = '';
+    pageContainer.appendChild(page.page);
 }
 
 
@@ -123,3 +127,7 @@ async function deleteAllRooms() {
         })
     })
 }
+
+let topbar = new Topbar;
+
+document.querySelector('#app').appendChild(topbar.html);

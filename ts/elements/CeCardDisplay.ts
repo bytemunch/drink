@@ -15,6 +15,8 @@ class CeCardDisplay extends UpdateableElement {
     connectedCallback() {
         super.connectedCallback();
 
+        this.classList.add('big');
+
         this.number = document.createElement('p');
         this.suit = document.createElement('p');
 

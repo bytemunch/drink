@@ -10,9 +10,9 @@ class PlayPage extends Page {
 
         this.page.appendChild(title);
 
-        let pickCard = new CeDrawButton;//document.createElement('button');
-
-        this.page.appendChild(pickCard);
+        let playerInfo = document.createElement('ce-player-list');
+        playerInfo.classList.add('smallList');
+        this.page.appendChild(playerInfo);
 
         let card = document.createElement('ce-card-display');
 
@@ -22,8 +22,8 @@ class PlayPage extends Page {
 
         this.page.appendChild(rule);
 
-        let playerInfo = document.createElement('ce-player-list');
-        playerInfo.classList.add('smallList');
-        this.page.appendChild(playerInfo);
+        let pickCard = new CeDrawButton;//document.createElement('button');
+
+        this.page.appendChild(pickCard);
     }
 }

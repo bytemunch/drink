@@ -27,7 +27,7 @@ class AccountPage extends Page {
             i.setAttribute('id',`acc-input-${input}`);
             i.setAttribute('type',inputs[input].type);
 
-            i.value = userdata[input] || null;
+            i.value = inputs[input].type == 'file' ? '' : userdata[input] || '';
             this.page.appendChild(i);
         }
 

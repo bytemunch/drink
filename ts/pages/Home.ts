@@ -12,12 +12,12 @@ class HomePage extends Page {
 
         let roomIdLabel = document.createElement('p');
         roomIdLabel.textContent = 'Room ID:';
-        roomIdLabel.classList.add('label');
+        roomIdLabel.classList.add('label', 'big');
         let roomIdInput = document.createElement('input');
 
         let roomPassLabel = document.createElement('p');
         roomPassLabel.textContent = 'Room Pass:';
-        roomPassLabel.classList.add('label');
+        roomPassLabel.classList.add('label', 'big');
         let roomPassInput = document.createElement('input');
 
         this.page.appendChild(roomIdLabel);

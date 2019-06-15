@@ -7,14 +7,16 @@ class CeDrawButton extends HTMLButtonElement {
 
     connectedCallback() {
         this.textContent = 'Start';
-        this.classList.add('updateable-element');
+        this.classList.add('updateable-element', 'big');
 
         this.addEventListener('click', async e => {
             if (room.data.state !== 'finished') {
+                this.disable('Drawing...');
                 const token = await firebase.auth().currentUser.getIdToken(true);
                 easyPOST('drawCard', { token, roomId: room.roomId })
                     .then(res => res.json())
                     .then(data => console.log(data))
+                    .then(()=>this.enable())
             } else {
                 openPage('finished');
             }
@@ -23,21 +25,27 @@ class CeDrawButton extends HTMLButtonElement {
         this.textContent = 'Card';
     }
 
+    disable(msg) {
+        this.disabled = true;
+        this.classList.add('grey')
+        this.textContent = msg;
+    }
+
+    enable() {
+        this.disabled = false;
+        this.classList.remove('grey')
+        this.textContent = 'Card';
+    }
+
     update() {
         if (room.data.state !== 'finished') {
             let nextPlayer = room.data.turnOrder[room.data.turnCounter] == userdata.uid;
 
-            this.disabled = !nextPlayer;
+            nextPlayer?this.enable():this.disable('Waiting...')
         } else {
             this.textContent = 'Quit Game';
-            this.disabled = false;
+            this.enable();
         }
-
-        // if (nextPlayer) {
-        //     this.disabled = false;
-        // } else {
-        //     this.disabled = true;
-        // }
     }
 
 
