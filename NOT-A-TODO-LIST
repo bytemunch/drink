@@ -11,3 +11,5 @@ notice disconnections
 indicate current player in lobby and playerlist in case of samenames
 
 badges on playerlist for like questionmaster or w/e
+
+persist player images as data objects

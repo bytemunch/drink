@@ -41,6 +41,13 @@ class CeCardDisplay extends UpdateableElement {
 
         this.number.textContent = number;
         this.suit.textContent = suit;
+
+        if (suit == 'joker') {
+            let x = number % 3;
+            if (x==0) number = 'red';
+            if (x==1) number = 'black';
+            if (x==2) number = 'white';
+        }
         fetch(`/img/cards/${suit}/${number}.svg`)
         .then(res=>res.blob())
         .then(data=>{

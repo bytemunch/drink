@@ -7,7 +7,7 @@ interface ICard {
 
 class Deck {
     public cards: Array<ICard> = [];
-    constructor(private jokercount: number = 0) {
+    constructor(private jokercount: number = 2) {
         const numbers = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "JK"];
         const suits = ["clubs", "diamonds", "hearts", "spades"];
 
@@ -18,7 +18,7 @@ class Deck {
                 }
             } else {
                 for (let i = 0; i < this.jokercount; i++) {
-                    this.cards.push({ suit: n, number: n });
+                    this.cards.push({ suit: 'joker', number: i.toString() });
                 }
             }
         }
@@ -145,7 +145,7 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                                         players[userToken.uid].hand = {};
 
                                         t.update(roomRef, { players: players });
-                                        t.update(roomRef, {turnOrder: admin.firestore.FieldValue.arrayUnion(userToken.uid)})
+                                        t.update(roomRef, { turnOrder: admin.firestore.FieldValue.arrayUnion(userToken.uid) })
                                         return Promise.resolve();
                                     } else {
                                         return Promise.reject({ err: 'joinRoom: Player already in room!', code: '409' }) // conflict
@@ -221,7 +221,7 @@ export const createRoom = functions.https.onRequest((req, res) => {
                                                 modified: admin.firestore.FieldValue.serverTimestamp()
                                             }
                                         }, { merge: true })
-                                        return Promise.resolve({roomId});
+                                        return Promise.resolve({ roomId });
                                     } else {
                                         return Promise.reject('createRoom: Room already exists!');
                                     }
