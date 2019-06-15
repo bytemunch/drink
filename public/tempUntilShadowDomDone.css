@@ -70,3 +70,9 @@ ce-player-list.smallList ce-player {
 	display: block;
 	height: 24px;
 }
+
+ce-card-display img {
+    width:80vw;
+    height: unset;
+    margin-left:5vw;
+}

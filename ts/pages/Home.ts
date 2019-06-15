@@ -31,7 +31,6 @@ class HomePage extends Page {
 
         btnJoin.addEventListener('click', e => {
             e.preventDefault();
-            loadMan.addLoader('roomJoined');
             
             let roomId = roomIdInput.value.toUpperCase();
             let roomPass = roomPassInput.value;
@@ -46,6 +45,8 @@ class HomePage extends Page {
                 console.error('Room Pass must be 4 numbers!');
                 return false;
             }
+
+            loadMan.addLoader('roomJoined');
 
             // Hand validated input to join function
             return room.join([roomId, roomPass]);

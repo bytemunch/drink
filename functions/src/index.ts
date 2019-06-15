@@ -9,7 +9,7 @@ class Deck {
     public cards: Array<ICard> = [];
     constructor(private jokercount: number = 0) {
         const numbers = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "JK"];
-        const suits = ["C", "D", "H", "S"];
+        const suits = ["clubs", "diamonds", "hearts", "spades"];
 
         for (let n of numbers) {
             if (n != "JK") {

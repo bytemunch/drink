@@ -3,6 +3,7 @@
 class CeCardDisplay extends UpdateableElement {
     number;
     suit;
+    img;
 
     constructor() {
         super();
@@ -26,15 +27,32 @@ class CeCardDisplay extends UpdateableElement {
         this.appendChild(this.number);
         this.appendChild(this.suit);
 
+        this.img = document.createElement('img');
+        this.appendChild(this.img);
+
         this.applyStyle();
 
     }
 
     update() {
         super.update();
+        let suit = room.data.currentCard.suit;
+        let number = room.data.currentCard.number;
 
-        this.number.textContent = room.data.currentCard.number;
-        this.suit.textContent = room.data.currentCard.suit;
+        this.number.textContent = number;
+        this.suit.textContent = suit;
+        fetch(`/img/cards/${suit}/${number}.svg`)
+        .then(res=>res.blob())
+        .then(data=>{
+            let src;
+            if (data.type == 'text/html') {
+                src = `/img/cards/back.svg`
+            } else {
+                src = URL.createObjectURL(data);
+            }
+
+            this.img.setAttribute('src',src);
+        })
     }
 
 }

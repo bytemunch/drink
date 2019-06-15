@@ -16,7 +16,7 @@ class CeDrawButton extends HTMLButtonElement {
                 easyPOST('drawCard', { token, roomId: room.roomId })
                     .then(res => res.json())
                     .then(data => console.log(data))
-                    .then(()=>this.enable())
+                    .then(()=>this.enable('Card'))
             } else {
                 openPage('finished');
             }
@@ -31,20 +31,19 @@ class CeDrawButton extends HTMLButtonElement {
         this.textContent = msg;
     }
 
-    enable() {
+    enable(msg) {
         this.disabled = false;
         this.classList.remove('grey')
-        this.textContent = 'Card';
+        this.textContent = msg;
     }
 
     update() {
         if (room.data.state !== 'finished') {
             let nextPlayer = room.data.turnOrder[room.data.turnCounter] == userdata.uid;
 
-            nextPlayer?this.enable():this.disable('Waiting...')
+            nextPlayer?this.enable('Card'):this.disable('Waiting...')
         } else {
-            this.textContent = 'Quit Game';
-            this.enable();
+            this.enable('Quit Game');
         }
     }
 
