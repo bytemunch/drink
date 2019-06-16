@@ -25,6 +25,4 @@ class LoadMan {
             this.loaders.splice(this.loaders.indexOf(killMe),1);
         }
     }
-
-
 }

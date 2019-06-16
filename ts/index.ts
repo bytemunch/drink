@@ -104,8 +104,10 @@ function openPage(name: string) {
 async function authHandler(user: any) {
     loadMan.killLoader('initialLoad')
     loadMan.addLoader('pageOpen')
+    let topbar = document.querySelector('.topbar') as HTMLElement;
     if (user) {
         // logged in
+        topbar.style.display = 'block';
         userdata.populateFrom(user.uid)
             .then(userExists => {
                  userExists && userdata.name ? openPage('home') : openPage('account') 
@@ -113,6 +115,7 @@ async function authHandler(user: any) {
                 e => { console.error(e) });
     } else {
         // logged out
+        topbar.style.display = 'none';
         userdata = new UserData; //clear user info
         openPage('login');
     }
@@ -136,5 +139,4 @@ async function deleteAllRooms() {
 }
 
 let topbar = new Topbar;
-
 document.querySelector('#app').appendChild(topbar.html);

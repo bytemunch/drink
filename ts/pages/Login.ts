@@ -9,13 +9,17 @@ class LoginPage extends Page {
 
         emailP.textContent = 'Email:';
         passP.textContent = 'Password:';
-
+        emailP.classList.add('label','big')
+        passP.classList.add('label','big')
         let emailInput = document.createElement('input');
         let passInput = document.createElement('input');
 
         emailInput.setAttribute('type','email');
+        emailInput.classList.add('big');
         passInput.setAttribute('type','password');
+        passInput.classList.add('big');
 
+        
         let btnLogin = document.createElement('button')
         btnLogin.textContent = 'Login';
 
@@ -23,9 +27,6 @@ class LoginPage extends Page {
             loadMan.addLoader('pageOpen');
             firebase.auth().signInWithEmailAndPassword(emailInput.value,passInput.value)
             .catch(err=>console.log(err))
-            .then(user => {
-                user ? ()=>{} : console.error('no such user');
-            })
         })
 
         
@@ -35,11 +36,10 @@ class LoginPage extends Page {
         btnSignup.addEventListener('click', e => {
             firebase.auth().createUserWithEmailAndPassword(emailInput.value,passInput.value)
             .catch(err=>console.log(err))
-            .then(user=>{
-                user ? ()=>{} : console.error('no such user');
-            })
         })
 
+        btnLogin.classList.add('big');
+        btnSignup.classList.add('big', 'green');
 
         this.page.appendChild(emailP);
         this.page.appendChild(emailInput);

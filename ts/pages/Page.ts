@@ -5,6 +5,6 @@ class Page {
 
     constructor() {
         this.page = document.createElement('div');
-        this.page.setAttribute('id','pageInner');
+        this.page.setAttribute('id', 'pageInner');
     };
 }
