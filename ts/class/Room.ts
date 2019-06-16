@@ -82,18 +82,18 @@ class Room {
                     })
                     .catch(e => {
                         console.error(e);
-
                         // TODO send useful error codes in e
                         // DO NOT subscribe to changes on any error other than
-                        // room not found (404 not found)
                         // room preparing (425 too early)
 
-                        let allowedErrors = ['404', '425'];
+                        let allowedErrors = ['425'];
 
                         if (allowedErrors.indexOf(e.code) == -1) {
                             loadMan.killLoader('roomJoined');
                             // SHOW USER ERROR
+                            errorPopUp(e.err + ' Code: '+e.code);
                             console.log('INFO: ', e);
+
                             return e;
                         }
 

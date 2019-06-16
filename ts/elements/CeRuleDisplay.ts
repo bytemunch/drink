@@ -18,8 +18,8 @@ class CeRuleDisplay extends UpdateableElement {
         this.ruleTitle = document.createElement('p');
         this.desc = document.createElement('p');
 
-        this.ruleTitle.textContent = 'Title';
-        this.desc.textContent = 'Desc';
+        this.ruleTitle.textContent = '';
+        this.desc.textContent = '';
 
         this.appendChild(this.ruleTitle);
         this.appendChild(this.desc);
@@ -34,8 +34,8 @@ class CeRuleDisplay extends UpdateableElement {
         let rule = room.data.rules[cardNum];
 
         if (rule) {
-            this.ruleTitle.textContent = rule.title || 'Title';
-            this.desc.textContent = rule.desc || 'Desc';
+            this.ruleTitle.textContent = rule.title || '';
+            this.desc.textContent = rule.desc || '';
         } else {
             console.error('No rule for ',cardNum);
         }

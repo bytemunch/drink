@@ -14,11 +14,13 @@ class HomePage extends Page {
         roomIdLabel.textContent = 'Room ID:';
         roomIdLabel.classList.add('label', 'big');
         let roomIdInput = document.createElement('input');
+        roomIdInput.classList.add('big');
 
         let roomPassLabel = document.createElement('p');
         roomPassLabel.textContent = 'Room Pass:';
         roomPassLabel.classList.add('label', 'big');
         let roomPassInput = document.createElement('input');
+        roomPassInput.classList.add('big');
 
         this.page.appendChild(roomIdLabel);
         this.page.appendChild(roomIdInput);
@@ -38,11 +40,13 @@ class HomePage extends Page {
             // Validate input
             if (!roomId.match(/^[A-Z]{4}$/g)) {
                 console.error('Room ID must be 4 letters!');
+                errorPopUp('Room ID must be 4 characters!');
                 return false;
             }
 
             if (!roomPass.match(/^\d{4}$/g)) {
                 console.error('Room Pass must be 4 numbers!');
+                errorPopUp('Room Pass must be 4 numbers!');
                 return false;
             }
 

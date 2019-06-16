@@ -20,6 +20,7 @@ class LoginPage extends Page {
         btnLogin.textContent = 'Login';
 
         btnLogin.addEventListener('click', e => {
+            loadMan.addLoader('pageOpen');
             firebase.auth().signInWithEmailAndPassword(emailInput.value,passInput.value)
             .catch(err=>console.log(err))
             .then(user => {

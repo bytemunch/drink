@@ -21,7 +21,6 @@ const palette = {
     white: `rgb(240, 248, 255)`
 }
 
-
 document.addEventListener('DOMContentLoaded', function () {
     // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
     // // The Firebase SDK is initialized and available here!
@@ -47,6 +46,10 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
     }
 });
+
+function errorPopUp(msg,timer=0) {
+    document.body.appendChild(new CePopUp('Error!', msg, timer, 'error'));
+}
 
 function updateDOM() {
     // console.log('updateDom: Started...')
@@ -93,22 +96,26 @@ function openPage(name: string) {
 
     pageContainer.innerHTML = '';
     pageContainer.appendChild(page.page);
+    loadMan.killLoader('pageOpen')
+
 }
 
 
 async function authHandler(user: any) {
+    loadMan.killLoader('initialLoad')
+    loadMan.addLoader('pageOpen')
     if (user) {
         // logged in
         userdata.populateFrom(user.uid)
-            .then(userExists => { userExists && userdata.name ? openPage('home') : openPage('account') },
+            .then(userExists => {
+                 userExists && userdata.name ? openPage('home') : openPage('account') 
+                },
                 e => { console.error(e) });
     } else {
         // logged out
         userdata = new UserData; //clear user info
         openPage('login');
     }
-
-    loadMan.killLoader('initialLoad')
 }
 
 

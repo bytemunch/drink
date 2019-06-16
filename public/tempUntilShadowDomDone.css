@@ -76,3 +76,23 @@ ce-card-display img {
     height: unset;
     margin-left:5vw;
 }
+
+ce-popup {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top:0;
+    left:0;
+    z-index:99;
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+ce-popup div {
+    z-index: 100;
+	position: absolute;
+	top: 20vh;
+	left: 10vw;
+	width: 80vw;
+	padding: 10vw;
+	background: skyblue;
+}

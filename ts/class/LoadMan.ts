@@ -13,11 +13,16 @@ class LoadMan {
     }
 
     killLoader(killTrigger) {
+        let loadersToRemove = [];
         for (let l of this.loaders) {
             if (killTrigger == l.killTrigger) {
                 l.kill();
-                this.loaders.splice(this.loaders.indexOf(l),1);
+                loadersToRemove.push(l)
             }
+        }
+
+        for (let killMe of loadersToRemove) {
+            this.loaders.splice(this.loaders.indexOf(killMe),1);
         }
     }
 

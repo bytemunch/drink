@@ -1,8 +1,6 @@
 /// <reference path='UpdateableElement.ts'/>
 
 class CeCardDisplay extends UpdateableElement {
-    number;
-    suit;
     img;
 
     constructor() {
@@ -18,15 +16,6 @@ class CeCardDisplay extends UpdateableElement {
 
         this.classList.add('big');
 
-        this.number = document.createElement('p');
-        this.suit = document.createElement('p');
-
-        this.number.textContent = '#';
-        this.suit.textContent = 'Suit';
-
-        this.appendChild(this.number);
-        this.appendChild(this.suit);
-
         this.img = document.createElement('img');
         this.appendChild(this.img);
 
@@ -38,9 +27,6 @@ class CeCardDisplay extends UpdateableElement {
         super.update();
         let suit = room.data.currentCard.suit;
         let number = room.data.currentCard.number;
-
-        this.number.textContent = number;
-        this.suit.textContent = suit;
 
         if (suit == 'joker') {
             let x = number % 3;
