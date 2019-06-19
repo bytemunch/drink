@@ -11,7 +11,8 @@ class UserData {
         return db.collection("users").doc(this.uid).set({
             name: this.name,
             color: this.color,
-            avatar: this.avatar
+            avatar: this.avatar,
+            status: presMan.ref
         }, { merge: true });
     }
 

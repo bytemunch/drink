@@ -1,4 +1,4 @@
-class LoadMan {
+class LoadManager {
     loaders:Array<CeLoadScreen> = [];
 
     constructor() {

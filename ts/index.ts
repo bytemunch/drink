@@ -7,7 +7,9 @@ let room = new Room;
 
 let updater = new Event('update');
 
-let loadMan = new LoadMan;
+let loadMan = new LoadManager;
+
+let presMan: PresenceManager;
 
 let db: any;
 
@@ -25,8 +27,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
     // // The Firebase SDK is initialized and available here!
     //
-
-
     firebase.auth().onAuthStateChanged(authHandler);
 
     db = firebase.firestore();
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     try {
         let app: any = firebase.app();
-        let features = ['auth', 'firestore', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
+        let features = ['auth', 'firestore','database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
         document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
 
     } catch (e) {
@@ -107,6 +107,8 @@ async function authHandler(user: any) {
     let topbar = document.querySelector('.topbar') as HTMLElement;
     if (user) {
         // logged in
+        // setup presence
+        presMan = new PresenceManager(user.uid);
         topbar.style.display = 'block';
         userdata.populateFrom(user.uid)
             .then(userExists => {

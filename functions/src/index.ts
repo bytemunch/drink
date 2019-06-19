@@ -78,7 +78,7 @@ admin.initializeApp(functions.config().firebase);
 
 const cors = require('cors')({ origin: true });
 
-const db = admin.firestore();
+const firestore = admin.firestore();
 
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
@@ -88,7 +88,7 @@ export const joinRoom = functions.https.onRequest((req, res) => {
     //TODO async await this shit up
     cors(req, res, () => {
         const data = JSON.parse(req.body);
-        const roomRef = db.collection('rooms').doc(data.roomId)
+        const roomRef = firestore.collection('rooms').doc(data.roomId)
 
         admin.auth().verifyIdToken(data.token)
             .then(userToken => {
@@ -123,12 +123,12 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                         return Promise.reject({ err: 'joinRoom: Incorret PIN!', code: '403' }); //forbidden
                     })
                     .then(() => {
-                        return db.collection('users').doc(userToken.uid).get();
+                        return firestore.collection('users').doc(userToken.uid).get();
                     })
                     .then(userdata => {
                         // add player to room
                         // TODO maybe split this out?
-                        return db.runTransaction(t => {
+                        return firestore.runTransaction(t => {
                             return t.get(roomRef)
                                 .then(roomDoc => {
                                     if (!roomDoc.exists) {
@@ -146,6 +146,7 @@ export const joinRoom = functions.https.onRequest((req, res) => {
 
                                         t.update(roomRef, { players: players });
                                         t.update(roomRef, { turnOrder: admin.firestore.FieldValue.arrayUnion(userToken.uid) })
+                                        userdata.ref.set({currentRoom:roomRef},{merge:true})
                                         return Promise.resolve();
                                     } else {
                                         return Promise.reject({ err: 'joinRoom: Player already in room!', code: '409' }) // conflict
@@ -167,7 +168,7 @@ export const createRoom = functions.https.onRequest((req, res) => {
         const data = JSON.parse(req.body);
 
         async function getRoomId(len: number = 4) {
-            const roomsinfo = await db.collection('rooms').doc('roomsinfo').get()
+            const roomsinfo = await firestore.collection('rooms').doc('roomsinfo').get()
                 .then(doc => {
                     if (doc.exists) {
                         return doc.data();
@@ -208,8 +209,8 @@ export const createRoom = functions.https.onRequest((req, res) => {
             .then(token => {
                 getRoomId(4)
                     .then(roomId => {
-                        const roomDocRef = db.collection('rooms').doc(roomId);
-                        return db.runTransaction(t => {
+                        const roomDocRef = firestore.collection('rooms').doc(roomId);
+                        return firestore.runTransaction(t => {
                             return t.get(roomDocRef)
                                 .then(roomDoc => {
                                     if (!roomDoc.exists) {
@@ -271,7 +272,7 @@ export const roomCreated = functions.firestore
             // Add to roomlist
             infoRef.set({ roomlist: { [roomId]: true } }, { merge: true });
 
-            await db.runTransaction(t => {
+            await firestore.runTransaction(t => {
                 return t.get(infoRef).then(infoDoc => {
                     if (!infoDoc.exists) {
                         return Promise.reject("No roomsinfo!");
@@ -309,7 +310,7 @@ export const roomDeleted = functions.firestore
 
             infoRef.set({ roomlist: { [roomId]: false } }, { merge: true });
 
-            db.runTransaction(t => {
+            firestore.runTransaction(t => {
                 return t.get(infoRef).then(infoDoc => {
                     if (!infoDoc.exists) {
                         throw "No roomsinfo!";
@@ -329,7 +330,7 @@ export const startGame = functions.https.onRequest((req, res) => {
         // Auth user == owner
         admin.auth().verifyIdToken(data.token)
             .then(token => {
-                db.collection('rooms').doc(data.roomId).get()
+                firestore.collection('rooms').doc(data.roomId).get()
                     .then(doc => {
                         const room = doc.data();
                         if (token.uid != room.owner) {
@@ -369,7 +370,7 @@ export const drawCard = functions.https.onRequest((req, res) => {
 
         admin.auth().verifyIdToken(data.token)
             .then(token => {
-                db.collection('rooms').doc(data.roomId).get()
+                firestore.collection('rooms').doc(data.roomId).get()
                     .then(doc => {
                         const room = doc.data();
                         if (token.uid != room.turnOrder[room.turnCounter]) {
@@ -428,3 +429,53 @@ export const drawCard = functions.https.onRequest((req, res) => {
             })
     })
 })
+
+export const userStateChange = functions.database.ref('/status/{uid}')
+    .onUpdate(async (change, context) => {
+        // ctrl+c ctrl+z | i am 1337 c0d3r yo
+        // Get the data written to Realtime Database
+        const eventStatus = change.after.val();
+
+        // Then use other event data to create a reference to the
+        // corresponding Firestore document.
+        const userStatusFirestoreRef = firestore.doc(`status/${context.params.uid}`);
+
+        // It is likely that the Realtime Database change that triggered
+        // this event has already been overwritten by a fast change in
+        // online / offline status, so we'll re-read the current data
+        // and compare the timestamps.
+        const statusSnapshot = await change.after.ref.once('value');
+        const status = statusSnapshot.val();
+        console.log(status, eventStatus);
+        // If the current timestamp for this data is newer than
+        // the data that triggered this event, we exit this function.
+        if (status.last_changed > eventStatus.last_changed) {
+            return null;
+        }
+
+        // Otherwise, we convert the last_changed field to a Date
+        eventStatus.last_changed = new Date(eventStatus.last_changed);
+
+        // ... and write it to Firestore.
+        userStatusFirestoreRef.set(eventStatus);
+
+        // Then check if user was in a room
+        const userRef = firestore.doc(`users/${context.params.uid}`);
+
+        userRef.get().then(async doc=>{
+            const data = await doc.data();
+
+            const room = data.currentRoom;
+
+            if (!room) {
+                return;
+            }
+
+            const roomdoc = await room.get()
+            const roomdata = await roomdoc.data();
+
+            let newPlayers = roomdata.players;
+            delete newPlayers[context.params.uid];
+            room.set({players: newPlayers}, {merge:true})//maybe merge false
+        })
+    });
