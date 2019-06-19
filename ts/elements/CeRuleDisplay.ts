@@ -31,13 +31,15 @@ class CeRuleDisplay extends UpdateableElement {
     update() {
         super.update();
         let cardNum = room.data.currentCard.number;
-        let rule = room.data.rules[cardNum];
+        let cardSuit = room.data.currentCard.suit;
+
+        let rule = cardSuit=='joker'?room.data.rules.JK:room.data.rules[cardNum];
 
         if (rule) {
             this.ruleTitle.textContent = rule.title || '';
             this.desc.textContent = rule.desc || '';
         } else {
-            console.error('No rule for ',cardNum);
+            console.error('No rule for ',cardNum,cardSuit);
         }
     }
 

@@ -138,5 +138,5 @@ async function deleteAllRooms() {
     })
 }
 
-let topbar = new Topbar;
-document.querySelector('#app').appendChild(topbar.html);
+let topbar = document.createElement('ce-topbar')
+document.querySelector('#app').appendChild(topbar);

@@ -4,6 +4,9 @@ class AccountPage extends Page {
     constructor() {
         super();
 
+        let top = document.querySelector('ce-topbar') as CeTopbar;
+        top.show();
+
         let title = document.createElement('h1');
 
         title.textContent = `${userdata.name?userdata.name+'\'s':'Your'} account.`;

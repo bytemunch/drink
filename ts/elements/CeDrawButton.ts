@@ -7,7 +7,7 @@ class CeDrawButton extends HTMLButtonElement {
 
     connectedCallback() {
         this.textContent = 'Start';
-        this.classList.add('updateable-element', 'big');
+        this.classList.add('updateable-element', 'big', 'bottom');
 
         this.addEventListener('click', async e => {
             if (room.data.state !== 'finished') {

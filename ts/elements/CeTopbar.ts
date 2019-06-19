@@ -1,10 +1,28 @@
-class Topbar {
-    public html:HTMLElement;
+/// <reference path='UpdateableElement.ts'/>
 
+class CeTopbar extends CustomElement {
     constructor() {
-        this.html = document.createElement('div');
+        super();
 
-        this.html.classList.add('topbar')
+
+    }
+
+    hide() {
+        this.style.display = 'none';
+    }
+
+    show() {
+        this.style.display = 'block';
+    }
+
+    applyStyle() {
+
+    }
+
+    connectedCallback() {
+        super.connectedCallback();
+
+        this.classList.add('topbar')
 
         let btnLogout = document.createElement('button');
         btnLogout.textContent = 'Log Out';
@@ -15,7 +33,7 @@ class Topbar {
 
         btnLogout.classList.add('small', 'logout');
 
-        this.html.appendChild(btnLogout);
+        this.appendChild(btnLogout);
 
         // TODO only show this when logged in
         // tbf there's a lot more to do before this shite haha
@@ -27,6 +45,12 @@ class Topbar {
             openPage('account');
         });
 
-        this.html.appendChild(accountLink);
+        this.appendChild(accountLink);
+
+        this.applyStyle();
+
     }
+
 }
+
+customElements.define('ce-topbar', CeTopbar);

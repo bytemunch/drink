@@ -4,6 +4,9 @@ class HomePage extends Page {
     constructor() {
         super();
 
+        let top = document.querySelector('ce-topbar') as CeTopbar;
+        top.show();
+        
         let title = document.createElement('h1');
 
         title.textContent = `Hello${userdata.name ? ' ' + userdata.name : ''}.`;

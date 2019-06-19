@@ -4,11 +4,7 @@ class PlayPage extends Page {
     constructor() {
         super();
 
-        let title = document.createElement('h1');
 
-        title.textContent = `Play`;
-
-        this.page.appendChild(title);
 
         let playerInfo = document.createElement('ce-player-list');
         playerInfo.classList.add('smallList');

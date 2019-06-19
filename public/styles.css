@@ -42,12 +42,24 @@ button {
     background-color: rgb(148, 148, 148);
 }
 
+.topbar {
+    height:24px;
+}
 /* button:focus {
     outline: none;
 } */
-
+#app {
+    height:100vh;
+    width:100vw;
+}
 #page {
     padding: 5vw;
+    height: 100%;
+}
+
+#pageInner {
+    height: 100%;
+    width:100%;
 }
 
 .hidden {
@@ -93,6 +105,13 @@ button.big {
     margin-bottom:10vh;
     margin-top:10vh;
     height:10vh;
+}
+
+button.bottom {
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 2vh;
+    margin-top: 0;
 }
 
 input {
