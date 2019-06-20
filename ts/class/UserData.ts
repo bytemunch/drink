@@ -1,8 +1,10 @@
 class UserData {
     name: string = '';
     color: string = '';
-    avatar: string = '';
     uid: string = '';
+    aviRef;
+    aviImg;
+
 
     constructor() { };
 
@@ -11,15 +13,34 @@ class UserData {
         return db.collection("users").doc(this.uid).set({
             name: this.name,
             color: this.color,
-            avatar: this.avatar,
             status: presMan.ref
         }, { merge: true });
     }
 
+    async getAvi(uid=this.uid) {
+        this.aviRef = firebase.storage().ref().child(`avatars/${uid}.png`);
+        this.aviRef.getDownloadURL()
+            .then(async url => {
+                console.log(url);
+
+                this.aviImg = url;//URL.createObjectURL(url);
+            })
+            .catch(e => {
+                console.error(e);
+                // set aviImg to default
+                this.aviImg = '/img/noimg.png';
+            })
+            .finally(() => {
+                updateDOM();
+            })
+    }
+
     async populateFrom(uid) {
         this.uid = uid;
+        this.getAvi(uid);
+        
         // Pull user data into memory
-        return await db.collection("users").doc(uid).get()
+        const retval = await db.collection("users").doc(uid).get()
             .then((doc: any) => {
                 if (doc.exists) {
                     let retrievedData: any = doc.data();
@@ -33,8 +54,9 @@ class UserData {
                     this.sendData();
                     return false;
                 }
-
             })
+
+        return retval;
     }
 
 }

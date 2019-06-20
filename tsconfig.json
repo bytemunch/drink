@@ -10,10 +10,11 @@
         "sourceMap": true
     },
     "include": [
+        "ts/functions/*",
         "ts/class/*",
         "ts/elements/*",
         "ts/pages/*",
-        "ts/index.ts"
+        "ts/index.ts", "ts/functions/shrinkImage.ts"
     ],
     "exclude": [
         "node_modules",

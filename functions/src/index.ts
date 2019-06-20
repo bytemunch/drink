@@ -128,18 +128,40 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                     .then(userdata => {
                         // add player to room
                         // TODO maybe split this out?
-                        return firestore.runTransaction(t => {
+                        return firestore.runTransaction(async t => {
                             return t.get(roomRef)
-                                .then(roomDoc => {
+                                .then(async roomDoc => {
                                     if (!roomDoc.exists) {
                                         return Promise.reject({ err: 'joinRoom: Room doesn\'t exist!', code: '500' }) // unknown server error
                                     }
+
+                                    // let newPlayerRef = roomRef.collection('players').doc(userToken.uid);
+
+                                    // let newPlayerData = userdata.data();
+
+                                    // newPlayerData.ready = false;
+                                    // newPlayerData.hand = {};
+
+                                    // delete newPlayerData.currentRoom;
+                                    // delete newPlayerData.status;// maybe keep this?
+                                    // // no point; removed if offline
+
+                                    // await newPlayerRef.set(newPlayerData);
+                                    // return Promise.resolve();
+
 
                                     let players = roomDoc.data().players;
 
                                     if (!players[userToken.uid]) {
 
+                                        // make a copy and not just use a ref because
+                                        // we are authed here. yay security
                                         players[userToken.uid] = userdata.data();
+
+                                        // trim stuff
+                                        delete players[userToken.uid].currentRoom;
+                                        delete players[userToken.uid].status;
+                                        
 
                                         players[userToken.uid].ready = false;
                                         players[userToken.uid].hand = {};
@@ -151,6 +173,7 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                                     } else {
                                         return Promise.reject({ err: 'joinRoom: Player already in room!', code: '409' }) // conflict
                                     }
+
                                 })
                         })
                     })

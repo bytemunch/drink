@@ -24,6 +24,7 @@ const palette = {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    console.log('DOMLoaded');
     // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
     // // The Firebase SDK is initialized and available here!
     //

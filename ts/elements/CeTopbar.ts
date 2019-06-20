@@ -37,10 +37,8 @@ class CeTopbar extends CustomElement {
 
         // TODO only show this when logged in
         // tbf there's a lot more to do before this shite haha
-        let accountLink = document.createElement('img');
-        accountLink.classList.add('account-img');
-        accountLink.setAttribute('src','/img/noimg.png');
-
+        let accountLink = document.createElement('ce-avatar') as CeAvatar;
+        
         accountLink.addEventListener('click',e=>{
             openPage('account');
         });

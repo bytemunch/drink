@@ -15,6 +15,7 @@ body {
 img {
     width:24px;
     height:24px;
+    object-fit: cover;
 }
 
 ce-player-list.bigGrid {
@@ -95,4 +96,8 @@ ce-popup div {
 	width: 80vw;
 	padding: 10vw;
 	background: skyblue;
+}
+
+ce-avatar-upload > * {
+    margin-right: 5vw;
 }

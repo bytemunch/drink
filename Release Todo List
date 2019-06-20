@@ -1,18 +1,57 @@
-❌ Avatars working
+✅ Avatars working
+    Need to downscale uploaded images ✅
+    And have max size limits ✅
+
+✅ User online status
+
+✅ Account page is broken
+
+✅ Only show account when not in game
+
 ❌ Advert in loading screen
+
 ❌ Prettier loading screen
+
 ❌ Card descriptions
+
 ❌ Age verification
+
 ❌ Feedback
+
 ❌ Animations
+
 ❌ Sounds
+
 ❌ Database security rules
+
 ❌ Rooms delete themselves
-❌ User online status
+    Put room's players in subcollection, listen for changes, if empty then delete
+    + Lightweight
+    - Two listeners per client rather than 1
+    - Subcollections are effort to clean up
+    - Unordered list of players
+    + Checks only as often as needed
+    OR
+    Listen to whole room, check players, if empty then delete
+    - Heavy on firebase
+    + One listener per client
+    + Player array is ordered
+    - Check will fire on every turn
+    OR OR
+    Do room empty checks on player online status change
+    + Lightweight
+    + One listener per room
+    + Player array stays ordered
+    + Checks only as often as needed
+
 ❌ Decent offline handling
+    Graceful rather than decent?
+    Offline isn't really a thing til post release
+
 ❌ PWA package
+
 ❌ Back button handling
+
 ❌ Prevent zoom
+
 ❌ Rooms re-joinable by DC'd players
-❌ Account page is broken
-❌ Only show account when not in game

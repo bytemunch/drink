@@ -78,6 +78,8 @@ button {
     width: 32px;
     height: 32px;
     float: right;
+    border: 3px white solid;
+    border-radius: 50%; /* Circle!! */
 }
 
 .big {
