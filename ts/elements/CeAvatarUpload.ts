@@ -3,7 +3,7 @@ class CeAvatarUpload extends HTMLElement {
     fakeUploadButton;
     photoButton;
     preview;
-    file: string;
+    file: File;
 
     constructor() {
         super();
@@ -38,8 +38,8 @@ class CeAvatarUpload extends HTMLElement {
             image.addEventListener('load', () => {
                 shrunkFile = shrinkImage(image);
                 // setup image preview
-                this.preview.src = shrunkFile;
-                this.file = shrunkFile;
+                this.preview.style.backgroundImage = `url(${shrunkFile}`;
+                this.file = dataURItoFile(shrunkFile);
             })
 
             image.addEventListener('error', e => console.error(e));
@@ -57,7 +57,8 @@ class CeAvatarUpload extends HTMLElement {
 
         this.appendChild(this.fakeUploadButton);
 
-        this.preview = document.createElement('img');
+        this.preview = document.createElement('ce-avatar');
+        this.preview.uid = userdata.uid;
         this.preview.classList.add('account-img');
         this.appendChild(this.preview);
     }
@@ -68,9 +69,11 @@ class CeAvatarUpload extends HTMLElement {
         }
 
         const storageRef = firebase.storage().ref().child(`avatars/${userdata.uid}.png`);
-        storageRef.putString(this.file,'data_url',{contentType:'image/png'})
+        storageRef.put(this.file)
+        //storageRef.putString(this.file,'data_url',{contentType:'image/png'})
         .then(snap=>{
-            userdata.getAvi();
+            room.getAvi(userdata.uid)
+            .then(()=>updateDOM())
         })
         .catch(e=>console.error(e));
     }

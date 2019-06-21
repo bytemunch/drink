@@ -8,6 +8,8 @@
 
 ✅ Only show account when not in game
 
+✅ Prevent zoom
+
 ❌ Advert in loading screen
 
 ❌ Prettier loading screen
@@ -51,7 +53,5 @@
 ❌ PWA package
 
 ❌ Back button handling
-
-❌ Prevent zoom
 
 ❌ Rooms re-joinable by DC'd players

@@ -38,6 +38,8 @@ class CeTopbar extends CustomElement {
         // TODO only show this when logged in
         // tbf there's a lot more to do before this shite haha
         let accountLink = document.createElement('ce-avatar') as CeAvatar;
+
+        accountLink.uid = userdata.uid;
         
         accountLink.addEventListener('click',e=>{
             openPage('account');

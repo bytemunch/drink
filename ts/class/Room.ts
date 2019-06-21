@@ -123,5 +123,19 @@ class Room {
 
     }
 
+    async getAvi(uid) {
+        const aviRef = firebase.storage().ref().child(`avatars/${uid}.png`);
+
+        return aviRef.getDownloadURL()
+            .then(async url => {
+                return url;//URL.createObjectURL(url);
+            })
+            .catch(e => {
+                console.error(e);
+                // set aviImg to default
+                return '/img/noimg.png';
+            })
+    }
+
 
 }

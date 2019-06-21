@@ -22,7 +22,7 @@ function shrinkImage(img, max_height = 64, max_width = 64) {
         xOff = -(width-height)/2;
     } else {
         if (height > max_height) {
-            height = max_width / width;
+            height *= max_width / width;
             width *= max_width / width;
         }
         yOff = -(height-width)/2;

@@ -2,8 +2,7 @@
 
 interface ICePlayerElements {
     name: HTMLElement,
-    ready: CePlayerReady,
-    avatar: HTMLElement,
+    avatar: CeAvatar,
 }
 
 class CePlayer extends CustomElement {
@@ -18,8 +17,7 @@ class CePlayer extends CustomElement {
 
         this.elements = {
             name: document.createElement('h3'),
-            ready: document.createElement('ce-player-ready') as CePlayerReady,
-            avatar: document.createElement('img')
+            avatar: document.createElement('ce-avatar') as CeAvatar
         };
 
         for (let e in this.elements) {
@@ -35,12 +33,14 @@ class CePlayer extends CustomElement {
     }
 
     set player(player) {
-        const avatarLink = player.avatar?player.avatar:'/img/noimg.png';
-        this.elements.avatar.setAttribute('src', avatarLink);
+        // const avatarLink = player.avatar?player.avatar:'/img/noimg.png';
+        // this.elements.avatar.setAttribute('src', avatarLink);
+
+        this.elements.avatar.uid = player.uid;
 
         this.elements.name.textContent = player.name;
 
-        this.elements.ready.ready = player.ready;
+        this.elements.avatar.ready = player.ready;
 
         this.style.borderColor = player.color;
     }

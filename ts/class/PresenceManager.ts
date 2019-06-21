@@ -72,7 +72,7 @@ class PresenceManager {
         this.presenceListener = userStatusFirestoreRef.onSnapshot(function(doc) {
             var isOnline = doc.data().state == 'online';
             // ... use isOnline
-            console.log('presMan:',isOnline)
+            //console.log('presMan:',isOnline)
         });
     }
 }

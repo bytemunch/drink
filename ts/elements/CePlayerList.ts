@@ -37,6 +37,7 @@ class CePlayerList extends UpdateableElement {
         for (let p in players) {
             // sort into this.players in position of turnorder array
             let turnOrder = room.data.turnOrder;
+            players[p].uid = p;
 
             if (turnOrder.length == Object.keys(room.data.players).length) {// JS casting doing bits here ugh
                 const pIdx = turnOrder.indexOf(p);
