@@ -26,25 +26,24 @@
 
 ❌ Database security rules
 
+❌ Leave room on refresh
+
 ❌ Rooms delete themselves
-    Put room's players in subcollection, listen for changes, if empty then delete
-    + Lightweight
-    - Two listeners per client rather than 1
-    - Subcollections are effort to clean up
-    - Unordered list of players
-    + Checks only as often as needed
-    OR
-    Listen to whole room, check players, if empty then delete
-    - Heavy on firebase
-    + One listener per client
-    + Player array is ordered
-    - Check will fire on every turn
-    OR OR
     Do room empty checks on player online status change
     + Lightweight
-    + One listener per room
+    + One listener per client
     + Player array stays ordered
     + Checks only as often as needed
+    - Deletes room if all players DC, like wifi failing
+    OR OR OR
+    Only delete rooms when they get older than a day; Run a check each day
+    + Ezpz, no logic required
+    + Checks less often than other options
+    - Messy; Lots of leftover rooms each day
+    - Makes random room selection possibly take slightly longer
+        + That's probs irrelevant tho
+    + Lets rooms be rejoined if all players DCd
+
 
 ❌ Decent offline handling
     Graceful rather than decent?

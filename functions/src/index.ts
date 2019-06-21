@@ -102,7 +102,13 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                             return Promise.reject({ err: 'joinRoom: Room not found!', code: '404' }); // not found
                         }
 
-                        if (doc.state !== 'lobby') {
+                        // if (doc.state !== 'lobby') {
+                        //     // send state in error message
+                        //     return Promise.reject({ err: `joinRoom: Room not ready. State: <${doc.state}>`, code: '425', state: doc.state }); // too early
+                        // }
+
+
+                        if (doc.state == 'preparing') {
                             // send state in error message
                             return Promise.reject({ err: `joinRoom: Room not ready. State: <${doc.state}>`, code: '425', state: doc.state }); // too early
                         }
@@ -161,14 +167,14 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                                         // trim stuff
                                         delete players[userToken.uid].currentRoom;
                                         delete players[userToken.uid].status;
-                                        
+
 
                                         players[userToken.uid].ready = false;
                                         players[userToken.uid].hand = {};
 
                                         t.update(roomRef, { players: players });
                                         t.update(roomRef, { turnOrder: admin.firestore.FieldValue.arrayUnion(userToken.uid) })
-                                        userdata.ref.set({currentRoom:roomRef},{merge:true})
+                                        userdata.ref.set({ currentRoom: roomRef }, { merge: true })
                                         return Promise.resolve();
                                     } else {
                                         return Promise.reject({ err: 'joinRoom: Player already in room!', code: '409' }) // conflict
@@ -485,7 +491,7 @@ export const userStateChange = functions.database.ref('/status/{uid}')
         // Then check if user was in a room
         const userRef = firestore.doc(`users/${context.params.uid}`);
 
-        userRef.get().then(async doc=>{
+        userRef.get().then(async doc => {
             const data = await doc.data();
 
             const room = data.currentRoom;
@@ -499,6 +505,10 @@ export const userStateChange = functions.database.ref('/status/{uid}')
 
             let newPlayers = roomdata.players;
             delete newPlayers[context.params.uid];
-            room.set({players: newPlayers}, {merge:true})//maybe merge false
+            console.log(newPlayers);
+            room.update({
+                players: newPlayers,
+                turnOrder: admin.firestore.FieldValue.arrayRemove(context.params.uid)
+            })//maybe merge false
         })
     });
