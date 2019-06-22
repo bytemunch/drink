@@ -11,6 +11,10 @@ function openPage(name: string) {
             page = new AccountPage();
             break;
         case 'lobby':
+            if (room.data.state == 'playing') {
+                openPage('play');
+                return;
+            }
             page = new LobbyPage();
             break;
         case 'play':

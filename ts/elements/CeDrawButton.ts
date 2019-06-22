@@ -16,7 +16,7 @@ class CeDrawButton extends HTMLButtonElement {
                 easyPOST('drawCard', { token, roomId: room.roomId })
                     .then(res => res.json())
                     .then(data => console.log(data))
-                    .then(()=>this.enable('Card'))
+                    //.then(()=>this.enable('Card'))
             } else {
                 openPage('finished');
             }

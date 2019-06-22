@@ -4,7 +4,21 @@ class PlayPage extends Page {
     constructor() {
         super();
 
+        let roomDisplay = document.createElement('p');
+        roomDisplay.style.display = 'inline';
+        roomDisplay.style.cssFloat = 'left';
+        roomDisplay.style.paddingLeft = '3vw';
 
+        roomDisplay.textContent = `Room: ${room.roomId}`;
+        this.page.appendChild(roomDisplay);
+
+        let pin = document.createElement('p');
+        pin.style.display = 'inline';
+        pin.style.cssFloat = 'right';
+        pin.style.paddingRight = '5vw';
+
+        pin.textContent = `PIN: ${room.data.pin}`;
+        this.page.appendChild(pin);
 
         let playerInfo = document.createElement('ce-player-list');
         playerInfo.classList.add('smallList');

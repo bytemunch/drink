@@ -20,9 +20,9 @@ img {
 
 ce-player-list.bigGrid {
     display: grid;
-    width: 100vw;
+    width: 80vw;
     height: 40vh;
-    grid-template-columns: repeat(2,45vw);
+    grid-template-columns: repeat(2,55%);
     grid-auto-rows: 20%;
     grid-auto-flow: row;
     grid-gap: 2.5vw;
@@ -44,7 +44,7 @@ ce-player-list.bigGrid ce-player .name {
 }
 
 ce-player-list.smallList {
-    width: 40vw;
+    width: 24px;
     height: 20vw;
     position: absolute;
     top:0;/*Topbar height*/
@@ -100,4 +100,8 @@ ce-popup div {
 
 ce-avatar-upload > * {
     margin-right: 5vw;
+}
+
+ce-rule-display > p {
+    text-align: center;
 }
