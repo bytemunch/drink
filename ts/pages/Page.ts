@@ -6,5 +6,17 @@ class Page {
     constructor() {
         this.page = document.createElement('div');
         this.page.setAttribute('id', 'pageInner');
+
+        let version = document.createElement('p');
+        version.style.position = 'absolute';
+        version.style.color = 'rgba(0,0,0,0.3)';
+        version.style.top = '0';
+        version.style.left = '0';
+        version.style.textAlign = 'center';
+        version.style.fontSize = 'small';
+        version.style.zIndex = '100';
+        version.textContent = VERSION;
+
+        this.page.appendChild(version)
     };
 }

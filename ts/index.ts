@@ -1,5 +1,6 @@
 /// <reference types="firebase"/>
 
+const VERSION = 'dev test 2';
 const DEBUG_MODE = true;
 
 let userdata = new UserData;
