@@ -12,6 +12,7 @@ class CeCardDisplay extends UpdateableElement {
 
     applyStyle() {
         this.style.position = 'relative';
+        this.style.display = 'flex';
     }
 
     connectedCallback() {
@@ -23,7 +24,7 @@ class CeCardDisplay extends UpdateableElement {
         this.backImg.style.position = 'absolute';
         this.backImg.style.left = '0';
         this.backImg.style.top = '0';
-        this.backImg.style.display = 'none';
+        this.backImg.style.display = 'inline-flex';
         this.appendChild(this.backImg);
 
         this.img = document.createElement('img');
@@ -37,6 +38,14 @@ class CeCardDisplay extends UpdateableElement {
     }
 
     async drawCard(suit, number) {
+        // IF this.img.src !== this.backImg.src
+        // discard
+
+        // Discards if we haven't already due to it being another player's turn
+        if (this.img.src !== this.backImg.src) {
+            await this.discard();
+        }
+
         if (suit == 'joker') {
             let x = number % 3;
             if (x == 0) number = 'red';
@@ -59,18 +68,25 @@ class CeCardDisplay extends UpdateableElement {
                 this.img.setAttribute('src', backCardSrc);
 
                 // begin flip animation
-                await this.animations.animate(this,'flip90',500)
+                await this.animations.animate(this.img,'flip90',500)
                 this.img.setAttribute('src',newCardSrc);
-                await this.animations.animate(this,'flipBack90',500)
-                console.log('done',suit,number);
+                await this.animations.animate(this.img,'flipBack90',500)
+                // console.log('done',suit,number);
                 URL.revokeObjectURL(newCardSrc);
                 return true;
             })
     }
 
-    discard() {
+    async discard() {
         // Move currently displayed card off screen / move & fade
         // Display card back
+        this.backImg.display = 'unset';
+        await this.animations.animate(this.img,'flyRight',500,{startBB: this.getBoundingClientRect()});
+        // reset card
+        this.img.style.opacity = '1';
+        this.img.style.transform = 'unset';
+        this.img.src = this.backImg.src;
+        return true;
     }
 
     update() {

@@ -1,6 +1,6 @@
 /// <reference types="firebase"/>
 
-const VERSION = 'dev test 2';
+const VERSION = 'dev test 2.x';
 const DEBUG_MODE = true;
 
 let userdata = new UserData;
@@ -58,7 +58,11 @@ async function authHandler(user: any) {
         presMan = new PresenceManager(user.uid);
         userdata.populateFrom(user.uid)
             .then(userExists => {
-                userExists && userdata.name ? openPage('home') : openPage('account')
+                // if (!DEBUG_MODE) {
+                    userExists && userdata.name ? openPage('home') : openPage('account')
+                // } else {
+                //     room.join(['TEST','1111'])
+                // }
             },
                 e => { console.error(e) });
     } else {

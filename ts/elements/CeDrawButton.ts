@@ -12,6 +12,8 @@ class CeDrawButton extends HTMLButtonElement {
         this.addEventListener('click', async e => {
             if (room.data.state !== 'finished') {
                 this.disable('Drawing...');
+                // Discard immediately to seem faster
+                //await (<CeCardDisplay>document.querySelector('ce-card-display')).discard();
                 const token = await firebase.auth().currentUser.getIdToken(true);
                 easyPOST('drawCard', { token, roomId: room.roomId })
                     .then(res => res.json())
@@ -43,6 +45,7 @@ class CeDrawButton extends HTMLButtonElement {
 
             nextPlayer?this.enable('Card'):this.disable('Waiting...')
         } else {
+            this.style.backgroundColor = palette.red;
             this.enable('Quit Game');
         }
     }

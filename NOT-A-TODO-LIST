@@ -4,10 +4,6 @@ rooms joinable by link, pass info through after auth
 
 use real errors
 
-joinable mid game
-
-notice disconnections
-
 indicate current player in lobby and playerlist in case of samenames
 
 badges on playerlist for like questionmaster or w/e
@@ -22,7 +18,4 @@ coin cards
 
 international decks
 
-politicians as jokers
-
-bjek
-7090
+politicians as joker

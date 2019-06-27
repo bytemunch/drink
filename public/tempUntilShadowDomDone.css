@@ -2,6 +2,7 @@
     box-sizing: border-box;
     margin:0;
     padding:0;
+    overflow:inherit;
 }
 
 body {
@@ -49,6 +50,7 @@ ce-player-list.smallList {
     position: absolute;
     top:0;/*Topbar height*/
     right:0;
+    overflow: hidden;
 }
 
 ce-player-list.smallList .ready {
@@ -70,6 +72,10 @@ ce-player-list.smallList ce-player {
     position: relative;
 	display: block;
 	height: 24px;
+}
+
+ce-card-display {
+    overflow: visible;
 }
 
 ce-card-display img {

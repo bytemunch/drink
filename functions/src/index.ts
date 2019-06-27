@@ -443,7 +443,7 @@ export const drawCard = functions.https.onRequest((req, res) => {
                     })
                     .catch(e => {
                         console.error(e);
-                        res.send(e);
+                        res.send({e,drawCard:'error'});
                     })
             })
     })

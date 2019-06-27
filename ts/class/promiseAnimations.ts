@@ -7,36 +7,47 @@ class PromiseAnimations {
 
     constructor() {
         this.animations = {
-            testAnim: function testAnim() {
-                this.x += 1;
-                this.y -= 2;
-                console.log(this);
+            flip90: function flip90(args) {
+                let currentDeg = args.progress * 95;
+                this.style.transform = `perspective(600px) rotateY(${currentDeg > 90 ? 90 : currentDeg}deg)`
             },
-            flip90: function flip90() {
-                let currentDeg = this.animations.progress * 95;
-                this.img.style.transform = `perspective(600px) rotateY(${currentDeg > 90 ? 90 : currentDeg}deg)`
+            flipBack90: function flipBack90(args) {
+                let currentDeg = 90 + (args.progress * 95);
+                this.style.transform = `perspective(600px) rotateY(${currentDeg > 180 ? 180 : currentDeg}deg) scaleX(-1)`
             },
-            flipBack90: function flipBack90() {
-                let currentDeg = 90 + (this.animations.progress * 90);
-                this.img.style.transform = `perspective(600px) rotateY(${currentDeg > 180 ? 180 : currentDeg}deg) scaleX(-1)`
+            flyRight: function flyRight(args) {
+                const bb = args.startBB;
+                let currentX = ((window.innerWidth - bb.left)*args.progress);
+                this.style.transform = `translateX(${currentX}px)`;
+                this.style.opacity = 1-args.progress*1.1;
+            },
+            fadeOut: function fadeOut(args) {
+                this.style.opacity = 1 - args.progress*1.1;
+            },
+            fadeIn: function fadeIn(args) {
+                this.style.opacity = args.progress;
+            },
+            wait: function wait(args) {
+                // literally a wait function to stay as is for a tick
             }
         }
     }
 
-    animate(self,animation,duration,args={}) {
+    animate(animationTarget,animation,duration,args) {
 
         this.start = performance.now();
         this.duration = duration;
+        if (!args) args = {};
 
         return new Promise((resolve) => {
             let rAFcb = function (t) {
                 if (t < this.start + this.duration) {
                     // set vars
-                    this.progress =  (t - this.start) / this.duration;
-                    
+                    args.progress = (t - this.start) / this.duration;
+
                     // run chosen animation bound to the object implementing
                     // this animations object
-                    this.animations[animation].bind(self)(args);
+                    this.animations[animation].bind(animationTarget)(args);
 
                     requestAnimationFrame(rAFcb.bind(this))
                 } else {
