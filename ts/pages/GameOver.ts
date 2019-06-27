@@ -4,8 +4,8 @@ class GameOverPage extends Page {
     constructor() {
         super();
 
-        let top = document.querySelector('ce-topbar') as CeTopbar;
-        top.show();
+        let topbar = document.createElement('ce-topbar')
+        this.page.appendChild(topbar);
 
         let title = document.createElement('h1');
 
@@ -16,7 +16,7 @@ class GameOverPage extends Page {
         // Button to go back to home
         let home = document.createElement('button');
 
-        home.addEventListener('click', e=>{
+        home.addEventListener('click', e => {
             e.preventDefault();
             //window.location.href = '/index.html';
             //console.log('TODO refresh here?');

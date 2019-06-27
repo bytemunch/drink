@@ -147,21 +147,6 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                                         return Promise.reject({ err: 'joinRoom: Room doesn\'t exist!', code: '500' }) // unknown server error
                                     }
 
-                                    // let newPlayerRef = roomRef.collection('players').doc(userToken.uid);
-
-                                    // let newPlayerData = userdata.data();
-
-                                    // newPlayerData.ready = false;
-                                    // newPlayerData.hand = {};
-
-                                    // delete newPlayerData.currentRoom;
-                                    // delete newPlayerData.status;// maybe keep this?
-                                    // // no point; removed if offline
-
-                                    // await newPlayerRef.set(newPlayerData);
-                                    // return Promise.resolve();
-
-
                                     let players = roomDoc.data().players;
 
                                     if (!players[userToken.uid]) {
@@ -218,7 +203,6 @@ export const createRoom = functions.https.onRequest((req, res) => {
                 for (let i = 0; i < len; i++) {
                     str = str + String.fromCharCode(Math.ceil((Math.random()) * 26) + 64);
                 }
-                // return 'test';
                 return str;
             }
 

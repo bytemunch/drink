@@ -10,25 +10,14 @@
 
 ✅ Prevent zoom
 
-❌ Advert in loading screen
+✅ Card descriptions
 
-❌ Prettier loading screen
+✅ Rooms re-joinable by DC'd players
+    ❌ Keep turn order
+    ❌ Prohibit new joiners if they were not in room at game start?
 
-❌ Card descriptions
+✅ Rooms delete themselves
 
-❌ Age verification
-
-❌ Feedback
-
-❌ Animations
-
-❌ Sounds
-
-❌ Database security rules
-
-❌ Leave room on refresh
-
-❌ Rooms delete themselves
     Do room empty checks on player online status change
     + Lightweight
     + One listener per client
@@ -36,7 +25,7 @@
     + Checks only as often as needed
     - Deletes room if all players DC, like wifi failing
     OR OR OR
-    Only delete rooms when they get older than a day; Run a check each day
+    ❌ Only delete rooms when they get older than a day; Run a check each day
     + Ezpz, no logic required
     + Checks less often than other options
     - Messy; Lots of leftover rooms each day
@@ -44,6 +33,24 @@
         + That's probs irrelevant tho
     + Lets rooms be rejoined if all players DCd
 
+❌ Animations
+    ✅ Card flip
+    ❌ Discard
+    ❌ Fade in/out
+
+❌ Advert in loading screen
+
+❌ Prettier loading screen
+
+❌ Age verification
+
+❌ Feedback
+
+❌ Sounds
+
+❌ Database security rules
+
+❌ Leave room on refresh
 
 ❌ Decent offline handling
     Graceful rather than decent?
@@ -52,5 +59,3 @@
 ❌ PWA package
 
 ❌ Back button handling
-
-❌ Rooms re-joinable by DC'd players
