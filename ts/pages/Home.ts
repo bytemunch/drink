@@ -56,7 +56,8 @@ class HomePage extends Page {
             loadMan.addLoader('roomJoined');
 
             // Hand validated input to join function
-            return room.join([roomId, roomPass]);
+            return room.join([roomId, roomPass])
+            .catch(e=>console.error(e))
         })
 
         btnJoin.classList.add('big');
@@ -71,7 +72,8 @@ class HomePage extends Page {
             loadMan.addLoader('roomJoined')
             let createdResult = await room.create();
             console.log(createdResult);
-            await room.join([createdResult.roomId, "OWNER"]);
+            await room.join([createdResult.roomId, "OWNER"])
+            .catch(e=>console.error(e));
         })
 
         btnCreate.classList.add('big','green');

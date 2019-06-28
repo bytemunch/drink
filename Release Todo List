@@ -60,3 +60,12 @@
 ❌ PWA package
 
 ❌ Back button handling
+
+
+BUGS
+
+If roominfo doesn't exist then app dies
+
+
+Serving locally just straight doesnt work. Not sure about that for long term development
+n stability 🤔

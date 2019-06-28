@@ -11,7 +11,7 @@
   },
   "compileOnSave": true,
   "include": [
-      "src/class",
+    "src/class",
     "src"
   ]
 }

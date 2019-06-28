@@ -2,6 +2,21 @@
 
 const VERSION = 'dev test 2.x';
 const DEBUG_MODE = true;
+const LOCAL_MODE = false;
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyBOLi_ZqoVClSIAjV7eylNRagNtEp6tW-Q",
+    authDomain: "ring-of-fire-5d1a4.firebaseapp.com",
+    databaseURL: "https://ring-of-fire-5d1a4.firebaseio.com",
+    projectId: "ring-of-fire-5d1a4",
+    storageBucket: "ring-of-fire-5d1a4.appspot.com",
+    messagingSenderId: "65675668525",
+    appId: "1:65675668525:web:e6865bb78d7596c7"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
 let userdata = new UserData;
 let room = new Room;
@@ -59,7 +74,7 @@ async function authHandler(user: any) {
         userdata.populateFrom(user.uid)
             .then(userExists => {
                 // if (!DEBUG_MODE) {
-                    userExists && userdata.name ? openPage('home') : openPage('account')
+                userExists && userdata.name ? openPage('home') : openPage('account')
                 // } else {
                 //     room.join(['TEST','1111'])
                 // }

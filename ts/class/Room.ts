@@ -42,16 +42,9 @@ class Room {
     }
 
     async create() {
-        return firebase.auth().currentUser.getIdToken(true)
-            .then(token => {
-                return easyPOST('createRoom', { token })
-            })
-            .then(res => res.json())
-        // .then(data => console.log(data))
-
-        // TODO after room created success start listening to changes on room ref
-        // When changes detected grab PIN as we should be owner
-        // Then go ahead and join the room
+        const userToken = await firebase.auth().currentUser.getIdToken(true);
+        const roomCreated = await easyPOST('createRoom', { userToken })
+        return await roomCreated.json();
     }
 
     // async join(roomId: string, pin: string, firstRun = true) {
