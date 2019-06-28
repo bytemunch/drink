@@ -5,7 +5,7 @@ interface IAction {
     target: string;
 }
 
-export class RuleSet {
+class RuleSet {
     public rules: Object;
     public winState: Object;
 

@@ -12,15 +12,15 @@ class Room {
 
         console.log(`Joined ${roomId}!`);
 
-        return db.collection('rooms').doc(this.roomId).get()
+        return firestore.collection('rooms').doc(this.roomId).get()
             .then(doc => {
                 this.data = doc.data();
                 updateDOM();
                 loadMan.killLoader('roomJoined');
-                this.listener = db.collection('rooms').doc(this.roomId).onSnapshot(doc => {
+                this.listener = firestore.collection('rooms').doc(this.roomId).onSnapshot(doc => {
                     const oldData = this.data;
                     const newData = doc.data();
-                    newData?this.data=newData:this.listener();
+                    newData ? this.data = newData : this.listener();
                     // blanket update everything OR specific updates?
                     // BOTH!!
 
@@ -41,10 +41,85 @@ class Room {
             })
     }
 
-    async create() {
-        const userToken = await firebase.auth().currentUser.getIdToken(true);
-        const roomCreated = await easyPOST('createRoom', { userToken })
-        return await roomCreated.json();
+    async createID(roomId = '') {
+        // helper fn
+        function randomId(roomsArray) {
+            let str = '';
+            for (let i = 0; i < 4; i++) {
+                str = str + String.fromCharCode(Math.ceil((Math.random()) * 26) + 64);
+            }
+
+            if (roomsArray.includes(str)) return randomId(roomsArray);
+            return str;
+        }
+
+        // Get roomsinfo
+        const roomsInfoRef = firestore.collection('rooms').doc('roomsinfo')
+        const roomsinfoDoc = await roomsInfoRef.get()
+        const roomsinfo = await roomsinfoDoc.data()
+        const roomlist = roomsinfo.roomlist
+        const roomsArray = Object.keys(roomlist);
+
+        for (let room in roomlist) {
+            // Check if we already own a room
+            if (roomlist[room] == userdata.uid) {
+                return { err: `You already own room ${room}!` };
+            }
+        }
+
+        roomId = roomId || randomId(roomsArray);
+
+        while (roomsArray.includes(roomId)) {
+            roomId = randomId(roomsArray);
+        }
+
+        // If available set to unavailable
+        roomsInfoRef.set({roomlist:{[roomId]: userdata.uid}},{merge:true})
+
+        // Return roomId
+        if (false) return { err: 'Test error!' };
+        return { err: false, id: roomId };
+    }
+
+    // snap.ref.set({
+
+    // }, { merge: true })
+
+    async createLocal() {
+        const roomId = await this.createID();
+
+        const deck = new Deck;
+
+        const rules = new RuleSet('IRL');
+
+        const newRoom = {
+            owner: userdata.uid,
+            state: 'lobby',
+            turnCounter: 0,
+            turnOrder: [],
+            currentCard: {},
+            players: {},
+
+            pin: '0000',
+
+            timestamp: {
+                created: Date.now(),
+                modified: Date.now()
+            },
+
+            deck: deck.cards,
+            rules: rules.rules,
+            winState: rules.winState,
+
+        }
+
+        try {
+            await firestore.collection('rooms').doc(roomId.id).set(newRoom)
+        } catch (e) {
+            console.error(e)
+        }
+
+        return roomId;
     }
 
     // async join(roomId: string, pin: string, firstRun = true) {
@@ -84,7 +159,7 @@ class Room {
                         if (allowedErrors.indexOf(e.code) == -1) {
                             loadMan.killLoader('roomJoined');
                             // SHOW USER ERROR
-                            errorPopUp(e.err + ' Code: '+e.code);
+                            errorPopUp(e.err + ' Code: ' + e.code);
                             console.log('INFO: ', e);
 
                             return e;
@@ -93,7 +168,7 @@ class Room {
                         // I think this is safe but I'm not sure...
                         // need to make sure there's only one of these for each recursion
                         if (firstRun) {
-                            let unsubscribe = db.collection('rooms').doc(roomId)
+                            let unsubscribe = firestore.collection('rooms').doc(roomId)
                                 .onSnapshot(change => {
                                     let state = change.data() ? change.data().state : null
                                     if (state && state == 'lobby') {

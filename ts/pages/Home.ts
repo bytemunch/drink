@@ -70,9 +70,18 @@ class HomePage extends Page {
         btnCreate.addEventListener('click', async e => {
             e.preventDefault();
             loadMan.addLoader('roomJoined')
-            let createdResult = await room.create();
-            console.log(createdResult);
-            await room.join([createdResult.roomId, "OWNER"])
+
+            const id = roomIdInput.value;
+
+            let createdId = await room.createLocal();
+
+            console.log(createdId);
+
+            if (createdId.err) {
+                errorPopUp(createdId.err);
+            }
+
+            await room.join([createdId.id, "OWNER"])
             .catch(e=>console.error(e));
         })
 

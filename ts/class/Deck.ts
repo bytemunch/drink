@@ -4,7 +4,7 @@ interface ICard {
     number: string
 }
 
-export class Deck {
+class Deck {
     public cards: Array<ICard> = [];
     constructor(private jokercount: number = 2) {
         const numbers = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "JK"];

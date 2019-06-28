@@ -73,6 +73,7 @@ class PresenceManager {
             var isOnline = doc.data().state == 'online';
             // ... use isOnline
             //console.log('presMan:',isOnline)
+            if (!isOnline) errorPopUp('Offlined!')
         });
     }
 }

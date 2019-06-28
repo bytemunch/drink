@@ -23,7 +23,7 @@ class CeStartReadyButton extends HTMLButtonElement {
             } else {
                 let readiness = room.data.players[userdata.uid].ready;
                 // Update readiness in database
-                db.collection('rooms').doc(room.roomId).set({ players: { [userdata.uid]: { ready: !readiness } } }, { merge: true })
+                firestore.collection('rooms').doc(room.roomId).set({ players: { [userdata.uid]: { ready: !readiness } } }, { merge: true })
             }
         })
     }
@@ -31,7 +31,7 @@ class CeStartReadyButton extends HTMLButtonElement {
     update() {
         // if we own the room
         if (this.owner) {
-            db.collection('rooms').doc(room.roomId).set({ players: { [userdata.uid]: { ready: true } } }, { merge: true })
+            firestore.collection('rooms').doc(room.roomId).set({ players: { [userdata.uid]: { ready: true } } }, { merge: true })
 
             let allReady = true;
 

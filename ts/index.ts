@@ -27,7 +27,7 @@ let loadMan = new LoadManager;
 
 let presMan: PresenceManager;
 
-let db: any;
+let firestore: any;
 
 loadMan.addLoader('initialLoad');
 
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
     //
     firebase.auth().onAuthStateChanged(authHandler);
 
-    db = firebase.firestore();
+    firestore = firebase.firestore();
 
     // firebase.messaging().requestPermission().then(() => { });
     // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });

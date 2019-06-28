@@ -10,7 +10,7 @@ class UserData {
 
     async sendData() {
         // set data in db from this
-        return db.collection("users").doc(this.uid).set({
+        return firestore.collection("users").doc(this.uid).set({
             name: this.name,
             color: this.color,
             status: presMan.ref
@@ -21,7 +21,7 @@ class UserData {
         this.uid = uid;
         
         // Pull user data into memory
-        const retval = await db.collection("users").doc(uid).get()
+        const retval = await firestore.collection("users").doc(uid).get()
             .then((doc: any) => {
                 if (doc.exists) {
                     let retrievedData: any = doc.data();
