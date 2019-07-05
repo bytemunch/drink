@@ -13,7 +13,10 @@
 ✅ Card descriptions
 
 ✅ Rooms re-joinable by DC'd players
-    ❌ Keep turn order
+    ✅ Keep turn order
+        ✅ Don't remove players from the game, just mark them offline
+            and skip their turns
+            ❌ Translucent icons for offline players
     ❌ Prohibit new joiners if they were not in room at game start?
 
 ✅ Rooms delete themselves
@@ -38,6 +41,14 @@
     ✅ Discard
     ✅ Fade in/out
         ✅ Also for rule display!
+    ❌ Page fades
+
+
+❌ Move as many triggered functions from cloud to client as possible
+
+❌ Owned rooms need to be deleteable/disownable by owner in popup
+
+❌ Clear current room on login
 
 ❌ Advert in loading screen
 
@@ -64,8 +75,11 @@
 
 BUGS
 
-If roominfo doesn't exist then app dies
+❌ Offline popup on login
 
+❌ If roominfo doesn't exist then app dies
 
-Serving locally just straight doesnt work. Not sure about that for long term development
+❌ Player lobby grid clips on overflow
+
+❌ Serving locally just straight doesnt work. Not sure about that for long term development
 n stability 🤔

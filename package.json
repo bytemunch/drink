@@ -6,8 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "host": "npm run build && firebase serve --only hosting",
-    "emu": "npm run build && firebase emulators:start"
+    "serve": "npm run build && firebase serve --only hosting -p 5000",
+    "emu": "npm run build && firebase emulators:start --only functions,hosting",
+    "deploy": "npm run build && firebase deploy --only hosting"
   },
   "author": "",
   "license": "ISC",

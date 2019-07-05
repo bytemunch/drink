@@ -1,8 +1,12 @@
 /// <reference types="firebase"/>
 
-const VERSION = 'dev test 2.x';
+const VERSION = '0.0.1 - alpha - ';
 const DEBUG_MODE = true;
-const LOCAL_MODE = false;
+const LOCAL_MODE = false; 
+// Local mode is gonna wait til alpha release
+// or maybe use DEBUG_MODE to switch between dev project and live project
+// Literally https://github.com/firebase/firebase-tools/issues/1001
+// cannot come soon enough argh
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -40,18 +44,19 @@ const palette = {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    //console.log('DOMLoaded');
-    // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-    // // The Firebase SDK is initialized and available here!
-    //
+    // The Firebase SDK is initialized and available here!
+
     firebase.auth().onAuthStateChanged(authHandler);
 
     firestore = firebase.firestore();
 
-    // firebase.messaging().requestPermission().then(() => { });
-    // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-    //
-    // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+    // For when https://github.com/firebase/firebase-tools/issues/1001 is done
+    // if (LOCAL_MODE) {
+        // firestore.settings({
+        //     host: 'http://localhost:8080',
+        //     ssl: false
+        // })
+    // }
 
     try {
         let app: any = firebase.app();
@@ -73,11 +78,7 @@ async function authHandler(user: any) {
         presMan = new PresenceManager(user.uid);
         userdata.populateFrom(user.uid)
             .then(userExists => {
-                // if (!DEBUG_MODE) {
                 userExists && userdata.name ? openPage('home') : openPage('account')
-                // } else {
-                //     room.join(['TEST','1111'])
-                // }
             },
                 e => { console.error(e) });
     } else {

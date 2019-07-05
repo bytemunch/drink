@@ -63,7 +63,8 @@ class Room {
         for (let room in roomlist) {
             // Check if we already own a room
             if (roomlist[room] == userdata.uid) {
-                return { err: `You already own room ${room}!` };
+                // TESTING 
+                // return { err: `You already own room ${room}!` };
             }
         }
 

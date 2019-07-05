@@ -4,11 +4,10 @@ class CeAvatar extends UpdateableElement {
     src;
     color;
     realReady;
-
+    _uid;
+    
     constructor(uid = userdata.uid) {
         super();
-
-
     }
 
     applyStyle() {
@@ -33,6 +32,8 @@ class CeAvatar extends UpdateableElement {
                 this.update();
 
             })
+
+        this._uid = uid;
     }
 
     set ready(bool) {

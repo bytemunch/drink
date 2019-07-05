@@ -1,5 +1,3 @@
-// TODO classes and interfaces as module
-
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 
@@ -21,6 +19,8 @@ export const joinRoom = functions.https.onRequest((req, res) => {
 
         admin.auth().verifyIdToken(data.token)
             .then(userToken => {
+
+
                 roomRef.get()
                     .then(snap => {
                         const doc = snap.data();
@@ -31,22 +31,10 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                             return Promise.reject({ err: 'joinRoom: Room not found!', code: '404' }); // not found
                         }
 
-                        // if (doc.state !== 'lobby') {
-                        //     // send state in error message
-                        //     return Promise.reject({ err: `joinRoom: Room not ready. State: <${doc.state}>`, code: '425', state: doc.state }); // too early
-                        // }
-
-
                         if (doc.state == 'preparing') {
                             // send state in error message
                             return Promise.reject({ err: `joinRoom: Room not ready. State: <${doc.state}>`, code: '425', state: doc.state }); // too early
                         }
-
-                        // if (doc.state == 'playing') {
-                        //  IF (PLAYER WAS IN ROOM AT START OF GAME) {
-                        //      REJECT PROMISE;
-                        //  }
-                        //}
 
                         if (!doc.pin) {
                             // TODO this error code?
@@ -61,53 +49,58 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                             return Promise.resolve();
                         }
 
+
                         return Promise.reject({ err: 'joinRoom: Incorret PIN!', code: '403' }); //forbidden
                     })
                     .then(() => {
+
+
                         return firestore.collection('users').doc(userToken.uid).get();
                     })
                     .then(userdata => {
+
+
                         // add player to room
                         // TODO maybe split this out?
                         return firestore.runTransaction(async t => {
+
+
                             return t.get(roomRef)
                                 .then(async roomDoc => {
+
+
                                     if (!roomDoc.exists) {
                                         return Promise.reject({ err: 'joinRoom: Room doesn\'t exist!', code: '500' }) // unknown server error
                                     }
 
                                     let players = roomDoc.data().players;
 
-                                    if (!players[userToken.uid]) {
+                                    // make a copy and not just use a ref because
+                                    // we are authed here. yay security
+                                    players[userToken.uid] = userdata.data();
 
-                                        // make a copy and not just use a ref because
-                                        // we are authed here. yay security
-                                        players[userToken.uid] = userdata.data();
+                                    // trim stuff
+                                    delete players[userToken.uid].currentRoom;
+                                    players[userToken.uid].status = 'online';
 
-                                        // trim stuff
-                                        delete players[userToken.uid].currentRoom;
-                                        delete players[userToken.uid].status;
+                                    players[userToken.uid].ready = false;
+                                    players[userToken.uid].hand = {};
 
-
-                                        players[userToken.uid].ready = false;
-                                        players[userToken.uid].hand = {};
-
-                                        t.update(roomRef, { players: players });
-                                        t.update(roomRef, { turnOrder: admin.firestore.FieldValue.arrayUnion(userToken.uid) })
-                                        userdata.ref.set({ currentRoom: roomRef }, { merge: true })
-                                        return Promise.resolve();
-                                    } else {
-                                        return Promise.reject({ err: 'joinRoom: Player already in room!', code: '409' }) // conflict
-                                    }
+                                    t.update(roomRef, { players: players });
+                                    t.update(roomRef, { turnOrder: admin.firestore.FieldValue.arrayUnion(userToken.uid) })
+                                    userdata.ref.set({ currentRoom: roomRef }, { merge: true })
+                                    return Promise.resolve();
 
                                 })
                         })
                     })
-                    .then(() => res.send({ joined: true, roomId: data.roomId }))
+                    .then(() => {
+
+                        res.send({ joined: true, roomId: data.roomId })
+                    })
                     .catch(error => res.send({ error, joined: false }))
             })
             .catch(error => res.send({ error, joined: false }))
-
     });
 })
 
@@ -120,18 +113,6 @@ export const roomDeleted = functions.firestore
             const infoRef = snap.ref.parent.doc('roomsinfo');
 
             infoRef.set({ roomlist: { [roomId]: false } }, { merge: true });
-
-            firestore.runTransaction(t => {
-                return t.get(infoRef).then(infoDoc => {
-                    if (!infoDoc.exists) {
-                        throw "No roomsinfo!";
-                    }
-
-                    // let newCount = infoDoc.data().roomcount - 1;
-                    t.update(infoRef, { roomcount: admin.firestore.FieldValue.increment(-1) });
-                })
-            })
-                .catch(e => console.error);
         }
     });
 
@@ -175,6 +156,30 @@ function checkWin(room) {
     return false;
 }
 
+function findNextPlayer(room) {
+    let newTurnCount = 0;
+    // Reset turn counter to 0
+
+    // IF turn counter is less than turnOrder.length
+    if (room.turnCounter < room.turnOrder.length - 1) {
+        // Increment turn counter
+        newTurnCount = room.turnCounter + 1;
+    } // else leave at 0
+
+    // skip offline player's turns
+    let nextPlayerOffline = room.players[room.turnOrder[newTurnCount]].status == 'offline';
+    let loopSaver = 0;
+    while (nextPlayerOffline && loopSaver < room.turnOrder.length) {
+        ++loopSaver;
+
+        ++newTurnCount;
+        if (newTurnCount > room.turnOrder.length - 1) newTurnCount = 0;
+        nextPlayerOffline = room.players[room.turnOrder[newTurnCount]].status == 'offline';
+    }
+
+    return newTurnCount;
+}
+
 export const drawCard = functions.https.onRequest((req, res) => {
     cors(req, res, () => {
         const data = JSON.parse(req.body);
@@ -188,14 +193,7 @@ export const drawCard = functions.https.onRequest((req, res) => {
                             return Promise.reject({ err: 'Not your turn!', code: '403' })//forbidden
                         }
 
-                        let newTurnCount = 0;
-                        // Reset turn counter to 0
-
-                        // IF turn counter is less than turnOrder.length
-                        if (room.turnCounter < room.turnOrder.length - 1) {
-                            // Increment turn counter
-                            newTurnCount = room.turnCounter + 1;
-                        } // else leave at 0
+                        const newTurnCount = findNextPlayer(room);
 
                         // Pick card
                         let newCards = room.deck;
@@ -235,7 +233,7 @@ export const drawCard = functions.https.onRequest((req, res) => {
                     })
                     .catch(e => {
                         console.error(e);
-                        res.send({e,drawCard:'error'});
+                        res.send({ e, drawCard: 'error' });
                     })
             })
     })
@@ -274,6 +272,7 @@ export const userStateChange = functions.database.ref('/status/{uid}')
         const userRef = firestore.doc(`users/${context.params.uid}`);
 
         userRef.get().then(async doc => {
+
             const data = await doc.data();
 
             const room = data.currentRoom;
@@ -282,27 +281,35 @@ export const userStateChange = functions.database.ref('/status/{uid}')
                 return;
             }
 
+            // update player state in room
+            await room.set({
+                players: { [context.params.uid]: { status: eventStatus.state } },
+                // turnOrder: admin.firestore.FieldValue.arrayRemove(context.params.uid),
+                // turnCounter: tc
+            }, { merge: true })
+
             const roomdoc = await room.get()
             const roomdata = await roomdoc.data();
+            const players = roomdata.players;
 
-            let newPlayers = roomdata.players;
-            delete newPlayers[context.params.uid];
-            console.log(newPlayers);
 
-            const playerCount = Object.keys(newPlayers).length;
+            if (eventStatus.state == 'offline') {
+                userRef.set({ currentRoom: '' }, { merge: true })
+                if (roomdata.turnCounter == roomdata.turnOrder.indexOf(context.params.uid)) {
+                    await room.set({ turnCounter: findNextPlayer(roomdata) }, { merge: true });
+                }
+            }
+
+
+            let playerCount = 0;
+
+            for (let p in players) {
+                if (players[p].status == 'online')++playerCount;
+            }
 
             if (playerCount == 0) {
                 room.delete();
                 return;
             }
-
-            let tc = roomdata.turnCounter;
-
-            if (tc > playerCount) tc=playerCount;
-            room.update({
-                players: newPlayers,
-                turnOrder: admin.firestore.FieldValue.arrayRemove(context.params.uid),
-                turnCounter: tc
-            })
         })
     });
