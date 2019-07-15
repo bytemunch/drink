@@ -82,12 +82,19 @@ class Room {
         return { err: false, id: roomId };
     }
 
-    // snap.ref.set({
+    async createPin(pin='') {
+        if (pin) return pin;
 
-    // }, { merge: true })
+        const randNum = function() {
+            return Math.floor(Math.random()*10);
+        }
+
+        return ""+randNum()+randNum()+randNum()+randNum();
+    }
 
     async createLocal() {
         const roomId = await this.createID();
+        const roomPin = await this.createPin();
 
         const deck = new Deck;
 
@@ -101,7 +108,7 @@ class Room {
             currentCard: {},
             players: {},
 
-            pin: '0000',
+            pin: roomPin,
 
             timestamp: {
                 created: Date.now(),

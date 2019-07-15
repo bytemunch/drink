@@ -8,7 +8,8 @@
     "build": "tsc",
     "serve": "npm run build && firebase serve --only hosting -p 5000",
     "emu": "npm run build && firebase emulators:start --only functions,hosting",
-    "deploy": "npm run build && firebase deploy --only hosting"
+    "deploy": "npm run build && firebase deploy --only hosting",
+    "start-working": "open-browsers.bat && npm run serve"
   },
   "author": "",
   "license": "ISC",

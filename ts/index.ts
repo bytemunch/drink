@@ -1,6 +1,6 @@
 /// <reference types="firebase"/>
 
-const VERSION = '0.0.1 - alpha - ';
+const VERSION = '0.0.2 - alpha - ';
 const DEBUG_MODE = true;
 const LOCAL_MODE = false; 
 // Local mode is gonna wait til alpha release

@@ -1,3 +1,7 @@
+New list who dis
+https://trello.com/b/Bw9GrDIb
+
+
 ✅ Avatars working
     Need to downscale uploaded images ✅
     And have max size limits ✅
@@ -16,7 +20,7 @@
     ✅ Keep turn order
         ✅ Don't remove players from the game, just mark them offline
             and skip their turns
-            ❌ Translucent icons for offline players
+            ✅ Translucent icons for offline players
     ❌ Prohibit new joiners if they were not in room at game start?
 
 ✅ Rooms delete themselves

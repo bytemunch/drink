@@ -9,6 +9,9 @@ class HomePage extends Page {
         
         let title = document.createElement('h1');
 
+        title.style.whiteSpace = 'nowrap';
+        title.style.fontSize = 'large';
+
         title.textContent = `Hello${userdata.name ? ' ' + userdata.name : ''}.`;
 
         this.page.appendChild(title);
