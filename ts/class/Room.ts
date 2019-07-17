@@ -75,21 +75,21 @@ class Room {
         }
 
         // If available set to unavailable
-        roomsInfoRef.set({roomlist:{[roomId]: userdata.uid}},{merge:true})
+        roomsInfoRef.set({ roomlist: { [roomId]: userdata.uid } }, { merge: true })
 
         // Return roomId
         if (false) return { err: 'Test error!' };
         return { err: false, id: roomId };
     }
 
-    async createPin(pin='') {
+    async createPin(pin = '') {
         if (pin) return pin;
 
-        const randNum = function() {
-            return Math.floor(Math.random()*10);
+        const randNum = function () {
+            return Math.floor(Math.random() * 10);
         }
 
-        return ""+randNum()+randNum()+randNum()+randNum();
+        return "" + randNum() + randNum() + randNum() + randNum();
     }
 
     async createLocal() {
@@ -130,11 +130,8 @@ class Room {
         return roomId;
     }
 
-    // async join(roomId: string, pin: string, firstRun = true) {
-    async join(params: Array<any>) {
-        const roomId = params[0];
-        const pin = params[1];
-        const firstRun = params[2] || true;
+    async join(roomId, pin) {
+
 
         // REFAC put this in the userdata class?
         if (!roomId) return Promise.reject('requestJoinRoom: No Room ID provided!');
@@ -143,12 +140,18 @@ class Room {
         firebase.auth().currentUser.getIdToken(true)
             .then(token => {
                 // Send data to cloud function to compare PIN
+                console.log(roomId)
+
                 easyPOST('joinRoom', { pin, roomId, token })
                     .then(res => { return res.json() })
                     .then(data => {
                         if (!data.joined) {
                             return Promise.reject(data.error);
                         }
+                        userdata.ref.update({
+                            prevRoom: '',
+                            prevPIN: ''
+                        })
                         return room.init(roomId); //TODO promisify init
                     })
                     .then(() => {
@@ -162,30 +165,14 @@ class Room {
                         // DO NOT subscribe to changes on any error other than
                         // room preparing (425 too early)
 
-                        let allowedErrors = ['425'];
+                        loadMan.killLoader('roomJoined');
+                        // SHOW USER ERROR
+                        errorPopUp(e.err + ' Code: ' + e.code);
+                        userdata.ref.update({prevPIN:'',prevRoom:''})
+                        openPage('home');
+                        console.log('INFO: ', e);
 
-                        if (allowedErrors.indexOf(e.code) == -1) {
-                            loadMan.killLoader('roomJoined');
-                            // SHOW USER ERROR
-                            errorPopUp(e.err + ' Code: ' + e.code);
-                            console.log('INFO: ', e);
-
-                            return e;
-                        }
-
-                        // I think this is safe but I'm not sure...
-                        // need to make sure there's only one of these for each recursion
-                        if (firstRun) {
-                            let unsubscribe = firestore.collection('rooms').doc(roomId)
-                                .onSnapshot(change => {
-                                    let state = change.data() ? change.data().state : null
-                                    if (state && state == 'lobby') {
-                                        this.join([roomId, pin, false]);
-                                        unsubscribe();
-                                    }
-                                })
-                        }
-
+                        return e;
                     });
             })
 
@@ -207,7 +194,7 @@ class Room {
                 return url;//URL.createObjectURL(url);
             })
             .catch(e => {
-                console.error(e);
+                //console.error(e);
                 // set aviImg to default
                 return '/img/noimg.png';
             })

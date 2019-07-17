@@ -46,7 +46,6 @@ ce-player-list.bigGrid ce-player .name {
 
 ce-player-list.smallList {
     width: 24px;
-    height: 20vw;
     position: absolute;
     top:0;/*Topbar height*/
     right:0;
@@ -66,6 +65,7 @@ ce-player-list.smallList .avatar {
 ce-player-list.smallList .name {
     position: absolute;
     left:24px;/*avatar width*/
+    font-size:medium;
 }
 
 ce-player-list.smallList ce-player {

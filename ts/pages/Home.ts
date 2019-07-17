@@ -59,7 +59,7 @@ class HomePage extends Page {
             loadMan.addLoader('roomJoined');
 
             // Hand validated input to join function
-            return room.join([roomId, roomPass])
+            return room.join(roomId, roomPass)
             .catch(e=>console.error(e))
         })
 
@@ -84,7 +84,7 @@ class HomePage extends Page {
                 errorPopUp(createdId.err);
             }
 
-            await room.join([createdId.id, "OWNER"])
+            await room.join(createdId.id, "OWNER")
             .catch(e=>console.error(e));
         })
 

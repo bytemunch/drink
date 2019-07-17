@@ -2,15 +2,28 @@
 
 class CePlayerList extends UpdateableElement {
     private players: Array<any> = [];
+    animations: PromiseAnimations;
 
     constructor() {
         super();
+        this.animations = new PromiseAnimations;
     }
 
     connectedCallback() {
         super.connectedCallback();
 
         this.applyStyles();
+
+        this.addEventListener('click', e=>{
+            e.preventDefault();
+            if (this.classList.contains('smallList')) {
+                if (this.style.width == '24px') {
+                    this.animations.animate(this, 'playerListGrow', 250);
+                } else {
+                    this.animations.animate(this, 'playerListShrink', 250);
+                }
+            }
+        })
     }
 
     applyStyles() {
@@ -52,7 +65,7 @@ class CePlayerList extends UpdateableElement {
         for (let i=0;i<room.data.turnCounter;i++) {
             tmp = this.players.shift();
             this.players.push(tmp);
-            console.log('shifting...');
+            //console.log('shifting...');
         }
 
         // Clear DOM

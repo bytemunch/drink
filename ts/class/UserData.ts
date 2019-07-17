@@ -2,6 +2,7 @@ class UserData {
     name: string = '';
     color: string = '';
     uid: string = '';
+    ref;
     aviRef;
     aviImg;
 
@@ -19,9 +20,11 @@ class UserData {
 
     async populateFrom(uid) {
         this.uid = uid;
+
+        this.ref = firestore.collection('users').doc(uid);
         
         // Pull user data into memory
-        const retval = await firestore.collection("users").doc(uid).get()
+        const userDoc = await this.ref.get()
             .then((doc: any) => {
                 if (doc.exists) {
                     let retrievedData: any = doc.data();
@@ -38,7 +41,7 @@ class UserData {
             })
             .finally(()=>updateDOM())
 
-        return retval;
+        return userDoc;
     }
 
 }

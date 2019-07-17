@@ -2,7 +2,7 @@
 
 const VERSION = '0.0.2 - alpha - ';
 const DEBUG_MODE = true;
-const LOCAL_MODE = false; 
+const LOCAL_MODE = false;
 // Local mode is gonna wait til alpha release
 // or maybe use DEBUG_MODE to switch between dev project and live project
 // Literally https://github.com/firebase/firebase-tools/issues/1001
@@ -52,10 +52,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // For when https://github.com/firebase/firebase-tools/issues/1001 is done
     // if (LOCAL_MODE) {
-        // firestore.settings({
-        //     host: 'http://localhost:8080',
-        //     ssl: false
-        // })
+    // firestore.settings({
+    //     host: 'http://localhost:8080',
+    //     ssl: false
+    // })
     // }
 
     try {
@@ -74,13 +74,33 @@ async function authHandler(user: any) {
     loadMan.addLoader('pageOpen')
     if (user) {
         // logged in
+
+        // get user ref
+        const userRef = await firestore.collection('users').doc(user.uid);
+        const userDoc = await userRef.get();
+        const userData = await userDoc.data();
+
+        // clear user's current room if any
+        await userRef.set({ currentRoom: '' }, { merge: true });
+
         // setup presence
         presMan = new PresenceManager(user.uid);
         userdata.populateFrom(user.uid)
             .then(userExists => {
-                userExists && userdata.name ? openPage('home') : openPage('account')
-            },
-                e => { console.error(e) });
+                if (userExists && userdata.name) {
+                    if (userData.prevRoom) {
+                        room.join(userData.prevRoom.id, userData.prevPIN)
+                    } else {
+                        openPage('home');
+                    }
+                } else {
+                    openPage('account');
+                }
+            })
+            .catch(e => {
+                console.error(e);
+            })
+
     } else {
         // logged out
         userdata = new UserData; //clear user info

@@ -29,11 +29,18 @@ class PromiseAnimations {
             },
             wait: function wait(args) {
                 // literally a wait function to stay as is for a tick
+            },
+            playerListGrow: function(args) {
+                this.style.width = `calc(${(args.progress*25)}vw + 24px)`
+            },
+            playerListShrink: function(args) {
+                this.style.width = `calc(25vw - ${(args.progress*25)}vw + 24px)`
+                if (args.progress > 0.9) this.style.width = '24px'
             }
         }
     }
 
-    animate(animationTarget,animation,duration,args) {
+    animate(animationTarget,animation,duration,args?) {
 
         this.start = performance.now();
         this.duration = duration;

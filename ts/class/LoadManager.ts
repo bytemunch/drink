@@ -25,4 +25,13 @@ class LoadManager {
             this.loaders.splice(this.loaders.indexOf(killMe),1);
         }
     }
+
+    killAllLoaders() {
+        // Big errors
+
+        for (let l of this.loaders) {
+            l.kill();
+        }
+        this.loaders=[];
+    }
 }

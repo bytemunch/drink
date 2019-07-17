@@ -11,6 +11,87 @@ const firestore = admin.firestore();
 // // https://firebase.google.com/docs/functions/typescript
 //
 
+// Functions I need in more than one place
+
+function checkWin(room) {
+    const winState = room.winState;
+
+    switch (winState.if) {
+        case 'LAST_KING':
+        default:
+            if (!room.deck.find(c => { return c.number == 'K' })) return winState.then;
+    }
+
+    return false;
+}
+
+function findNextPlayer(room) {
+    let newTurnCount = 0;
+    // Reset turn counter to 0
+
+    // IF turn counter is less than turnOrder.length
+    if (room.turnCounter < room.turnOrder.length - 1) {
+        // Increment turn counter
+        newTurnCount = room.turnCounter + 1;
+    } // else leave at 0
+
+    // skip offline player's turns
+    let nextPlayerUid = room.turnOrder[newTurnCount];
+    let nextPlayerOffline = room.players[nextPlayerUid].status == 'offline';
+    let loopSaver = 0;
+    while (nextPlayerOffline && loopSaver < room.turnOrder.length - 1) {
+        ++loopSaver;
+
+        ++newTurnCount;
+        if (newTurnCount > room.turnOrder.length - 1) newTurnCount = 0;
+
+        nextPlayerUid = room.turnOrder[newTurnCount];
+        if (room.players[nextPlayerUid]) {
+            nextPlayerOffline = room.players[nextPlayerUid].status == 'offline';
+        } else {
+            console.log('no more players!');
+        }
+    }
+
+    return newTurnCount;
+}
+
+async function leaveRoom(uid, userRef, roomRef, roomData) {
+    // and turnorder
+    const players = roomData.players;
+
+    // remove player from room
+    let newPlayers = { ...players };
+    delete newPlayers[uid]
+
+    roomRef.update({
+        players: newPlayers,
+        turnOrder: admin.firestore.FieldValue.arrayRemove(uid)
+    }, { merge: true })
+
+    userRef.set({
+        currentRoom: '',
+        prevRoom: roomRef,
+        prevPIN: roomData.pin
+    }, { merge: true })
+
+    if (roomData.turnCounter == roomData.turnOrder.indexOf(uid)) {
+        roomRef.set({ turnCounter: findNextPlayer(roomData) }, { merge: true });
+    }
+
+    // Check if the room we just offlined from has any online players
+    // let playerCount = 0;
+
+    // for (let p in players) {
+    //     if (players[p].status == 'online')++playerCount;
+    // }
+
+    // if (playerCount == 0) {
+    //     room.delete();
+    //     return;
+    // }
+}
+
 export const joinRoom = functions.https.onRequest((req, res) => {
     //TODO async await this shit up
     cors(req, res, () => {
@@ -31,14 +112,8 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                             return Promise.reject({ err: 'joinRoom: Room not found!', code: '404' }); // not found
                         }
 
-                        if (doc.state == 'preparing') {
-                            // send state in error message
-                            return Promise.reject({ err: `joinRoom: Room not ready. State: <${doc.state}>`, code: '425', state: doc.state }); // too early
-                        }
-
                         if (!doc.pin) {
-                            // TODO this error code?
-                            return Promise.reject({ err: 'joinRoom: Room has no pin!', code: '425' });// too early
+                            return Promise.reject({ err: 'joinRoom: Room has no pin!', code: '501' });// room broken
                         }
 
                         if (data.pin == "OWNER" && userToken.uid == doc.owner) {
@@ -81,6 +156,8 @@ export const joinRoom = functions.https.onRequest((req, res) => {
 
                                     // trim stuff
                                     delete players[userToken.uid].currentRoom;
+                                    delete players[userToken.uid].prevRoom;
+                                    delete players[userToken.uid].prevPIN;
                                     players[userToken.uid].status = 'online';
 
                                     players[userToken.uid].ready = false;
@@ -143,42 +220,6 @@ export const startGame = functions.https.onRequest((req, res) => {
             })
     })
 })
-
-function checkWin(room) {
-    const winState = room.winState;
-
-    switch (winState.if) {
-        case 'LAST_KING':
-        default:
-            if (!room.deck.find(c => { return c.number == 'K' })) return winState.then;
-    }
-
-    return false;
-}
-
-function findNextPlayer(room) {
-    let newTurnCount = 0;
-    // Reset turn counter to 0
-
-    // IF turn counter is less than turnOrder.length
-    if (room.turnCounter < room.turnOrder.length - 1) {
-        // Increment turn counter
-        newTurnCount = room.turnCounter + 1;
-    } // else leave at 0
-
-    // skip offline player's turns
-    let nextPlayerOffline = room.players[room.turnOrder[newTurnCount]].status == 'offline';
-    let loopSaver = 0;
-    while (nextPlayerOffline && loopSaver < room.turnOrder.length) {
-        ++loopSaver;
-
-        ++newTurnCount;
-        if (newTurnCount > room.turnOrder.length - 1) newTurnCount = 0;
-        nextPlayerOffline = room.players[room.turnOrder[newTurnCount]].status == 'offline';
-    }
-
-    return newTurnCount;
-}
 
 export const drawCard = functions.https.onRequest((req, res) => {
     cors(req, res, () => {
@@ -255,7 +296,7 @@ export const userStateChange = functions.database.ref('/status/{uid}')
         // and compare the timestamps.
         const statusSnapshot = await change.after.ref.once('value');
         const status = statusSnapshot.val();
-        console.log(status, eventStatus);
+
         // If the current timestamp for this data is newer than
         // the data that triggered this event, we exit this function.
         if (status.last_changed > eventStatus.last_changed) {
@@ -271,12 +312,13 @@ export const userStateChange = functions.database.ref('/status/{uid}')
         // Then check if user was in a room
         const userRef = firestore.doc(`users/${context.params.uid}`);
 
-        userRef.get().then(async doc => {
+        userRef.get().then(async userRefDoc => {
 
-            const data = await doc.data();
+            const data = await userRefDoc.data();
 
             const room = data.currentRoom;
 
+            // No room, do nothing
             if (!room) {
                 return;
             }
@@ -284,32 +326,18 @@ export const userStateChange = functions.database.ref('/status/{uid}')
             // update player state in room
             await room.set({
                 players: { [context.params.uid]: { status: eventStatus.state } },
-                // turnOrder: admin.firestore.FieldValue.arrayRemove(context.params.uid),
-                // turnCounter: tc
             }, { merge: true })
 
             const roomdoc = await room.get()
             const roomdata = await roomdoc.data();
-            const players = roomdata.players;
 
 
+            // If user has offlined then change turnCounter in room
+            // to valid player
             if (eventStatus.state == 'offline') {
-                userRef.set({ currentRoom: '' }, { merge: true })
-                if (roomdata.turnCounter == roomdata.turnOrder.indexOf(context.params.uid)) {
-                    await room.set({ turnCounter: findNextPlayer(roomdata) }, { merge: true });
-                }
+                await leaveRoom(context.params.uid, userRef, room, roomdata);
             }
 
 
-            let playerCount = 0;
-
-            for (let p in players) {
-                if (players[p].status == 'online')++playerCount;
-            }
-
-            if (playerCount == 0) {
-                room.delete();
-                return;
-            }
         })
     });
