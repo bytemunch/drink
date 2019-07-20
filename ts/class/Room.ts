@@ -131,8 +131,6 @@ class Room {
     }
 
     async join(roomId, pin) {
-
-
         // REFAC put this in the userdata class?
         if (!roomId) return Promise.reject('requestJoinRoom: No Room ID provided!');
         if (!pin) return Promise.reject('requestJoinRoom: No Room PIN provided!');
@@ -184,6 +182,16 @@ class Room {
         // TODO setup security to prevent room snooping from non owners
         // > and people that haven't joined yet
 
+    }
+
+    async leave() {
+        // Don't need to wait for response cos we gone
+        // But what if we join a new room before response recieved?
+        // Then we're fucked
+        // Wait for now I guess
+        loadMan.addLoader('pageOpen');
+        await easyPOST('reqLeaveRoom', {uid:userdata.uid, roomId: this.roomId});
+        openPage('home');
     }
 
     async getAvi(uid) {

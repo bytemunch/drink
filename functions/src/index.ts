@@ -57,6 +57,7 @@ function findNextPlayer(room) {
 }
 
 async function leaveRoom(uid, userRef, roomRef, roomData) {
+
     // and turnorder
     const players = roomData.players;
 
@@ -64,20 +65,22 @@ async function leaveRoom(uid, userRef, roomRef, roomData) {
     let newPlayers = { ...players };
     delete newPlayers[uid]
 
-    roomRef.update({
+    const roomUpdated = roomRef.update({
         players: newPlayers,
         turnOrder: admin.firestore.FieldValue.arrayRemove(uid)
     }, { merge: true })
 
-    userRef.set({
+    const userUpdated = userRef.set({
         currentRoom: '',
         prevRoom: roomRef,
         prevPIN: roomData.pin
     }, { merge: true })
 
     if (roomData.turnCounter == roomData.turnOrder.indexOf(uid)) {
-        roomRef.set({ turnCounter: findNextPlayer(roomData) }, { merge: true });
+        await roomRef.set({ turnCounter: findNextPlayer(roomData) }, { merge: true });
     }
+
+    return Promise.all([roomUpdated,userUpdated]);
 
     // Check if the room we just offlined from has any online players
     // let playerCount = 0;
@@ -91,6 +94,20 @@ async function leaveRoom(uid, userRef, roomRef, roomData) {
     //     return;
     // }
 }
+
+export const reqLeaveRoom = functions.https.onRequest((req,res)=>{
+    cors(req,res,async ()=>{
+        const data = JSON.parse(req.body);
+        // {uid, roomId}
+        const uid = data.uid;
+        const userRef = firestore.collection('users').doc(uid);
+        const roomRef = firestore.collection('rooms').doc(data.roomId);
+        const roomDoc = await roomRef.get();
+        const roomData = await roomDoc.data();
+
+        res.send(leaveRoom(uid,userRef,roomRef,roomData));
+    })
+})
 
 export const joinRoom = functions.https.onRequest((req, res) => {
     //TODO async await this shit up
