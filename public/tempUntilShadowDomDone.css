@@ -26,8 +26,8 @@ ce-player-list.bigGrid {
     grid-template-columns: repeat(2,55%);
     grid-auto-rows: 20%;
     grid-auto-flow: row;
-    grid-gap: 2.5vw;
-    padding-left: 0;
+    grid-gap: 2.5%;
+    overflow: visible;
     position: relative;
 }
 
@@ -47,9 +47,11 @@ ce-player-list.bigGrid ce-player .name {
 ce-player-list.smallList {
     width: 24px;
     position: absolute;
-    top:0;/*Topbar height*/
+    top:calc(32px + 2vw);/*Menu button height*/
+    background-color: rgba(0, 0, 0, 0.25);
     right:0;
     overflow: hidden;
+    z-index: 1;
 }
 
 ce-player-list.smallList .ready {

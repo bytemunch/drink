@@ -1,6 +1,6 @@
 /// <reference types="firebase"/>
 
-const VERSION = '0.0.3 - alpha - ';
+const VERSION = '0.0.4 - alpha - ';
 const DEBUG_MODE = true;
 const LOCAL_MODE = false;
 // Local mode is gonna wait til alpha release
@@ -42,7 +42,8 @@ const palette = {
     green: `rgb(75, 148, 105)`,
     blue: `rgb(0, 191, 255)`,
     grey: `rgb(148, 148, 148)`,
-    white: `rgb(240, 248, 255)`
+    white: `rgb(240, 248, 255)`,
+    greyAlpha:`rgba(0, 0, 0, 0.25)`
 }
 
 document.addEventListener('DOMContentLoaded', function () {

@@ -1,7 +1,7 @@
 class Room {
     public roomId;
     public data;
-    private listener;
+    private killListener;
     public initialised;
 
     constructor() {
@@ -17,10 +17,10 @@ class Room {
                 this.data = doc.data();
                 updateDOM();
                 loadMan.killLoader('roomJoined');
-                this.listener = firestore.collection('rooms').doc(this.roomId).onSnapshot(doc => {
+                this.killListener = firestore.collection('rooms').doc(this.roomId).onSnapshot(doc => {
                     const oldData = this.data;
                     const newData = doc.data();
-                    newData ? this.data = newData : this.listener();
+                    newData ? this.data = newData : this.killListener();
                     // blanket update everything OR specific updates?
                     // BOTH!!
 
@@ -190,7 +190,9 @@ class Room {
         // Then we're fucked
         // Wait for now I guess
         loadMan.addLoader('pageOpen');
+        this.killListener();
         await easyPOST('reqLeaveRoom', {uid:userdata.uid, roomId: this.roomId});
+        this.data = false;
         openPage('home');
     }
 

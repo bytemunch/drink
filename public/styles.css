@@ -102,11 +102,12 @@ button.logout {
 }
 
 button.big {
-    font-size: 10vw;
+    font-size: 30pt;
     float:left;
     margin-bottom:10vh;
     margin-top:10vh;
     height:10vh;
+    min-height:40px;
 }
 
 button.bottom {

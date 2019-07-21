@@ -4,21 +4,13 @@ class PlayPage extends Page {
     constructor() {
         super();
 
-        let roomDisplay = document.createElement('p');
-        roomDisplay.style.display = 'inline';
-        roomDisplay.style.cssFloat = 'left';
-        roomDisplay.style.paddingLeft = '3vw';
+        let ingameMenu = new CeIngameMenu;
 
-        roomDisplay.textContent = `Room: ${room.roomId}`;
-        this.page.appendChild(roomDisplay);
+        this.page.appendChild(ingameMenu);
 
-        let pin = document.createElement('p');
-        pin.style.display = 'inline';
-        pin.style.cssFloat = 'right';
-        pin.style.paddingRight = '5vw';
+        let menuButton = new CeShowHideButton(ingameMenu);
 
-        pin.textContent = `PIN: ${room.data.pin}`;
-        this.page.appendChild(pin);
+        this.page.appendChild(menuButton);
 
         let playerInfo = document.createElement('ce-player-list');
         playerInfo.classList.add('smallList');
