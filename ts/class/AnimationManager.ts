@@ -1,4 +1,4 @@
-class PromiseAnimations {
+class AnimationManager {
     duration: number;
     start: number;
     animationName: string;
@@ -42,15 +42,16 @@ class PromiseAnimations {
 
     animate(animationTarget,animation,duration,args?) {
 
-        this.start = performance.now();
-        this.duration = duration;
         if (!args) args = {};
+
+        args.start = performance.now();
+        args.duration = duration;
 
         return new Promise((resolve) => {
             let rAFcb = function (t) {
-                if (t < this.start + this.duration) {
+                if (t < args.start + args.duration) {
                     // set vars
-                    args.progress = (t - this.start) / this.duration;
+                    args.progress = (t - args.start) / args.duration;
 
                     // run chosen animation bound to the object implementing
                     // this animations object

@@ -3,11 +3,9 @@
 class CeRuleDisplay extends UpdateableElement {
     ruleTitle;
     desc;
-    animations;
 
     constructor() {
         super();
-        this.animations = new PromiseAnimations;
     }
 
     applyStyle() {
@@ -39,13 +37,13 @@ class CeRuleDisplay extends UpdateableElement {
         let rule = cardSuit=='joker'?room.data.rules.JK:room.data.rules[cardNum];
 
         if (rule) {
-            this.animations.animate(this,'fadeOut',250)
+            animMan.animate(this,'fadeOut',250)
             .then(()=>{
                 this.ruleTitle.textContent = rule.title || '';
                 this.desc.textContent = rule.desc || '';
-                this.animations.animate(this,'wait',750)
+                animMan.animate(this,'wait',750)
                 .then(()=>{
-                    this.animations.animate(this,'fadeIn',250)
+                    animMan.animate(this,'fadeIn',250)
                 })
             })
 

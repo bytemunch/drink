@@ -56,9 +56,14 @@ function findNextPlayer(room) {
     return newTurnCount;
 }
 
-async function leaveRoom(uid, userRef, roomRef, roomData) {
+async function leaveRoom(uid, intended = false) {
+    const userRef = firestore.collection('users').doc(uid);
+    const userDoc = await userRef.get();
+    const userData = await userDoc.data();
+    const roomRef = userData.currentRoom;
+    const roomDoc = await roomRef.get();
+    const roomData = await roomDoc.data();
 
-    // and turnorder
     const players = roomData.players;
 
     // remove player from room
@@ -70,11 +75,9 @@ async function leaveRoom(uid, userRef, roomRef, roomData) {
         turnOrder: admin.firestore.FieldValue.arrayRemove(uid)
     }, { merge: true })
 
-    const userUpdated = userRef.set({
-        currentRoom: '',
-        prevRoom: roomRef,
-        prevPIN: roomData.pin
-    }, { merge: true })
+    const userUpdateData = intended ? {currentRoom:'',prevRoom:'',prevPIN:''} : { currentRoom: '', prevRoom: roomRef, prevPIN: roomData.pin };
+
+    const userUpdated = userRef.set(userUpdateData, { merge: true })
 
     if (roomData.turnCounter == roomData.turnOrder.indexOf(uid)) {
         await roomRef.set({ turnCounter: findNextPlayer(roomData) }, { merge: true });
@@ -82,30 +85,15 @@ async function leaveRoom(uid, userRef, roomRef, roomData) {
 
     return Promise.all([roomUpdated,userUpdated]);
 
-    // Check if the room we just offlined from has any online players
-    // let playerCount = 0;
-
-    // for (let p in players) {
-    //     if (players[p].status == 'online')++playerCount;
-    // }
-
-    // if (playerCount == 0) {
-    //     room.delete();
-    //     return;
-    // }
 }
 
 export const reqLeaveRoom = functions.https.onRequest((req,res)=>{
     cors(req,res,async ()=>{
         const data = JSON.parse(req.body);
+        // REQUIRE TOKEN TO AUTH
         // {uid, roomId}
-        const uid = data.uid;
-        const userRef = firestore.collection('users').doc(uid);
-        const roomRef = firestore.collection('rooms').doc(data.roomId);
-        const roomDoc = await roomRef.get();
-        const roomData = await roomDoc.data();
 
-        res.send(leaveRoom(uid,userRef,roomRef,roomData));
+        res.send(leaveRoom(data.uid,true));
     })
 })
 
@@ -345,14 +333,10 @@ export const userStateChange = functions.database.ref('/status/{uid}')
                 players: { [context.params.uid]: { status: eventStatus.state } },
             }, { merge: true })
 
-            const roomdoc = await room.get()
-            const roomdata = await roomdoc.data();
-
-
             // If user has offlined then change turnCounter in room
             // to valid player
             if (eventStatus.state == 'offline') {
-                await leaveRoom(context.params.uid, userRef, room, roomdata);
+                await leaveRoom(context.params.uid, false);
             }
 
 

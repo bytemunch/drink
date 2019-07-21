@@ -31,6 +31,8 @@ let loadMan = new LoadManager;
 
 let presMan: PresenceManager;
 
+const animMan = new AnimationManager;
+
 let firestore: any;
 
 loadMan.addLoader('initialLoad');

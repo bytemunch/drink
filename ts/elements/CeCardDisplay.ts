@@ -3,11 +3,9 @@ class CeCardDisplay extends UpdateableElement {
     backImg;
     suit;
     number;
-    animations;
 
     constructor() {
         super();
-        this.animations = new PromiseAnimations;
     }
 
     applyStyle() {
@@ -68,9 +66,9 @@ class CeCardDisplay extends UpdateableElement {
                 this.img.setAttribute('src', backCardSrc);
 
                 // begin flip animation
-                await this.animations.animate(this.img,'flip90',500)
+                await animMan.animate(this.img,'flip90',500)
                 this.img.setAttribute('src',newCardSrc);
-                await this.animations.animate(this.img,'flipBack90',500)
+                await animMan.animate(this.img,'flipBack90',500)
                 // console.log('done',suit,number);
                 URL.revokeObjectURL(newCardSrc);
                 return true;
@@ -81,7 +79,7 @@ class CeCardDisplay extends UpdateableElement {
         // Move currently displayed card off screen / move & fade
         // Display card back
         this.backImg.display = 'unset';
-        await this.animations.animate(this.img,'flyRight',500,{startBB: this.getBoundingClientRect()});
+        await animMan.animate(this.img,'flyRight',500,{startBB: this.getBoundingClientRect()});
         // reset card
         this.img.style.opacity = '1';
         this.img.style.transform = 'unset';

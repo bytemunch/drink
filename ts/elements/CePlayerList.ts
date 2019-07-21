@@ -2,11 +2,9 @@
 
 class CePlayerList extends UpdateableElement {
     private players: Array<any> = [];
-    animations: PromiseAnimations;
 
     constructor() {
         super();
-        this.animations = new PromiseAnimations;
     }
 
     connectedCallback() {
@@ -18,9 +16,9 @@ class CePlayerList extends UpdateableElement {
             e.preventDefault();
             if (this.classList.contains('smallList')) {
                 if (this.style.width == '24px') {
-                    this.animations.animate(this, 'playerListGrow', 250);
+                    animMan.animate(this, 'playerListGrow', 250);
                 } else {
-                    this.animations.animate(this, 'playerListShrink', 250);
+                    animMan.animate(this, 'playerListShrink', 250);
                 }
             }
         })
