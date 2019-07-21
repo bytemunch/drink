@@ -25,38 +25,7 @@ function checkWin(room) {
     return false;
 }
 
-function findNextPlayer(room) {
-    let newTurnCount = 0;
-    // Reset turn counter to 0
-
-    // IF turn counter is less than turnOrder.length
-    if (room.turnCounter < room.turnOrder.length - 1) {
-        // Increment turn counter
-        newTurnCount = room.turnCounter + 1;
-    } // else leave at 0
-
-    // skip offline player's turns
-    let nextPlayerUid = room.turnOrder[newTurnCount];
-    let nextPlayerOffline = room.players[nextPlayerUid].status == 'offline';
-    let loopSaver = 0;
-    while (nextPlayerOffline && loopSaver < room.turnOrder.length - 1) {
-        ++loopSaver;
-
-        ++newTurnCount;
-        if (newTurnCount > room.turnOrder.length - 1) newTurnCount = 0;
-
-        nextPlayerUid = room.turnOrder[newTurnCount];
-        if (room.players[nextPlayerUid]) {
-            nextPlayerOffline = room.players[nextPlayerUid].status == 'offline';
-        } else {
-            console.log('no more players!');
-        }
-    }
-
-    return newTurnCount;
-}
-
-async function leaveRoom(uid, intended = false) {
+export const leaveRoom = async function leaveRoom(uid, intended = false) {
     const userRef = firestore.collection('users').doc(uid);
     const userDoc = await userRef.get();
     const userData = await userDoc.data();
@@ -78,10 +47,6 @@ async function leaveRoom(uid, intended = false) {
     const userUpdateData = intended ? {currentRoom:'',prevRoom:'',prevPIN:''} : { currentRoom: '', prevRoom: roomRef, prevPIN: roomData.pin };
 
     const userUpdated = userRef.set(userUpdateData, { merge: true })
-
-    if (roomData.turnCounter == roomData.turnOrder.indexOf(uid)) {
-        await roomRef.set({ turnCounter: findNextPlayer(roomData) }, { merge: true });
-    }
 
     return Promise.all([roomUpdated,userUpdated]);
 
@@ -235,11 +200,9 @@ export const drawCard = functions.https.onRequest((req, res) => {
                 firestore.collection('rooms').doc(data.roomId).get()
                     .then(doc => {
                         const room = doc.data();
-                        if (token.uid != room.turnOrder[room.turnCounter]) {
+                        if (token.uid != room.turnOrder[room.turnCounter%room.turnOrder.length]) {
                             return Promise.reject({ err: 'Not your turn!', code: '403' })//forbidden
                         }
-
-                        const newTurnCount = findNextPlayer(room);
 
                         // Pick card
                         let newCards = room.deck;
@@ -255,7 +218,7 @@ export const drawCard = functions.https.onRequest((req, res) => {
                             // Remove current card from deck in room
                             deck: newCards,
                             // set turn counter
-                            turnCounter: newTurnCount,
+                            turnCounter: admin.firestore.FieldValue.increment(1),
                             state: room.state,
                             rules: room.rules
                         }

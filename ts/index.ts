@@ -1,6 +1,6 @@
 /// <reference types="firebase"/>
 
-const VERSION = '0.0.4 - alpha - ';
+const VERSION = '0.0.5 - alpha - ';
 const DEBUG_MODE = true;
 const LOCAL_MODE = false;
 // Local mode is gonna wait til alpha release
@@ -84,6 +84,7 @@ async function authHandler(user: any) {
         const userData = await userDoc.data();
 
         // clear user's current room if any
+        console.log('clearing room');
         await userRef.set({ currentRoom: '' }, { merge: true });
 
         // setup presence

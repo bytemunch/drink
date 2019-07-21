@@ -41,7 +41,8 @@ class CeDrawButton extends HTMLButtonElement {
 
     update() {
         if (room.data.state !== 'finished') {
-            let nextPlayer = room.data.turnOrder[room.data.turnCounter] == userdata.uid;
+            const nextPlayerIndex = room.data.turnCounter%room.data.turnOrder.length;
+            let nextPlayer = room.data.turnOrder[nextPlayerIndex] == userdata.uid;
 
             nextPlayer?this.enable('Card'):this.disable('Waiting...')
         } else {
