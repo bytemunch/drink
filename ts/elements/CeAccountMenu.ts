@@ -1,15 +1,16 @@
-/// <reference path='Page.ts'/>
+/// <reference path='CeMenu.ts'/>
 
-class AccountPage extends Page {
+class CeAccountMenu extends CeMenu {
     constructor() {
         super();
+    }
 
-        let title = document.createElement('h1');
+    applyStyle() {
+        super.applyStyle();
+    }
 
-        title.textContent = `${userdata.name?userdata.name+'\'s':'Your'} account.`;
-        title.style.marginTop = '2vh';
-
-        this.page.appendChild(title);
+    connectedCallback() {
+        super.connectedCallback();
 
         let inputs:any = {
             name: {label:'Display Name',
@@ -24,7 +25,7 @@ class AccountPage extends Page {
             let l = document.createElement('p');
             l.textContent = inputs[input].label;
             l.classList.add('big','label')
-            this.page.appendChild(l);
+            this.menu.appendChild(l);
 
             let i;
 
@@ -38,7 +39,7 @@ class AccountPage extends Page {
             }
 
             i.setAttribute('id',`acc-input-${input}`);
-            this.page.appendChild(i);
+            this.menu.appendChild(i);
 
         }
 
@@ -66,6 +67,11 @@ class AccountPage extends Page {
             openPage('home');
         })
 
-        this.page.appendChild(btnUpdate);
+        this.menu.appendChild(btnUpdate);
+
+
+        this.applyStyle();
     }
 }
+
+customElements.define('ce-account-menu', CeAccountMenu);

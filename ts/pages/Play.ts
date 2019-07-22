@@ -4,7 +4,7 @@ class PlayPage extends Page {
     constructor() {
         super();
 
-        let ingameMenu = new CeIngameMenu;
+        let ingameMenu = new CePlayMenu;
 
         this.page.appendChild(ingameMenu);
 

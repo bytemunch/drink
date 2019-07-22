@@ -24,6 +24,7 @@ class CeLoadScreen extends CustomElement {
         this.style.display = 'block';
         this.style.top = '0';
         this.style.left = '0';
+        this.style.zIndex = '100';
     }
 
     dots() {

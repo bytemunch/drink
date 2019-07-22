@@ -98,7 +98,8 @@ button.small {
 }
 
 button.logout {
-    float: right;
+    float: left;
+    margin-right: 75%;
 }
 
 button.big {
