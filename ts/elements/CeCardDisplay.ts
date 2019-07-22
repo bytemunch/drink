@@ -35,7 +35,7 @@ class CeCardDisplay extends UpdateableElement {
         this.applyStyle();
     }
 
-    async drawCard(suit, number) {
+    async drawCard(suit, number:string) {
         // IF this.img.src !== this.backImg.src
         // discard
 
@@ -45,11 +45,14 @@ class CeCardDisplay extends UpdateableElement {
         }
 
         if (suit == 'joker') {
-            let x = number % 3;
+            let x = Number(number) % 3;
             if (x == 0) number = 'red';
             if (x == 1) number = 'black';
             if (x == 2) number = 'white';
         }
+
+        number = number.toLowerCase();
+
         return fetch(`/img/cards/${suit}/${number}.svg`)
             .then(res => res.blob())
             .then(async image => {

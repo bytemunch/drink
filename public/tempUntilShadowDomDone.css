@@ -113,3 +113,9 @@ ce-avatar-upload > * {
 ce-rule-display > p {
     text-align: center;
 }
+
+.roominfo {
+    display: block;
+    font-size: 17pt;
+    float: left;
+}

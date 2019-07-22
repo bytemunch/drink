@@ -20,7 +20,7 @@ class CeDrawButton extends HTMLButtonElement {
                     .then(data => console.log(data))
                     //.then(()=>this.enable('Card'))
             } else {
-                openPage('finished');
+                room.leave();
             }
         })
 

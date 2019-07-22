@@ -4,8 +4,11 @@ class HomePage extends Page {
     constructor() {
         super();
 
-        let topbar = document.createElement('ce-topbar')
-        this.page.appendChild(topbar);
+        // Menu modal
+        let accountMenu = new CeAccountMenu;
+        this.page.appendChild(accountMenu);
+        let accountLink = new CeAccountButton(accountMenu);
+        this.page.appendChild(accountLink);
         
         let title = document.createElement('h1');
 

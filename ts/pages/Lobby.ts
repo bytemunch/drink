@@ -4,6 +4,16 @@ class LobbyPage extends Page {
     constructor() {
         super();
 
+        // Add menu modal
+        let menu = new CeLobbyMenu;
+
+        this.page.appendChild(menu);
+
+        let menuButton = new CeShowHideButton(menu);
+
+        this.page.appendChild(menuButton);
+
+
         let title = document.createElement('h1');
 
         title.textContent = `Lobby.`;
