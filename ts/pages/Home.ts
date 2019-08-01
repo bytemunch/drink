@@ -38,7 +38,7 @@ class HomePage extends Page {
         this.page.appendChild(roomPassInput);
 
         let btnJoin = document.createElement('button');
-        btnJoin.textContent = 'Join';
+        btnJoin.textContent = 'Join Game';
 
         btnJoin.addEventListener('click', e => {
             e.preventDefault();
@@ -71,7 +71,7 @@ class HomePage extends Page {
         this.page.appendChild(btnJoin);
 
         let btnCreate = document.createElement('button');
-        btnCreate.textContent = 'Create Room';
+        btnCreate.textContent = 'Create Game';
 
         btnCreate.addEventListener('click', async e => {
             e.preventDefault();

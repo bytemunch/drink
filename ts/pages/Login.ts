@@ -9,37 +9,41 @@ class LoginPage extends Page {
 
         emailP.textContent = 'Email:';
         passP.textContent = 'Password:';
-        emailP.classList.add('label','big')
-        passP.classList.add('label','big')
+        emailP.classList.add('label', 'big')
+        passP.classList.add('label', 'big')
         let emailInput = document.createElement('input');
         let passInput = document.createElement('input');
 
-        emailInput.setAttribute('type','email');
+        emailInput.setAttribute('type', 'email');
         emailInput.classList.add('big');
-        passInput.setAttribute('type','password');
+        passInput.setAttribute('type', 'password');
         passInput.classList.add('big');
 
-        
+
         let btnLogin = document.createElement('button')
         btnLogin.textContent = 'Login';
 
         btnLogin.addEventListener('click', e => {
             loadMan.addLoader('pageOpen');
-            firebase.auth().signInWithEmailAndPassword(emailInput.value,passInput.value)
-            .catch(err=>{
-                loadMan.killLoader('pageOpen');
-                console.error(err)
-                errorPopUp(err.code + ': '+err.message);
-            })
+            firebase.auth().signInWithEmailAndPassword(emailInput.value, passInput.value)
+                .catch(err => {
+                    loadMan.killLoader('pageOpen');
+                    console.error(err)
+                    errorPopUp(err.code + ': ' + err.message);
+                })
         })
 
-        
+
         let btnSignup = document.createElement('button')
         btnSignup.textContent = 'Sign Up';
 
         btnSignup.addEventListener('click', e => {
-            firebase.auth().createUserWithEmailAndPassword(emailInput.value,passInput.value)
-            .catch(err=>console.log(err))
+            firebase.auth().createUserWithEmailAndPassword(emailInput.value, passInput.value)
+                .catch(err => {
+                    loadMan.killLoader('pageOpen');
+                    console.error(err)
+                    errorPopUp(err.code + ': ' + err.message);
+                })
         })
 
         btnLogin.classList.add('big');

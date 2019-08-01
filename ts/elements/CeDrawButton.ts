@@ -47,7 +47,7 @@ class CeDrawButton extends HTMLButtonElement {
             nextPlayer?this.enable('Card'):this.disable('Waiting...')
         } else {
             this.style.backgroundColor = palette.red;
-            this.enable('Quit Game');
+            this.enable('Leave Game');
         }
     }
 

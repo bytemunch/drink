@@ -1,10 +1,12 @@
 class PresenceManager {
     presenceListener;
+    isOnline;
     ref;
 
     // Why write code when the docs did it for you?
     // Wait why not implement the functionality instead of writing a workaround doc? 🤔
     constructor(uid) {
+        this.isOnline = false;
         // Create a reference to this user's specific status node.
         // This is where we will store data about being online/offline.
         const userStatusDatabaseRef = firebase.database().ref('/status/' + uid);
@@ -54,12 +56,12 @@ class PresenceManager {
                 return;
             };
 
-            userStatusDatabaseRef.onDisconnect().set(isOfflineForDatabase).then(function () {
+            userStatusDatabaseRef.onDisconnect().set(isOfflineForDatabase).then(() => {
                 // The promise returned from .onDisconnect().set() will
                 // resolve as soon as the server acknowledges the onDisconnect() 
                 // request, NOT once we've actually disconnected:
                 // https://firebase.google.com/docs/reference/js/firebase.database.OnDisconnect
-
+                console.log('setting online');
                 // We can now safely set ourselves as 'online' knowing that the
                 // server will mark us as offline once we lose connection.
                 userStatusDatabaseRef.set(isOnlineForDatabase);
@@ -69,10 +71,25 @@ class PresenceManager {
             });
         });
 
-        this.presenceListener = userStatusFirestoreRef.onSnapshot(function(doc) {
-            var isOnline = doc.data().state == 'online';
+        this.presenceListener = userStatusFirestoreRef.onSnapshot(async doc => {
+            const isOnline = await doc.data().state == 'online';
             // ... use isOnline
-            if (!isOnline) console.log('presMan:',isOnline) //errorPopUp('Offlined!')
+            if (isOnline && !this.isOnline) { // fire once when onlining
+                this.isOnline = true;
+                console.log('presMan: Online!')
+                // join prevroom
+                const userDoc = await firestore.collection('users').doc(userdata.uid).get();
+                const userData = userDoc.data();
+                console.log(userData.prevRoom);
+                const prevRoom = userData.prevRoom ? userData.prevRoom.path.match(/\/([A-Z]{4})$/):false;
+
+                if (prevRoom) room.join(prevRoom[0],userData.prevPIN);
+            }
+
+            if (!isOnline && this.isOnline) { // fire once when offlining
+                this.isOnline = false;
+                console.log('presMan: Offline!')
+            }
         });
     }
 }

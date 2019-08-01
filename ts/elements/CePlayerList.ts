@@ -15,7 +15,9 @@ class CePlayerList extends UpdateableElement {
         this.addEventListener('click', e=>{
             e.preventDefault();
             if (this.classList.contains('smallList')) {
-                if (this.style.width == '24px') {
+                const growWidths:Array<any> = ['24px',''];
+
+                if (growWidths.includes(this.style.width)) {
                     animMan.animate(this, 'playerListGrow', 250);
                 } else {
                     animMan.animate(this, 'playerListShrink', 250);

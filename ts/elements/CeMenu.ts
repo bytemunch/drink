@@ -56,7 +56,7 @@ class CeMenu extends CustomElement {
         
         // Leave room button
         let btnLeave = document.createElement('button');
-        btnLeave.textContent = 'Leave Room';
+        btnLeave.textContent = 'Leave Game';
 
         btnLeave.addEventListener('click', async e => {
             e.preventDefault();
