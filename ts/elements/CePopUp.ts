@@ -51,14 +51,14 @@ class CePopUp extends CustomElement {
         switch (type) {
             case 'error':
                 // red
-                this.innerDiv.classList.add('red');
+                this.innerDiv.style.backgroundColor = palette.red;
                 break;
             case 'warning':
-                this.classList.add('yellow')
+                this.innerDiv.style.backgroundColor = palette.green;
                 break;
             case 'info':
             default:
-                this.classList.add('blue');
+                this.innerDiv.style.backgroundColor = palette.darkblue;
                 break;
         }
     }

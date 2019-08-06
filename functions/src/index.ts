@@ -301,7 +301,5 @@ export const userStateChange = functions.database.ref('/status/{uid}')
             if (eventStatus.state == 'offline') {
                 await leaveRoom(context.params.uid, false);
             }
-
-
         })
     });

@@ -1,6 +1,6 @@
 /// <reference types="firebase"/>
 
-const VERSION = '0.0.7 - alpha - ';
+const VERSION = '0.0.8 - alpha - ';
 const DEBUG_MODE = true;
 const LOCAL_MODE = false;
 // Local mode is gonna wait til alpha release
@@ -35,19 +35,24 @@ const animMan = new AnimationManager;
 
 let firestore: any;
 
-loadMan.addLoader('initialLoad');
+document.body.appendChild(new CeLoadScreen('initialLoad'));
 
 const palette = {
     red: `rgb(148, 75, 75)`,
     green: `rgb(75, 148, 105)`,
     blue: `rgb(0, 191, 255)`,
+    darkblue: `rgb(33, 153, 249)`,
     grey: `rgb(148, 148, 148)`,
     white: `rgb(240, 248, 255)`,
-    greyAlpha:`rgba(0, 0, 0, 0.25)`
+    greyAlpha: `rgba(0, 0, 0, 0.25)`
 }
 
 document.addEventListener('DOMContentLoaded', function () {
     // The Firebase SDK is initialized and available here!
+    document.body.appendChild(new CePopUp('Please Note:',
+        'This game is still in heavy development! Please send any feedback or bug reports to sam.drink.app@gmail.com',
+        0,
+        'info'));
 
     firebase.auth().onAuthStateChanged(authHandler);
 
@@ -73,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 async function authHandler(user: any) {
-    loadMan.killLoader('initialLoad')
+    killLoader('initialLoad')
     loadMan.addLoader('pageOpen')
     if (user) {
         // logged in

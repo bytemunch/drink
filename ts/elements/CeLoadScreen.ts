@@ -12,8 +12,9 @@ class CeLoadScreen extends CustomElement {
     timer;
     killTrigger: string;
 
-    constructor() {
+    constructor(killTrigger) {
         super();
+        this.killTrigger = killTrigger;
     }
 
     applyStyle() {
