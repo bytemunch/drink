@@ -3,6 +3,7 @@
 class CeShowHideButton extends CustomElement {
     openState = false;
     target;
+    icon;
 
     constructor(target) {
         super();
@@ -10,7 +11,7 @@ class CeShowHideButton extends CustomElement {
     }
 
     applyStyle() {
-        this.style.backgroundColor = palette.green;
+        this.style.backgroundColor = palette.blue;
         this.style.width = '32px';
         this.style.height = '32px';
         this.style.display = 'block';
@@ -23,6 +24,12 @@ class CeShowHideButton extends CustomElement {
 
     connectedCallback() {
         super.connectedCallback();
+
+        this.icon = document.createElement('img');
+        this.icon.setAttribute('src','./img/menu-icon.svg');
+        this.icon.classList.add('icon');
+        this.appendChild(this.icon);
+
         this.addEventListener('click', this.clicked);
 
         this.applyStyle();
@@ -36,7 +43,7 @@ class CeShowHideButton extends CustomElement {
 
         }else{
             this.target.hide();
-            this.style.backgroundColor = palette.green;
+            this.style.backgroundColor = palette.blue;
 
         }
     }

@@ -10,6 +10,7 @@ class CeAccountButton extends CeShowHideButton {
     applyStyle() {
         super.applyStyle();
         this.style.background = 'none';
+        this.icon.style.display = 'none';
     }
 
     connectedCallback() {
