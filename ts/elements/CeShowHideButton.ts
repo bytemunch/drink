@@ -40,11 +40,12 @@ class CeShowHideButton extends CustomElement {
         if (this.openState) {
             this.target.show();
             this.style.backgroundColor = palette.red;
+            this.icon.setAttribute('src','./img/close-icon.svg');
 
         }else{
             this.target.hide();
             this.style.backgroundColor = palette.blue;
-
+            this.icon.setAttribute('src','./img/menu-icon.svg');
         }
     }
 

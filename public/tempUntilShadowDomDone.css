@@ -81,9 +81,9 @@ ce-card-display {
 }
 
 ce-card-display img {
-    width:70vw;
+    width:60vw;
     height: unset;
-    margin-left:5vw;
+    margin-left:10vw;
 }
 
 ce-popup {

@@ -27,7 +27,7 @@ class RuleSet {
     }
     
     setupIRL() {
-        this.addRule('A', 'Waterfall', 'Card picker starts drinking, then the next player, then the next and so on. Card picker can stop when they feel, each next player may only stop when the previous player has. Like a cascading waterfall. Duh.', this.createAction('IRL', 'Immediate', 'All'));
+        this.addRule('A', 'Waterfall', 'Card picker starts drinking, then the next player, then the next and so on. Card picker can stop when they feel, each next player may only stop when the previous player has. Like a waterfall.', this.createAction('IRL', 'Immediate', 'All'));
         this.addRule('2', 'Choose', 'Choose a player to drink. There\'ll be a popup here one day', this.createAction('Target', 'Immediate', 'Choose'));
         this.addRule('3', 'Me', 'Current player drinks. This will show the player\'s name here one day', this.createAction('Target', 'Immediate', 'Self'));
         this.addRule('4', 'Whores', 'Girls drink!', this.createAction('Target', 'Immediate', 'Females'));
