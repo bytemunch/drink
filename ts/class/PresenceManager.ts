@@ -73,23 +73,7 @@ class PresenceManager {
 
         this.presenceListener = userStatusFirestoreRef.onSnapshot(async doc => {
             const isOnline = await doc.data().state == 'online';
-            // ... use isOnline
-            if (isOnline && !this.isOnline) { // fire once when onlining
-                this.isOnline = true;
-                console.log('presMan: Online!')
-                // join prevroom
-                const userDoc = await firestore.collection('users').doc(userdata.uid).get();
-                const userData = userDoc.data();
-                console.log(userData.prevRoom);
-                const prevRoom = userData.prevRoom ? userData.prevRoom.path.match(/\/([A-Z]{4})$/):false;
-
-                if (prevRoom) room.join(prevRoom[0],userData.prevPIN);
-            }
-
-            if (!isOnline && this.isOnline) { // fire once when offlining
-                this.isOnline = false;
-                console.log('presMan: Offline!')
-            }
+            // Use isOnline here...
         });
     }
 }

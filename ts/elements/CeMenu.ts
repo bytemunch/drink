@@ -62,7 +62,7 @@ class CeMenu extends CustomElement {
             e.preventDefault();
             // POPUP HERE
             this.hide();
-            loadMan.addLoader('pageOpen');
+            addLoader('pageOpen');
             room.leave();
         })
 

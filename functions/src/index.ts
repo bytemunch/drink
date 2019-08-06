@@ -296,8 +296,6 @@ export const userStateChange = functions.database.ref('/status/{uid}')
                 players: { [context.params.uid]: { status: eventStatus.state } },
             }, { merge: true })
 
-            // If user has offlined then change turnCounter in room
-            // to valid player
             if (eventStatus.state == 'offline') {
                 await leaveRoom(context.params.uid, false);
             }

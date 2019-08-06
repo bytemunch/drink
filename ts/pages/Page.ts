@@ -19,4 +19,11 @@ class Page {
 
         this.page.appendChild(version)
     };
+
+    addLogo() {
+        let logo = document.createElement('h1');
+        logo.classList.add('logo');
+        logo.textContent = 'logo';
+        this.page.appendChild(logo);
+    }
 }

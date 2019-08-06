@@ -1,6 +1,6 @@
 /// <reference types="firebase"/>
 
-const VERSION = '0.0.8 - alpha - ';
+const VERSION = '0.0.9 - alpha - ';
 const DEBUG_MODE = true;
 const LOCAL_MODE = false;
 // Local mode is gonna wait til alpha release
@@ -25,10 +25,6 @@ firebase.initializeApp(firebaseConfig);
 let userdata = new UserData;
 let room = new Room;
 
-let updater = new Event('update');
-
-let loadMan = new LoadManager;
-
 let presMan: PresenceManager;
 
 const animMan = new AnimationManager;
@@ -50,7 +46,7 @@ const palette = {
 document.addEventListener('DOMContentLoaded', function () {
     // The Firebase SDK is initialized and available here!
     document.body.appendChild(new CePopUp('Please Note:',
-        'This game is still in heavy development! Please send any feedback or bug reports to sam.drink.app@gmail.com',
+        'This game is still in heavy development! \n Please use Chrome to view and use it for now.\n Accounts may be lost, the app may crash, things may not display properly.\n Please send any feedback or bug reports to sam.drink.app@gmail.com',
         0,
         'info'));
 
@@ -79,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 async function authHandler(user: any) {
     killLoader('initialLoad')
-    loadMan.addLoader('pageOpen')
+    addLoader('pageOpen')
     if (user) {
         // logged in
 
@@ -98,6 +94,7 @@ async function authHandler(user: any) {
             .then(userExists => {
                 if (userExists && userdata.name) {
                     if (userData.prevRoom) {
+                        console.log('joining previous room!');
                         room.join(userData.prevRoom.id, userData.prevPIN)
                     } else {
                         openPage('home');

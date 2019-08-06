@@ -16,7 +16,7 @@ class Room {
             .then(doc => {
                 this.data = doc.data();
                 updateDOM();
-                loadMan.killLoader('roomJoined');
+                killLoader('roomJoined');
                 this.killListener = firestore.collection('rooms').doc(this.roomId).onSnapshot(doc => {
                     const oldData = this.data;
                     const newData = doc.data();
@@ -163,7 +163,7 @@ class Room {
                         // DO NOT subscribe to changes on any error other than
                         // room preparing (425 too early)
 
-                        loadMan.killLoader('roomJoined');
+                        killLoader('roomJoined');
                         // SHOW USER ERROR
                         errorPopUp(e.err + ' Code: ' + e.code);
                         userdata.ref.update({prevPIN:'',prevRoom:''})
@@ -189,7 +189,7 @@ class Room {
         // But what if we join a new room before response recieved?
         // Then we're fucked
         // Wait for now I guess
-        loadMan.addLoader('pageOpen');
+        addLoader('pageOpen');
         this.killListener();
         await easyPOST('reqLeaveRoom', {uid:userdata.uid, roomId: this.roomId});
         this.data = false;

@@ -9,15 +9,17 @@ class HomePage extends Page {
         this.page.appendChild(accountMenu);
         let accountLink = new CeAccountButton(accountMenu);
         this.page.appendChild(accountLink);
-        
-        let title = document.createElement('h1');
 
-        title.style.whiteSpace = 'nowrap';
-        title.style.fontSize = 'large';
+        this.addLogo();
 
-        title.textContent = `Hello${userdata.name ? ' ' + userdata.name : ''}.`;
+        // let title = document.createElement('h1');
 
-        this.page.appendChild(title);
+        // title.style.whiteSpace = 'nowrap';
+        // title.style.fontSize = 'large';
+
+        // title.textContent = `Hello${userdata.name ? ' ' + userdata.name : ''}.`;
+
+        // this.page.appendChild(title);
 
         let roomIdLabel = document.createElement('p');
         roomIdLabel.textContent = 'Room ID:';
@@ -59,7 +61,7 @@ class HomePage extends Page {
                 return false;
             }
 
-            loadMan.addLoader('roomJoined');
+            addLoader('roomJoined');
 
             // Hand validated input to join function
             return room.join(roomId, roomPass)
@@ -75,9 +77,7 @@ class HomePage extends Page {
 
         btnCreate.addEventListener('click', async e => {
             e.preventDefault();
-            loadMan.addLoader('roomJoined')
-
-            const id = roomIdInput.value;
+            addLoader('roomJoined')
 
             let createdId = await room.createLocal();
 

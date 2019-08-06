@@ -35,5 +35,5 @@ function openPage(name: string) {
     }
     pageContainer.innerHTML = '';
     pageContainer.appendChild(page.page);
-    loadMan.killLoader('pageOpen');
+    killLoader('pageOpen');
 }

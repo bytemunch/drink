@@ -14,12 +14,12 @@ class CeStartReadyButton extends HTMLButtonElement {
         this.addEventListener('click', async e => {
             if (this.owner) {
                 const token = await firebase.auth().currentUser.getIdToken(true)
-                loadMan.addLoader('playTime');
+                addLoader('playTime');
                 const started = await easyPOST('startGame', { token, roomId: room.roomId })
                     .catch(e => {
                         console.log("INFO: Only the room owner can start the game!", e)
                     })
-                loadMan.killLoader('playTime');
+                killLoader('playTime');
             } else {
                 let readiness = room.data.players[userdata.uid].ready;
                 // Update readiness in database

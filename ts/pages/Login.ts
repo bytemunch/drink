@@ -4,6 +4,8 @@ class LoginPage extends Page {
     constructor() {
         super();
 
+        this.addLogo();
+
         let emailP = document.createElement('p');
         let passP = document.createElement('p');
 
@@ -24,10 +26,10 @@ class LoginPage extends Page {
         btnLogin.textContent = 'Login';
 
         btnLogin.addEventListener('click', e => {
-            loadMan.addLoader('pageOpen');
+            addLoader('pageOpen');
             firebase.auth().signInWithEmailAndPassword(emailInput.value, passInput.value)
                 .catch(err => {
-                    loadMan.killLoader('pageOpen');
+                    killLoader('pageOpen');
                     console.error(err)
                     errorPopUp(err.code + ': ' + err.message);
                 })
@@ -40,7 +42,7 @@ class LoginPage extends Page {
         btnSignup.addEventListener('click', e => {
             firebase.auth().createUserWithEmailAndPassword(emailInput.value, passInput.value)
                 .catch(err => {
-                    loadMan.killLoader('pageOpen');
+                    killLoader('pageOpen');
                     console.error(err)
                     errorPopUp(err.code + ': ' + err.message);
                 })
