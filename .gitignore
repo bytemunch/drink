@@ -64,8 +64,10 @@ node_modules/
 # dotenv environment variables file
 .env
 
+
 *.js
 *.js.map
+!serviceWorker.js
 
 whiteboards/**
 scratch

@@ -23,7 +23,7 @@ class Page {
     addLogo() {
         let logo = document.createElement('h1');
         logo.classList.add('logo');
-        logo.textContent = 'logo';
+        logo.textContent = 'drink!';
         this.page.appendChild(logo);
     }
 }

@@ -1,6 +1,6 @@
 {
-    "name": "Drink App",
-    "short_name": "DrinkApp",
+    "name": "Drink!",
+    "short_name": "Drink!",
     "start_url": "/index.html",
     "display": "standalone",
     "background_color": "rgb(77, 123, 224)",
