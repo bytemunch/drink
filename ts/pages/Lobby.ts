@@ -34,6 +34,9 @@ class LobbyPage extends Page {
         pin.textContent = `PIN: ${room.data.pin}`;
         this.page.appendChild(pin);
 
+        let createPlayer = new CeCreatePlayerMenu;
+        this.page.appendChild(createPlayer);
+
         let playerInfo = document.createElement('ce-player-list');
         playerInfo.classList.add('bigGrid');
         this.page.appendChild(playerInfo);

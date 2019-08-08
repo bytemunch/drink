@@ -4,11 +4,12 @@ class CeAvatarUpload extends HTMLElement {
     photoButton;
     preview;
     file: File;
+    shrunkFile;
+    uid;
 
-    constructor() {
+    constructor(uid = userdata.uid) {
         super();
-
-
+        this.uid = uid;
     }
 
     connectedCallback() {
@@ -26,8 +27,6 @@ class CeAvatarUpload extends HTMLElement {
                 return;
             }
 
-            let shrunkFile;
-
             let image = document.createElement('img');
             image.setAttribute('src', URL.createObjectURL(file));
             image.style.display = 'none';
@@ -36,10 +35,10 @@ class CeAvatarUpload extends HTMLElement {
             document.body.appendChild(image);
 
             image.addEventListener('load', () => {
-                shrunkFile = shrinkImage(image);
+                this.shrunkFile = shrinkImage(image);
                 // setup image preview
-                this.preview.style.backgroundImage = `url(${shrunkFile}`;
-                this.file = dataURItoFile(shrunkFile);
+                this.preview.style.backgroundImage = `url(${this.shrunkFile}`;
+                this.file = dataURItoFile(this.shrunkFile);
             })
 
             image.addEventListener('error', e => console.error(e));
@@ -58,7 +57,7 @@ class CeAvatarUpload extends HTMLElement {
         this.appendChild(this.fakeUploadButton);
 
         this.preview = document.createElement('ce-avatar');
-        this.preview.uid = userdata.uid;
+        this.preview.uid = this.uid;
         this.preview.classList.add('account-img');
         this.appendChild(this.preview);
     }
@@ -68,16 +67,15 @@ class CeAvatarUpload extends HTMLElement {
             return; // exit gracefully, image is not required
         }
 
-        const storageRef = firebase.storage().ref().child(`avatars/${userdata.uid}.png`);
+        const storageRef = firebase.storage().ref().child(`avatars/${this.uid}.png`);
         storageRef.put(this.file)
         //storageRef.putString(this.file,'data_url',{contentType:'image/png'})
         .then(snap=>{
-            room.getAvi(userdata.uid)
+            room.getAvi(this.uid)
             .then(()=>updateDOM())
         })
         .catch(e=>console.error(e));
     }
-
 }
 
 customElements.define('ce-avatar-upload', CeAvatarUpload);

@@ -76,6 +76,9 @@ class CePlayerList extends UpdateableElement {
             let pElement = document.createElement('ce-player') as CePlayer;
             this.appendChild(pElement);
             pElement.player = p;
+
+            let addLocalPlayer = new CeCreatePlayerButton(document.querySelector('ce-create-player-menu'));
+            this.appendChild(addLocalPlayer);
         });
     }
 }

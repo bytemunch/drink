@@ -2,12 +2,17 @@
 
 class CeShowHideButton extends CustomElement {
     openState = false;
+    openImg;
+    closeImg;
     target;
     icon;
 
     constructor(target) {
         super();
         this.target = target;
+        this.openImg = './img/menu-icon.svg';
+        this.closeImg = './img/close-icon.svg';
+
     }
 
     applyStyle() {
@@ -18,15 +23,17 @@ class CeShowHideButton extends CustomElement {
         this.style.position = 'absolute';
         this.style.right = '1vw';
         this.style.top = '1vw';
-        
+
         this.style.zIndex = '11';
     }
 
     connectedCallback() {
         super.connectedCallback();
 
+        this.classList.add('modalToggle');
+
         this.icon = document.createElement('img');
-        this.icon.setAttribute('src','./img/menu-icon.svg');
+        this.icon.setAttribute('src', this.openImg);
         this.icon.classList.add('icon');
         this.appendChild(this.icon);
 
@@ -36,16 +43,28 @@ class CeShowHideButton extends CustomElement {
     }
 
     clicked() {
+        // close other modals
+
+        const otherButtons = document.querySelectorAll('.modalToggle') as any;
+
+        for (let b of otherButtons) {
+            if (b.openState && b !== this) {
+                b.click();
+            }
+        }
+
         this.openState = !this.openState;
+
+
         if (this.openState) {
             this.target.show();
             this.style.backgroundColor = palette.red;
-            this.icon.setAttribute('src','./img/close-icon.svg');
+            this.icon.setAttribute('src', this.closeImg);
 
-        }else{
+        } else {
             this.target.hide();
             this.style.backgroundColor = palette.blue;
-            this.icon.setAttribute('src','./img/menu-icon.svg');
+            this.icon.setAttribute('src', this.openImg);
         }
     }
 

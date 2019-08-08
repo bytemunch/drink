@@ -5,9 +5,12 @@ class UserData {
     ref;
     aviRef;
     aviImg;
+    extraPlayerCount;
 
 
-    constructor() { };
+    constructor() {
+        this.extraPlayerCount = 0;
+    };
 
     async sendData() {
         // set data in db from this
