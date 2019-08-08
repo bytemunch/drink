@@ -1,6 +1,6 @@
 /// <reference types="firebase"/>
 
-const VERSION = '0.0.13 - alpha - ';
+const VERSION = '0.0.14 - alpha - ';
 const DEBUG_MODE = true;
 const LOCAL_MODE = false;
 // Local mode is gonna wait til alpha release
@@ -25,7 +25,9 @@ firebase.initializeApp(firebaseConfig);
 let userdata = new UserData;
 let room = new Room;
 
-let presMan: PresenceManager;
+// Need issue fixed before presence
+// https://github.com/firebase/firebase-js-sdk/issues/249
+// let presMan: PresenceManager;
 
 const animMan = new AnimationManager;
 
@@ -46,7 +48,7 @@ const palette = {
 document.addEventListener('DOMContentLoaded', function () {
     // The Firebase SDK is initialized and available here!
     document.body.appendChild(new CePopUp('Please Note:',
-        'This game is still in heavy development! \n Please use Chrome to view and use it for now.\n Accounts may be lost, the app may crash, things may not display properly.\n Please send any feedback or bug reports to sam.drink.app@gmail.com',
+        'This game is still in heavy development! \n Please use the most updated Chrome to view and use it for now.\n Accounts may be lost, the app may crash, things may not display properly.\n Please send any feedback or bug reports to sam.drink.app@gmail.com',
         0,
         'info'));
 
@@ -89,7 +91,7 @@ async function authHandler(user: any) {
         await userRef.set({ currentRoom: '' }, { merge: true });
 
         // setup presence
-        presMan = new PresenceManager(user.uid);
+        // presMan = new PresenceManager(user.uid);
         userdata.populateFrom(user.uid)
             .then(userExists => {
                 if (userExists && userdata.name) {
@@ -104,7 +106,7 @@ async function authHandler(user: any) {
                 }
             })
             .catch(e => {
-                console.error(e);
+                console.error('userdata.populateFrom:',e);
             })
 
     } else {

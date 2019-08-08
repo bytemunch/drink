@@ -1,3 +1,7 @@
+// Presence manager!
+// Fuckin broken until https://github.com/firebase/firebase-js-sdk/issues/249
+// Reeeeeeeeeeeeeeeeeeeeeeeeeeee
+
 class PresenceManager {
     presenceListener;
     isOnline;
@@ -48,27 +52,32 @@ class PresenceManager {
         // client has disconnected by closing the app, 
         // losing internet, or any other means.
         firebase.database().ref('.info/connected').on('value', function (snapshot) {
-            if (snapshot.val() == false) {
+            if (snapshot.val() === true) {
+                userStatusDatabaseRef.onDisconnect().set(isOfflineForDatabase).then(() => {
+                    // The promise returned from .onDisconnect().set() will
+                    // resolve as soon as the server acknowledges the onDisconnect() 
+                    // request, NOT once we've actually disconnected:
+                    // https://firebase.google.com/docs/reference/js/firebase.database.OnDisconnect
+                    console.log('setting online');
+                    // We can now safely set ourselves as 'online' knowing that the
+                    // server will mark us as offline once we lose connection.
+                    userStatusDatabaseRef.set(isOnlineForDatabase);
+
+                    // We'll also add Firestore set here for when we come online.
+                    userStatusFirestoreRef.set(isOnlineForFirestore)
+                        .catch(e => {
+                            console.log('presMan70:', e);
+                        })
+                });
+
+            } else {
                 // Instead of simply returning, we'll also set Firestore's state
                 // to 'offline'. This ensures that our Firestore cache is aware
                 // of the switch to 'offline.'
-                userStatusFirestoreRef.set(isOfflineForFirestore);
+                console.log('going offline')
+                userStatusFirestoreRef.set(isOfflineForFirestore).catch(e => console.log('presMan55:', e))
                 return;
-            };
-
-            userStatusDatabaseRef.onDisconnect().set(isOfflineForDatabase).then(() => {
-                // The promise returned from .onDisconnect().set() will
-                // resolve as soon as the server acknowledges the onDisconnect() 
-                // request, NOT once we've actually disconnected:
-                // https://firebase.google.com/docs/reference/js/firebase.database.OnDisconnect
-                console.log('setting online');
-                // We can now safely set ourselves as 'online' knowing that the
-                // server will mark us as offline once we lose connection.
-                userStatusDatabaseRef.set(isOnlineForDatabase);
-
-                // We'll also add Firestore set here for when we come online.
-                userStatusFirestoreRef.set(isOnlineForFirestore);
-            });
+            }
         });
 
         this.presenceListener = userStatusFirestoreRef.onSnapshot(async doc => {

@@ -14,6 +14,10 @@ class CeStartReadyButton extends HTMLButtonElement {
         this.addEventListener('click', async e => {
             if (this.owner) {
                 const token = await firebase.auth().currentUser.getIdToken(true)
+                .catch(e=>{
+                    errorPopUp('You appear offline! Please try again.');
+                    console.error(e);
+                })
                 addLoader('playTime');
                 const started = await easyPOST('startGame', { token, roomId: room.roomId })
                     .catch(e => {

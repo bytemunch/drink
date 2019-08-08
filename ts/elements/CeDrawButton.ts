@@ -14,7 +14,11 @@ class CeDrawButton extends HTMLButtonElement {
                 this.disable('Drawing...');
                 // Discard immediately to seem faster
                 //await (<CeCardDisplay>document.querySelector('ce-card-display')).discard();
-                const token = await firebase.auth().currentUser.getIdToken(true);
+                const token = await firebase.auth().currentUser.getIdToken(true)
+                .catch(e=>{
+                    errorPopUp('You appear offline! Please try again.');
+                    console.error(e);
+                });
                 easyPOST('drawCard', { token, roomId: room.roomId })
                     .then(res => res.json())
                     .then(data => console.log(data))

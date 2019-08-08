@@ -128,7 +128,7 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                                     delete players[userToken.uid].currentRoom;
                                     delete players[userToken.uid].prevRoom;
                                     delete players[userToken.uid].prevPIN;
-                                    players[userToken.uid].status = 'online';
+                                    // players[userToken.uid].status = 'online';
 
                                     players[userToken.uid].ready = false;
                                     players[userToken.uid].hand = {};
@@ -248,56 +248,60 @@ export const drawCard = functions.https.onRequest((req, res) => {
     })
 })
 
-export const userStateChange = functions.database.ref('/status/{uid}')
-    .onUpdate(async (change, context) => {
-        // ctrl+c ctrl+z | i am 1337 c0d3r yo
-        // Get the data written to Realtime Database
-        const eventStatus = change.after.val();
+// User state management
+// Useless til https://github.com/firebase/firebase-js-sdk/issues/249
 
-        // Then use other event data to create a reference to the
-        // corresponding Firestore document.
-        const userStatusFirestoreRef = firestore.doc(`status/${context.params.uid}`);
+// export const userStateChange = functions.database.ref('/status/{uid}')
+//     .onUpdate(async (change, context) => {
+//         // ctrl+c ctrl+z | i am 1337 c0d3r yo
+//         // Get the data written to Realtime Database
+//         const eventStatus = change.after.val();
 
-        // It is likely that the Realtime Database change that triggered
-        // this event has already been overwritten by a fast change in
-        // online / offline status, so we'll re-read the current data
-        // and compare the timestamps.
-        const statusSnapshot = await change.after.ref.once('value');
-        const status = statusSnapshot.val();
+//         // Then use other event data to create a reference to the
+//         // corresponding Firestore document.
+//         const userStatusFirestoreRef = firestore.doc(`status/${context.params.uid}`);
 
-        // If the current timestamp for this data is newer than
-        // the data that triggered this event, we exit this function.
-        if (status.last_changed > eventStatus.last_changed) {
-            return null;
-        }
+//         // It is likely that the Realtime Database change that triggered
+//         // this event has already been overwritten by a fast change in
+//         // online / offline status, so we'll re-read the current data
+//         // and compare the timestamps.
+//         const statusSnapshot = await change.after.ref.once('value');
+//         const status = statusSnapshot.val();
 
-        // Otherwise, we convert the last_changed field to a Date
-        eventStatus.last_changed = new Date(eventStatus.last_changed);
+//         // If the current timestamp for this data is newer than
+//         // the data that triggered this event, we exit this function.
+//         if (status.last_changed > eventStatus.last_changed) {
+//             return null;
+//         }
 
-        // ... and write it to Firestore.
-        userStatusFirestoreRef.set(eventStatus);
+//         // Otherwise, we convert the last_changed field to a Date
+//         eventStatus.last_changed = new Date(eventStatus.last_changed);
 
-        // Then check if user was in a room
-        const userRef = firestore.doc(`users/${context.params.uid}`);
+//         // ... and write it to Firestore.
+//         userStatusFirestoreRef.set(eventStatus);
 
-        userRef.get().then(async userRefDoc => {
+//         // Then check if user was in a room
+//         const userRef = firestore.doc(`users/${context.params.uid}`);
 
-            const data = await userRefDoc.data();
+//         userRef.get().then(async userRefDoc => {
 
-            const room = data.currentRoom;
+//             const data = await userRefDoc.data();
 
-            // No room, do nothing
-            if (!room) {
-                return;
-            }
+//             const room = data.currentRoom;
 
-            // update player state in room
-            await room.set({
-                players: { [context.params.uid]: { status: eventStatus.state } },
-            }, { merge: true })
+//             // No room, do nothing
+//             if (!room) {
+//                 return;
+//             }
 
-            if (eventStatus.state == 'offline') {
-                await leaveRoom(context.params.uid, false);
-            }
-        })
-    });
+//             // update player state in room
+//             await room.set({
+//                 players: { [context.params.uid]: { status: eventStatus.state } },
+//             }, { merge: true })
+
+//             // Kick player out of room
+//             if (eventStatus.state == 'offline') {
+//                 //await leaveRoom(context.params.uid, false);
+//             }
+//         })
+//     });

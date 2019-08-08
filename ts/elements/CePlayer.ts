@@ -42,7 +42,7 @@ class CePlayer extends CustomElement {
 
         if (this.classList.contains('big')) this.elements.avatar.ready = player.ready;
 
-        this.style.opacity = player.status == 'offline' ? '0.5' : '1';
+        this.style.opacity = '1';//player.status == 'offline' ? '0.5' : '1';
 
         this.style.borderColor = player.color;
     }

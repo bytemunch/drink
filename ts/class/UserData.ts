@@ -14,7 +14,8 @@ class UserData {
         return firestore.collection("users").doc(this.uid).set({
             name: this.name,
             color: this.color,
-            status: presMan.ref
+            status: 'online'
+            // status: presMan.ref
         }, { merge: true });
     }
 

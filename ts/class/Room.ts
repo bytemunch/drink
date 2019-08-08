@@ -39,6 +39,7 @@ class Room {
                     updateDOM();// pass data to function to save cycles?
                 })
             })
+            .catch(e=>console.error('room.init:',e))
     }
 
     async createID(roomId = '') {
@@ -76,6 +77,9 @@ class Room {
 
         // If available set to unavailable
         roomsInfoRef.set({ roomlist: { [roomId]: userdata.uid } }, { merge: true })
+        .catch(e => {
+            console.error('roomsInfoRef.set:',e)
+        })
 
         // Return roomId
         if (false) return { err: 'Test error!' };
@@ -124,7 +128,7 @@ class Room {
         try {
             await firestore.collection('rooms').doc(roomId.id).set(newRoom)
         } catch (e) {
-            console.error(e)
+            console.error('Room.createLocal:',e)
         }
 
         return roomId;
