@@ -12,10 +12,10 @@ class CePlayerList extends UpdateableElement {
 
         this.applyStyles();
 
-        this.addEventListener('click', e=>{
+        this.addEventListener('click', e => {
             e.preventDefault();
             if (this.classList.contains('smallList')) {
-                const growWidths:Array<any> = ['24px',''];
+                const growWidths: Array<any> = ['24px', ''];
 
                 if (growWidths.includes(this.style.width)) {
                     animMan.animate(this, 'playerListGrow', 250);
@@ -54,7 +54,7 @@ class CePlayerList extends UpdateableElement {
 
             if (turnOrder.length == Object.keys(room.data.players).length) {// JS casting doing bits here ugh
                 const pIdx = turnOrder.indexOf(p);
-                pIdx!=-1?this.players[pIdx] = players[p]:this.players.push(players[p])
+                pIdx != -1 ? this.players[pIdx] = players[p] : this.players.push(players[p])
             } else {
                 this.players.push(players[p]);
             }
@@ -62,7 +62,7 @@ class CePlayerList extends UpdateableElement {
 
         // Re-order array if turns have been taken
         let tmp;
-        for (let i=0;i<room.data.turnCounter;i++) {
+        for (let i = 0; i < room.data.turnCounter; i++) {
             tmp = this.players.shift();
             this.players.push(tmp);
             //console.log('shifting...');
@@ -76,10 +76,13 @@ class CePlayerList extends UpdateableElement {
             let pElement = document.createElement('ce-player') as CePlayer;
             this.appendChild(pElement);
             pElement.player = p;
+        });
 
+        if (this.classList.contains('bigGrid')) {
             let addLocalPlayer = new CeCreatePlayerButton(document.querySelector('ce-create-player-menu'));
             this.appendChild(addLocalPlayer);
-        });
+        }
+
     }
 }
 

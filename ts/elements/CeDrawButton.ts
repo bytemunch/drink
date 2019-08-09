@@ -15,14 +15,14 @@ class CeDrawButton extends HTMLButtonElement {
                 // Discard immediately to seem faster
                 //await (<CeCardDisplay>document.querySelector('ce-card-display')).discard();
                 const token = await firebase.auth().currentUser.getIdToken(true)
-                .catch(e=>{
-                    errorPopUp('You appear offline! Please try again.');
-                    console.error(e);
-                });
+                    .catch(e => {
+                        errorPopUp('You appear offline! Please try again.');
+                        console.error(e);
+                    });
                 easyPOST('drawCard', { token, roomId: room.roomId })
                     .then(res => res.json())
                     .then(data => console.log(data))
-                    //.then(()=>this.enable('Card'))
+                //.then(()=>this.enable('Card'))
             } else {
                 room.leave();
             }
@@ -45,10 +45,14 @@ class CeDrawButton extends HTMLButtonElement {
 
     update() {
         if (room.data.state !== 'finished') {
-            const nextPlayerIndex = room.data.turnCounter%room.data.turnOrder.length;
-            let nextPlayer = room.data.turnOrder[nextPlayerIndex] == userdata.uid;
-
-            nextPlayer?this.enable('Card'):this.disable('Waiting...')
+            const nextPlayerIndex = room.data.turnCounter % room.data.turnOrder.length;
+            const nextUid = room.data.turnOrder[nextPlayerIndex];
+            
+            if (nextUid == userdata.uid || nextUid.substring(0,nextUid.length-1) == userdata.uid) {
+                this.enable('Card');
+            } else {
+                this.disable('Waiting...');
+            }
         } else {
             this.style.backgroundColor = palette.red;
             this.enable('Leave Game');

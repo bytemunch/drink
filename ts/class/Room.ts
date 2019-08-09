@@ -3,6 +3,7 @@ class Room {
     public data;
     private killListener;
     public initialised;
+    ref;
 
     constructor() {
     }
@@ -12,7 +13,9 @@ class Room {
 
         console.log(`Joined ${roomId}!`);
 
-        return firestore.collection('rooms').doc(this.roomId).get()
+        this.ref = firestore.collection('rooms').doc(this.roomId);
+
+        return this.ref.get()
             .then(doc => {
                 this.data = doc.data();
                 updateDOM();
@@ -39,7 +42,7 @@ class Room {
                     updateDOM();// pass data to function to save cycles?
                 })
             })
-            .catch(e=>console.error('room.init:',e))
+            .catch(e => console.error('room.init:', e))
     }
 
     async createID(roomId = '') {
@@ -77,9 +80,9 @@ class Room {
 
         // If available set to unavailable
         roomsInfoRef.set({ roomlist: { [roomId]: userdata.uid } }, { merge: true })
-        .catch(e => {
-            console.error('roomsInfoRef.set:',e)
-        })
+            .catch(e => {
+                console.error('roomsInfoRef.set:', e)
+            })
 
         // Return roomId
         if (false) return { err: 'Test error!' };
@@ -128,7 +131,7 @@ class Room {
         try {
             await firestore.collection('rooms').doc(roomId.id).set(newRoom)
         } catch (e) {
-            console.error('Room.createLocal:',e)
+            console.error('Room.createLocal:', e)
         }
 
         return roomId;
@@ -170,7 +173,7 @@ class Room {
                         killLoader('roomJoined');
                         // SHOW USER ERROR
                         errorPopUp(e.err + ' Code: ' + e.code);
-                        userdata.ref.update({prevPIN:'',prevRoom:''})
+                        userdata.ref.update({ prevPIN: '', prevRoom: '' })
                         openPage('home');
                         console.log('INFO: ', e);
 
@@ -188,6 +191,16 @@ class Room {
 
     }
 
+    async addLocalPlayer(playerInfo) {
+        playerInfo.ready = true;
+
+        console.log(playerInfo);
+        this.ref.set({
+            players: {[playerInfo.uid]: playerInfo },
+            turnOrder: firebase.firestore.FieldValue.arrayUnion(playerInfo.uid)
+        },{merge:true})
+    }
+
     async leave() {
         // Don't need to wait for response cos we gone
         // But what if we join a new room before response recieved?
@@ -195,7 +208,7 @@ class Room {
         // Wait for now I guess
         addLoader('pageOpen');
         this.killListener();
-        await easyPOST('reqLeaveRoom', {uid:userdata.uid, roomId: this.roomId});
+        await easyPOST('reqLeaveRoom', { uid: userdata.uid, roomId: this.roomId });
         this.data = false;
         openPage('home');
     }

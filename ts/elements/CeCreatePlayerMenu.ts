@@ -14,16 +14,12 @@ class CeCreatePlayerMenu extends CeMenu {
 
         this.logoutBtn.style.display = 'none';
 
-        let disclaimer = document.createElement('p');
-        disclaimer.textContent = 'This doesn\'t work yet sorry! Just a UI.';
-        
-        this.menu.appendChild(disclaimer);
-
         let title = document.createElement('h1');
         title.textContent = 'Add Local Player';
         this.menu.appendChild(title);
 
-        const newUid = userdata.uid+userdata.extraPlayerCount;
+        let newUid = userdata.uid+userdata.extraPlayerCount;
+
         let inputs:any = {
             name: {label:'Display Name',
                    type: 'text'},
@@ -51,7 +47,7 @@ class CeCreatePlayerMenu extends CeMenu {
             }
 
             if (input == 'name') {
-                i.value = userdata.name+' '+(userdata.extraPlayerCount + 2);
+                i.value = userdata.name+' '+(userdata.extraPlayerCount + 1);
             }
 
             i.setAttribute('id',`acc-input-${input}`);
@@ -79,8 +75,10 @@ class CeCreatePlayerMenu extends CeMenu {
 
             inputs['avatar'].upload();
             
-            addLocalPlayer(playerInfo);
+            room.addLocalPlayer(playerInfo);
+
             userdata.extraPlayerCount++;
+            newUid = userdata.uid+userdata.extraPlayerCount;
 
             // close modal
             let buttons = document.querySelectorAll('ce-create-player-button') as any;

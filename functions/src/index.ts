@@ -44,21 +44,21 @@ export const leaveRoom = async function leaveRoom(uid, intended = false) {
         turnOrder: admin.firestore.FieldValue.arrayRemove(uid)
     }, { merge: true })
 
-    const userUpdateData = intended ? {currentRoom:'',prevRoom:'',prevPIN:''} : { currentRoom: '', prevRoom: roomRef, prevPIN: roomData.pin };
+    const userUpdateData = intended ? { currentRoom: '', prevRoom: '', prevPIN: '' } : { currentRoom: '', prevRoom: roomRef, prevPIN: roomData.pin };
 
     const userUpdated = userRef.set(userUpdateData, { merge: true })
 
-    return Promise.all([roomUpdated,userUpdated]);
+    return Promise.all([roomUpdated, userUpdated]);
 
 }
 
-export const reqLeaveRoom = functions.https.onRequest((req,res)=>{
-    cors(req,res,async ()=>{
+export const reqLeaveRoom = functions.https.onRequest((req, res) => {
+    cors(req, res, async () => {
         const data = JSON.parse(req.body);
         // REQUIRE TOKEN TO AUTH
         // {uid, roomId}
 
-        res.send(leaveRoom(data.uid,true));
+        res.send(leaveRoom(data.uid, true));
     })
 })
 
@@ -200,8 +200,17 @@ export const drawCard = functions.https.onRequest((req, res) => {
                 firestore.collection('rooms').doc(data.roomId).get()
                     .then(doc => {
                         const room = doc.data();
-                        if (token.uid != room.turnOrder[room.turnCounter%room.turnOrder.length]) {
-                            return Promise.reject({ err: 'Not your turn!', code: '403' })//forbidden
+                        const nextPlayerUid = room.turnOrder[room.turnCounter % room.turnOrder.length];
+                        if (token.uid != nextPlayerUid
+                            && token.uid != nextPlayerUid.substring(0, nextPlayerUid.length - 1)) {
+                                // allows local device players to still draw cards
+                            return Promise.reject({ err: 'Not your turn!', code: '403' ,
+                                info: {
+                                    turn: nextPlayerUid,
+                                    suid: nextPlayerUid.substring(0, nextPlayerUid.length - 1),
+                                    uid: token.uid
+                                }
+                        })//forbidden
                         }
 
                         // Pick card
