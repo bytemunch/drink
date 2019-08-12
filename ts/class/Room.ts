@@ -194,11 +194,25 @@ class Room {
     async addLocalPlayer(playerInfo) {
         playerInfo.ready = true;
 
-        console.log(playerInfo);
-        this.ref.set({
-            players: {[playerInfo.uid]: playerInfo },
+        return this.ref.set({
+            players: { [playerInfo.uid]: playerInfo },
             turnOrder: firebase.firestore.FieldValue.arrayUnion(playerInfo.uid)
-        },{merge:true})
+        }, { merge: true })
+    }
+
+    async dropLocalPlayer(uid) {
+        const players = this.data.players;
+
+        let newPlayers = { ...players };
+
+        delete newPlayers[uid];
+
+        const roomUpdated = this.ref.update({
+            players: newPlayers,
+            turnOrder: firebase.firestore.FieldValue.arrayRemove(uid)
+        })
+
+        return roomUpdated;
     }
 
     async leave() {
@@ -208,7 +222,30 @@ class Room {
         // Wait for now I guess
         addLoader('pageOpen');
         this.killListener();
-        await easyPOST('reqLeaveRoom', { uid: userdata.uid, roomId: this.roomId });
+        // await easyPOST('reqLeaveRoom', { uid: userdata.uid, roomId: this.roomId });
+
+        const players = this.data.players;
+
+        let newPlayers = { ...players };
+
+        let playersToRemove = [];
+
+        for (let playerUid in players) {
+            if (playerUid.includes(userdata.uid)) {
+                delete newPlayers[playerUid];
+                playersToRemove.push(playerUid);
+            }
+        }
+
+        const roomUpdated = this.ref.update({
+            players: newPlayers,
+            turnOrder: firebase.firestore.FieldValue.arrayRemove(...playersToRemove)
+        })
+
+        const userUpdated = userdata.ref.set({ currentRoom: '', prevRoom: '', prevPIN: '' }, { merge: true })
+
+        await Promise.all([roomUpdated, userUpdated]);
+
         this.data = false;
         openPage('home');
     }

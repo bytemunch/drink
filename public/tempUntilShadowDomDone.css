@@ -70,8 +70,7 @@ ce-card-display img {
     height: unset;
     margin-left:10vw;
 }
-
-ce-popup {
+.popup {
     width: 100vw;
     height: 100vh;
     position: absolute;
@@ -81,14 +80,14 @@ ce-popup {
     background-color: rgba(0, 0, 0, 0.25);
 }
 
-ce-popup div {
+.popup div {
     z-index: 100;
 	position: absolute;
 	top: 20vh;
 	left: 10vw;
 	width: 80vw;
 	padding: 10vw;
-	background: skyblue;
+	background: rgb(97, 127, 209);
 }
 
 ce-avatar-upload > * {

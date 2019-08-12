@@ -37,6 +37,8 @@ class CePopUp extends CustomElement {
     }
 
     connectedCallback() {
+        this.classList.add('popup');
+
         if (this.timer) {
             setTimeout(this.kill.bind(this), this.timer);
         }

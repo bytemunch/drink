@@ -1,6 +1,6 @@
 /// <reference types="firebase"/>
 
-const VERSION = '0.0.16 - alpha - ';
+const VERSION = '0.0.19dev - alpha - DESIGNED FOR MOBILE - ';
 const DEBUG_MODE = true;
 const LOCAL_MODE = false;
 // Local mode is gonna wait til alpha release
@@ -45,12 +45,21 @@ const palette = {
     greyAlpha: `rgba(0, 0, 0, 0.25)`
 }
 
+async function popUpTest(title, message, options) {
+    let p = document.body.appendChild(new CeInteractivePopUp(title, message, options));
+
+    await p.val;
+    console.log(p.val);
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     // The Firebase SDK is initialized and available here!
     document.body.appendChild(new CePopUp('Please Note:',
         'This game is still in heavy development! \n Please use the most updated Chrome to view and use it for now.\n Accounts may be lost, the app may crash, things may not display properly.\n Please send any feedback or bug reports to sam.drink.app@gmail.com',
         0,
         'info'));
+
+    popUpTest('Test!', 'This is a test.', { 'op1': 'Option 1', 'op2': 'Option 2', 'op3': 'Option 3' });
 
     firebase.auth().onAuthStateChanged(authHandler);
 
@@ -106,7 +115,7 @@ async function authHandler(user: any) {
                 }
             })
             .catch(e => {
-                console.error('userdata.populateFrom:',e);
+                console.error('userdata.populateFrom:', e);
             })
 
     } else {

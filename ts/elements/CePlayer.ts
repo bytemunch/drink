@@ -40,7 +40,10 @@ class CePlayer extends CustomElement {
 
         this.elements.name.textContent = player.name;
 
-        if (this.classList.contains('big')) this.elements.avatar.ready = player.ready;
+        if (this.classList.contains('big')) {
+            this.elements.avatar.ready = player.ready;
+            // add showhidebutton for player info
+        }
 
         this.style.opacity = '1';//player.status == 'offline' ? '0.5' : '1';
 

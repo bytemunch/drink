@@ -35,13 +35,21 @@ export const leaveRoom = async function leaveRoom(uid, intended = false) {
 
     const players = roomData.players;
 
-    // remove player from room
+    // Find all players containing our UID
+
     let newPlayers = { ...players };
-    delete newPlayers[uid]
+    let toRemove = [];
+
+    for (let playerUid in players) {
+        if (playerUid.includes(uid)) {
+            delete newPlayers[playerUid];
+            toRemove.push(playerUid);
+        }
+    }
 
     const roomUpdated = roomRef.update({
         players: newPlayers,
-        turnOrder: admin.firestore.FieldValue.arrayRemove(uid)
+        turnOrder: admin.firestore.FieldValue.arrayRemove(...toRemove)
     }, { merge: true })
 
     const userUpdateData = intended ? { currentRoom: '', prevRoom: '', prevPIN: '' } : { currentRoom: '', prevRoom: roomRef, prevPIN: roomData.pin };
