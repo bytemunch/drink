@@ -118,6 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 async function authHandler(user: any) {
+    console.log('authHandling');
     killLoader('initialLoad')
     addLoader('pageOpen')
     if (user) {
