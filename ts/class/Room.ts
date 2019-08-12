@@ -145,8 +145,6 @@ class Room {
         firebase.auth().currentUser.getIdToken(true)
             .then(token => {
                 // Send data to cloud function to compare PIN
-                console.log(roomId)
-
                 easyPOST('joinRoom', { pin, roomId, token })
                     .then(res => { return res.json() })
                     .then(data => {
@@ -262,6 +260,10 @@ class Room {
                 // set aviImg to default
                 return '/img/noimg.png';
             })
+    }
+
+    get link() {
+        return `${location.origin}/?r=${this.roomId}&p=${this.data.pin}`;
     }
 
 

@@ -41,6 +41,13 @@ class LobbyPage extends Page {
         playerInfo.classList.add('bigGrid');
         this.page.appendChild(playerInfo);
 
+        let inviteModal = new CeInviteMenu;
+
+        this.page.appendChild(inviteModal);
+
+        let inviteButton = new CeInviteButton(inviteModal);
+
+        this.page.appendChild(inviteButton);
 
         let startButton = new CeStartReadyButton;//document.createElement('ce-start-button');
 

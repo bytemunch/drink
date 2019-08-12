@@ -34,7 +34,21 @@ class LoginPage extends Page {
                     errorPopUp(err.code + ': ' + err.message);
                 })
         })
+        btnLogin.classList.add('big');
 
+
+        let btnFb = document.createElement('button');
+        btnFb.textContent = 'Continue with Facebook';
+
+        btnFb.style.backgroundColor = palette.facebook;
+
+        btnFb.addEventListener('click', e=>{
+            // facebook login
+            let fbProvider = new firebase.auth.FacebookAuthProvider;
+            firebase.auth().signInWithRedirect(fbProvider);
+        })
+
+        btnFb.classList.add('big');
 
         let btnSignup = document.createElement('button')
         btnSignup.textContent = 'Sign Up';
@@ -48,7 +62,6 @@ class LoginPage extends Page {
                 })
         })
 
-        btnLogin.classList.add('big');
         btnSignup.classList.add('big', 'green');
 
         this.page.appendChild(emailP);
@@ -57,6 +70,9 @@ class LoginPage extends Page {
         this.page.appendChild(passInput);
         this.page.appendChild(btnLogin);
         this.page.appendChild(btnSignup);
+
+        this.page.appendChild(btnFb);
+
 
     }
 }

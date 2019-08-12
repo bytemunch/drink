@@ -138,8 +138,6 @@ class CeLoadScreen extends CustomElement {
 
             ctx.clearRect(0, 0, width, height);
 
-            // console.log(currentProgress, newProgress)
-
             if (currentProgress < newProgress) {
                 currentProgress += 2;
             }

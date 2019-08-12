@@ -5,7 +5,7 @@ function deleteAllRooms() {
     firestore.collection('rooms').get().then(qSnap => {
         qSnap.forEach(doc => {
             if (doc.id !== 'roomsinfo')
-                console.log(doc.ref.delete());
+                doc.ref.delete();
         });
     });
 }

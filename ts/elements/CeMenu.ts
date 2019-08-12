@@ -28,7 +28,6 @@ class CeMenu extends CustomElement {
         this.menu.style.left = '0';
         this.menu.style.display = 'block';
         this.menu.style.zIndex = '10';
-        this.menu.style.padding = '2vw';
 
         this.logoutBtn.classList.add('small', 'logout');
     }

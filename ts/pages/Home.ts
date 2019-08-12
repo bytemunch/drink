@@ -81,8 +81,6 @@ class HomePage extends Page {
 
             let createdId = await room.createLocal();
 
-            console.log(createdId);
-
             if (createdId.err) {
                 errorPopUp(createdId.err);
             }

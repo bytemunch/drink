@@ -35,6 +35,9 @@ class AccountPage extends Page {
                 i.setAttribute('type',inputs[input].type);
                 i.classList.add('big');
                 i.value = userdata[input] || '';
+                if (input == 'name' && PROVIDER_VARS.name && !userdata.name) {
+                    i.value = PROVIDER_VARS.name;
+                }
             }
 
             i.setAttribute('id',`acc-input-${input}`);

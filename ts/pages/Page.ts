@@ -15,7 +15,8 @@ class Page {
         version.style.textAlign = 'center';
         version.style.fontSize = 'small';
         version.style.zIndex = '100';
-        version.textContent = VERSION + (LOCAL_MODE ? ' local' : ' online');
+        version.style.pointerEvents = 'none';
+        version.textContent = VERSION;
 
         this.page.appendChild(version)
     };

@@ -12,7 +12,6 @@ class CeShowHideButton extends CustomElement {
         this.target = target;
         this.openImg = './img/menu-icon.svg';
         this.closeImg = './img/close-icon.svg';
-
     }
 
     applyStyle() {

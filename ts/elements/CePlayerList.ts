@@ -65,7 +65,6 @@ class CePlayerList extends UpdateableElement {
         for (let i = 0; i < room.data.turnCounter; i++) {
             tmp = this.players.shift();
             this.players.push(tmp);
-            //console.log('shifting...');
         }
 
         // Clear DOM

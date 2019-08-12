@@ -28,7 +28,6 @@ class CeInteractivePopUp extends CustomElement {
                 this.options[idx].classList.add('small');
                 
                 this.options[idx].addEventListener('click', e=>{
-                    console.log('clicked:',o)
                     resolve(o);
                     this.kill();
                 })

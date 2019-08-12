@@ -30,7 +30,6 @@ class CeAvatar extends UpdateableElement {
             .then(url => {
                 this.src = `url(${url})`;
                 this.update();
-
             })
 
         this._uid = uid;

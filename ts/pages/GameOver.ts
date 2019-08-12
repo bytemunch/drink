@@ -18,8 +18,6 @@ class GameOverPage extends Page {
 
         home.addEventListener('click', e => {
             e.preventDefault();
-            //window.location.href = '/index.html';
-            //console.log('TODO refresh here?');
             openPage('home');
         })
         home.textContent = 'Home';
