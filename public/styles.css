@@ -42,7 +42,7 @@ body {
 	top: -10px;
 	/* margin-top: -10vh; */
 	overflow: visible;
-	width: 90vw;
+	width: 100vw;
 	text-align: center;
 	/* margin: 0; */
 	font-size: 36pt;
@@ -84,7 +84,6 @@ button {
     width:100vw;
 }
 #page {
-    padding: 5vw;
     height: 100%;
 }
 
@@ -114,9 +113,8 @@ button {
 }
 
 .big {
-    margin-left: 5vw;
-    margin-bottom: 2vh;
-    width:80vw;
+    margin: 1vh 0 1vh 10%;
+    width:80%;
 }
 
 button.small {
@@ -135,18 +133,14 @@ button.logout {
 }
 
 button.big {
-    font-size: 30pt;
+    font-size: large;
     float:left;
-    margin-bottom:10vh;
-    margin-top:5vh;
-    height:10vh;
     min-height:40px;
 }
 
 button.bottom {
     position: absolute;
     bottom: 0;
-    left:5vw;
     margin-bottom: 2vh;
     margin-top: 0;
 }
@@ -154,15 +148,14 @@ button.bottom {
 input {
     color: black;
     font-family: sans-serif;
-    font-size:20pt;
+    font-size:large;
     position: relative;
     text-align: center;
 }
 
 p.label {
-    font-size: 20pt;
-    width:80vw;
-    /* margin-top:4vh; */
+    font-size: large;
+    width:80%;
     text-align: center;
     position: relative;
 }

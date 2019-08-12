@@ -264,5 +264,9 @@ class Room {
             })
     }
 
+    get link() {
+        return `${location.origin}/?r=${this.roomId}&p=${this.data.pin}`;
+    }
+
 
 }

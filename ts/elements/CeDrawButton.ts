@@ -49,14 +49,14 @@ class CeDrawButton extends HTMLButtonElement {
             const nextUid = room.data.turnOrder[nextPlayerIndex];
             
             if (nextUid == userdata.uid || nextUid.substring(0,nextUid.length-1) == userdata.uid) {
-                this.disable('Waiting...');
+                this.disable('Please wait...');
 
                 animMan.animate(this,'wait',5000)
                 .then(()=>{
-                    this.enable('Card');
+                    this.enable('Draw Card');
                 })
             } else {
-                this.disable('Waiting...');
+                this.disable('Waiting for player...');
             }
         } else {
             this.style.backgroundColor = palette.red;

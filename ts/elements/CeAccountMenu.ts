@@ -36,6 +36,9 @@ class CeAccountMenu extends CeMenu {
                 i.setAttribute('type',inputs[input].type);
                 i.classList.add('big');
                 i.value = userdata[input] || '';
+                if (input == 'name' && PROVIDER_VARS.name && !userdata.name) {
+                    i.value = PROVIDER_VARS.name;
+                }
             }
 
             i.setAttribute('id',`acc-input-${input}`);
@@ -45,7 +48,7 @@ class CeAccountMenu extends CeMenu {
 
         let btnUpdate = document.createElement('button');
         btnUpdate.textContent = 'Update';
-        btnUpdate.classList.add('big');
+        btnUpdate.classList.add('big','bottom');
 
         btnUpdate.addEventListener('click', async e=>{
             // load here

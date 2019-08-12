@@ -1,8 +1,12 @@
 /// <reference types="firebase"/>
 
-const VERSION = '0.0.19dev - alpha - DESIGNED FOR MOBILE - ';
+const VERSION = '0.0.20 - alpha';
 const DEBUG_MODE = true;
 const LOCAL_MODE = false;
+
+let INVITE_CREDS = { room: '', pin: '' }
+
+let PROVIDER_VARS = {avi: '', name: ''}
 // Local mode is gonna wait til alpha release
 // or maybe use DEBUG_MODE to switch between dev project and live project
 // Literally https://github.com/firebase/firebase-tools/issues/1001
@@ -42,7 +46,8 @@ const palette = {
     darkblue: `rgb(33, 153, 249)`,
     grey: `rgb(148, 148, 148)`,
     white: `rgb(240, 248, 255)`,
-    greyAlpha: `rgba(0, 0, 0, 0.25)`
+    greyAlpha: `rgba(0, 0, 0, 0.25)`,
+    facebook: `rgb(64, 101, 179)`
 }
 
 async function popUpTest(title, message, options) {
@@ -52,6 +57,33 @@ async function popUpTest(title, message, options) {
     console.log(p.val);
 }
 
+firebase.auth().getRedirectResult().then(function (result) {
+    if (result.credential) {
+        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+        var token = result.credential;
+
+        // ...
+    }
+    // The signed-in user info.
+    var user = result.user;
+
+    // Grab PP
+
+    PROVIDER_VARS.avi = user.photoURL;
+    PROVIDER_VARS.name = user.displayName;
+
+    console.log(PROVIDER_VARS);
+}).catch(function (error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    // The email of the user's account used.
+    var email = error.email;
+    // The firebase.auth.AuthCredential type that was used.
+    var credential = error.credential;
+    // ...
+});
+
 document.addEventListener('DOMContentLoaded', function () {
     // The Firebase SDK is initialized and available here!
     document.body.appendChild(new CePopUp('Please Note:',
@@ -59,7 +91,10 @@ document.addEventListener('DOMContentLoaded', function () {
         0,
         'info'));
 
-    popUpTest('Test!', 'This is a test.', { 'op1': 'Option 1', 'op2': 'Option 2', 'op3': 'Option 3' });
+    // Check if we followed an invite link
+    let params = (new URL(location.href)).searchParams;
+    INVITE_CREDS.room = params.get('r') || '';
+    INVITE_CREDS.pin = params.get('p') || '';
 
     firebase.auth().onAuthStateChanged(authHandler);
 
@@ -85,6 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 async function authHandler(user: any) {
+    console.log('authHandling');
     killLoader('initialLoad')
     addLoader('pageOpen')
     if (user) {
@@ -99,12 +135,14 @@ async function authHandler(user: any) {
         console.log('clearing room');
         await userRef.set({ currentRoom: '' }, { merge: true });
 
-        // setup presence
-        // presMan = new PresenceManager(user.uid);
         userdata.populateFrom(user.uid)
             .then(userExists => {
                 if (userExists && userdata.name) {
-                    if (userData.prevRoom) {
+
+                    // if we followed an invite link
+                    if (INVITE_CREDS.room && INVITE_CREDS.pin) {
+                        room.join(INVITE_CREDS.room, INVITE_CREDS.pin)
+                    } else if (userData.prevRoom) {
                         console.log('joining previous room!');
                         room.join(userData.prevRoom.id, userData.prevPIN)
                     } else {

@@ -12,14 +12,45 @@ class CeAvatarUpload extends HTMLElement {
         this.uid = uid;
     }
 
+    setImage(file) {
+        console.log('setting image')
+
+        let image = document.createElement('img');
+        image.setAttribute('src', URL.createObjectURL(file));
+        image.style.display = 'none';
+        image.style.width = 'unset';
+        image.style.height = 'unset';
+        document.body.appendChild(image);
+
+        image.addEventListener('load', () => {
+            this.shrunkFile = shrinkImage(image);
+            // setup image preview
+            this.preview.style.backgroundImage = `url(${this.shrunkFile}`;
+            this.file = dataURItoFile(this.shrunkFile);
+        })
+
+        image.addEventListener('error', e => console.error(e));
+    }
+
     connectedCallback() {
         this.realInput = document.createElement('input');
         this.realInput.setAttribute('type', 'file');
         this.realInput.setAttribute('hidden', 'hidden');
 
-        this.realInput.addEventListener('change', e => {
-            const file = this.realInput.files[0];
+        // If we have external profile pic
+        // and don't currently have a profile pic
+        firebase.storage().ref().child(`avatars/${this.uid}.png`).getDownloadURL()
+        .catch(async err=>{
+            console.log('fallThrough!');
+            if (PROVIDER_VARS.avi) {
+                fetch(PROVIDER_VARS.avi)
+                .then(res=>res.blob())
+                .then(blob=>this.setImage(blob))
+            }
+        })
 
+        this.realInput.addEventListener('change', e => {
+            const file = this.realInput.files[0]
             file.extension = file.name.split('.').pop();
 
             if (!['png','jpeg','gif','jpg'].includes(file.extension.toLowerCase())) {
@@ -27,21 +58,7 @@ class CeAvatarUpload extends HTMLElement {
                 return;
             }
 
-            let image = document.createElement('img');
-            image.setAttribute('src', URL.createObjectURL(file));
-            image.style.display = 'none';
-            image.style.width = 'unset';
-            image.style.height = 'unset';
-            document.body.appendChild(image);
-
-            image.addEventListener('load', () => {
-                this.shrunkFile = shrinkImage(image);
-                // setup image preview
-                this.preview.style.backgroundImage = `url(${this.shrunkFile}`;
-                this.file = dataURItoFile(this.shrunkFile);
-            })
-
-            image.addEventListener('error', e => console.error(e));
+            this.setImage(file)
         })
 
         this.appendChild(this.realInput);

@@ -11,6 +11,9 @@ function shrinkImage(img, max_height = 64, max_width = 64) {
     let width = img.width;
     let height = img.height;
 
+    if (width < max_width) max_width = width;
+    if (height < max_height) max_height = height;
+
     let xOff = 0;
     let yOff = 0;
 
