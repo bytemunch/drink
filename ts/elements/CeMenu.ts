@@ -19,13 +19,12 @@ class CeMenu extends CustomElement {
         this.style.zIndex = '10';
 
         this.menu.style.backgroundColor = palette.green;
-        this.menu.style.width = '90vw';
-        this.menu.style.height = '90vh';
-        this.menu.style.marginLeft = '5vw';
+        this.menu.style.width = `calc(${document.body.style.width} * 0.9)`;
+        this.menu.style.height = `80%`;
         this.menu.style.marginTop = '5vh';
         this.menu.style.position = 'absolute';
         this.menu.style.top = '0';
-        this.menu.style.left = '0';
+        this.menu.style.left = `calc(${document.body.style.marginLeft} + (${ document.body.style.width} * 0.05))`;
         this.menu.style.display = 'block';
         this.menu.style.zIndex = '10';
 

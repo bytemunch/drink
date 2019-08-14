@@ -42,7 +42,7 @@ body {
 	top: -10px;
 	/* margin-top: -10vh; */
 	overflow: visible;
-	width: 100vw;
+	width: 100%;
 	text-align: center;
 	/* margin: 0; */
 	font-size: 36pt;
@@ -80,8 +80,8 @@ button {
     outline: none;
 } */
 #app {
-    height:100vh;
-    width:100vw;
+    height:100%;
+    width:100%;
 }
 #page {
     height: 100%;
@@ -141,6 +141,7 @@ button.big {
 button.bottom {
     position: absolute;
     bottom: 0;
+    left: 0;
     margin-bottom: 2vh;
     margin-top: 0;
 }

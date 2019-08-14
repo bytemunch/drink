@@ -22,7 +22,15 @@ class CeShowHideButton extends CustomElement {
         this.style.position = 'absolute';
         this.style.right = '1vw';
         this.style.top = '1vw';
+        this.style.zIndex = '11';
 
+        this.style.left = 'unset';
+    }
+
+    moveToTopRight() {
+        this.style.left = `calc(${document.body.style.marginLeft} + (${ document.body.style.width} * 0.9) + (${this.style.width} / 2))`;
+        this.style.top = `calc(5vh - ${this.style.height} / 2)`;
+        this.style.position = `fixed`;
         this.style.zIndex = '11';
     }
 
@@ -56,11 +64,13 @@ class CeShowHideButton extends CustomElement {
 
 
         if (this.openState) {
+            this.moveToTopRight();
             this.target.show();
             this.style.backgroundColor = palette.red;
             this.icon.setAttribute('src', this.closeImg);
 
         } else {
+            this.applyStyle();
             this.target.hide();
             this.style.backgroundColor = palette.blue;
             this.icon.setAttribute('src', this.openImg);

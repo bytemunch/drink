@@ -42,18 +42,16 @@ class CeDrawButton extends HTMLButtonElement {
 
     update() {
         if (room.data.state !== 'finished') {
-            const nextPlayerIndex = room.data.turnCounter % room.data.turnOrder.length;
-            const nextUid = room.data.turnOrder[nextPlayerIndex];
-            
-            if (nextUid == userdata.uid || nextUid.substring(0,nextUid.length-1) == userdata.uid) {
+            const nextPlayer = room.nextPlayer;
+            if (nextPlayer.uid == userdata.uid || nextPlayer.uid.substring(0, nextPlayer.uid.length - 1) == userdata.uid) {
                 this.disable('Please wait...');
 
-                animMan.animate(this,'wait',5000)
-                .then(()=>{
-                    this.enable('Draw Card');
-                })
+                animMan.animate(this, 'wait', 5000)
+                    .then(() => {
+                        this.enable('Draw Card');
+                    })
             } else {
-                this.disable('Waiting for player...');
+                this.disable(`Waiting for ${nextPlayer.name}...`);
             }
         } else {
             this.style.backgroundColor = palette.red;

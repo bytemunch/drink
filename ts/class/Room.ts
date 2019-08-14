@@ -266,5 +266,13 @@ class Room {
         return `${location.origin}/?r=${this.roomId}&p=${this.data.pin}`;
     }
 
+    get nextPlayer() {
+        const nextPlayerIndex = room.data.turnCounter % room.data.turnOrder.length;
+        const nextUid = room.data.turnOrder[nextPlayerIndex];
+        let playerObject = room.data.players[nextUid];
+        playerObject.uid = nextUid;
+
+        return playerObject;
+    }
 
 }

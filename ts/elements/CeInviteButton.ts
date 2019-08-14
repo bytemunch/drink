@@ -13,12 +13,6 @@ class CeInviteButton extends CeCreatePlayerButton {
         this.style.top = 'unset'
     }
 
-    clicked() {
-        super.clicked();
-        this.style.right = this.openState ? '1vw' : 'unset';
-        this.style.top = this.openState ? '1vw' : 'unset';
-    }
-
     connectedCallback() {
         super.connectedCallback();
 

@@ -1,6 +1,6 @@
 /// <reference types="firebase"/>
 
-const VERSION = '0.0.20 - alpha';
+const VERSION = '0.0.21 - alpha';
 const DEBUG_MODE = true;
 const LOCAL_MODE = false;
 
@@ -22,6 +22,19 @@ const firebaseConfig = {
     messagingSenderId: "65675668525",
     appId: "1:65675668525:web:e6865bb78d7596c7"
 };
+
+// Body sizing
+if (window.innerWidth/window.innerHeight > 0.75) {
+    document.body.style.width = `${window.innerHeight * 0.75}px`;
+    document.body.style.marginLeft = `${(window.innerWidth - (window.innerHeight * 0.75))/2}px`;
+}
+window.addEventListener('resize', e=>{
+    console.log('resized');
+    if (window.innerWidth/window.innerHeight > 0.75) {
+        document.body.style.width = `${window.innerHeight * 0.75}px`;
+        document.body.style.marginLeft = `${(window.innerWidth - (window.innerHeight * 0.75))/2}px`;
+    }
+})
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
