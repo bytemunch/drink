@@ -1,8 +1,10 @@
 /// <reference path='CeMenu.ts'/>
 
-class CeCreatePlayerMenu extends CeMenu {
-    constructor() {
+class CeModifyPlayerMenu extends CeMenu {
+    uid;
+    constructor(uid) {
         super();
+        this.uid = uid;
     }
 
     applyStyle() {
@@ -12,13 +14,13 @@ class CeCreatePlayerMenu extends CeMenu {
     connectedCallback() {
         super.connectedCallback();
 
+        this.id="modify"+this.uid;
+
         this.logoutBtn.style.display = 'none';
 
         let title = document.createElement('h1');
-        title.textContent = 'Add Local Player';
+        title.textContent = 'Edit Local Player';
         this.menu.appendChild(title);
-
-        let newUid = userdata.uid + userdata.extraPlayerCount;
 
         let inputs: any = {
             name: {
@@ -44,16 +46,12 @@ class CeCreatePlayerMenu extends CeMenu {
             let i;
 
             if (inputs[input].type == 'file') {
-                i = new CeAvatarUpload(newUid)//document.createElement('ce-avatar-upload');
+                i = new CeAvatarUpload(this.uid)//document.createElement('ce-avatar-upload');
             } else {
                 i = document.createElement('input');
                 i.setAttribute('type', inputs[input].type);
                 i.classList.add('big');
-                // i.value = userdata[input] || '';
-            }
-
-            if (input == 'name') {
-                i.value = userdata.name + ' ' + (userdata.extraPlayerCount + 1);
+                i.value = room.data.players[this.uid][input] || '';
             }
 
             i.setAttribute('id', `acc-input-${input}`);
@@ -62,7 +60,7 @@ class CeCreatePlayerMenu extends CeMenu {
         }
 
         let btnUpdate = document.createElement('button');
-        btnUpdate.textContent = 'Add Player';
+        btnUpdate.textContent = 'Update Player';
         btnUpdate.classList.add('big');
 
         btnUpdate.addEventListener('click', async e => {
@@ -74,32 +72,37 @@ class CeCreatePlayerMenu extends CeMenu {
             }
 
             const playerInfo = {
-                uid: newUid,
+                uid: this.uid,
                 name: inputs['name'].value,
                 color: inputs['color'].value,
             }
 
             inputs['avatar'].upload();
 
-            await room.addLocalPlayer(playerInfo);
-
-            // add player modify menu to page
-            document.querySelector('#pageInner').appendChild(new CeModifyPlayerMenu(newUid))
-
-            userdata.extraPlayerCount++;
-            newUid = userdata.uid + userdata.extraPlayerCount;
-            inputs.name.value = userdata.name + ' ' + (userdata.extraPlayerCount + 1);
-            inputs.avatar.uid = newUid;
+            room.addLocalPlayer(playerInfo);
 
             // close modal
-            this.hide();
+            this.hide()
         })
 
         this.menu.appendChild(btnUpdate);
+
+
+        let btnRemove = document.createElement('button');
+        btnRemove.textContent = 'Delete Player';
+        btnRemove.classList.add('big', 'red');
+
+        btnRemove.addEventListener('click', async e => {
+            room.dropLocalPlayer(this.uid);
+
+            this.hide();
+        })
+
+        this.menu.appendChild(btnRemove);
 
 
         this.applyStyle();
     }
 }
 
-customElements.define('ce-create-player-menu', CeCreatePlayerMenu);
+customElements.define('ce-modify-player-menu', CeModifyPlayerMenu);

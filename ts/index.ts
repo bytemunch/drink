@@ -1,12 +1,12 @@
 /// <reference types="firebase"/>
 
-const VERSION = '0.0.21 - alpha';
+const VERSION = '0.0.22 - alpha';
 const DEBUG_MODE = true;
 const LOCAL_MODE = false;
 
 let INVITE_CREDS = { room: '', pin: '' }
 
-let PROVIDER_VARS = {avi: '', name: ''}
+let PROVIDER_VARS = { avi: '', name: '' }
 // Local mode is gonna wait til alpha release
 // or maybe use DEBUG_MODE to switch between dev project and live project
 // Literally https://github.com/firebase/firebase-tools/issues/1001
@@ -24,15 +24,34 @@ const firebaseConfig = {
 };
 
 // Body sizing
-if (window.innerWidth/window.innerHeight > 0.75) {
+
+document.body.style.zoom = '1';
+
+if (window.innerWidth / window.innerHeight > 0.75 && window.innerWidth > 460 ) {
     document.body.style.width = `${window.innerHeight * 0.75}px`;
-    document.body.style.marginLeft = `${(window.innerWidth - (window.innerHeight * 0.75))/2}px`;
+    document.body.style.marginLeft = `${(window.innerWidth - (window.innerHeight * 0.75)) / 2}px`;
+} else {
+    document.body.style.width = `${window.innerWidth}px`;
+    document.body.style.marginLeft = `0px`;
+
 }
-window.addEventListener('resize', e=>{
-    console.log('resized');
-    if (window.innerWidth/window.innerHeight > 0.75) {
+window.addEventListener('resize', e => {
+    document.body.style.height = '100vh';
+    document.body.style.zoom = '1';
+
+    if (window.innerWidth / window.innerHeight > 0.75) {
         document.body.style.width = `${window.innerHeight * 0.75}px`;
-        document.body.style.marginLeft = `${(window.innerWidth - (window.innerHeight * 0.75))/2}px`;
+        document.body.style.marginLeft = `${(window.innerWidth - (window.innerHeight * 0.75)) / 2}px`;
+    }
+
+    let reflowElements = document.querySelectorAll('.responsive-reflow') as any;
+
+    for (let el of reflowElements) {
+        try {
+            el.applyStyle();
+        } catch (e) {
+            console.log(e, el)
+        }
     }
 })
 
@@ -131,7 +150,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 async function authHandler(user: any) {
-    console.log('authHandling');
     killLoader('initialLoad')
     addLoader('pageOpen')
     if (user) {

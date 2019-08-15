@@ -1,4 +1,5 @@
-class CeCreatePlayerButton extends CeShowHideButton {
+// @ts-ignore
+class CeCreatePlayerButton extends CeShowButton {
     constructor(tgt) {
         super(tgt);
         this.openImg = './img/add.svg'
@@ -7,7 +8,8 @@ class CeCreatePlayerButton extends CeShowHideButton {
     applyStyle() {
         super.applyStyle();
         this.style.position = 'relative';
-        this.style.zIndex = '9';
+        this.style.top = 'calc(50% - 16px)';
+        this.style.left = 'calc(50% - 16px)';
     }
 }
 

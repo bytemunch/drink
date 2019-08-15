@@ -1,6 +1,6 @@
 /// <reference path='CustomElement.ts'/>
 
-class CeShowHideButton extends CustomElement {
+class CeShowButton extends CustomElement {
     openState = false;
     openImg;
     closeImg;
@@ -22,16 +22,17 @@ class CeShowHideButton extends CustomElement {
         this.style.position = 'absolute';
         this.style.right = '1vw';
         this.style.top = '1vw';
-        this.style.zIndex = '11';
+        this.style.zIndex = '9';
 
         this.style.left = 'unset';
     }
 
     moveToTopRight() {
-        this.style.left = `calc(${document.body.style.marginLeft} + (${ document.body.style.width} * 0.9) + (${this.style.width} / 2))`;
+        this.style.left = `calc(${document.body.style.marginLeft} + ${ document.body.style.width} - (${this.style.width}))`;
         this.style.top = `calc(5vh - ${this.style.height} / 2)`;
         this.style.position = `fixed`;
         this.style.zIndex = '11';
+        return 'unset';
     }
 
     connectedCallback() {
@@ -60,23 +61,10 @@ class CeShowHideButton extends CustomElement {
             }
         }
 
-        this.openState = !this.openState;
-
-
-        if (this.openState) {
-            this.moveToTopRight();
+        if (!this.target.openState) {
             this.target.show();
-            this.style.backgroundColor = palette.red;
-            this.icon.setAttribute('src', this.closeImg);
-
-        } else {
-            this.applyStyle();
-            this.target.hide();
-            this.style.backgroundColor = palette.blue;
-            this.icon.setAttribute('src', this.openImg);
         }
     }
-
 }
 
-customElements.define('ce-show-hide-button', CeShowHideButton);
+customElements.define('ce-show-button', CeShowButton);

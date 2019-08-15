@@ -9,7 +9,7 @@ class LobbyPage extends Page {
 
         this.page.appendChild(menu);
 
-        let menuButton = new CeShowHideButton(menu);
+        let menuButton = new CeShowButton(menu);
 
         this.page.appendChild(menuButton);
 

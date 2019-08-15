@@ -7,9 +7,11 @@ interface ICePlayerElements {
 
 class CePlayer extends CustomElement {
     elements: ICePlayerElements;
+    uid;
 
-    constructor() {
+    constructor(uid) {
         super();
+        this.uid = uid;
     }
 
     connectedCallback() {
@@ -25,10 +27,18 @@ class CePlayer extends CustomElement {
             this.appendChild(this.elements[e]);
         }
 
-        this.applyStyles();
+        this.addEventListener('click', e => {
+            if (this.uid !== userdata.uid) {
+                const modifyMenu = document.querySelector('#modify' + this.uid) as CeModifyPlayerMenu;
+                modifyMenu.show();
+            }
+
+        })
+
+        this.applyStyle();
     }
 
-    applyStyles() {
+    applyStyle() {
         // for later when shadow dom done
     }
 
@@ -37,6 +47,8 @@ class CePlayer extends CustomElement {
         // this.elements.avatar.setAttribute('src', avatarLink);
 
         this.elements.avatar.uid = player.uid;
+
+        this.uid = player.uid;
 
         this.elements.name.textContent = player.name;
 

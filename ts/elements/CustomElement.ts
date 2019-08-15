@@ -4,6 +4,7 @@ class CustomElement extends HTMLElement {
     }
 
     connectedCallback() {
+        this.classList.add('responsive-reflow'); // reflow everything as test
         // this.attachShadow({mode:'open'});
     }
 

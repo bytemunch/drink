@@ -1,6 +1,6 @@
-/// <reference path='CeShowHideButton.ts'/>
+/// <reference path='CeShowButton.ts'/>
 
-class CeAccountButton extends CeShowHideButton {
+class CeAccountButton extends CeShowButton {
     avi;
 
     constructor(target) {
@@ -14,6 +14,7 @@ class CeAccountButton extends CeShowHideButton {
 
         this.style.position = 'relative';
         this.style.left = 'calc(99% - 32px)';
+        this.style.top = '1vw';
     }
 
     connectedCallback() {

@@ -8,7 +8,7 @@ class PlayPage extends Page {
 
         this.page.appendChild(ingameMenu);
 
-        let menuButton = new CeShowHideButton(ingameMenu);
+        let menuButton = new CeShowButton(ingameMenu);
 
         this.page.appendChild(menuButton);
 

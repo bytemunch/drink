@@ -10,7 +10,7 @@ class CePlayerList extends UpdateableElement {
     connectedCallback() {
         super.connectedCallback();
 
-        this.applyStyles();
+        this.applyStyle();
 
         this.addEventListener('click', e => {
             e.preventDefault();
@@ -26,7 +26,7 @@ class CePlayerList extends UpdateableElement {
         })
     }
 
-    applyStyles() {
+    applyStyle() {
         // this.style.display = 'grid'
         // this.style.width = '100vw';
         // this.style.height = '40vh'
