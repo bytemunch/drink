@@ -1,6 +1,6 @@
 /// <reference types="firebase"/>
 
-const VERSION = '0.0.22 - alpha';
+const VERSION = '0.0.23dev - alpha';
 const DEBUG_MODE = true;
 const LOCAL_MODE = false;
 

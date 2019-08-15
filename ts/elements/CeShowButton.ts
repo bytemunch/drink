@@ -15,16 +15,17 @@ class CeShowButton extends CustomElement {
     }
 
     applyStyle() {
-        this.style.backgroundColor = palette.blue;
-        this.style.width = '32px';
-        this.style.height = '32px';
-        this.style.display = 'block';
-        this.style.position = 'absolute';
-        this.style.right = '1vw';
-        this.style.top = '1vw';
-        this.style.zIndex = '9';
+        this.classList.add('show-button');
+        // this.style.backgroundColor = palette.blue;
+        // this.style.width = '32px';
+        // this.style.height = '32px';
+        // this.style.display = 'block';
+        // this.style.position = 'absolute';
+        // this.style.right = '1vw';
+        // this.style.top = '1vw';
+        // this.style.zIndex = '9';
 
-        this.style.left = 'unset';
+        // this.style.left = 'unset';
     }
 
     moveToTopRight() {

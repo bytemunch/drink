@@ -12,7 +12,7 @@ class CeAccountButton extends CeShowButton {
         this.style.background = 'none';
         this.icon.style.display = 'none';
 
-        this.style.position = 'relative';
+        this.style.position = 'absolute';
         this.style.left = 'calc(99% - 32px)';
         this.style.top = '1vw';
     }

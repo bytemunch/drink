@@ -2,6 +2,7 @@
 
 class Page {
     public page: HTMLElement;
+    aboutBtn;
 
     constructor() {
         this.page = document.createElement('div');
@@ -18,7 +19,18 @@ class Page {
         version.style.pointerEvents = 'none';
         version.textContent = VERSION;
 
-        this.page.appendChild(version)
+        this.page.appendChild(version);
+
+        // feedback menu
+        let aboutMenu = new CeAboutMenu;
+
+        // feedback button
+        this.aboutBtn = new CeShowButton(aboutMenu);
+        this.aboutBtn.openImg = './img/info.svg';
+        this.aboutBtn.classList.add('about');
+
+        this.page.appendChild(aboutMenu);
+        this.page.appendChild(this.aboutBtn);
     };
 
     addLogo() {

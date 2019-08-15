@@ -17,6 +17,7 @@ class LobbyPage extends Page {
         let title = document.createElement('h1');
 
         title.textContent = `Lobby.`;
+        title.style.textAlign = `center`;
 
         this.page.appendChild(title);
 

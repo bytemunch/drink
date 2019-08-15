@@ -1,9 +1,3 @@
-img {
-    width: 24px;
-    height: 24px;
-    object-fit: cover;
-}
-
 ce-player-list.bigGrid {
     display: grid;
     width: 80%;
@@ -113,4 +107,36 @@ ce-rule-display>p {
     display: block;
     font-size: 17pt;
     float: left;
+}
+
+
+.show-button,
+ce-show-button {
+    background-color: rgb(0, 191, 255);
+	width: 32px;
+	height: 32px;
+	display: block;
+	position: absolute;
+	right: 1vw;
+	top: 1vw;
+	z-index: 9;
+	left: unset;
+}
+
+ce-show-button.about {
+	position: absolute;
+	top: 1vw;
+    /* left: calc(50% - 16px); */
+    left: 1vw;
+	right: unset;
+}
+
+ce-account-button {
+    background: none;
+	position: relative;
+	left: calc(99% - 32px);
+	top: 1vw;
+	width: 32px;
+	height: 32px;
+	display: block;
 }

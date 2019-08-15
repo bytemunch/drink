@@ -245,7 +245,8 @@ class Room {
         await Promise.all([roomUpdated, userUpdated]);
 
         this.data = false;
-        openPage('home');
+        // openPage('home');
+        window.location.href = window.location.origin;
     }
 
     async getAvi(uid) {
