@@ -1,8 +1,10 @@
 /// <reference types="firebase"/>
 
-const VERSION = '0.0.23dev - alpha';
+const VERSION = '0.0.24 - alpha';
 const DEBUG_MODE = true;
 const LOCAL_MODE = false;
+
+let AJAX_NAV = {prev: location.hash.replace('#','')}
 
 let INVITE_CREDS = { room: '', pin: '' }
 
@@ -33,8 +35,8 @@ if (window.innerWidth / window.innerHeight > 0.75 && window.innerWidth > 460 ) {
 } else {
     document.body.style.width = `${window.innerWidth}px`;
     document.body.style.marginLeft = `0px`;
-
 }
+
 window.addEventListener('resize', e => {
     document.body.style.height = '100vh';
     document.body.style.zoom = '1';
@@ -53,6 +55,24 @@ window.addEventListener('resize', e => {
             console.log(e, el)
         }
     }
+})
+
+window.addEventListener('popstate', e=>{
+    addLoader('pageOpen');
+    let nextPage = location.hash.replace('#','');
+    let pushHistory = false;
+
+    if (nextPage == 'lobby' && AJAX_NAV.prev == 'play') {
+
+        // Lobby throws to play, so jump back to home before it can
+        history.back();
+
+        return;
+    }
+
+    openPage(nextPage,pushHistory);
+
+    updateDOM();
 })
 
 // Initialize Firebase

@@ -32,10 +32,6 @@ class Room {
                         if (oldData.state == 'lobby' && this.data.state == 'playing') {
                             openPage('play');
                         }
-
-                        if (oldData.state == 'playing' && this.data.state == 'finished') {
-                            //openPage('finished');
-                        }
                     }
 
                     // Somewhere here decide if we're changing pages based on data
@@ -245,8 +241,8 @@ class Room {
         await Promise.all([roomUpdated, userUpdated]);
 
         this.data = false;
-        // openPage('home');
-        window.location.href = window.location.origin;
+        openPage('home');
+        // window.location.href = window.location.origin;
     }
 
     async getAvi(uid) {

@@ -1,5 +1,10 @@
-function openPage(name: string) {
+function openPage(name: string, pushHistory = true) {
     let page: Page;
+
+    let state = null;
+
+    if (pushHistory) history.pushState(state, 'Drink!' + name, `${location.origin}/#${name}`);
+
     switch (name) {
         case 'login':
             page = new LoginPage();
@@ -15,18 +20,19 @@ function openPage(name: string) {
                 openPage('play');
                 return;
             }
+            // set hash location and search
+            if (pushHistory) history.replaceState(state, 'Drink! - Lobby', `/?r=${room.roomId}&p=${room.data.pin}#lobby`);
             page = new LobbyPage();
             break;
         case 'play':
+                if (pushHistory) history.replaceState(state, 'Drink! - Play', `/?r=${room.roomId}&p=${room.data.pin}#play`);
             page = new PlayPage();
-            break;
-        case 'finished':
-            page = new GameOverPage();
             break;
         default:
             console.log(`Page ${name} not found!`);
             return;
     }
+
     let pageContainer = document.querySelector('#page');
     if (!pageContainer) {
         pageContainer = document.createElement('div');
@@ -35,5 +41,8 @@ function openPage(name: string) {
     }
     pageContainer.innerHTML = '';
     pageContainer.appendChild(page.page);
+
+    AJAX_NAV.prev = name;
+
     killLoader('pageOpen');
 }
