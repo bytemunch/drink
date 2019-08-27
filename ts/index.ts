@@ -1,6 +1,6 @@
 /// <reference types="firebase"/>
 
-const VERSION = '0.0.26 - alpha';
+const VERSION = '0.0.27 - alpha';
 const DEBUG_MODE = true;
 const LOCAL_MODE = false;
 
@@ -97,6 +97,7 @@ const palette = {
     blue: `rgb(0, 191, 255)`,
     darkblue: `rgb(33, 153, 249)`,
     grey: `rgb(148, 148, 148)`,
+    black: `rgb(17, 17, 17)`,
     white: `rgb(240, 248, 255)`,
     greyAlpha: `rgba(0, 0, 0, 0.25)`,
     facebook: `rgb(64, 101, 179)`

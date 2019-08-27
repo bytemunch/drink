@@ -54,7 +54,7 @@ class LobbyPage extends Page {
 
         this.page.appendChild(gameSelect);
 
-        let ruleSelect = new CeRuleSelect;
+        let ruleSelect = new CeRuleSelectDiv;
 
         this.page.appendChild(ruleSelect);
 

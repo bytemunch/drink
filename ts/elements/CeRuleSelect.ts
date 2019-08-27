@@ -9,16 +9,13 @@ class CeRuleSelect extends HTMLSelectElement {
     applyStyle() {
         this.style.backgroundColor = palette.blue;
         this.classList.add('big');
+        this.style.width = '60%';
         this.id = 'rule-select';
     }
 
     connectedCallback() {
         //@ts-ignore
         this.targetGame = document.querySelector('#game-select').value;
-
-        this.addEventListener('change', e => {
-            console.log(this.value);
-        })
 
         this.applyStyle();
     }
@@ -27,8 +24,6 @@ class CeRuleSelect extends HTMLSelectElement {
         for (let x = this.length; x >= 0; x--) {
             this.remove(x);
         }
-
-        console.log(this.length);
 
         for (let r of this.availableRules) {
             let o = document.createElement('option');

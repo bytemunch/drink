@@ -6,8 +6,8 @@ ce-player-list.bigGrid {
 	grid-auto-rows: 20%;
 	grid-auto-flow: row;
 	grid-gap: 2.5%;
-	overflow-x: scroll;
-	overflow-y: visible;
+	overflow-x: visible;
+	overflow-y: scroll;
 	position: relative;
 	margin-left: 5%;
 }
@@ -138,4 +138,9 @@ ce-account-button {
     width: 32px;
     height: 32px;
     display: block;
+}
+
+.action-select {
+    width: 33.3%;
+    background-color: rgb(0, 191, 255);
 }

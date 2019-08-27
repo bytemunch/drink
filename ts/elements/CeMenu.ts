@@ -1,5 +1,6 @@
 /// <reference path='CustomElement.ts'/>
 
+// Abstract base menu class
 class CeMenu extends CustomElement {
     menu;
     logoutBtn;
@@ -14,7 +15,7 @@ class CeMenu extends CustomElement {
     applyStyle() {
         this.menu.style.backgroundColor = palette.green;
         this.menu.style.width = `calc(${document.body.style.width} * 0.9)`;
-        this.menu.style.height = `80%`;
+        this.menu.style.height = `90%`;
         this.menu.style.marginTop = '5vh';
         this.menu.style.position = 'absolute';
         this.menu.style.top = '0';

@@ -8,6 +8,7 @@ class CeCreatePlayerButton extends CeShowButton {
     applyStyle() {
         super.applyStyle();
         this.style.position = 'relative';
+        this.style.overflow = 'visible';
         this.style.top = 'calc(50% - 16px)';
         this.style.left = 'calc(50% - 16px)';
     }
