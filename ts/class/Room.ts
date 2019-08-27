@@ -1,5 +1,4 @@
-class RoomAbstract {
-    // Abstract class for room obj
+class Room {
 
     public roomId;
     public data;
@@ -40,6 +39,35 @@ class RoomAbstract {
             // Somewhere here decide if we're changing pages based on data
             updateDOM();// pass data to function to save cycles?
         })
+    }
+
+    async setup(gameType, _ruleset?) {
+        let fieldsToAdd: any = {}
+
+        switch (gameType) {
+            case 'ringoffire':
+                let deck = new Deck;
+                let ruleset = new RuleSet(_ruleset);
+                fieldsToAdd.gamevars = {
+                    currentCard: {},
+                    deck: deck.cards,
+                    rules: ruleset.rules,
+                    winState: ruleset.winState,
+                    gametype: gameType,
+                }
+                break;
+            default:
+                fieldsToAdd.gamevars = {
+                    gametype: gameType
+                }
+                break;
+        }
+
+        try {
+            await this.ref.set(fieldsToAdd, { merge: true });
+        } catch (e) {
+            console.error(e);
+        }
     }
 
     async createID(roomId = '') {
@@ -249,6 +277,10 @@ class RoomAbstract {
 
     get link() {
         return `${location.origin}/?r=${this.roomId}&p=${this.data.pin}`;
+    }
+
+    get gametype() {
+        return this.data.gamevars.gametype;
     }
 
     get nextPlayer() {

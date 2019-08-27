@@ -19,7 +19,7 @@ class CeDrawButton extends HTMLButtonElement {
                         errorPopUp('You appear offline! Please try again.');
                         console.error(e);
                     });
-                easyPOST('drawCard', { token, roomId: room.roomId })
+                easyPOST('ringoffireDrawCard', { token, roomId: room.roomId })
             } else {
                 room.leave();
             }

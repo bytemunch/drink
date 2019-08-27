@@ -19,6 +19,12 @@ class CeStartReadyButton extends HTMLButtonElement {
                     console.error(e);
                 })
                 addLoader('playTime');
+
+                const castGameSel = document.querySelector('#game-select') as HTMLSelectElement;
+                const castRuleSel = document.querySelector('#rule-select') as HTMLSelectElement;
+
+                await room.setup(castGameSel.value, castRuleSel.value);
+
                 const started = await easyPOST('startGame', { token, roomId: room.roomId })
                     .catch(e => {
                         console.log("INFO: Only the room owner can start the game!", e)

@@ -199,7 +199,7 @@ export const startGame = functions.https.onRequest((req, res) => {
     })
 })
 
-export const drawCard = functions.https.onRequest((req, res) => {
+export const ringoffireDrawCard = functions.https.onRequest((req, res) => {
     cors(req, res, () => {
         const data = JSON.parse(req.body);
 

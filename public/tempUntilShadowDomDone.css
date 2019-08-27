@@ -1,14 +1,15 @@
 ce-player-list.bigGrid {
     display: grid;
-    width: 80%;
-    height: 40vh;
-    grid-template-columns: repeat(2, 55%);
-    grid-auto-rows: 20%;
-    grid-auto-flow: row;
-    grid-gap: 2.5%;
-    overflow: visible;
-    position: relative;
-    margin-left: 5%;
+	width: 100%;
+	height: 40vh;
+	grid-template-columns: repeat(2, 44%);
+	grid-auto-rows: 20%;
+	grid-auto-flow: row;
+	grid-gap: 2.5%;
+	overflow-x: scroll;
+	overflow-y: visible;
+	position: relative;
+	margin-left: 5%;
 }
 
 ce-player-list.bigGrid ce-player {
@@ -90,9 +91,9 @@ ce-card-display img {
 
 ce-avatar-upload {
     width: 80%;
-	height: 40px;
-	display: block;
-	margin-left: 10%;
+    height: 40px;
+    display: block;
+    margin-left: 10%;
 }
 
 ce-avatar-upload>* {
@@ -109,34 +110,32 @@ ce-rule-display>p {
     float: left;
 }
 
-
-.show-button,
-ce-show-button {
+.show-button, ce-show-button {
     background-color: rgb(0, 191, 255);
-	width: 32px;
-	height: 32px;
-	display: block;
-	position: absolute;
-	right: 1vw;
-	top: 1vw;
-	z-index: 9;
-	left: unset;
+    width: 32px;
+    height: 32px;
+    display: block;
+    position: absolute;
+    right: 1vw;
+    top: 1vw;
+    z-index: 9;
+    left: unset;
 }
 
 ce-show-button.about {
-	position: absolute;
-	top: 1vw;
+    position: absolute;
+    top: 1vw;
     /* left: calc(50% - 16px); */
     left: 1vw;
-	right: unset;
+    right: unset;
 }
 
 ce-account-button {
     background: none;
-	position: relative;
-	left: calc(99% - 32px);
-	top: 1vw;
-	width: 32px;
-	height: 32px;
-	display: block;
+    position: relative;
+    left: calc(99% - 32px);
+    top: 1vw;
+    width: 32px;
+    height: 32px;
+    display: block;
 }

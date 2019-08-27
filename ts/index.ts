@@ -1,6 +1,6 @@
 /// <reference types="firebase"/>
 
-const VERSION = '0.0.25 - alpha';
+const VERSION = '0.0.26 - alpha';
 const DEBUG_MODE = true;
 const LOCAL_MODE = false;
 
@@ -79,7 +79,7 @@ window.addEventListener('popstate', e=>{
 firebase.initializeApp(firebaseConfig);
 
 let userdata = new UserData;
-let room = new RoomRof;
+let room = new Room;
 
 // Need issue fixed before presence
 // https://github.com/firebase/firebase-js-sdk/issues/249

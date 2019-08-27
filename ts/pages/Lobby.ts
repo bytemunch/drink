@@ -50,6 +50,14 @@ class LobbyPage extends Page {
 
         this.page.appendChild(inviteButton);
 
+        let gameSelect = new CeGameSelect;
+
+        this.page.appendChild(gameSelect);
+
+        let ruleSelect = new CeRuleSelect;
+
+        this.page.appendChild(ruleSelect);
+
         let startButton = new CeStartReadyButton;//document.createElement('ce-start-button');
 
         this.page.appendChild(startButton);

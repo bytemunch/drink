@@ -28,7 +28,9 @@ function openPage(name: string, pushHistory = true) {
             if (pushHistory) history.replaceState(state, 'Drink! - Play', `/?r=${room.roomId}&p=${room.data.pin}#play`);
 
             // Switch game type to select play page
-            switch (room.data.gamevars.gameType) {
+
+            let gametype = room.gametype;
+            switch (gametype) {
                 case 'ringoffire':
                     page = new CardPlayPage();
                     break;
