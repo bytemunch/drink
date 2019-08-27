@@ -31,10 +31,10 @@ class CeRuleDisplay extends UpdateableElement {
 
     update() {
         super.update();
-        let cardNum = room.data.currentCard.number;
-        let cardSuit = room.data.currentCard.suit;
+        let cardNum = room.data.gamevars.currentCard.number;
+        let cardSuit = room.data.gamevars.currentCard.suit;
 
-        let rule = cardSuit=='joker'?room.data.rules.JK:room.data.rules[cardNum];
+        let rule = cardSuit=='joker'?room.data.gamevars.rules.JK:room.data.gamevars.rules[cardNum];
 
         if (rule) {
             animMan.animate(this,'fadeOut',250)

@@ -1,4 +1,6 @@
-class Room {
+class RoomAbstract {
+    // Abstract class for room obj
+
     public roomId;
     public data;
     private killListener;
@@ -8,37 +10,36 @@ class Room {
     constructor() {
     }
 
-    init(roomId) {
+    async init(roomId) {
         this.roomId = roomId;
 
-        console.log(`Joined ${roomId}!`);
+        console.log(`Joining ${roomId}`);
 
         this.ref = firestore.collection('rooms').doc(this.roomId);
 
-        return this.ref.get()
-            .then(doc => {
-                this.data = doc.data();
-                updateDOM();
-                killLoader('roomJoined');
-                this.killListener = firestore.collection('rooms').doc(this.roomId).onSnapshot(doc => {
-                    const oldData = this.data;
-                    const newData = doc.data();
-                    newData ? this.data = newData : this.killListener();
-                    // blanket update everything OR specific updates?
-                    // BOTH!!
+        const doc = await this.ref.get()
+        this.data = await doc.data();
+        updateDOM();
+        killLoader('roomJoined');
+        this.killListener = this.ref.onSnapshot(doc => {
+            const oldData = this.data;
+            const newData = doc.data();
+            newData ? this.data = newData : this.killListener();
+            // blanket update everything OR specific updates?
+            // BOTH!!
 
-                    if (oldData.state !== this.data.state) {
-                        console.log('State change:', oldData.state, this.data.state)
-                        if (oldData.state == 'lobby' && this.data.state == 'playing') {
-                            openPage('play');
-                        }
-                    }
+            if (oldData.state !== this.data.state) {
+                console.log('State change:', oldData.state, this.data.state)
+                if (oldData.state == 'lobby' && this.data.state == 'playing') {
+                    // Jump into game!
+                    // TODO Fleshed out state machine goes here
+                    openPage('play');
+                }
+            }
 
-                    // Somewhere here decide if we're changing pages based on data
-                    updateDOM();// pass data to function to save cycles?
-                })
-            })
-            .catch(e => console.error('room.init:', e))
+            // Somewhere here decide if we're changing pages based on data
+            updateDOM();// pass data to function to save cycles?
+        })
     }
 
     async createID(roomId = '') {
@@ -99,33 +100,25 @@ class Room {
         const roomId = await this.createID();
         const roomPin = await this.createPin();
 
-        const deck = new Deck;
-
-        const rules = new RuleSet('IRL');
+        // Create base room
+        // Modify in lobby
 
         const newRoom = {
             owner: userdata.uid,
             state: 'lobby',
             turnCounter: 0,
             turnOrder: [],
-            currentCard: {},
             players: {},
-
             pin: roomPin,
-
             timestamp: {
                 created: Date.now(),
                 modified: Date.now()
             },
-
-            deck: deck.cards,
-            rules: rules.rules,
-            winState: rules.winState,
-
         }
 
         try {
-            await firestore.collection('rooms').doc(roomId.id).set(newRoom)
+            this.ref = await firestore.collection('rooms').doc(roomId.id)
+            await this.ref.set(newRoom)
         } catch (e) {
             console.error('Room.createLocal:', e)
         }
@@ -138,43 +131,38 @@ class Room {
         if (!roomId) return Promise.reject('requestJoinRoom: No Room ID provided!');
         if (!pin) return Promise.reject('requestJoinRoom: No Room PIN provided!');
 
-        firebase.auth().currentUser.getIdToken(true)
-            .then(token => {
-                // Send data to cloud function to compare PIN
-                easyPOST('joinRoom', { pin, roomId, token })
-                    .then(res => { return res.json() })
-                    .then(data => {
-                        if (!data.joined) {
-                            return Promise.reject(data.error);
-                        }
-                        userdata.ref.update({
-                            prevRoom: '',
-                            prevPIN: ''
-                        })
-                        return room.init(roomId); //TODO promisify init
-                    })
-                    .then(() => {
-                        // RoomData is initialised here
-                        // go to lobby I guess
-                        openPage('lobby')
-                    })
-                    .catch(e => {
-                        console.error(e);
-                        // TODO send useful error codes in e
-                        // DO NOT subscribe to changes on any error other than
-                        // room preparing (425 too early)
+        try {
+            const token = await firebase.auth().currentUser.getIdToken(true);
+            // Send data to cloud function to compare PIN
+            const response = await easyPOST('joinRoom', { pin, roomId, token });
+            const data = await response.json()
 
-                        killLoader('roomJoined');
-                        // SHOW USER ERROR
-                        errorPopUp(e.err + ' Code: ' + e.code);
-                        userdata.ref.update({ prevPIN: '', prevRoom: '' })
-                        openPage('home');
-                        console.log('INFO: ', e);
+            if (!data.joined) Promise.reject(data.error);
 
-                        return e;
-                    });
+            userdata.ref.update({
+                prevRoom: '',
+                prevPIN: ''
             })
 
+            await room.init(roomId); //TODO promisify init
+            // RoomData is initialised here
+            // go to lobby I guess
+            openPage('lobby');
+        } catch (e) {
+            console.error(e);
+            // TODO send useful error codes in e
+            // DO NOT subscribe to changes on any error other than
+            // room preparing (425 too early)
+
+            killLoader('roomJoined');
+            // SHOW USER ERROR
+            errorPopUp(e.err + ' Code: ' + e.code);
+            userdata.ref.update({ prevPIN: '', prevRoom: '' })
+            openPage('home');
+            console.log('INFO: ', e);
+
+            return e;
+        }
         // TODO rate limiting to prevent bruteforce room entry
         // as it would only take 26^4*10000 attempts to find any single room + pin
         // also even pentesting that would far exceed my quotas

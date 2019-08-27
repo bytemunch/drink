@@ -92,11 +92,11 @@ class CeCardDisplay extends UpdateableElement {
 
     update() {
         super.update();
-        // IF this.suit !== roomdata.suit
+        // IF this card is NOT old card
         //  switch card to new one
-        if (this.suit !== room.data.currentCard.suit || this.number !== room.data.currentCard.number) {
-            this.suit = room.data.currentCard.suit;
-            this.number = room.data.currentCard.number;
+        if (this.suit !== room.data.gamevars.currentCard.suit || this.number !== room.data.gamevars.currentCard.number) {
+            this.suit = room.data.gamevars.currentCard.suit;
+            this.number = room.data.gamevars.currentCard.number;
             this.drawCard(this.suit, this.number);
         }
     }

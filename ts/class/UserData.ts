@@ -7,7 +7,6 @@ class UserData {
     aviImg;
     extraPlayerCount;
 
-
     constructor() {
         this.extraPlayerCount = 0;
     };

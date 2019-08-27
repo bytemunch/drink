@@ -14,12 +14,12 @@ const firestore = admin.firestore();
 // Functions I need in more than one place
 
 function checkWin(room) {
-    const winState = room.winState;
+    const winState = room.gamevars.winState;
 
     switch (winState.if) {
         case 'LAST_KING':
         default:
-            if (!room.deck.find(c => { return c.number == 'K' })) return winState.then;
+            if (!room.gamevars.deck.find(c => { return c.number == 'K' })) return winState.then;
     }
 
     return false;
@@ -211,44 +211,47 @@ export const drawCard = functions.https.onRequest((req, res) => {
                         const nextPlayerUid = room.turnOrder[room.turnCounter % room.turnOrder.length];
                         if (token.uid != nextPlayerUid
                             && token.uid != nextPlayerUid.substring(0, nextPlayerUid.length - 1)) {
-                                // allows local device players to still draw cards
-                            return Promise.reject({ err: 'Not your turn!', code: '403' ,
+                            // allows local device players to still draw cards
+                            return Promise.reject({
+                                err: 'Not your turn!', code: '403',
                                 info: {
                                     turn: nextPlayerUid,
                                     suid: nextPlayerUid.substring(0, nextPlayerUid.length - 1),
                                     uid: token.uid
                                 }
-                        })//forbidden
+                            })//forbidden
                         }
 
                         // Pick card
-                        let newCards = room.deck;
-                        const cardsInDeck = room.deck.length;
+                        let newCards = room.gamevars.deck;
+                        const cardsInDeck = room.gamevars.deck.length;
 
                         const selectedCardNumber = Math.floor(Math.random() * cardsInDeck)
-                        const selectedCard = room.deck[selectedCardNumber];
+                        const selectedCard = room.gamevars.deck[selectedCardNumber];
                         newCards.splice(selectedCardNumber, 1)
 
                         let newDataToMerge = {
-                            // Set current card
-                            currentCard: selectedCard,
-                            // Remove current card from deck in room
-                            deck: newCards,
+                            gamevars: {
+                                // Set current card
+                                currentCard: selectedCard,
+                                // Remove current card from deck in room
+                                deck: newCards,
+                                rules: room.gamevars.rules
+                            },
                             // set turn counter
                             turnCounter: admin.firestore.FieldValue.increment(1),
-                            state: room.state,
-                            rules: room.rules
+                            state: room.state
                         }
 
                         const gameOver = checkWin(room);
 
                         if (gameOver) {
                             // set room  state
-                            newDataToMerge.currentCard.action = gameOver.action;
+                            newDataToMerge.gamevars.currentCard.action = gameOver.action;
                             newDataToMerge.state = 'finished';
 
                             // REFAC dont like this
-                            newDataToMerge.rules[selectedCard.number].desc = gameOver.desc;
+                            newDataToMerge.gamevars.rules[selectedCard.number].desc = gameOver.desc;
                         }
 
                         return doc.ref.set(newDataToMerge, { merge: true })

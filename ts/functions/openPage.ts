@@ -25,8 +25,17 @@ function openPage(name: string, pushHistory = true) {
             page = new LobbyPage();
             break;
         case 'play':
-                if (pushHistory) history.replaceState(state, 'Drink! - Play', `/?r=${room.roomId}&p=${room.data.pin}#play`);
-            page = new PlayPage();
+            if (pushHistory) history.replaceState(state, 'Drink! - Play', `/?r=${room.roomId}&p=${room.data.pin}#play`);
+
+            // Switch game type to select play page
+            switch (room.data.gamevars.gameType) {
+                case 'ringoffire':
+                    page = new CardPlayPage();
+                    break;
+                default:
+                    page = new AbstractPlayPage();
+                    break;
+            }
             break;
         default:
             console.log(`Page ${name} not found!`);
