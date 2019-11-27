@@ -11,6 +11,8 @@ class CeRuleDisplay extends UpdateableElement {
     applyStyle() {
         this.ruleTitle.style.opacity = 'inherit';
         this.desc.style.opacity = 'inherit';
+
+        this.style.position = 'relative';
     }
 
     connectedCallback() {
@@ -31,6 +33,7 @@ class CeRuleDisplay extends UpdateableElement {
 
     update() {
         super.update();
+        this.style.top = document.querySelector('ce-card-display > img').getBoundingClientRect().bottom + 'px';
         let cardNum = room.data.gamevars.currentCard.number;
         let cardSuit = room.data.gamevars.currentCard.suit;
 

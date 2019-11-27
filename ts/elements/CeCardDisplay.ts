@@ -27,7 +27,7 @@ class CeCardDisplay extends UpdateableElement {
 
         this.img = document.createElement('img');
         this.img.setAttribute('src', `/img/cards/back.svg`);
-        // this.img.style.position = 'absolute';
+        this.img.style.position = 'absolute';
         this.img.style.left = '0';
         this.img.style.top = '0';
         this.appendChild(this.img);
