@@ -1,178 +1,279 @@
 @font-face {
-    font-family: Pacifico;
-    src: url('../fonts/Pacifico-Regular.ttf');
+  font-family: Pacifico;
+  src: url('../fonts/Pacifico-Regular.ttf');
 }
-
 * {
-    color: rgba(240, 248, 255, 0.87);
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    overflow: inherit;
+  color: rgba(240, 248, 255, 0.87);
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  overflow: inherit;
 }
-
 body {
-    -webkit-touch-callout: none;
-    /* prevent callout to copy image, etc when tap to hold */
-    -webkit-text-size-adjust: none;
-    /* prevent webkit from resizing text to fit */
-    -webkit-user-select: text;
-    /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color: rgb(76, 123, 224);
-    background-image: linear-gradient(top, rgb(115, 133, 212) 0%, rgb(76, 123, 224) 51%);
-    background-image: -webkit-linear-gradient(top, rgb(76, 123, 224) 0%, rgb(115, 133, 212) 51%);
-    background-image: -ms-linear-gradient(top, rgb(115, 133, 212) 0%, rgb(76, 123, 224) 51%);
-    background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0, rgb(76, 123, 224)), color-stop(0.51, rgb(115, 133, 212)));
-    background-attachment: fixed;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-    font-family: Roboto, Helvetica, Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+  -webkit-touch-callout: none;
+  /* prevent callout to copy image, etc when tap to hold */
+  -webkit-text-size-adjust: none;
+  /* prevent webkit from resizing text to fit */
+  -webkit-user-select: text;
+  /* prevent copy paste, to allow, change 'none' to 'text' */
+  background-color: #4c7be0;
+  background-image: linear-gradient(top, #7385d4 0%, #4c7be0 51%);
+  background-image: -webkit-linear-gradient(top, #4c7be0 0%, #7385d4 51%);
+  background-image: -ms-linear-gradient(top, #7385d4 0%, #4c7be0 51%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #4c7be0), color-stop(0.51, #7385d4));
+  background-attachment: fixed;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
-
 .logo {
-    color: rgba(240, 248, 255, 1);
-    font-family: Pacifico;
-    position: relative;
-    top: -10px;
-    /* margin-top: -10vh; */
-    overflow: visible;
-    width: 100%;
-    text-align: center;
-    /* margin: 0; */
-    font-size: 36pt;
-    font-weight: 100;
+  color: #f0f8ff;
+  font-family: Pacifico;
+  position: relative;
+  top: -10px;
+  /* margin-top: -10vh; */
+  overflow: visible;
+  width: 100%;
+  text-align: center;
+  /* margin: 0; */
+  font-size: 36pt;
+  font-weight: 100;
 }
-
 .icon {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
-
 button {
-    border: none;
-    background-color: rgb(0, 191, 255);
-    color: rgb(240, 248, 255);
-    overflow: hidden;
+  border: none;
+  background-color: #00bfff;
+  color: #f0f8ff;
+  overflow: hidden;
 }
-
 .green {
-    background-color: rgb(75, 148, 105);
+  background-color: #4b9469;
 }
-
 .red {
-    background-color: rgb(148, 75, 75);
+  background-color: #944b4b;
 }
-
 .grey {
-    background-color: rgb(148, 148, 148);
+  background-color: #949494;
 }
-
 .topbar {
-    height: 24px;
+  height: 24px;
 }
-
 /* button:focus {
     outline: none;
 } */
-
 #app {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
-
 #page {
-    height: 100%;
+  height: 100%;
 }
-
 #pageInner {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
-
 .hidden {
-    display: none;
+  display: none;
 }
-
 .topbar {
-    padding: 2%;
+  padding: 2%;
 }
-
 .topbar * {
-    margin: 2%;
+  margin: 2%;
 }
-
 .account-img {
-    width: 32px;
-    height: 32px;
-    float: right;
-    border: 3px white solid;
-    border-radius: 50%;
-    /* Circle!! */
+  width: 32px;
+  height: 32px;
+  float: right;
+  border: 3px white solid;
+  border-radius: 50%;
+  /* Circle!! */
 }
-
 .big {
-    margin: 1vh 0 1vh 10%;
-    font-size: large;
-    width: 80%;
+  margin: 1vh 0 1vh 10%;
+  font-size: large;
+  width: 80%;
 }
-
 button.small {
-    padding: 2%;
-    float: right;
-    height: 32px;
+  padding: 2%;
+  float: right;
+  height: 32px;
 }
-
 button.small {
-    padding: 2%;
+  padding: 2%;
 }
-
 button.logout {
-    float: left;
-    margin-right: 75%;
+  float: left;
+  margin-right: 75%;
 }
-
 button.big {
-    font-size: large;
-    float: left;
-    min-height: 40px;
+  font-size: large;
+  float: left;
+  min-height: 40px;
 }
-
 button.bottom {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    margin-bottom: 2vh;
-    margin-top: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin-bottom: 2vh;
+  margin-top: 0;
 }
-
 input {
-    color: black;
-    font-family: sans-serif;
-    font-size: large;
-    position: relative;
-    text-align: center;
+  color: black;
+  font-family: sans-serif;
+  font-size: large;
+  position: relative;
+  text-align: center;
 }
-
 p.label {
-    font-size: large;
-    width: 80%;
-    text-align: center;
-    position: relative;
+  font-size: large;
+  width: 80%;
+  text-align: center;
+  position: relative;
 }
-
 img {
-    width: 24px;
-    height: 24px;
-    object-fit: cover;
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
 }
-
 a {
-    font-size: xx-large;
-    margin: 2vw 0;
-    display: block;
-    width: 100%;
-    text-align: center;
+  font-size: xx-large;
+  margin: 2vw 0;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+ce-player-list.bigGrid {
+  display: grid;
+  width: 100%;
+  height: 40vh;
+  grid-template-columns: repeat(2, 44%);
+  grid-auto-rows: 20%;
+  grid-auto-flow: row;
+  grid-gap: 2.5%;
+  overflow-x: visible;
+  overflow-y: scroll;
+  position: relative;
+  margin-left: 5%;
+}
+ce-player-list.bigGrid ce-player {
+  height: 100%;
+  width: 100%;
+  border-width: 2px;
+  border-style: solid;
+  overflow: hidden;
+  position: relative;
+}
+ce-player-list.bigGrid ce-player .name {
+  position: absolute;
+}
+ce-player-list.smallList {
+  width: 24px;
+  position: absolute;
+  top: calc(32px + 2%);
+  /*Menu button height*/
+  background-color: rgba(0, 0, 0, 0.25);
+  right: 0;
+  overflow: hidden;
+  z-index: 1;
+}
+ce-player-list.smallList .ready {
+  display: none;
+}
+ce-player-list.smallList .avatar {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+}
+ce-player-list.smallList .name {
+  position: absolute;
+  left: 24px;
+  /*avatar width*/
+  font-size: medium;
+}
+ce-player-list.smallList ce-player {
+  position: relative;
+  display: block;
+  height: 24px;
+}
+ce-card-display {
+  overflow: visible;
+}
+ce-card-display img {
+  width: 60%;
+  height: unset;
+  margin-left: 20%;
+}
+.popup {
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+.popup div {
+  z-index: 100;
+  position: absolute;
+  top: 20vh;
+  left: 10%;
+  width: 80%;
+  padding: 10px;
+  background: #617fd1;
+}
+ce-avatar-upload {
+  width: 80%;
+  height: 40px;
+  display: block;
+  margin-left: 10%;
+}
+ce-avatar-upload > * {
+  margin-right: 5%;
+}
+ce-rule-display > p {
+  text-align: center;
+}
+.roominfo {
+  display: block;
+  font-size: 17pt;
+  float: left;
+}
+.show-button,
+ce-show-button {
+  background-color: #00bfff;
+  width: 32px;
+  height: 32px;
+  display: block;
+  position: absolute;
+  right: 1vw;
+  top: 1vw;
+  z-index: 9;
+  left: unset;
+}
+ce-show-button.about {
+  position: absolute;
+  top: 1vw;
+  /* left: calc(50% - 16px); */
+  left: 1vw;
+  right: unset;
+}
+ce-account-button {
+  background: none;
+  position: relative;
+  left: calc(99% - 32px);
+  top: 1vw;
+  width: 32px;
+  height: 32px;
+  display: block;
+}
+.action-select {
+  width: 33.3%;
+  background-color: #00bfff;
 }

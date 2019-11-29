@@ -11,11 +11,11 @@
         "esModuleInterop": true
     },
     "include": [
-        "./ts/functions/*",
-        "./ts/class/*",
-        "./ts/elements/*",
-        "./ts/pages/*",
-        "./ts/index.ts", "./ts/functions/shrinkImage.ts"
+        "./src/ts/functions/*",
+        "./src/ts/class/*",
+        "./src/ts/elements/*",
+        "./src/ts/pages/*",
+        "./src/ts/index.ts", "./src/ts/functions/shrinkImage.ts"
     ],
     "exclude": [
         "node_modules",
