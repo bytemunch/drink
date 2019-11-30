@@ -65,6 +65,7 @@ node_modules/
 .env
 
 public
+public/*
 
 *.js
 *.js.map
