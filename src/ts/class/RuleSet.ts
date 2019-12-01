@@ -7,7 +7,7 @@ interface IAction {
 
 class RuleSet {
     public rules: Object;
-    public winState: Object;
+    public winState: {if:string,then:{action:{},desc:string,title:string}};
 
 
     constructor(ruleset) {
@@ -71,7 +71,9 @@ class RuleSet {
         this.winState = {
             if: 'LAST_KING', then: {
                 action:
-                    this.createAction('irl', 'immediate', 'self'), desc: 'Down the middle cup!'
+                    this.createAction('irl', 'immediate', 'self'),
+                    desc: 'Down the middle cup!',
+                    title: 'Down It!'
             }
         };
     }

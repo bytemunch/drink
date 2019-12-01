@@ -1,5 +1,5 @@
 function openPage(name: string, pushHistory = true) {
-    let page: Page;
+    let page: any;
 
     let state = null;
 
@@ -10,7 +10,7 @@ function openPage(name: string, pushHistory = true) {
             page = new LoginPage();
             break;
         case 'home':
-            page = new HomePage();
+            page = document.createElement('ce-home-page');
             break;
         case 'account':
             page = new AccountPage();
@@ -51,7 +51,12 @@ function openPage(name: string, pushHistory = true) {
         document.querySelector('#app').appendChild(pageContainer);
     }
     pageContainer.innerHTML = '';
-    pageContainer.appendChild(page.page);
+
+    if (page.page) {
+        pageContainer.appendChild(page.page);
+    } else {
+        pageContainer.appendChild(page);
+    }
 
     AJAX_NAV.prev = name;
 

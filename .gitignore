@@ -67,9 +67,5 @@ node_modules/
 public
 public/*
 
-*.js
-*.js.map
-!serviceWorker.js
-
 whiteboards/**
 scratch

@@ -7,7 +7,8 @@ interface ICard {
 class Deck {
     public cards: Array<ICard> = [];
     constructor(private jokercount: number = 2) {
-        const numbers = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "JK"];
+        // const numbers = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "JK"];
+        const numbers = ["K", "JK"];
         const suits = ["clubs", "diamonds", "hearts", "spades"];
         for (let n of numbers) {
             if (n != "JK") {
@@ -21,5 +22,14 @@ class Deck {
                 }
             }
         }
+    }
+
+    drawCard(discard:boolean=true) {
+        let n = Math.floor(Math.random()*this.cards.length);
+        let chosenCard = this.cards[n];
+
+        if (discard) this.cards.splice(n,1);
+
+        return chosenCard;
     }
 }

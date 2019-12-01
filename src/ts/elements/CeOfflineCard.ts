@@ -1,4 +1,4 @@
-class CeCardDisplay extends UpdateableElement {
+class CeOfflineCard extends UpdateableElement {
     img;
     backImg;
     suit;
@@ -37,7 +37,9 @@ class CeCardDisplay extends UpdateableElement {
         this.applyStyle();
     }
 
-    async drawCard(suit, number:string) {
+    async drawCard(card:ICard) {
+        let suit = card.suit;
+        let number = card.number;
         // IF this.img.src !== this.backImg.src
         // discard
 
@@ -92,17 +94,6 @@ class CeCardDisplay extends UpdateableElement {
         return true;
     }
 
-    update() {
-        super.update();
-        // IF this card is NOT old card
-        //  switch card to new one
-        if (this.suit !== room.data.gamevars.currentCard.suit || this.number !== room.data.gamevars.currentCard.number) {
-            this.suit = room.data.gamevars.currentCard.suit;
-            this.number = room.data.gamevars.currentCard.number;
-            this.drawCard(this.suit, this.number);
-        }
-    }
-
 }
 
-customElements.define('ce-card-display', CeCardDisplay);
+customElements.define('ce-offline-card', CeOfflineCard);

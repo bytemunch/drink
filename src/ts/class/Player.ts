@@ -1,4 +1,4 @@
-class UserData {
+class Player {
     name: string = '';
     color: string = '';
     uid: string = '';

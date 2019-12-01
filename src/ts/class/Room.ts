@@ -262,9 +262,11 @@ class Room {
     }
 
     async getAvi(uid) {
-        const aviRef = firebase.storage().ref().child(`avatars/${uid}.png`);
+        let aviRef;
+        if (!LOCAL_MODE){
+            aviRef = firebase.storage().ref().child(`avatars/${uid}.png`);
 
-        return aviRef.getDownloadURL()
+            return aviRef.getDownloadURL()
             .then(async url => {
                 return url;//URL.createObjectURL(url);
             })
@@ -273,6 +275,9 @@ class Room {
                 // set aviImg to default
                 return '/img/noimg.png';
             })
+        } else {
+            return '/img/noimg.png';
+        }
     }
 
     get link() {

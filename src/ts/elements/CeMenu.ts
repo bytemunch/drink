@@ -39,6 +39,7 @@ class CeMenu extends CustomElement {
 
     connectedCallback() {
         super.connectedCallback();
+        
         this.menu = document.createElement('div');
         this.appendChild(this.menu);
 

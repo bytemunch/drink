@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc && lessc ./src/less/main.less ./public/styles.css && rsync -a ./src/root/* ./public/",
-    "serve": "npm run build && firebase serve --only hosting -p 5000",
+    "serve": "firebase serve --only hosting -p 5000",
     "emu": "npm run build && firebase emulators:start --only functions,hosting",
     "deploy": "npm run build && firebase deploy --only hosting",
     "start-working": "open-browsers.bat && npm run serve"

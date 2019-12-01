@@ -37,14 +37,16 @@ class CeAvatarUpload extends HTMLElement {
 
         // If we have external profile pic
         // and don't currently have a profile pic
-        firebase.storage().ref().child(`avatars/${this.uid}.png`).getDownloadURL()
-        .catch(async err=>{
-            if (PROVIDER_VARS.avi) {
-                fetch(PROVIDER_VARS.avi)
-                .then(res=>res.blob())
-                .then(blob=>this.setImage(blob))
-            }
-        })
+        if (!LOCAL_MODE) {
+            firebase.storage().ref().child(`avatars/${this.uid}.png`).getDownloadURL()
+            .catch(async err=>{
+                if (PROVIDER_VARS.avi) {
+                    fetch(PROVIDER_VARS.avi)
+                    .then(res=>res.blob())
+                    .then(blob=>this.setImage(blob))
+                }
+            })
+        }
 
         this.realInput.addEventListener('change', e => {
             const file = this.realInput.files[0]

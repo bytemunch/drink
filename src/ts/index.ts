@@ -2,9 +2,11 @@
 
 const VERSION = '0.0.27 - alpha';
 const DEBUG_MODE = true;
-const LOCAL_MODE = false;
+const LOCAL_MODE = true;
 
-let AJAX_NAV = {prev: location.hash.replace('#','')}
+let GAME;
+
+let AJAX_NAV = { prev: location.hash.replace('#', '') }
 
 let INVITE_CREDS = { room: '', pin: '' }
 
@@ -29,7 +31,7 @@ const firebaseConfig = {
 
 document.body.style.zoom = '1';
 
-if (window.innerWidth / window.innerHeight > 0.75 && window.innerWidth > 460 ) {
+if (window.innerWidth / window.innerHeight > 0.75 && window.innerWidth > 460) {
     document.body.style.width = `${window.innerHeight * 0.75}px`;
     document.body.style.marginLeft = `${(window.innerWidth - (window.innerHeight * 0.75)) / 2}px`;
 } else {
@@ -57,9 +59,9 @@ window.addEventListener('resize', e => {
     }
 })
 
-window.addEventListener('popstate', e=>{
+window.addEventListener('popstate', e => {
     addLoader('pageOpen');
-    let nextPage = location.hash.replace('#','');
+    let nextPage = location.hash.replace('#', '');
     let pushHistory = false;
 
     if (nextPage == 'lobby' && AJAX_NAV.prev == 'play') {
@@ -70,15 +72,46 @@ window.addEventListener('popstate', e=>{
         return;
     }
 
-    openPage(nextPage,pushHistory);
+    openPage(nextPage, pushHistory);
 
     updateDOM();
 })
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+let firestore: any;
 
-let userdata = new UserData;
+if (!LOCAL_MODE) {
+    console.log(firebase);
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    firebase.auth().getRedirectResult().then(function (result) {
+        if (result.credential) {
+            // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+            var token = result.credential;
+
+            // ...
+        }
+        // The signed-in user info.
+        var user = result.user;
+
+        // Grab PP
+
+        PROVIDER_VARS.avi = user.photoURL;
+        PROVIDER_VARS.name = user.displayName;
+    }).catch(function (error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+        // ...
+    });
+}
+
+let userdata = new Player;
 let room = new Room;
 
 // Need issue fixed before presence
@@ -86,10 +119,6 @@ let room = new Room;
 // let presMan: PresenceManager;
 
 const animMan = new AnimationManager;
-
-let firestore: any;
-
-document.body.appendChild(new CeLoadScreen('initialLoad'));
 
 const palette = {
     red: `rgb(148, 75, 75)`,
@@ -110,30 +139,7 @@ async function popUpTest(title, message, options) {
     console.log(p.val);
 }
 
-firebase.auth().getRedirectResult().then(function (result) {
-    if (result.credential) {
-        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-        var token = result.credential;
 
-        // ...
-    }
-    // The signed-in user info.
-    var user = result.user;
-
-    // Grab PP
-
-    PROVIDER_VARS.avi = user.photoURL;
-    PROVIDER_VARS.name = user.displayName;
-}).catch(function (error) {
-    // Handle Errors here.
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    // The email of the user's account used.
-    var email = error.email;
-    // The firebase.auth.AuthCredential type that was used.
-    var credential = error.credential;
-    // ...
-});
 
 document.addEventListener('DOMContentLoaded', function () {
     // The Firebase SDK is initialized and available here!
@@ -147,9 +153,14 @@ document.addEventListener('DOMContentLoaded', function () {
     INVITE_CREDS.room = params.get('r') || '';
     INVITE_CREDS.pin = params.get('p') || '';
 
-    firebase.auth().onAuthStateChanged(authHandler);
+    if (!LOCAL_MODE) {
+        firebase.auth().onAuthStateChanged(authHandler);
 
-    firestore = firebase.firestore();
+        firestore = firebase.firestore();
+    } else {
+        goToPage('ce-home-page');
+    }
+
 
     // For when https://github.com/firebase/firebase-tools/issues/1001 is done
     // if (LOCAL_MODE) {
@@ -159,15 +170,15 @@ document.addEventListener('DOMContentLoaded', function () {
     // })
     // }
 
-    try {
-        let app: any = firebase.app();
-        let features = ['auth', 'firestore', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
-        document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
+    // try {
+    //     let app: any = firebase.app();
+    //     let features = ['auth', 'firestore', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
+    //     document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
 
-    } catch (e) {
-        console.error(e);
-        document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
-    }
+    // } catch (e) {
+    //     console.error(e);
+    //     document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
+    // }
 });
 
 async function authHandler(user: any) {
@@ -195,7 +206,8 @@ async function authHandler(user: any) {
                         console.log('joining previous room!');
                         room.join(userData.prevRoom.id, userData.prevPIN)
                     } else {
-                        openPage('home');
+                        goToPage('ce-home-page');
+                        //openPage('home');
                     }
                 } else {
                     openPage('account');
@@ -207,7 +219,7 @@ async function authHandler(user: any) {
 
     } else {
         // logged out
-        userdata = new UserData; //clear user info
+        userdata = new Player; //clear user info
         openPage('login');
     }
 }
