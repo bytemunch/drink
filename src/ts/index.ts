@@ -1,7 +1,9 @@
 /// <reference types="firebase"/>
 
-const VERSION = '0.0.27 - alpha';
+const VERSION = '0.1.0 - alpha';
 const DEBUG_MODE = true;
+
+// TODO detect if connected and set this accordingly
 const LOCAL_MODE = true;
 
 let GAME;
@@ -80,8 +82,6 @@ window.addEventListener('popstate', e => {
 let firestore: any;
 
 if (!LOCAL_MODE) {
-    console.log(firebase);
-
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
 
@@ -160,30 +160,9 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
         goToPage('ce-home-page');
     }
-
-
-    // For when https://github.com/firebase/firebase-tools/issues/1001 is done
-    // if (LOCAL_MODE) {
-    // firestore.settings({
-    //     host: 'http://localhost:8080',
-    //     ssl: false
-    // })
-    // }
-
-    // try {
-    //     let app: any = firebase.app();
-    //     let features = ['auth', 'firestore', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
-    //     document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
-
-    // } catch (e) {
-    //     console.error(e);
-    //     document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
-    // }
 });
 
 async function authHandler(user: any) {
-    killLoader('initialLoad')
-    addLoader('pageOpen')
     if (user) {
         // logged in
 
@@ -206,8 +185,8 @@ async function authHandler(user: any) {
                         console.log('joining previous room!');
                         room.join(userData.prevRoom.id, userData.prevPIN)
                     } else {
+                        (<NodeListOf<CeAvatar>>document.querySelectorAll('ce-avatar')).forEach((v)=>v.update());
                         goToPage('ce-home-page');
-                        //openPage('home');
                     }
                 } else {
                     openPage('account');
@@ -216,10 +195,9 @@ async function authHandler(user: any) {
             .catch(e => {
                 console.error('userdata.populateFrom:', e);
             })
-
     } else {
         // logged out
         userdata = new Player; //clear user info
-        openPage('login');
+        goToPage('ce-home-page');
     }
 }

@@ -51,7 +51,7 @@ class CeModifyPlayerMenu extends CeMenu {
                 i = document.createElement('input');
                 i.setAttribute('type', inputs[input].type);
                 i.classList.add('big');
-                i.value = room.data.players[this.uid][input] || '';
+                i.value = GAME.players[this.uid][input];
             }
 
             i.setAttribute('id', `acc-input-${input}`);
@@ -65,11 +65,6 @@ class CeModifyPlayerMenu extends CeMenu {
 
         btnUpdate.addEventListener('click', async e => {
             // load here
-            if (userdata.name == '') {
-                console.error('no name input');
-                errorPopUp('Please enter a name!');
-                return;
-            }
 
             const playerInfo = {
                 uid: this.uid,
@@ -77,9 +72,14 @@ class CeModifyPlayerMenu extends CeMenu {
                 color: inputs['color'].value,
             }
 
-            inputs['avatar'].upload();
+            if (!LOCAL_MODE) {
+                room.addLocalPlayer(playerInfo);
+                inputs['avatar'].upload();
+            }
 
-            room.addLocalPlayer(playerInfo);
+            GAME.players[this.uid] = playerInfo;
+
+            (<CePlayerList>document.querySelector('ce-player-list')).update();
 
             // close modal
             this.hide()
@@ -93,8 +93,8 @@ class CeModifyPlayerMenu extends CeMenu {
         btnRemove.classList.add('big', 'red');
 
         btnRemove.addEventListener('click', async e => {
-            room.dropLocalPlayer(this.uid);
-
+            GAME.removePlayer(this.uid);
+            (<CePlayerList>document.querySelector('ce-player-list')).update();
             this.hide();
         })
 

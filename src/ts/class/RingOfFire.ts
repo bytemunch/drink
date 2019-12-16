@@ -2,13 +2,13 @@ class RingOfFire extends Game {
     type:string;
     deck:Deck;
     ruleset:RuleSet;
-    currentCard:ICard;
+    currentCard:Card;
     
 
     constructor() {
         super();
         GAME = this;
-        this.type = 'RingOfFire';
+        this.type = 'rof';
         this.ruleset = new RuleSet('default');
         this.deck = new Deck;
     }

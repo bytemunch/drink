@@ -12,6 +12,8 @@ class CeAccountMenu extends CeMenu {
     connectedCallback() {
         super.connectedCallback();
 
+        this.title = 'Account';
+
         let inputs:any = {
             name: {label:'Display Name',
                    type: 'text'},
@@ -48,7 +50,7 @@ class CeAccountMenu extends CeMenu {
 
         let btnUpdate = document.createElement('button');
         btnUpdate.textContent = 'Update';
-        btnUpdate.classList.add('big','bottom');
+        btnUpdate.classList.add('big');
 
         btnUpdate.addEventListener('click', async e=>{
             // load here
@@ -72,6 +74,18 @@ class CeAccountMenu extends CeMenu {
 
         this.menu.appendChild(btnUpdate);
 
+        let backButton = document.createElement('button');
+        backButton.textContent = 'Back to Home';
+
+        backButton.addEventListener('click', e => {
+            console.log('Back button pressed!');
+            goToPage('ce-home-page');
+            this.hide();
+        });
+
+        backButton.classList.add('big','red', 'bottom');
+
+        this.menu.appendChild(backButton);
 
         this.applyStyle();
     }

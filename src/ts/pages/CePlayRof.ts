@@ -15,8 +15,12 @@ class CePlayRof extends CePage {
         super.connectedCallback();
         // add elements to page
 
+        let nextPlayer = new CeNextPlayer;
+        this.appendChild(nextPlayer);
+
         // Card display
         let cardDisplay = new CeOfflineCard;
+        cardDisplay.classList.add('large');
         this.appendChild(cardDisplay);
 
         // Rule Display

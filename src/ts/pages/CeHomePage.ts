@@ -13,28 +13,34 @@ class CeHomePage extends CePage {
         super.connectedCallback();
         // add elements to page
         let offlineGameButton = document.createElement('button');
-        offlineGameButton.textContent = 'Play Local';
+        offlineGameButton.textContent = 'Play';
 
         offlineGameButton.addEventListener('click', e => {
             console.log('Offline game button pressed!');
-            goToPage('ce-play-offline');
+            goToPage('ce-game-select-page');
         });
 
         offlineGameButton.classList.add('big');
 
         this.appendChild(offlineGameButton);
 
-        let onlineGameButton = document.createElement('button');
-        onlineGameButton.textContent = 'Play Online';
 
-        onlineGameButton.addEventListener('click', e => {
-            console.log('Offline game button pressed!');
-        });
+        if (!LOCAL_MODE) {
+            offlineGameButton.textContent = 'Play Local';
 
-        onlineGameButton.classList.add('big', 'green');
+            let onlineGameButton = document.createElement('button');
+            onlineGameButton.textContent = 'Play Online';
 
-        this.appendChild(onlineGameButton);
+            onlineGameButton.addEventListener('click', e => {
+                console.log('Online game button pressed!');
+                goToPage('ce-play-online');
+            });
+
+            onlineGameButton.classList.add('big', 'green');
+
+            this.appendChild(onlineGameButton);
+        }
     }
 }
 
-customElements.define('ce-home-page',CeHomePage);
+customElements.define('ce-home-page', CeHomePage);

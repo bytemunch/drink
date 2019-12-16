@@ -72,7 +72,5 @@ class LoginPage extends Page {
         this.page.appendChild(btnSignup);
 
         this.page.appendChild(btnFb);
-
-
     }
 }

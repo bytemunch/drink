@@ -37,7 +37,7 @@ class CeOfflineCard extends UpdateableElement {
         this.applyStyle();
     }
 
-    async drawCard(card:ICard) {
+    async drawCard(card:Card) {
         let suit = card.suit;
         let number = card.number;
         // IF this.img.src !== this.backImg.src
@@ -49,10 +49,10 @@ class CeOfflineCard extends UpdateableElement {
         }
 
         if (suit == 'joker') {
-            let x = Number(number) % 3;
+            let x = Number(number) % 2;
             if (x == 0) number = 'red';
             if (x == 1) number = 'black';
-            if (x == 2) number = 'white';
+            //if (x == 2) number = 'white';
         }
 
         number = number.toLowerCase();

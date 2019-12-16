@@ -7,6 +7,8 @@ class Game {
 
     turn: number;
 
+    type:string;
+
     state: string;
 
     constructor() {
@@ -14,7 +16,7 @@ class Game {
         this.playerOrder = [];
         this.players = {};
         this.turn = 0;
-        this.state = 'playing';
+        this.state = 'setup';
     }
 
     addPlayer(player: Player) {
@@ -37,5 +39,9 @@ class Game {
 
     takeTurn() {
         this.turn++;
+    }
+
+    get currentPlayer() {
+        return this.playerOrder[this.turn%this.playerOrder.length];
     }
 }

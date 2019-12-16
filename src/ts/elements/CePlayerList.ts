@@ -24,36 +24,27 @@ class CePlayerList extends UpdateableElement {
                 }
             }
         })
+
+        this.update();
     }
 
     applyStyle() {
-        // this.style.display = 'grid'
-        // this.style.width = '100vw';
-        // this.style.height = '40vh'
-        // this.style.gridTemplateColumns = 'repeat(2,45vw)';
-        // this.style.gridAutoRows = '20%';
-        // this.style.gridAutoFlow = 'row'
-        // this.style.gridGap = '2.5vw';
-        // this.style.paddingLeft = '3.5vw';
-
-        // this.style.position = 'relative';
     }
 
     update() {
         super.update();
 
         // Update data
-        let players = room.data.players;
+        let players = GAME.players;
 
         this.players = [];
 
         for (let p in players) {
             // sort into this.players in position of turnorder array
-            let turnOrder = room.data.turnOrder;
             players[p].uid = p;
 
-            if (turnOrder.length == Object.keys(room.data.players).length) {// JS casting doing bits here ugh
-                const pIdx = turnOrder.indexOf(p);
+            if (GAME.playerOrder.length == Object.keys(GAME.players).length) {// JS casting doing bits here ugh
+                const pIdx = GAME.playerOrder.indexOf(p);
                 pIdx != -1 ? this.players[pIdx] = players[p] : this.players.push(players[p])
             } else {
                 this.players.push(players[p]);
@@ -62,7 +53,7 @@ class CePlayerList extends UpdateableElement {
 
         // Re-order array if turns have been taken
         let tmp;
-        for (let i = 0; i < room.data.turnCounter; i++) {
+        for (let i = 0; i < GAME.turnCounter; i++) {
             tmp = this.players.shift();
             this.players.push(tmp);
         }
