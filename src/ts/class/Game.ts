@@ -37,7 +37,7 @@ class Game {
         }
     }
 
-    takeTurn() {
+    async takeTurn() {
         this.turn++;
     }
 

@@ -33,14 +33,14 @@ class CePlayRof extends CePage {
         drawButton.textContent = 'Draw Card';
         drawButton.classList.add('big','bottom');
 
-        drawButton.addEventListener('click', e=>{
+        drawButton.addEventListener('click', async e=>{
             if (drawButton.textContent == 'End Game') {
                 goToPage('ce-home-page');
             } else {
-                let card = GAME.takeTurn();
+                let card = await GAME.takeTurn();
                 cardDisplay.drawCard(card);
                 if (GAME.state !== 'finished') {
-                    ruleDisplay.update();
+                    updateDOM();
                 } else {
                     // game over
                     drawButton.textContent = 'End Game';

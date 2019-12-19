@@ -13,7 +13,8 @@ class RingOfFire extends Game {
         this.deck = new Deck;
     }
 
-    takeTurn() {
+    //@ts-ignore
+    async takeTurn() {
         super.takeTurn();
 
         let card = this.deck.drawCard()

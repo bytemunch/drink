@@ -36,13 +36,13 @@ class CeOfflineRule extends UpdateableElement {
     update(rule?) {
         super.update();
         this.style.top = document.querySelector('.card-display > img').getBoundingClientRect().bottom + 'px';
-        let cardNum = GAME.currentCard.number;
-        let cardSuit = GAME.currentCard.suit;
+        let cardNum = GAME.currentCard.number || 'nocard';
+        let cardSuit = GAME.currentCard.suit || 'nocard';
 
         console.log(rule);
 
         if (!rule) {
-            rule = cardSuit=='joker'?GAME.ruleset.rules.JK:GAME.ruleset.rules[cardNum];
+            rule = cardSuit=='joker'?GAME.ruleset.rules.JK:GAME.ruleset.rules[cardNum]||'';
         }
 
         if (rule) {
