@@ -1,10 +1,16 @@
 /// <reference types="firebase"/>
 
-const VERSION = '0.1.0 - alpha';
-const DEBUG_MODE = true;
+const DEBUG_MODE = false;
+
+const VERSION = `0.1.0 - alpha${DEBUG_MODE ? ' - debug':''}`;
 
 // TODO detect if connected and set this accordingly
 const LOCAL_MODE = true;
+
+const userSignedIn = () => {
+    if (firebase.apps.length == 0) return false;
+    return firebase.auth().currentUser !== null;
+}
 
 let GAME;
 
@@ -139,8 +145,6 @@ async function popUpTest(title, message, options) {
     console.log(p.val);
 }
 
-
-
 document.addEventListener('DOMContentLoaded', function () {
     // The Firebase SDK is initialized and available here!
     document.body.appendChild(new CePopUp('Please Note:',
@@ -186,10 +190,9 @@ async function authHandler(user: any) {
                         room.join(userData.prevRoom.id, userData.prevPIN)
                     } else {
                         (<NodeListOf<CeAvatar>>document.querySelectorAll('ce-avatar')).forEach((v)=>v.update());
+                        updateDOM();
                         goToPage('ce-home-page');
                     }
-                } else {
-                    openPage('account');
                 }
             })
             .catch(e => {
@@ -198,6 +201,7 @@ async function authHandler(user: any) {
     } else {
         // logged out
         userdata = new Player; //clear user info
+        updateDOM();
         goToPage('ce-home-page');
     }
 }

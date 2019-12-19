@@ -16,8 +16,6 @@ class CeModifyPlayerMenu extends CeMenu {
 
         this.id="modify"+this.uid;
 
-        this.logoutBtn.style.display = 'none';
-
         let title = document.createElement('h1');
         title.textContent = 'Edit Local Player';
         this.menu.appendChild(title);

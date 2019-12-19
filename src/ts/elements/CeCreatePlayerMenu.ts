@@ -12,13 +12,9 @@ class CeCreatePlayerMenu extends CeMenu {
     connectedCallback() {
         super.connectedCallback();
 
-        this.logoutBtn.style.display = 'none';
+        this.h2title.textContent = 'Add Player';
 
-        let title = document.createElement('h1');
-        title.textContent = 'Add Local Player';
-        this.menu.appendChild(title);
-
-        let newUid = userdata.uid + userdata.extraPlayerCount;
+        let newUid = `${userdata.uid}-${userdata.extraPlayerCount}`;
 
         let inputs: any = {
             name: {
@@ -52,7 +48,7 @@ class CeCreatePlayerMenu extends CeMenu {
             }
 
             if (input == 'name') {
-                i.value = 'Player ' + (userdata.extraPlayerCount + 1);
+                i.value = 'Player ' + (userdata.extraPlayerCount + 2);
             }
 
             i.setAttribute('id', `acc-input-${input}`);
@@ -78,15 +74,16 @@ class CeCreatePlayerMenu extends CeMenu {
                 color: inputs['color'].value,
             }
 
-            inputs['avatar'].upload();
+            if (!LOCAL_MODE) inputs['avatar'].upload();
             GAME.addPlayer(playerInfo);
 
             // add player modify menu to page
             document.querySelector('.page').appendChild(new CeModifyPlayerMenu(newUid))
 
+            // Uhhhh reset modal? or something idk why i'm doin shit so backwards ahhahaa
             userdata.extraPlayerCount++;
             newUid = userdata.uid + userdata.extraPlayerCount;
-            inputs.name.value = 'Player ' + (userdata.extraPlayerCount + 1);
+            inputs.name.value = 'Player ' + (userdata.extraPlayerCount + 2);
             inputs.avatar.uid = newUid;
 
             (<CePlayerList>document.querySelector('ce-player-list')).update();
@@ -96,7 +93,6 @@ class CeCreatePlayerMenu extends CeMenu {
         })
 
         this.menu.appendChild(btnUpdate);
-
 
         this.applyStyle();
     }

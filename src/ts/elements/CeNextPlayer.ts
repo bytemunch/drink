@@ -25,6 +25,8 @@ class CeNextPlayer extends UpdateableElement {
         this.playerName = document.createElement('h4');
         this.playerName.textContent = 'player name';
         this.appendChild(this.playerName);
+
+        this.update();
     }
 
     update() {

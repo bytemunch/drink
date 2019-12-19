@@ -1,11 +1,11 @@
 class Player {
-    name: string = '';
-    color: string = '';
-    uid: string = '';
+    name: string = 'PLAYERNAME';
+    color: string = '#FF00FF';
+    uid: string = 'PLAYER_SIGNED_OUT';
     ref;
     aviRef;
     aviImg;
-    extraPlayerCount;
+    extraPlayerCount: number = 0;
 
     constructor() {
         this.extraPlayerCount = 0;
@@ -25,7 +25,7 @@ class Player {
         this.uid = uid;
 
         this.ref = firestore.collection('users').doc(uid);
-        
+
         // Pull user data into memory
         const userDoc = await this.ref.get()
             .then((doc: any) => {
@@ -42,7 +42,7 @@ class Player {
                     return false;
                 }
             })
-            .finally(()=>updateDOM())
+            .finally(() => updateDOM())
 
         return userDoc;
     }

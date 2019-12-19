@@ -9,6 +9,9 @@ class CeAccountButton extends CeShowButton {
 
     applyStyle() {
         super.applyStyle();
+
+        this.classList.add('updateable-element');
+
         this.style.background = 'none';
         this.icon.style.display = 'none';
 
@@ -20,15 +23,19 @@ class CeAccountButton extends CeShowButton {
     connectedCallback() {
         super.connectedCallback();
         this.avi = new CeAvatar;
-        this.avi.uid = userdata.uid;
+        
         this.appendChild(this.avi);
-
+        this.update();
         this.applyStyle();
     }
 
     clicked() {
         super.clicked();
         this.style.background = 'none';
+    }
+
+    update() {
+        this.avi.uid = userdata.uid;
     }
 }
 

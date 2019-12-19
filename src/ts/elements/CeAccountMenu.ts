@@ -7,26 +7,40 @@ class CeAccountMenu extends CeMenu {
 
     applyStyle() {
         super.applyStyle();
+        this.classList.add('updateable-element');
     }
 
     connectedCallback() {
         super.connectedCallback();
 
+        // add logout button
+
+        if (!LOCAL_MODE) {
+            this.logoutBtn = new CeLogInOutButton;
+            this.titlebar.appendChild(this.logoutBtn);
+        }
+
         this.title = 'Account';
 
-        let inputs:any = {
-            name: {label:'Display Name',
-                   type: 'text'},
-            color: {label:'Color',
-                    type: 'color'},
-            avatar:{label:'Profile Pic',
-                    type: 'file'}
+        let inputs: any = {
+            name: {
+                label: 'Display Name',
+                type: 'text'
+            },
+            color: {
+                label: 'Color',
+                type: 'color'
+            },
+            avatar: {
+                label: 'Profile Pic',
+                type: 'file'
+            }
         }
 
         for (let input in inputs) {
             let l = document.createElement('p');
             l.textContent = inputs[input].label;
-            l.classList.add('big','label')
+            l.classList.add('big', 'label')
             this.menu.appendChild(l);
 
             let i;
@@ -35,7 +49,7 @@ class CeAccountMenu extends CeMenu {
                 i = document.createElement('ce-avatar-upload');
             } else {
                 i = document.createElement('input');
-                i.setAttribute('type',inputs[input].type);
+                i.setAttribute('type', inputs[input].type);
                 i.classList.add('big');
                 i.value = userdata[input] || '';
                 if (input == 'name' && PROVIDER_VARS.name && !userdata.name) {
@@ -43,7 +57,7 @@ class CeAccountMenu extends CeMenu {
                 }
             }
 
-            i.setAttribute('id',`acc-input-${input}`);
+            i.setAttribute('id', `acc-input-${input}`);
             this.menu.appendChild(i);
 
         }
@@ -52,24 +66,26 @@ class CeAccountMenu extends CeMenu {
         btnUpdate.textContent = 'Update';
         btnUpdate.classList.add('big');
 
-        btnUpdate.addEventListener('click', async e=>{
+        btnUpdate.addEventListener('click', async e => {
             // load here
-            
+            if ((<HTMLInputElement>document.querySelector(`#acc-input-name`)).value == '') {
+                console.error('no name input');
+                return;
+            }
+
             for (let input in inputs) {
-                if (inputs[input].type == 'file') {
+                if (inputs[input].type == 'file' && !LOCAL_MODE) {
                     (<CeAvatarUpload>document.querySelector(`#acc-input-${input}`)).upload();
                 } else {
                     userdata[input] = (<HTMLInputElement>document.querySelector(`#acc-input-${input}`)).value;
                 }
             }
 
-            if (userdata.name == '') {
-                console.error('no name input');
-                return;
-            }
-            
-            await userdata.sendData();
-            openPage('home');
+            if (userSignedIn()) await userdata.sendData();
+
+            updateDOM();
+
+            this.hide();
         })
 
         this.menu.appendChild(btnUpdate);
@@ -83,11 +99,16 @@ class CeAccountMenu extends CeMenu {
             this.hide();
         });
 
-        backButton.classList.add('big','red', 'bottom');
+        backButton.classList.add('big', 'red', 'bottom');
 
         this.menu.appendChild(backButton);
 
         this.applyStyle();
+    }
+
+    update() {
+        this.removeChild(this.menu);
+        this.connectedCallback();
     }
 }
 

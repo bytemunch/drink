@@ -36,7 +36,9 @@ class CeGameSelectPage extends CePage {
 
         redOrBlackButton.classList.add('big','green');
 
-        this.appendChild(redOrBlackButton);
+        if (DEBUG_MODE) {
+            this.appendChild(redOrBlackButton);
+        }
 
 
         let backButton = document.createElement('button');

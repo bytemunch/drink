@@ -17,6 +17,8 @@ class Game {
         this.players = {};
         this.turn = 0;
         this.state = 'setup';
+
+        this.addPlayer(userdata);
     }
 
     addPlayer(player: Player) {

@@ -3,9 +3,11 @@
 // Abstract base menu class
 class CeMenu extends CustomElement {
     menu;
+    titlebar;
     logoutBtn;
     openState;
     closeButton;
+    h2title;
 
     constructor() {
         super();
@@ -23,7 +25,8 @@ class CeMenu extends CustomElement {
         this.menu.style.display = 'block';
         this.menu.style.zIndex = '10';
 
-        this.logoutBtn.classList.add('small', 'logout');
+        this.titlebar.style.width = '100%';
+        this.titlebar.style.height = '32px';
 
         this.style.backgroundColor = palette.greyAlpha;
         this.style.width = '100%';
@@ -43,10 +46,13 @@ class CeMenu extends CustomElement {
         this.menu = document.createElement('div');
         this.appendChild(this.menu);
 
-        let title = document.createElement('h2');
-        title.classList.add('menu-title');
-        title.textContent = 'Menu Title';
-        this.menu.appendChild(title);
+        this.titlebar = document.createElement('div');
+        this.menu.appendChild(this.titlebar);
+
+        this.h2title = document.createElement('h2');
+        this.h2title.classList.add('menu-title');
+        this.h2title.textContent = 'Menu Title';
+        this.titlebar.appendChild(this.h2title);
 
         this.closeButton = document.createElement('img');
         this.closeButton.src = '/img/close-icon.svg';
@@ -56,36 +62,7 @@ class CeMenu extends CustomElement {
         this.closeButton.style.height = '32px';
         this.closeButton.addEventListener('click', this.hide.bind(this));
         this.closeButton.style.backgroundColor = palette.red;
-        this.menu.appendChild(this.closeButton);
-
-        // add logout button
-        this.logoutBtn = document.createElement('button');
-        this.logoutBtn.style.float = 'left';
-
-        if (typeof firebase !== "undefined") {
-            if (firebase.auth().currentUser == null) {
-                this.logoutBtn.textContent = 'Log In';
-
-                this.logoutBtn.addEventListener('click', e => {
-                    goToPage('ce-login');
-                    this.hide();
-                })
-            } else {
-                this.logoutBtn.textContent = 'Log Out';
-
-                this.logoutBtn.addEventListener('click', e => {
-                    firebase.auth().signOut();
-                    this.hide();
-                })
-            }
-
-            this.menu.appendChild(this.logoutBtn);
-        }
-
-        //TODO temp
-        this.logoutBtn.textContent = 'Log In';
-        this.menu.appendChild(this.logoutBtn);
-
+        this.titlebar.appendChild(this.closeButton);
 
         this.applyStyle();
     }

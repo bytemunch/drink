@@ -17,8 +17,6 @@ class CeAboutMenu extends CeMenu {
         title.style.pointerEvents = 'none';
         this.menu.appendChild(title);
 
-        this.logoutBtn.style.display = 'none';
-
         let desc = document.createElement('p');
         desc.textContent = 'Drink! is the drinking game app that you\'ve been missing. It\'ll be fully customizable and easy to pick up with a multitude of games when it\'s finished.';
         desc.style.padding = '0 20px';

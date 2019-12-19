@@ -39,8 +39,6 @@ class CeOfflineRule extends UpdateableElement {
         let cardNum = GAME.currentCard.number || 'nocard';
         let cardSuit = GAME.currentCard.suit || 'nocard';
 
-        console.log(rule);
-
         if (!rule) {
             rule = cardSuit=='joker'?GAME.ruleset.rules.JK:GAME.ruleset.rules[cardNum]||'';
         }
