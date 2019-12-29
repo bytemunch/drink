@@ -51,13 +51,6 @@ class CePlayerList extends UpdateableElement {
             }
         }
 
-        // Re-order array if turns have been taken
-        let tmp;
-        for (let i = 0; i < GAME.turnCounter; i++) {
-            tmp = this.players.shift();
-            this.players.push(tmp);
-        }
-
         // Clear DOM
         Array.from(this.childNodes).forEach(el => this.removeChild(el));
 

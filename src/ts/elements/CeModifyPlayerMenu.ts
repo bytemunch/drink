@@ -16,9 +16,7 @@ class CeModifyPlayerMenu extends CeMenu {
 
         this.id="modify"+this.uid;
 
-        let title = document.createElement('h1');
-        title.textContent = 'Edit Local Player';
-        this.menu.appendChild(title);
+        this.h2title.textContent = 'Modify Player';
 
         let inputs: any = {
             name: {
@@ -71,7 +69,7 @@ class CeModifyPlayerMenu extends CeMenu {
             }
 
             if (!LOCAL_MODE) {
-                room.addLocalPlayer(playerInfo);
+                GAME.addPlayer(new Player(playerInfo));
                 inputs['avatar'].upload();
             }
 

@@ -15,13 +15,13 @@ class CePlayMenu extends CeMenu {
         // Show room info
         let roomDisplay = document.createElement('p');
         roomDisplay.classList.add('roominfo');
-        roomDisplay.textContent = `Room: ${room.roomId}`;
+        roomDisplay.textContent = `Room: ${GAME.roomId}`;
         this.menu.appendChild(roomDisplay);
 
         let pin = document.createElement('p');
         pin.style.cssFloat = 'right';
         pin.classList.add('roominfo');
-        pin.textContent = `PIN: ${room.data.pin}`;
+        pin.textContent = `PIN: ${GAME.pin}`;
         this.menu.appendChild(pin);
 
         this.addLeaveRoom();

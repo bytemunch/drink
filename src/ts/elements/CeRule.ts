@@ -1,6 +1,6 @@
 /// <reference path='UpdateableElement.ts'/>
 
-class CeOfflineRule extends UpdateableElement {
+class CeRule extends UpdateableElement {
     ruleTitle;
     desc;
 
@@ -35,12 +35,21 @@ class CeOfflineRule extends UpdateableElement {
 
     update(rule?) {
         super.update();
+
+        let castGame = GAME as RingOfFire;
+
+        if (!castGame.currentCard || castGame.currentCard.number == '') {
+            console.error('No card in game');
+            return false;
+        }
+
         this.style.top = document.querySelector('.card-display > img').getBoundingClientRect().bottom + 'px';
-        let cardNum = GAME.currentCard.number || 'nocard';
-        let cardSuit = GAME.currentCard.suit || 'nocard';
+
+        let cardNum = castGame.currentCard.number || '';
+        let cardSuit = castGame.currentCard.suit || '';
 
         if (!rule) {
-            rule = cardSuit=='joker'?GAME.ruleset.rules.JK:GAME.ruleset.rules[cardNum]||'';
+            rule = cardSuit=='joker'?castGame.ruleset.rules['JK']:castGame.ruleset.rules[cardNum]||'';
         }
 
         if (rule) {
@@ -60,4 +69,4 @@ class CeOfflineRule extends UpdateableElement {
 
 }
 
-customElements.define('ce-offline-rule', CeOfflineRule);
+customElements.define('ce-rule', CeRule);

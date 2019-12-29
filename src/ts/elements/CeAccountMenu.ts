@@ -95,6 +95,7 @@ class CeAccountMenu extends CeMenu {
 
         backButton.addEventListener('click', e => {
             console.log('Back button pressed!');
+            if (GAME) GAME.leave();
             goToPage('ce-home-page');
             this.hide();
         });

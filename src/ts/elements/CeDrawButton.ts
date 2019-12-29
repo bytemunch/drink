@@ -10,19 +10,19 @@ class CeDrawButton extends HTMLButtonElement {
         this.classList.add('updateable-element', 'big', 'bottom');
 
         this.addEventListener('click', async e => {
-            if (room.data.state !== 'finished') {
-                this.disable('Drawing...');
-                // Discard immediately to seem faster
-                //await (<CeCardDisplay>document.querySelector('ce-card-display')).discard();
-                const token = await firebase.auth().currentUser.getIdToken(true)
-                    .catch(e => {
-                        errorPopUp('You appear offline! Please try again.');
-                        console.error(e);
-                    });
-                easyPOST('ringoffireDrawCard', { token, roomId: room.roomId })
-            } else {
-                room.leave();
-            }
+            // if (room.data.state !== 'finished') {
+            //     this.disable('Drawing...');
+            //     // Discard immediately to seem faster
+            //     //await (<CeCardDisplay>document.querySelector('ce-card-display')).discard();
+            //     const token = await firebase.auth().currentUser.getIdToken(true)
+            //         .catch(e => {
+            //             errorPopUp('You appear offline! Please try again.');
+            //             console.error(e);
+            //         });
+            //     easyPOST('ringoffireDrawCard', { token, roomId: room.roomId })
+            // } else {
+            //     room.leave();
+            // }
         })
 
         this.textContent = 'Card';
@@ -41,22 +41,22 @@ class CeDrawButton extends HTMLButtonElement {
     }
 
     update() {
-        if (room.data.state !== 'finished') {
-            const nextPlayer = room.nextPlayer;
-            if (nextPlayer.uid == userdata.uid || nextPlayer.uid.substring(0, nextPlayer.uid.length - 1) == userdata.uid) {
-                this.disable('Please wait...');
+        // if (room.data.state !== 'finished') {
+        //     const nextPlayer = room.nextPlayer;
+        //     if (nextPlayer.uid == userdata.uid || nextPlayer.uid.substring(0, nextPlayer.uid.length - 1) == userdata.uid) {
+        //         this.disable('Please wait...');
 
-                animMan.animate(this, 'wait', 5000)
-                    .then(() => {
-                        this.enable('Draw Card');
-                    })
-            } else {
-                this.disable(`Waiting for ${nextPlayer.name}...`);
-            }
-        } else {
-            this.style.backgroundColor = palette.red;
-            this.enable('Leave Game');
-        }
+        //         animMan.animate(this, 'wait', 5000)
+        //             .then(() => {
+        //                 this.enable('Draw Card');
+        //             })
+        //     } else {
+        //         this.disable(`Waiting for ${nextPlayer.name}...`);
+        //     }
+        // } else {
+        //     this.style.backgroundColor = palette.red;
+        //     this.enable('Leave Game');
+        // }
     }
 
 

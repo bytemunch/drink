@@ -1,18 +1,23 @@
 /// <reference types="firebase"/>
 
-const DEBUG_MODE = false;
+const DEBUG_MODE = true;
 
-const VERSION = `0.1.0 - alpha${DEBUG_MODE ? ' - debug':''}`;
+const VERSION = `0.2.0 - alpha${DEBUG_MODE ? ' - debug' : ''}`;
 
 // TODO detect if connected and set this accordingly
-const LOCAL_MODE = true;
+const LOCAL_MODE = false;
 
 const userSignedIn = () => {
     if (firebase.apps.length == 0) return false;
     return firebase.auth().currentUser !== null;
 }
 
-let GAME;
+let GAME: Game | RingOfFire | RedOrBlack;
+
+const TEMP_MS_BETWEEN_TURNS = 1500;
+let TEMP_WAIT_FOR_TURN = false;
+
+let GAME_CHANGE_LISTENER = function () { console.log('no listener') };
 
 let AJAX_NAV = { prev: location.hash.replace('#', '') }
 
@@ -80,8 +85,6 @@ window.addEventListener('popstate', e => {
         return;
     }
 
-    openPage(nextPage, pushHistory);
-
     updateDOM();
 })
 
@@ -118,7 +121,6 @@ if (!LOCAL_MODE) {
 }
 
 let userdata = new Player;
-let room = new Room;
 
 // Need issue fixed before presence
 // https://github.com/firebase/firebase-js-sdk/issues/249
@@ -173,27 +175,13 @@ async function authHandler(user: any) {
         // get user ref
         const userRef = await firestore.collection('users').doc(user.uid);
         const userDoc = await userRef.get();
-        const userData = await userDoc.data();
-
-        // clear user's current room if any
-        await userRef.set({ currentRoom: '' }, { merge: true });
 
         userdata.populateFrom(user.uid)
-            .then(userExists => {
-                if (userExists && userdata.name) {
+            .then(() => {
+                (<NodeListOf<CeAvatar>>document.querySelectorAll('ce-avatar')).forEach((v) => v.update());
+                updateDOM();
+                goToPage('ce-home-page');
 
-                    // if we followed an invite link
-                    if (INVITE_CREDS.room && INVITE_CREDS.pin) {
-                        room.join(INVITE_CREDS.room, INVITE_CREDS.pin)
-                    } else if (userData.prevRoom) {
-                        console.log('joining previous room!');
-                        room.join(userData.prevRoom.id, userData.prevPIN)
-                    } else {
-                        (<NodeListOf<CeAvatar>>document.querySelectorAll('ce-avatar')).forEach((v)=>v.update());
-                        updateDOM();
-                        goToPage('ce-home-page');
-                    }
-                }
             })
             .catch(e => {
                 console.error('userdata.populateFrom:', e);

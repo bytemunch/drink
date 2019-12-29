@@ -82,8 +82,6 @@ class CeMenu extends CustomElement {
             e.preventDefault();
             // POPUP HERE
             this.hide();
-            addLoader('pageOpen');
-            room.leave();
         })
 
         btnLeave.style.backgroundColor = palette.red;

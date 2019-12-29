@@ -37,7 +37,7 @@ class CeAvatarUpload extends HTMLElement {
 
         // If we have external profile pic
         // and don't currently have a profile pic
-        if (!LOCAL_MODE) {
+        if (false) {
             firebase.storage().ref().child(`avatars/${this.uid}.png`).getDownloadURL()
             .catch(async err=>{
                 if (PROVIDER_VARS.avi) {
@@ -87,8 +87,8 @@ class CeAvatarUpload extends HTMLElement {
         storageRef.put(this.file)
         //storageRef.putString(this.file,'data_url',{contentType:'image/png'})
         .then(snap=>{
-            room.getAvi(this.uid)
-            .then(()=>updateDOM())
+            // room.getAvi(this.uid)
+            // .then(()=>updateDOM())
         })
         .catch(e=>console.error(e));
     }

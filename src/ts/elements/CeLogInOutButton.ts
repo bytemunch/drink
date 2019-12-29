@@ -20,7 +20,7 @@ class CeLogInOutButton extends HTMLButtonElement {
         } else {
             goToPage('ce-login');
         }
-        (<CeMenu>this.parentElement.parentElement).hide();
+        (<CeMenu>this.parentElement.parentElement.parentElement).hide();
     }
 
     update() {

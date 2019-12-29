@@ -19,12 +19,12 @@ class CePlayRof extends CePage {
         this.appendChild(nextPlayer);
 
         // Card display
-        let cardDisplay = new CeOfflineCard;
+        let cardDisplay = new CeCard;
         cardDisplay.classList.add('large');
         this.appendChild(cardDisplay);
 
         // Rule Display
-        let ruleDisplay = new CeOfflineRule;
+        let ruleDisplay = new CeRule;
         this.appendChild(ruleDisplay);
 
         // Draw button
@@ -32,15 +32,32 @@ class CePlayRof extends CePage {
         let drawButton = document.createElement('button');
         drawButton.textContent = 'Draw Card';
         drawButton.classList.add('big','bottom');
+        drawButton.id = 'draw';
 
         drawButton.addEventListener('click', async e=>{
+            //debounce
+            drawButton.disabled = true;
+            drawButton.classList.add('grey');
+            setTimeout(()=>{
+                drawButton.disabled = false;
+                drawButton.classList.remove('grey');
+            },1500)
+
             if (drawButton.textContent == 'End Game') {
                 goToPage('ce-home-page');
             } else {
-                let card = await GAME.takeTurn();
-                cardDisplay.drawCard(card);
+                await (<RingOfFire>GAME).takeTurn()
+                // .then(card => {
+                //     if (card.number !== '' && card.suit !== '') {
+                //         if (!GAME.online) cardDisplay.drawCard(card);
+                //     } else {
+                //         throw new Error(card);
+                //     }
+                // })
+                // .catch(e=>{console.error(e)})
+
                 if (GAME.state !== 'finished') {
-                    updateDOM();
+                    // updateDOM();
                 } else {
                     // game over
                     drawButton.textContent = 'End Game';
@@ -50,6 +67,12 @@ class CePlayRof extends CePage {
         })
 
         this.appendChild(drawButton);
+
+
+        // Update DOM after joined
+        setTimeout(()=>{
+            updateDOM();
+        },500)
     }
 }
 

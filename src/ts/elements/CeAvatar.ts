@@ -24,13 +24,13 @@ class CeAvatar extends UpdateableElement {
     }
 
     set uid(uid) {
-        this.color = room.data && room.data.players[uid] ? room.data.players[uid].color : userdata.color || '#ffffff';
+        // this.color = room.data && room.data.players[uid] ? room.data.players[uid].color : userdata.color || '#ffffff';
 
-        room.getAvi(uid)
-            .then(url => {
-                this.src = `url(${url})`;
-                this.update();
-            })
+        // room.getAvi(uid)
+        //     .then(url => {
+        //         this.src = `url(${url})`;
+        //         this.update();
+        //     })
 
         this._uid = uid;
     }

@@ -21,13 +21,13 @@ class CeInviteMenu extends CeMenu {
         // Show room info
         let roomDisplay = document.createElement('p');
         roomDisplay.classList.add('roominfo');
-        roomDisplay.textContent = `Room: ${room.roomId}`;
+        roomDisplay.textContent = `Room: ${GAME.roomId}`;
         this.menu.appendChild(roomDisplay);
 
         let pin = document.createElement('p');
         pin.style.cssFloat = 'right';
         pin.classList.add('roominfo');
-        pin.textContent = `PIN: ${room.data.pin}`;
+        pin.textContent = `PIN: ${GAME.pin}`;
         this.menu.appendChild(pin);
 
         let desc = document.createElement('p');
@@ -44,7 +44,7 @@ class CeInviteMenu extends CeMenu {
         link.style.fontSize = 'larger';
 
         link.readOnly = true;
-        link.value = room.link;
+        link.value = GAME.link;
 
         link.addEventListener('click',e=>{
             link.select();
@@ -82,7 +82,7 @@ class CeInviteMenu extends CeMenu {
                 const shareObj = {
                     title: 'Drink!',
                     text: 'Come play a drinking game with me!',
-                    url: room.link
+                    url: GAME.link
                 };
 
                 // @ts-ignore

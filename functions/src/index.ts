@@ -103,7 +103,7 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                         }
 
 
-                        return Promise.reject({ err: 'joinRoom: Incorret PIN!', code: '403' }); //forbidden
+                        return Promise.reject({ err: 'joinRoom: Incorrect PIN!', code: '403' }); //forbidden
                     })
                     .then(() => {
 
@@ -120,8 +120,6 @@ export const joinRoom = functions.https.onRequest((req, res) => {
 
                             return t.get(roomRef)
                                 .then(async roomDoc => {
-
-
                                     if (!roomDoc.exists) {
                                         return Promise.reject({ err: 'joinRoom: Room doesn\'t exist!', code: '500' }) // unknown server error
                                     }
@@ -136,13 +134,12 @@ export const joinRoom = functions.https.onRequest((req, res) => {
                                     delete players[userToken.uid].currentRoom;
                                     delete players[userToken.uid].prevRoom;
                                     delete players[userToken.uid].prevPIN;
-                                    // players[userToken.uid].status = 'online';
 
                                     players[userToken.uid].ready = false;
                                     players[userToken.uid].hand = {};
 
                                     t.update(roomRef, { players: players });
-                                    t.update(roomRef, { turnOrder: admin.firestore.FieldValue.arrayUnion(userToken.uid) })
+                                    t.update(roomRef, { playerOrder: admin.firestore.FieldValue.arrayUnion(userToken.uid) })
                                     userdata.ref.set({ currentRoom: roomRef }, { merge: true })
                                     return Promise.resolve();
 
@@ -158,18 +155,6 @@ export const joinRoom = functions.https.onRequest((req, res) => {
             .catch(error => res.send({ error, joined: false }))
     });
 })
-
-export const roomDeleted = functions.firestore
-    .document('rooms/{roomId}')
-    .onDelete(async (snap, ctx) => {
-        const roomId = ctx.params.roomId;
-
-        if (roomId !== 'roomsinfo') {
-            const infoRef = snap.ref.parent.doc('roomsinfo');
-
-            infoRef.set({ roomlist: { [roomId]: false } }, { merge: true });
-        }
-    });
 
 export const startGame = functions.https.onRequest((req, res) => {
     cors(req, res, () => {
@@ -198,6 +183,46 @@ export const startGame = functions.https.onRequest((req, res) => {
             })
     })
 })
+
+export const rofDrawCard = functions.https.onRequest((req, res) => {
+    cors(req, res, async () => {
+        const request = JSON.parse(req.body);
+
+        const token = await admin.auth().verifyIdToken(request.token);
+
+        const roomRef = firestore.collection('rooms').doc(request.roomId);
+
+        const room = await roomRef.get().then(doc => doc.data());
+
+        const nextPlayerUid = room.playerOrder[room.turn % room.playerOrder.length];
+
+        if (token.uid != nextPlayerUid // if not next player
+            && token.uid != nextPlayerUid.substring(0, nextPlayerUid.length - 2)) { // and not local player
+            res.send({
+                err: 'Not your turn!', code: '403',
+                info: {
+                    turn: nextPlayerUid,
+                    suid: nextPlayerUid.substring(0, nextPlayerUid.length - 1),
+                    uid: token.uid
+                }
+            })//forbidden
+
+            return;
+        }
+
+        const cards = room.deck.cards;
+
+        let n = Math.floor(Math.random() * cards.length);
+        let chosenCard = cards[n];
+
+        cards.splice(n, 1);
+
+        roomRef.set({currentCard: chosenCard, deck:{cards}},{merge:true})
+        .catch((e)=>console.error(e));
+
+        res.send(chosenCard);
+    })
+});
 
 export const ringoffireDrawCard = functions.https.onRequest((req, res) => {
     cors(req, res, () => {
@@ -267,61 +292,3 @@ export const ringoffireDrawCard = functions.https.onRequest((req, res) => {
             })
     })
 })
-
-// User state management
-// Useless til https://github.com/firebase/firebase-js-sdk/issues/249
-
-// export const userStateChange = functions.database.ref('/status/{uid}')
-//     .onUpdate(async (change, context) => {
-//         // ctrl+c ctrl+z | i am 1337 c0d3r yo
-//         // Get the data written to Realtime Database
-//         const eventStatus = change.after.val();
-
-//         // Then use other event data to create a reference to the
-//         // corresponding Firestore document.
-//         const userStatusFirestoreRef = firestore.doc(`status/${context.params.uid}`);
-
-//         // It is likely that the Realtime Database change that triggered
-//         // this event has already been overwritten by a fast change in
-//         // online / offline status, so we'll re-read the current data
-//         // and compare the timestamps.
-//         const statusSnapshot = await change.after.ref.once('value');
-//         const status = statusSnapshot.val();
-
-//         // If the current timestamp for this data is newer than
-//         // the data that triggered this event, we exit this function.
-//         if (status.last_changed > eventStatus.last_changed) {
-//             return null;
-//         }
-
-//         // Otherwise, we convert the last_changed field to a Date
-//         eventStatus.last_changed = new Date(eventStatus.last_changed);
-
-//         // ... and write it to Firestore.
-//         userStatusFirestoreRef.set(eventStatus);
-
-//         // Then check if user was in a room
-//         const userRef = firestore.doc(`users/${context.params.uid}`);
-
-//         userRef.get().then(async userRefDoc => {
-
-//             const data = await userRefDoc.data();
-
-//             const room = data.currentRoom;
-
-//             // No room, do nothing
-//             if (!room) {
-//                 return;
-//             }
-
-//             // update player state in room
-//             await room.set({
-//                 players: { [context.params.uid]: { status: eventStatus.state } },
-//             }, { merge: true })
-
-//             // Kick player out of room
-//             if (eventStatus.state == 'offline') {
-//                 //await leaveRoom(context.params.uid, false);
-//             }
-//         })
-//     });

@@ -27,4 +27,8 @@ class Deck {
 
         return chosenCard;
     }
+
+    async drawOnline() {
+        return (await easyPOST('rofDrawCard',{token:await firebase.auth().currentUser.getIdToken(true) ,roomId:GAME.roomId})).json();
+    }
 }

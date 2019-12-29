@@ -46,8 +46,17 @@ class CePlayOnline extends CePage {
 
         joinButton.addEventListener('click', e => {
             console.log('Join button pressed!');
-            GAME = new RingOfFire;
-            goToPage('ce-play-rof');
+            GAME = new RingOfFire(true);
+            GAME.roomId = roomInput.value;
+            GAME.pin = pinInput.value;
+            GAME.initOnline(false)
+            .then(roomJoined=>{
+                if (roomJoined.joined) {
+                    goToPage('ce-play-rof');
+                } else {
+                    errorPopUp(roomJoined.error.err);
+                }
+            })
         });
 
         joinButton.classList.add('big');
@@ -59,8 +68,20 @@ class CePlayOnline extends CePage {
 
         createButton.addEventListener('click', e => {
             console.log('Create button pressed!');
-            GAME = new RingOfFire;
-            goToPage('ce-play-rof');
+            GAME = new RingOfFire(true);
+            GAME.roomId = GAME.createId();
+            GAME.pin = GAME.createPin();
+            GAME.initOnline(true)
+            .then(roomJoined=>{
+                if (roomJoined.joined) {
+                    goToPage('ce-play-rof');
+                } else {
+                    errorPopUp(roomJoined.error.err);
+                }
+            })
+            .catch(e=>{
+                console.error(e);
+            })
         });
 
         createButton.classList.add('big','green');

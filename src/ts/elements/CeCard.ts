@@ -1,8 +1,7 @@
-class CeOfflineCard extends UpdateableElement {
+class CeCard extends UpdateableElement {
     img;
     backImg;
-    suit;
-    number;
+    currentCard;
 
     constructor() {
         super();
@@ -38,6 +37,7 @@ class CeOfflineCard extends UpdateableElement {
     }
 
     async drawCard(card:Card) {
+        this.currentCard = card;
         let suit = card.suit;
         let number = card.number;
         // IF this.img.src !== this.backImg.src
@@ -94,6 +94,14 @@ class CeOfflineCard extends UpdateableElement {
         return true;
     }
 
+    update() {
+        super.update();
+
+        if ((<RingOfFire>GAME).currentCard !== this.currentCard && (<RingOfFire>GAME).currentCard.number !== '') {
+            this.drawCard((<RingOfFire>GAME).currentCard);
+        }
+    }
+
 }
 
-customElements.define('ce-offline-card', CeOfflineCard);
+customElements.define('ce-card', CeCard);

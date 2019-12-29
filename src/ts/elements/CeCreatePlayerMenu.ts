@@ -68,11 +68,11 @@ class CeCreatePlayerMenu extends CeMenu {
                 return;
             }
 
-            const playerInfo = {
+            const playerInfo = new Player({
                 uid: newUid,
                 name: inputs['name'].value,
                 color: inputs['color'].value,
-            }
+            });
 
             if (!LOCAL_MODE) inputs['avatar'].upload();
             GAME.addPlayer(playerInfo);

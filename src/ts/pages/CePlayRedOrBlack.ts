@@ -16,7 +16,7 @@ class CePlayRedOrBlack extends CePage {
         // add elements to page
 
         // Card display
-        let cardDisplay = new CeOfflineCard;
+        let cardDisplay = new CeCard;
         this.appendChild(cardDisplay);
     }
 }
