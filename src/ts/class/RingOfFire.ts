@@ -15,43 +15,53 @@ class RingOfFire extends Game {
 
     //@ts-ignore
     async takeTurn() {
-        let card = this.online ? await this.deck.drawOnline() : this.deck.drawCard(); // TODONEXT add online drawcard funtionality
+
+        let card;
+
+        if (this.online) {
+            card = await this.deck.drawOnline()
+        } else {
+            card = this.deck.drawCard();
+            this.currentCard = card;
+            updateDOM();
+        }
 
         console.log(card);
 
-        if (card.number !== '' && card.suit !== '' && card !== this.currentCard && !card.err && card) {
-            //console.log('set cc');
-            //this.currentCard = card;
-            super.takeTurn();
-
-            // (<CeCard>document.querySelector('ce-card')).update();
-            // (<CeRule>document.querySelector('ce-rule')).update();
-            // (<CeNextPlayer>document.querySelector('ce-next-player')).update();
-
-            if (this.ruleset.winState.if == 'LAST_KING') {
-                if (card.number == 'K') {
-                    let kingFoundInDeck = false;
-                    for (let c of this.deck.cards) {
-                        if (c.number == 'K') kingFoundInDeck = true;
-                    }
-
-                    if (!kingFoundInDeck) {
-                        // end game
-                        this.state = 'finished';
-
-                        (<CeRule>document.querySelector('.rule-display')).update(this.ruleset.winState.then)
-                    }
-                }
-            }
-            return card;
-        } else {
+        if (card.number === '' || card.suit === '' || card.err || !card) {
             errorPopUp(card.err);
             const drawButton = (<HTMLButtonElement>document.querySelector('#draw'));
 
             // Disable draw button
             drawButton.disabled = true;
             drawButton.classList.add('grey');
+
+            return false;
         }
+        //console.log('set cc');
+        //this.currentCard = card;
+        super.takeTurn();
+
+        // (<CeCard>document.querySelector('ce-card')).update();
+        // (<CeRule>document.querySelector('ce-rule')).update();
+        // (<CeNextPlayer>document.querySelector('ce-next-player')).update();
+
+        if (this.ruleset.winState.if == 'LAST_KING') {
+            if (card.number == 'K') {
+                let kingFoundInDeck = false;
+                for (let c of this.deck.cards) {
+                    if (c.number == 'K') kingFoundInDeck = true;
+                }
+
+                if (!kingFoundInDeck) {
+                    // end game
+                    this.state = 'finished';
+
+                    (<CeRule>document.querySelector('.rule-display')).update(this.ruleset.winState.then)
+                }
+            }
+        }
+        return card;
     }
 
     onListenerUpdate(newData, oldData) {

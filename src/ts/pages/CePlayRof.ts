@@ -1,7 +1,7 @@
 /// <reference path='CePage.ts'/>
 
 class CePlayRof extends CePage {
-    
+
     constructor() {
         super();
         this.header = 'account';
@@ -31,17 +31,20 @@ class CePlayRof extends CePage {
 
         let drawButton = document.createElement('button');
         drawButton.textContent = 'Draw Card';
-        drawButton.classList.add('big','bottom');
+        drawButton.classList.add('big', 'bottom');
         drawButton.id = 'draw';
 
-        drawButton.addEventListener('click', async e=>{
-            //debounce
-            drawButton.disabled = true;
-            drawButton.classList.add('grey');
-            setTimeout(()=>{
-                drawButton.disabled = false;
-                drawButton.classList.remove('grey');
-            },1500)
+        drawButton.addEventListener('click', async e => {
+
+            if (GAME.online) {
+                //debounce
+                drawButton.disabled = true;
+                drawButton.classList.add('grey');
+                setTimeout(() => {
+                    drawButton.disabled = false;
+                    drawButton.classList.remove('grey');
+                }, 1500)
+            }
 
             if (drawButton.textContent == 'End Game') {
                 goToPage('ce-home-page');
@@ -70,10 +73,10 @@ class CePlayRof extends CePage {
 
 
         // Update DOM after joined
-        setTimeout(()=>{
+        setTimeout(() => {
             updateDOM();
-        },500)
+        }, 500)
     }
 }
 
-customElements.define('ce-play-rof',CePlayRof);
+customElements.define('ce-play-rof', CePlayRof);
