@@ -38,13 +38,8 @@ class RingOfFire extends Game {
 
             return false;
         }
-        //console.log('set cc');
-        //this.currentCard = card;
-        super.takeTurn();
 
-        // (<CeCard>document.querySelector('ce-card')).update();
-        // (<CeRule>document.querySelector('ce-rule')).update();
-        // (<CeNextPlayer>document.querySelector('ce-next-player')).update();
+        super.takeTurn();
 
         if (this.ruleset.winState.if == 'LAST_KING') {
             if (card.number == 'K') {

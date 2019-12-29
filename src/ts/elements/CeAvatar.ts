@@ -5,7 +5,7 @@ class CeAvatar extends UpdateableElement {
     color;
     realReady;
     _uid;
-    
+
     constructor(uid = userdata.uid) {
         super();
     }
@@ -24,13 +24,16 @@ class CeAvatar extends UpdateableElement {
     }
 
     set uid(uid) {
-        // this.color = room.data && room.data.players[uid] ? room.data.players[uid].color : userdata.color || '#ffffff';
-
-        // room.getAvi(uid)
-        //     .then(url => {
-        //         this.src = `url(${url})`;
-        //         this.update();
-        //     })
+        getColor(uid)
+        .then(color => {
+            this.color = color;
+            this.update();
+        })
+        getAvatar(uid)
+            .then(url => {
+                this.src = `url(${url})`;
+                this.update();
+            })
 
         this._uid = uid;
     }

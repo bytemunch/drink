@@ -3,7 +3,6 @@ class Player {
     color: string = '#FF00FF';
     uid: string = 'PLAYER_SIGNED_OUT';
     ref;
-    aviRef;
     aviImg;
     extraPlayerCount: number = 0;
 
@@ -34,7 +33,7 @@ class Player {
                     this.getData(await this.ref.get());
                 }
             })
-            .catch(e=>console.error(e))
+            .catch(e => console.error(e))
             .finally(() => updateDOM())
 
         return userDoc;
@@ -50,7 +49,7 @@ class Player {
 
     get safeData() {
         return {
-            name :this.name,
+            name: this.name,
             color: this.color,
             uid: this.uid
         }

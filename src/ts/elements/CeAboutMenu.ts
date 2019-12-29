@@ -26,11 +26,11 @@ class CeAboutMenu extends CeMenu {
         faqLink.textContent = 'F.A.Q';
         this.menu.appendChild(faqLink);
 
-        // let authorLink = document.createElement('a');
-        // authorLink.href = 'https://sam.edelsten.me/';
-        // authorLink.target = '_blank';
-        // authorLink.textContent = 'Who Made This?';
-        // this.menu.appendChild(authorLink);
+        let authorLink = document.createElement('a');
+        authorLink.href = 'https://bytemunch.github.io/';
+        authorLink.target = '_blank';
+        authorLink.textContent = 'Who Made This?';
+        this.menu.appendChild(authorLink);
 
         let feedbackLink = document.createElement('a');
         feedbackLink.href = 'mailto:sam.drink.app@gmail.com';
