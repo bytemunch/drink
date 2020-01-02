@@ -4,9 +4,9 @@ class CeAvatar extends UpdateableElement {
     src;
     color;
     realReady;
-    _uid;
+    _uid = 'USER_SIGNED_OUT';
 
-    constructor(uid = userdata.uid) {
+    constructor() {
         super();
     }
 
@@ -64,9 +64,9 @@ class CeAvatar extends UpdateableElement {
 
     async getColor() {
         const userDoc = await firestore.collection('users').doc(this._uid).get()
-        const userData = await userDoc.data();
+        const userData = await userDoc.data() || {};
 
-        return userData.color;
+        return userData.color || '#FFFFFF';
     }
 
     update() {

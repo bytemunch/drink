@@ -31,10 +31,8 @@ class CeNextPlayer extends UpdateableElement {
 
     update() {
         super.update();
-        let nextPlayer = GAME.players[GAME.currentPlayer];
-        this.playerName.textContent = nextPlayer.name;
-        this.playerAvi.uid = nextPlayer.uid;
-
+        this.playerName.textContent = GAME.players[GAME.currentPlayer].name;
+        this.playerAvi.uid = GAME.currentPlayer;
     }
 }
 
