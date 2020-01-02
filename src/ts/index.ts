@@ -1,8 +1,8 @@
 /// <reference types="firebase"/>
 
-const DEBUG_MODE = true;
+const DEBUG_MODE = false;
 
-const VERSION = `0.2.0 - alpha${DEBUG_MODE ? ' - debug' : ''}`;
+const VERSION = `0.2.1 - alpha${DEBUG_MODE ? ' - debug' : ''}`;
 
 // TODO detect if connected and set this accordingly
 const LOCAL_MODE = false;
