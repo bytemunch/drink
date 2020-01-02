@@ -38,6 +38,8 @@ class CePlayRof extends CePage {
 
             if (GAME.online) {
                 //debounce
+
+                // TODO Very bad, reeanables button no matter what so can get desync if internet too quick!
                 drawButton.disabled = true;
                 drawButton.classList.add('grey');
                 setTimeout(() => {

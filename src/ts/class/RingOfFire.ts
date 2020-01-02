@@ -72,22 +72,29 @@ class RingOfFire extends Game {
             (<CeRule>document.querySelector('ce-rule')).update();
         }
 
-
         super.onListenerUpdate(newData, oldData);
 
-        (<CeNextPlayer>document.querySelector('ce-next-player')).update();
+        if (GAME.state === 'playing') {
+            (<CeNextPlayer>document.querySelector('ce-next-player')).update();
 
+            const drawButton = (<HTMLButtonElement>document.querySelector('#draw'));
 
-        const drawButton = (<HTMLButtonElement>document.querySelector('#draw'));
-
-        if (drawButton && GAME.currentPlayer !== userdata.uid) {
-            // Disable draw button
-            drawButton.disabled = true;
-            drawButton.classList.add('grey');
-        } else {
-            // enable draw button
-            drawButton.disabled = false;
-            drawButton.classList.remove('grey');
+            if (drawButton && GAME.currentPlayer !== userdata.uid) {
+                // Disable draw button
+                drawButton.disabled = true;
+                drawButton.classList.add('grey');
+            } else {
+                // enable draw button
+                drawButton.disabled = false;
+                drawButton.classList.remove('grey');
+            }
         }
+
+        if (GAME.state === 'setup') {
+            (<CePlayerList>document.querySelector('ce-player-list')).update();
+        }
+
+
+
     }
 }
