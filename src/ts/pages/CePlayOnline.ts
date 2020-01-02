@@ -52,7 +52,7 @@ class CePlayOnline extends CePage {
             GAME.initOnline(false)
             .then(roomJoined=>{
                 if (roomJoined.joined) {
-                    goToPage('ce-play-rof');
+                    goToPage('ce-setup-rof');
                 } else {
                     errorPopUp(roomJoined.error.err);
                 }

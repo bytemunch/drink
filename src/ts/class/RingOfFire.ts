@@ -72,6 +72,13 @@ class RingOfFire extends Game {
             (<CeRule>document.querySelector('ce-rule')).update();
         }
 
+        if (oldData.state !== newData.state) {
+            console.log('statechange!')
+            if (oldData.state === 'setup' && newData.state === 'playing') {
+                goToPage('ce-play-rof');
+            }
+        }
+
         super.onListenerUpdate(newData, oldData);
 
         if (GAME.state === 'playing') {
