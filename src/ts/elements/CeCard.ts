@@ -9,14 +9,14 @@ class CeCard extends UpdateableElement {
 
     applyStyle() {
         this.classList.add('card-display');
-
-        this.style.position = 'relative';
-        this.style.display = 'flex';
+        this.style.position = 'absolute';
+        this.style.display = 'block';
+        //TODO position with maths n ting
+        this.style.left = '25%';
     }
 
     connectedCallback() {
         super.connectedCallback();
-        this.classList.add('big');
 
         this.backImg = document.createElement('img');
         this.backImg.setAttribute('src', `/img/cards/back.svg`);

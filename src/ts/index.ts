@@ -40,37 +40,7 @@ const firebaseConfig = {
     appId: "1:65675668525:web:e6865bb78d7596c7"
 };
 
-// Body sizing
-
 document.body.style.zoom = '1';
-
-if (window.innerWidth / window.innerHeight > 0.75 && window.innerWidth > 460) {
-    document.body.style.width = `${window.innerHeight * 0.75}px`;
-    document.body.style.marginLeft = `${(window.innerWidth - (window.innerHeight * 0.75)) / 2}px`;
-} else {
-    document.body.style.width = `${window.innerWidth}px`;
-    document.body.style.marginLeft = `0px`;
-}
-
-window.addEventListener('resize', e => {
-    document.body.style.height = '100vh';
-    document.body.style.zoom = '1';
-
-    if (window.innerWidth / window.innerHeight > 0.75) {
-        document.body.style.width = `${window.innerHeight * 0.75}px`;
-        document.body.style.marginLeft = `${(window.innerWidth - (window.innerHeight * 0.75)) / 2}px`;
-    }
-
-    let reflowElements = document.querySelectorAll('.responsive-reflow') as any;
-
-    for (let el of reflowElements) {
-        try {
-            el.applyStyle();
-        } catch (e) {
-            console.log(e, el)
-        }
-    }
-})
 
 window.addEventListener('popstate', e => {
     addLoader('pageOpen');
