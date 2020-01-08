@@ -15,6 +15,8 @@ class CeRule extends UpdateableElement {
         this.desc.style.opacity = 'inherit';
 
         this.style.position = 'relative';
+        this.style.top = (document.querySelector('.card-display > img').getBoundingClientRect().bottom + 10) + 'px';
+
     }
 
     connectedCallback() {
@@ -43,27 +45,25 @@ class CeRule extends UpdateableElement {
             return false;
         }
 
-        this.style.top = document.querySelector('.card-display > img').getBoundingClientRect().bottom + 'px';
-
         let cardNum = castGame.currentCard.number || '';
         let cardSuit = castGame.currentCard.suit || '';
 
         if (!rule) {
-            rule = cardSuit=='joker'?castGame.ruleset.rules['JK']:castGame.ruleset.rules[cardNum]||'';
+            rule = cardSuit == 'joker' ? castGame.ruleset.rules['JK'] : castGame.ruleset.rules[cardNum] || '';
         }
 
         if (rule) {
-            animMan.animate(this,'fadeOut',250)
-            .then(()=>{
-                this.ruleTitle.textContent = rule.title || '';
-                this.desc.textContent = rule.desc || '';
-                animMan.animate(this,'wait',750)
-                .then(()=>{
-                    animMan.animate(this,'fadeIn',250)
+            animMan.animate(this, 'fadeOut', 250)
+                .then(() => {
+                    this.ruleTitle.textContent = rule.title || '';
+                    this.desc.textContent = rule.desc || '';
+                    animMan.animate(this, 'wait', 750)
+                        .then(() => {
+                            animMan.animate(this, 'fadeIn', 250)
+                        })
                 })
-            })
         } else {
-            console.error('No rule for ',cardNum,cardSuit);
+            console.error('No rule for ', cardNum, cardSuit);
         }
     }
 

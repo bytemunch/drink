@@ -11,8 +11,7 @@ class CeCard extends UpdateableElement {
         this.classList.add('card-display');
         this.style.position = 'absolute';
         this.style.display = 'block';
-        //TODO position with maths n ting
-        this.style.left = '25%';
+        this.style.left = `calc((${window.innerWidth}px - ${this.backImg.getBoundingClientRect().width}px) / 2)`;
     }
 
     connectedCallback() {
@@ -100,6 +99,8 @@ class CeCard extends UpdateableElement {
         if ((<RingOfFire>GAME).currentCard !== this.currentCard && (<RingOfFire>GAME).currentCard.number !== '') {
             this.drawCard((<RingOfFire>GAME).currentCard);
         }
+
+        this.applyStyle();
     }
 
 }
