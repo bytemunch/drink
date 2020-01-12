@@ -12,20 +12,84 @@ class CePlayerList extends UpdateableElement {
 
         this.applyStyle();
 
-        this.addEventListener('click', e => {
-            e.preventDefault();
-            if (this.classList.contains('smallList')) {
-                const growWidths: Array<any> = ['24px', ''];
+        // if we are room owner
 
-                if (growWidths.includes(this.style.width)) {
-                    animMan.animate(this, 'playerListGrow', 250);
-                } else {
-                    animMan.animate(this, 'playerListShrink', 250);
-                }
-            }
-        })
+        if (GAME.ownerUid == userdata.uid || !GAME.online) this.initDragDrop();
 
         this.update();
+    }
+
+    initDragDrop() {
+        let dragged;
+
+        document.addEventListener("dragstart", ev => {
+            // store a ref. on the dragged elem
+            dragged = ev.target;
+            // make it half transparent
+            (<HTMLElement>ev.target).style.opacity = "0.5";
+        }, false);
+
+        document.addEventListener("dragover", ev => {
+            // prevent default to allow drop
+            ev.preventDefault();
+        }, false);
+
+        document.addEventListener('dragenter', ev => {
+
+        }, false)
+
+        document.addEventListener("dragend", ev => {
+            // reset the transparency
+            (<HTMLElement>ev.target).style.opacity = "";
+        }, false);
+
+        document.addEventListener('drop', ev => {
+            ev.preventDefault();
+
+            if (GAME.ownerUid == userdata.uid) {
+                let target = checkAllParents((<HTMLElement>ev.target));
+
+                let targetParent: HTMLElement;
+
+                // Needs to bubble up
+                function checkAllParents(target): Element | false {
+                    if (target == document.body) return false;
+                    if (target.classList.contains('dd-item')) {
+                        return target;
+                    }
+
+                    return checkAllParents(target.parentElement);
+                }
+
+                if (target) {
+                    targetParent = target.parentElement;
+
+                    // if dragged is after target
+
+                    let cl = Array.from(targetParent.children);
+
+                    if (cl.indexOf(dragged) > cl.indexOf(target)) {
+                        targetParent.insertBefore(dragged, target)
+                    } else {
+                        targetParent.insertBefore(dragged, target.nextElementSibling)
+                    }
+                }
+
+                let orderedPlayerList = [];
+                for (let player of targetParent.children) {
+                    if (player.tagName == "CE-PLAYER") orderedPlayerList.push((<CePlayer>player).uid);
+                }
+
+                if (GAME.online) {
+                    console.log(orderedPlayerList)
+                    // update player order on firebase
+                    firestore.collection('rooms').doc(GAME.roomId).update({ playerOrder: orderedPlayerList });
+                } else {
+                    GAME.playerOrder = orderedPlayerList;
+                }
+            }
+        }, false)
+
     }
 
     applyStyle() {
@@ -61,11 +125,8 @@ class CePlayerList extends UpdateableElement {
             pElement.player = p;
         });
 
-        if (this.classList.contains('bigGrid')) {
-            let addLocalPlayer = new CeCreatePlayerButton(document.querySelector('ce-create-player-menu'));
-            this.appendChild(addLocalPlayer);
-        }
-
+        let addLocalPlayer = new CeCreatePlayerButton(document.querySelector('ce-create-player-menu'));
+        this.appendChild(addLocalPlayer);
     }
 }
 

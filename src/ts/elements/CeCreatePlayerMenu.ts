@@ -82,7 +82,7 @@ class CeCreatePlayerMenu extends CeMenu {
 
             // Uhhhh reset modal? or something idk why i'm doin shit so backwards ahhahaa
             userdata.extraPlayerCount++;
-            newUid = userdata.uid + userdata.extraPlayerCount;
+            newUid = `${userdata.uid}-${userdata.extraPlayerCount}`;
             inputs.name.value = 'Player ' + (userdata.extraPlayerCount + 2);
             inputs.avatar.uid = newUid;
 

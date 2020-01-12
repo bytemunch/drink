@@ -9,37 +9,49 @@ class CePlayer extends CustomElement {
     elements: ICePlayerElements;
     uid;
 
+    connectedOnce:boolean = false;
+
     constructor(uid) {
         super();
         this.uid = uid;
     }
 
     connectedCallback() {
-        super.connectedCallback();
+        // FIRES EVERY DRAG!
 
-        this.elements = {
-            name: document.createElement('h3'),
-            avatar: document.createElement('ce-avatar') as CeAvatar
-        };
+        if (!this.connectedOnce) {
+            super.connectedCallback();
 
-        for (let e in this.elements) {
-            this.elements[e].classList.add(e);
-            this.appendChild(this.elements[e]);
+            this.draggable = true;
+    
+            this.elements = {
+                name: document.createElement('h3'),
+                avatar: document.createElement('ce-avatar') as CeAvatar
+            };
+    
+            for (let e in this.elements) {
+                this.elements[e].classList.add(e);
+                this.appendChild(this.elements[e]);
+            }
+    
+            this.addEventListener('click', e => {
+                if (this.uid !== userdata.uid) {
+                    const modifyMenu = document.querySelector('#modify' + this.uid) as CeModifyPlayerMenu;
+                    modifyMenu.show();
+                }
+    
+            })
+    
+            this.applyStyle();
         }
 
-        this.addEventListener('click', e => {
-            if (this.uid !== userdata.uid) {
-                const modifyMenu = document.querySelector('#modify' + this.uid) as CeModifyPlayerMenu;
-                modifyMenu.show();
-            }
+        this.connectedOnce = true;
 
-        })
-
-        this.applyStyle();
     }
 
     applyStyle() {
-        // for later when shadow dom done
+        // for drag drop
+        this.classList.add('dd-item');
     }
 
     set player(player) {

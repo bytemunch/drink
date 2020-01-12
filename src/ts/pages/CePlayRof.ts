@@ -52,14 +52,7 @@ class CePlayRof extends CePage {
                 goToPage('ce-home-page');
             } else {
                 await (<RingOfFire>GAME).takeTurn()
-                // .then(card => {
-                //     if (card.number !== '' && card.suit !== '') {
-                //         if (!GAME.online) cardDisplay.drawCard(card);
-                //     } else {
-                //         throw new Error(card);
-                //     }
-                // })
-                // .catch(e=>{console.error(e)})
+                if (!GAME.online) updateDOM(); 
 
                 if (GAME.state !== 'finished') {
                     // updateDOM();

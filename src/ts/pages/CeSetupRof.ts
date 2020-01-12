@@ -38,23 +38,16 @@ class CeSetupRof extends CePage {
         startButton.addEventListener('click', async e => {
             // TODO if we are room owner
             // set state to playing
-            if (GAME.playerOrder[0] === userdata.uid) {
+            if (GAME.ownerUid === userdata.uid) {
                 await firestore.collection('rooms').doc(GAME.roomId).set({state: 'playing'},{merge:true});
             } else {
-                errorPopUp('Only room owner can start the gme! Current room owner is '+GAME.players[GAME.playerOrder[0]].name);
+                errorPopUp('Only room owner can start the game! Current room owner is '+GAME.players[GAME.ownerUid].name);
             }
         });
 
         startButton.classList.add('big','green');
 
         this.appendChild(startButton);
-
-
-
-        // // Update DOM after joined
-        // setTimeout(() => {
-        //     updateDOM();
-        // }, 500)
     }
 }
 

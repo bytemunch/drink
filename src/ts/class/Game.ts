@@ -1,6 +1,8 @@
 class Game {
     players: Object;
 
+    ownerUid: string;
+
     playerOrder: Array<string>;
 
     turn: number;
@@ -29,6 +31,7 @@ class Game {
         if (this.online) {
             this.roomId = roomId || 'TEST';
             this.pin = roomPin || '0000';
+            this.ownerUid = userdata.uid;
         }
     }
 
