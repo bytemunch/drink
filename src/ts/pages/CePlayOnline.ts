@@ -47,7 +47,7 @@ class CePlayOnline extends CePage {
         joinButton.addEventListener('click', e => {
             console.log('Join button pressed!');
             GAME = new RingOfFire(true);
-            GAME.roomId = roomInput.value;
+            GAME.roomId = roomInput.value.toUpperCase();
             GAME.pin = pinInput.value;
             GAME.initOnline(false)
             .then(roomJoined=>{
