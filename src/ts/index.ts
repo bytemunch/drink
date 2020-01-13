@@ -107,7 +107,9 @@ const palette = {
     black: `rgb(17, 17, 17)`,
     white: `rgb(240, 248, 255)`,
     greyAlpha: `rgba(0, 0, 0, 0.25)`,
-    facebook: `rgb(64, 101, 179)`
+    facebook: `rgb(64, 101, 179)`,
+    purple:`rgb(142, 77, 216)`
+
 }
 
 async function popUpTest(title, message, options) {

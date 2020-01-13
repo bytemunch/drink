@@ -35,20 +35,15 @@ class AnimationManager {
             },
             playerListShrink: function (args) {
                 this.style.width = `calc(25vw - ${(args.progress * 25)}vw + 24px)`
-                if (args.progress > 0.9) this.style.width = '24px'
             },
             translate: function (args) {
-                if (args.progress > 0.95) {
-                    this.style.transform = `translate(${args.x}px, ${args.y}px)`;
-                } else {
-                    this.style.transform = `translate(${args.x * args.progress}px, ${args.y * args.progress}px)`;
-                }
+                this.style.transform = `translate(${args.x * args.progress}px, ${args.y * args.progress}px)`;
             },
             translateTo: function (args) {
                 if (!args.startTranslate) {
                     let style = getComputedStyle(this);
                     // TODO cross browser here t
-                    let matrix = new WebKitCSSMatrix(style.webkitTransform);
+                    let matrix = new DOMMatrix(style.transform);
 
                     let x = matrix.m41;
                     let y = matrix.m42;
@@ -76,11 +71,17 @@ class AnimationManager {
         args.start = performance.now();
         args.duration = duration;
 
+        // min one full frame snap to end of animation
+        const graceFrames = 1;
+        let graceAmount = 1 - (((1000 / 60) / duration)*graceFrames);
+
         return new Promise((resolve) => {
             let rAFcb = function (t) {
                 if (t < args.start + args.duration) {
                     // set vars
                     args.progress = (t - args.start) / args.duration;
+
+                    if (args.progress > graceAmount) args.progress = 1;
 
                     // run chosen animation bound to the object implementing
                     // this animations object

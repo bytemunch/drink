@@ -20,8 +20,9 @@ class CePlayRof extends CePage {
 
         // Card display
         let cardDisplay = new CeCard;
-        cardDisplay.classList.add('large');
         this.appendChild(cardDisplay);
+        cardDisplay.style.width = '40%';
+
 
         // Rule Display
         let ruleDisplay = new CeRule;
@@ -52,7 +53,9 @@ class CePlayRof extends CePage {
                 goToPage('ce-home-page');
             } else {
                 await (<RingOfFire>GAME).takeTurn()
-                if (!GAME.online) updateDOM(); 
+                if (!GAME.online) updateDOM();
+
+                (<CeRule>document.querySelector('ce-rule')).applyStyle();
 
                 if (GAME.state !== 'finished') {
                     // updateDOM();

@@ -11,11 +11,17 @@ class CeRule extends UpdateableElement {
     applyStyle() {
         this.classList.add('rule-display');
 
+        this.style.width = '100%';
+
+        this.style.display = 'block';
+
         this.ruleTitle.style.opacity = 'inherit';
         this.desc.style.opacity = 'inherit';
 
-        this.style.position = 'relative';
-        this.style.top = (document.querySelector('.card-display > img').getBoundingClientRect().bottom + 10) + 'px';
+        this.style.position = 'absolute';
+        let cardBB = document.querySelector('.card-display-front').getBoundingClientRect();
+        console.log(cardBB);
+        this.style.top = (cardBB.bottom + 10) + 'px';
 
     }
 

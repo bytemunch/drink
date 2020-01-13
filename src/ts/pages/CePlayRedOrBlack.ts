@@ -81,8 +81,8 @@ class CePlayRedOrBlack extends CePage {
         }
 
         for (let bet in controls) {
-            let c = document.createElement('div');
-            c.style.backgroundColor = controls[bet].color;
+            let c = document.createElement('button');
+            c.classList.add(controls[bet].color,'bet-button')
             c.style.width = '100%';
             c.style.height = '100%';
             c.style.paddingTop = '25%';
@@ -92,7 +92,16 @@ class CePlayRedOrBlack extends CePage {
             p.style.textAlign = 'center';
             c.appendChild(p);
 
-            c.addEventListener('click', async () => {
+            c.addEventListener('click', async e => {
+                // disable all buttons
+                for (let b of document.querySelectorAll('.bet-button')) {
+                    let button = <HTMLButtonElement>b;
+                    let savedColor;
+                    if (button == e.target) savedColor = getComputedStyle(button).backgroundColor;
+                    button.disabled = true;
+                    if (button == e.target) button.style.backgroundColor = savedColor;
+                }
+
                 // Put previous cards away
                 let discardBB = document.querySelector('.discard').getBoundingClientRect();
                 for (let card of document.querySelectorAll('ce-card')) {
@@ -125,7 +134,7 @@ class CePlayRedOrBlack extends CePage {
                     let tX = (window.innerWidth/2) - (bb.width/2) + offset;
                     let tY = (window.innerHeight/2) - (bb.height/2);
 
-                    await animMan.animate(drawnCard,'translateTo',500,{x:tX,y:tY})
+                    await animMan.animate(drawnCard,'translateTo',250,{x:tX,y:tY})
                     await drawnCard.drawCard(card);
 
                     idx++;
@@ -135,7 +144,16 @@ class CePlayRedOrBlack extends CePage {
 
                 console.log(win, bet, cards, castGame.cardPot.length);
 
+                // On loss, popup loser name + amount of drinks
+
                 if (!win) castGame.clearPot();
+
+                // reenable buttons
+                for (let b of document.querySelectorAll('.bet-button')) {
+                    let button = <HTMLButtonElement>b;
+                    button.disabled = false;
+                    if (button == e.target) button.style.backgroundColor = '';
+                }
             })
             controlGrid.appendChild(c);
         }

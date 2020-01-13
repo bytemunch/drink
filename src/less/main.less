@@ -66,8 +66,18 @@ button {
     background-color: rgb(148, 75, 75);
 }
 
+.black {
+    background-color: rgb(17, 17, 17);
+}
+
+.purple {
+    background-color: rgb(142, 77, 216);
+}
+
+@grey: rgb(148, 148, 148);
+
 .grey {
-    background-color: rgb(148, 148, 148);
+    background-color: @grey;
 }
 
 .topbar {
@@ -329,4 +339,8 @@ ce-account-button {
 .action-select {
     width           : 33.3%;
     background-color: rgb(0, 191, 255);
+}
+
+button:disabled {
+    background-color: @grey;
 }

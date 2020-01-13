@@ -30,6 +30,7 @@ class CeCard extends UpdateableElement {
 
         this.img = document.createElement('img');
         this.img.setAttribute('src', `/img/cards/back.svg`);
+        this.backImg.classList.add('card-display-front');
         this.img.style.position = 'absolute';
         this.img.style.left = '0';
         this.img.style.top = '0';
@@ -54,8 +55,8 @@ class CeCard extends UpdateableElement {
 
         if (suit == 'joker') {
             let x = Number(number) % 2;
-            if (x == 0) number = 'red';
-            if (x == 1) number = 'black';
+            if (x == 0) number = 'black';
+            if (x == 1) number = 'red';
             //if (x == 2) number = 'white';
         }
 

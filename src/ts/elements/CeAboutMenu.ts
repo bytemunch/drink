@@ -17,7 +17,7 @@ class CeAboutMenu extends CeMenu {
         
 
         let desc = document.createElement('p');
-        desc.textContent = 'Drink! is the drinking game app that you\'ve been missing. It\'ll be fully customizable and easy to pick up with a multitude of games when it\'s finished.';
+        desc.textContent = 'Drink! is the drinking game app that you\'ve been missing. It\'ll be fully customizable with ALL THE DRINKING GAMES when it\'s finished! 😎';
         desc.style.padding = '0 20px';
         this.menu.appendChild(desc);
 
