@@ -1,7 +1,7 @@
 class CeCard extends UpdateableElement {
-    img;
-    backImg;
-    currentCard;
+    img: HTMLImageElement;
+    backImg: HTMLImageElement;
+    currentCard: Card;
 
     constructor() {
         super();
@@ -11,7 +11,8 @@ class CeCard extends UpdateableElement {
         this.classList.add('card-display');
         this.style.position = 'absolute';
         this.style.display = 'block';
-        this.style.left = `calc((${window.innerWidth}px - ${this.backImg.getBoundingClientRect().width}px) / 2)`;
+
+        if (GAME.type === 'rof') this.style.left = `calc((${window.innerWidth}px - ${this.backImg.getBoundingClientRect().width}px) / 2)`;
     }
 
     connectedCallback() {
@@ -19,10 +20,12 @@ class CeCard extends UpdateableElement {
 
         this.backImg = document.createElement('img');
         this.backImg.setAttribute('src', `/img/cards/back.svg`);
+        this.backImg.classList.add('back-img');
         this.backImg.style.position = 'absolute';
         this.backImg.style.left = '0';
         this.backImg.style.top = '0';
-        this.backImg.style.display = 'inline-flex';
+        this.backImg.style.width = '100%';
+        this.backImg.style.height = 'unset';
         this.appendChild(this.backImg);
 
         this.img = document.createElement('img');
@@ -30,6 +33,8 @@ class CeCard extends UpdateableElement {
         this.img.style.position = 'absolute';
         this.img.style.left = '0';
         this.img.style.top = '0';
+        this.img.style.width = '100%';
+        this.img.style.height = 'unset';
         this.appendChild(this.img);
 
         this.applyStyle();
@@ -84,7 +89,6 @@ class CeCard extends UpdateableElement {
     async discard() {
         // Move currently displayed card off screen / move & fade
         // Display card back
-        this.backImg.display = 'unset';
         await animMan.animate(this.img,'flyRight',500,{startBB: this.getBoundingClientRect()});
         // reset card
         this.img.style.opacity = '1';

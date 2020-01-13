@@ -1,6 +1,6 @@
 /// <reference types="firebase"/>
 
-const DEBUG_MODE = false;
+const DEBUG_MODE = true;
 
 const VERSION = `0.2.1 - alpha${DEBUG_MODE ? ' - debug' : ''}`;
 

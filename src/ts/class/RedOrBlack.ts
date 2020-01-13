@@ -33,12 +33,12 @@ class RedOrBlack extends Game {
     }
 
     //@ts-ignore some bullshit about type unsafe overloading idfc
-    takeTurn(cardCount: number): Array<Card> {
+    takeTurn(): Array<Card> {
         super.takeTurn();
         let cards: Array<Card> = [];
 
         // Choose cardCount number of cards and return them
-        for (let i = 0; i < cardCount; i++) {
+        for (let i = 0; i < this.placedBet.length; i++) {
             let card = this.deck.drawCard(true);
             cards.push(card);
             this.cardPot.push(card);
@@ -68,5 +68,9 @@ class RedOrBlack extends Game {
         }
 
         return true;
+    }
+
+    clearPot() {
+        this.cardPot = [];
     }
 }
