@@ -29,6 +29,10 @@ class CePlayRedOrBlack extends CePage {
         deckImg.style.left = ((20 / 320) * 100) + '%';
         this.appendChild(deckImg);
 
+        // up next
+        let upNext = new CeNextPlayerCenter;
+        this.appendChild(upNext);
+
         // deck image
         let discardImg = document.createElement('img');
         discardImg.classList.add('discard');
@@ -154,7 +158,7 @@ class CePlayRedOrBlack extends CePage {
                 let discardBB = document.querySelector('.discard').getBoundingClientRect();
                 for (let card of document.querySelectorAll('ce-card')) {
                     animMan.animate(card, 'translateTo', 500, { x: discardBB.x, y: discardBB.y })
-                        .then(() => { potCount.update() })
+                        .then(() => { potCount.update(); upNext.update(); })
                 }
 
                 if (!win) {
@@ -168,10 +172,6 @@ class CePlayRedOrBlack extends CePage {
 
                     castGame.clearPot();
                     potCount.update();
-                } else {
-                    // put cards away
-
-
                 }
 
                 // reenable buttons
