@@ -54,7 +54,7 @@ class CePlayRedOrBlack extends CePage {
         potCount.style.left = (dBB.left + (dBB.width - size) / 2) + 'px';
         potCount.style.width = size + 'px';
         potCount.style.height = size + 'px';
-        potCount.style.marginTop = (dBB.height - size) / 2 + 'px';
+        potCount.style.marginTop = '6%';//(dBB.height - size) / 2 + 'px';
         this.appendChild(potCount);
 
         let controlGrid = document.createElement('div');
@@ -102,7 +102,6 @@ class CePlayRedOrBlack extends CePage {
             c.classList.add(controls[bet].color, 'bet-button')
             c.style.width = '100%';
             c.style.height = '100%';
-            c.style.paddingTop = '25%';
 
             let p = document.createElement('p');
             p.textContent = controls[bet].txt;
