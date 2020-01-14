@@ -38,7 +38,20 @@ class CePlayRedOrBlack extends CePage {
         discardImg.style.width = ((cardW / 320) * 100) + '%';
         discardImg.style.height = 'unset';
         discardImg.style.right = ((20 / 320) * 100) + '%';
+        discardImg.style.opacity = '0.4';
         this.appendChild(discardImg);
+
+        let dBB = discardImg.getBoundingClientRect();
+
+        let potCount = new CePotCounter;
+
+        const size = dBB.width * 0.9;
+
+        potCount.style.left = (dBB.left + (dBB.width - size) / 2) + 'px';
+        potCount.style.width = size + 'px';
+        potCount.style.height = size + 'px';
+        potCount.style.marginTop = (dBB.height - size) / 2 + 'px';
+        this.appendChild(potCount);
 
         let controlGrid = document.createElement('div');
         controlGrid.style.display = 'grid';
@@ -82,7 +95,7 @@ class CePlayRedOrBlack extends CePage {
 
         for (let bet in controls) {
             let c = document.createElement('button');
-            c.classList.add(controls[bet].color,'bet-button')
+            c.classList.add(controls[bet].color, 'bet-button')
             c.style.width = '100%';
             c.style.height = '100%';
             c.style.paddingTop = '25%';
@@ -102,18 +115,10 @@ class CePlayRedOrBlack extends CePage {
                     if (button == e.target) button.style.backgroundColor = savedColor;
                 }
 
-                // Put previous cards away
-                let discardBB = document.querySelector('.discard').getBoundingClientRect();
-                for (let card of document.querySelectorAll('ce-card')) {
-                    animMan.animate(card,'translateTo',500,{x:discardBB.x,y:discardBB.y});
-                }
-
-
-
                 castGame.placeBet(bet);
                 let cards = castGame.takeTurn();
                 // Animate card draw
-                
+
                 let idx = 0;
                 for (let card of cards) {
                     let drawnCard = new CeCard;
@@ -121,7 +126,7 @@ class CePlayRedOrBlack extends CePage {
                     drawnCard.style.position = 'absolute';
                     drawnCard.style.width = ((cardW / 320) * 100) + '%';
                     drawnCard.style.height = 'unset';
-                    drawnCard.style.left = ((20 / 320) * 100) + '%';                    
+                    drawnCard.style.left = ((20 / 320) * 100) + '%';
                     this.appendChild(drawnCard);
 
                     (<CeCard>drawnCard).backImg.style.visibility = 'hidden';
@@ -129,24 +134,41 @@ class CePlayRedOrBlack extends CePage {
 
                     let bb = drawnCard.firstElementChild.getBoundingClientRect();
 
-                    let offset = -1*((bb.width/4) * ((cards.length/2) - idx) - bb.width/8);
+                    let offset = -1 * ((bb.width / 4) * ((cards.length / 2) - idx) - bb.width / 8);
 
-                    let tX = (window.innerWidth/2) - (bb.width/2) + offset;
-                    let tY = (window.innerHeight/2) - (bb.height/2);
+                    let tX = (window.innerWidth / 2) - (bb.width / 2) + offset;
+                    let tY = (window.innerHeight / 2) - (bb.height / 2);
 
-                    await animMan.animate(drawnCard,'translateTo',250,{x:tX,y:tY})
+                    await animMan.animate(drawnCard, 'translateTo', 250, { x: tX, y: tY })
                     await drawnCard.drawCard(card);
 
                     idx++;
                 }
-                
+
                 let win = castGame.checkWin(bet, cards);
 
                 console.log(win, bet, cards, castGame.cardPot.length);
 
                 // On loss, popup loser name + amount of drinks
 
-                if (!win) castGame.clearPot();
+                if (!win) {
+                    console.log('TODO popup here');
+                    // show all cards to drink for
+
+                    // remove spent cards
+
+                    castGame.clearPot();
+                    potCount.update();
+                } else {
+                    // put cards away
+
+                    // Put previous cards away
+                    let discardBB = document.querySelector('.discard').getBoundingClientRect();
+                    for (let card of document.querySelectorAll('ce-card')) {
+                        animMan.animate(card, 'translateTo', 500, { x: discardBB.x, y: discardBB.y })
+                            .then(() => { potCount.update() })
+                    }
+                }
 
                 // reenable buttons
                 for (let b of document.querySelectorAll('.bet-button')) {
