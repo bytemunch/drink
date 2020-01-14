@@ -22,7 +22,7 @@ class CeGameSelectPage extends CePage {
             goToPage('ce-setup-game');
         });
 
-        rofButton.classList.add('big','green');
+        rofButton.classList.add('big', 'green');
 
         this.appendChild(rofButton);
 
@@ -34,11 +34,9 @@ class CeGameSelectPage extends CePage {
             goToPage('ce-setup-game');
         });
 
-        redOrBlackButton.classList.add('big','green');
+        redOrBlackButton.classList.add('big', 'green');
 
-        if (DEBUG_MODE) {
-            this.appendChild(redOrBlackButton);
-        }
+        this.appendChild(redOrBlackButton);
 
 
         let backButton = document.createElement('button');
@@ -49,10 +47,10 @@ class CeGameSelectPage extends CePage {
             goToPage('ce-home-page');
         });
 
-        backButton.classList.add('big','red');
+        backButton.classList.add('big', 'red');
 
         this.appendChild(backButton);
     }
 }
 
-customElements.define('ce-game-select-page',CeGameSelectPage);
+customElements.define('ce-game-select-page', CeGameSelectPage);
