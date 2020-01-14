@@ -150,9 +150,18 @@ class CePlayRedOrBlack extends CePage {
                 console.log(win, bet, cards, castGame.cardPot.length);
 
                 // On loss, popup loser name + amount of drinks
+                // Put previous cards away
+                let discardBB = document.querySelector('.discard').getBoundingClientRect();
+                for (let card of document.querySelectorAll('ce-card')) {
+                    animMan.animate(card, 'translateTo', 500, { x: discardBB.x, y: discardBB.y })
+                        .then(() => { potCount.update() })
+                }
 
                 if (!win) {
-                    console.log('TODO popup here');
+                    document.body.appendChild(new CePopUp('FUNNY TITLE HERE',
+                        `${GAME.players[GAME.previousPlayer].name}, drink ${castGame.cardPot.length}!`,
+                        0,
+                        'info'));
                     // show all cards to drink for
 
                     // remove spent cards
@@ -162,12 +171,7 @@ class CePlayRedOrBlack extends CePage {
                 } else {
                     // put cards away
 
-                    // Put previous cards away
-                    let discardBB = document.querySelector('.discard').getBoundingClientRect();
-                    for (let card of document.querySelectorAll('ce-card')) {
-                        animMan.animate(card, 'translateTo', 500, { x: discardBB.x, y: discardBB.y })
-                            .then(() => { potCount.update() })
-                    }
+
                 }
 
                 // reenable buttons
