@@ -15,6 +15,20 @@ class AnimationManager {
                 let currentDeg = 90 + (args.progress * 95);
                 this.style.transform = `perspective(600px) rotateY(${currentDeg > 180 ? 180 : currentDeg}deg) scaleX(-1)`
             },
+            turnCard: function turnCard(args) {
+                let currentDeg = args.progress < 0.5 ? args.progress * 90 : args.progress * 180;
+
+                if (args.progress < 0.5) {
+                    currentDeg = args.progress*2 * 90;
+                    this.style.transform = `perspective(600px) rotateY(${currentDeg > 90 ? 90 : currentDeg}deg)`
+                } else {
+                    // change pic
+                    this.setAttribute('src',args.newSrc);
+                    currentDeg = (args.progress*2 * 90);
+                    this.style.transform = `perspective(600px) rotateY(${currentDeg > 180 ? 180 : currentDeg}deg) scaleX(-1)`
+
+                }
+            },
             flyRight: function flyRight(args) {
                 const bb = args.startBB;
                 let currentX = ((window.innerWidth - bb.left) * args.progress);
@@ -64,7 +78,7 @@ class AnimationManager {
         }
     }
 
-    animate(animationTarget, animation, duration, args?) {
+    animate(animationTarget, animation, duration, easing?:string, args?) {
 
         if (!args) args = {};
 
@@ -73,13 +87,25 @@ class AnimationManager {
 
         // min one full frame snap to end of animation
         const graceFrames = 1;
-        let graceAmount = 1 - (((1000 / 60) / duration)*graceFrames);
+        const frameTime = (1000 / 60);
+        let graceAmount = 1 - ((frameTime / duration) * graceFrames);
+
+
+        let easings = {
+            'easeInOutQuad':(t) => {
+                return t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t
+            },
+            'linear':(t)=>{return t},
+
+        }
 
         return new Promise((resolve) => {
-            let rAFcb = function (t) {
-                if (t < args.start + args.duration) {
+            let rAFcb = function (timestamp) {
+                if (timestamp < args.start + args.duration) {
                     // set vars
-                    args.progress = (t - args.start) / args.duration;
+
+                    let t = (timestamp - args.start) / args.duration;
+                    args.progress = easing ? easings[easing](t) : t;
 
                     if (args.progress > graceAmount) args.progress = 1;
 

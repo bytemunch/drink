@@ -78,9 +78,12 @@ class CeCard extends UpdateableElement {
                 this.img.setAttribute('src', backCardSrc);
 
                 // begin flip animation
-                await animMan.animate(this.img,'flip90',500)
-                this.img.setAttribute('src',newCardSrc);
-                await animMan.animate(this.img,'flipBack90',500)
+
+                await animMan.animate(this.img,'turnCard',1000,'easeInOutQuad',{newSrc:newCardSrc});
+
+                // await animMan.animate(this.img,'flip90',500)
+                // this.img.setAttribute('src',newCardSrc);
+                // await animMan.animate(this.img,'flipBack90',500)
                 // console.log('done',suit,number);
                 URL.revokeObjectURL(newCardSrc);
                 return true;
@@ -90,7 +93,7 @@ class CeCard extends UpdateableElement {
     async discard() {
         // Move currently displayed card off screen / move & fade
         // Display card back
-        await animMan.animate(this.img,'flyRight',500,{startBB: this.getBoundingClientRect()});
+        await animMan.animate(this.img,'flyRight',500,'linear',{startBB: this.getBoundingClientRect()});
         // reset card
         this.img.style.opacity = '1';
         this.img.style.transform = 'unset';
