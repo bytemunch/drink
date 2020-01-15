@@ -33,7 +33,7 @@ class RedOrBlack extends Game {
     }
 
     //@ts-ignore some bullshit about type unsafe overloading idfc
-    takeTurn(): Array<Card> {
+    async takeTurn(): Array<Card> {
         super.takeTurn();
         let cards: Array<Card> = [];
 

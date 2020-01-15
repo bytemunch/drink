@@ -119,7 +119,7 @@ class CePlayRedOrBlack extends CePage {
                 }
 
                 castGame.placeBet(bet);
-                let cards = castGame.takeTurn();
+                let cards = await castGame.takeTurn();
                 // Animate card draw
 
                 let idx = 0;
@@ -142,7 +142,7 @@ class CePlayRedOrBlack extends CePage {
                     let tX = (window.innerWidth / 2) - (bb.width / 2) + offset;
                     let tY = (window.innerHeight / 2) - (bb.height / 2);
 
-                    await animMan.animate(drawnCard, 'translateTo', 250, 'easeInOutQuad', { x: tX, y: tY })
+                    await animMan.animate(drawnCard, 'translateTo', 250, 'easeOutQuad', { x: tX, y: tY })
                     await drawnCard.drawCard(card);
 
                     idx++;
@@ -154,7 +154,7 @@ class CePlayRedOrBlack extends CePage {
                 // Put previous cards away
                 let discardBB = document.querySelector('.discard').getBoundingClientRect();
                 for (let card of document.querySelectorAll('ce-card')) {
-                    animMan.animate(card, 'translateTo', 500, 'easeInOutQuad', { x: discardBB.x, y: discardBB.y })
+                    animMan.animate(card, 'translateTo', 500, 'easeInOutQuint', { x: discardBB.x, y: discardBB.y })
                         .then(() => { potCount.update(); upNext.update(); })
                 }
 

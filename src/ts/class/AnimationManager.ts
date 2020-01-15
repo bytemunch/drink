@@ -91,12 +91,39 @@ class AnimationManager {
         let graceAmount = 1 - ((frameTime / duration) * graceFrames);
 
 
-        let easings = {
-            'easeInOutQuad':(t) => {
-                return t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t
-            },
-            'linear':(t)=>{return t},
+        /* thanks @gre and commenters https://gist.github.com/gre/1650294 */
 
+        const easeIn = p => t => Math.pow(t,p);
+        const easeOut = p => t => (1 - Math.abs(Math.pow(t-1, p)));
+        const easeInOut = p => t => t<.5 ? easeIn(p)(t*2)/2 : easeOut(p)(t*2 - 1)/2+0.5;
+
+        let easings = {
+            // no easing, no acceleration
+            linear: function (t) { return t },
+            // accelerating from zero velocity
+            easeInQuad: easeIn(2),
+            // decelerating to zero velocity
+            easeOutQuad: easeOut(2),
+            // acceleration until halfway, then deceleration
+            easeInOutQuad: easeInOut(2),
+            // accelerating from zero velocity 
+            easeInCubic: easeIn(3),
+            // decelerating to zero velocity 
+            easeOutCubic: easeOut(3),
+            // acceleration until halfway, then deceleration 
+            easeInOutCubic: easeInOut(3),
+            // accelerating from zero velocity 
+            easeInQuart: easeIn(4),
+            // decelerating to zero velocity 
+            easeOutQuart: easeOut(4),
+            // acceleration until halfway, then deceleration
+            easeInOutQuart: easeInOut(4),
+            // accelerating from zero velocity
+            easeInQuint: easeIn(5),
+            // decelerating to zero velocity
+            easeOutQuint: easeOut(5),
+            // acceleration until halfway, then deceleration 
+            easeInOutQuint: easeInOut(5)
         }
 
         return new Promise((resolve) => {

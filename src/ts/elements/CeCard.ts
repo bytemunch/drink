@@ -79,7 +79,7 @@ class CeCard extends UpdateableElement {
 
                 // begin flip animation
 
-                await animMan.animate(this.img,'turnCard',1000,'easeInOutQuad',{newSrc:newCardSrc});
+                await animMan.animate(this.img,'turnCard',1000,'easeInOutQuint',{newSrc:newCardSrc});
 
                 // await animMan.animate(this.img,'flip90',500)
                 // this.img.setAttribute('src',newCardSrc);
