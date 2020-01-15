@@ -6,9 +6,15 @@ class CePopUp extends CustomElement {
     ok;
     timer;
     innerDiv;
+    callback;
+    callbackArgs;
 
-    constructor(title, message,  timer = 0, type = 'info') {
+    constructor(title, message,  timer = 0, type = 'info', callback?, callbackArgs?) {
         super();
+
+        this.callback = callback;
+        this.callbackArgs = callbackArgs || null;
+
         this.timer = timer;
 
         this.innerDiv = document.createElement('div');
@@ -46,6 +52,7 @@ class CePopUp extends CustomElement {
 
     kill() {
         // animate then
+        if (this.callback) this.callback(this.callbackArgs);
         this.parentElement.removeChild(this);
     }
 

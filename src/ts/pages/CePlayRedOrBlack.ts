@@ -54,7 +54,7 @@ class CePlayRedOrBlack extends CePage {
         potCount.style.left = (dBB.left + (dBB.width - size) / 2) + 'px';
         potCount.style.width = size + 'px';
         potCount.style.height = size + 'px';
-        potCount.style.marginTop = '6%';//(dBB.height - size) / 2 + 'px';
+        potCount.style.marginTop = '6%';
         this.appendChild(potCount);
 
         let controlGrid = document.createElement('div');
@@ -150,8 +150,6 @@ class CePlayRedOrBlack extends CePage {
 
                 let win = castGame.checkWin(bet, cards);
 
-                console.log(win, bet, cards, castGame.cardPot.length);
-
                 // On loss, popup loser name + amount of drinks
                 // Put previous cards away
                 let discardBB = document.querySelector('.discard').getBoundingClientRect();
@@ -161,16 +159,44 @@ class CePlayRedOrBlack extends CePage {
                 }
 
                 if (!win) {
-                    document.body.appendChild(new CePopUp('FUNNY TITLE HERE',
-                        `${GAME.players[GAME.previousPlayer].name}, drink ${castGame.cardPot.length}!`,
-                        0,
-                        'info'));
+
+                    let drinkPopUp = new CePopUp('FUNNY TITLE HERE',
+                    `${GAME.players[GAME.previousPlayer].name}, drink ${castGame.cardPot.length}!`,
+                    0,
+                    'info');
+
+                    drinkPopUp.style.zIndex = '100';
+
+                    document.body.appendChild(drinkPopUp);
                     // show all cards to drink for
 
                     // remove spent cards
 
                     castGame.clearPot();
                     potCount.update();
+                }
+
+                // if no cards left
+                if (castGame.deck.cards.length <= 0) {
+                    let maybeText = () => {
+                        if (castGame.cardPot.length) {
+                            return `Everyone drink ${castGame.cardPot.length}!`
+                        } else {
+                            return '';
+                        }
+                    }
+
+                    let gameOverText = `No cards left! ${maybeText()}`;
+
+                    let gameOverPopUp = new CePopUp('Game Over!',
+                        gameOverText,
+                        0,
+                        'info',
+                        goToPage,
+                        'ce-home-page'
+                    )
+
+                    document.body.appendChild(gameOverPopUp);
                 }
 
                 // reenable buttons

@@ -2,7 +2,7 @@
 
 const DEBUG_MODE = false;
 
-const VERSION = `0.3.1 - alpha${DEBUG_MODE ? ' - debug' : ''}`;
+const VERSION = `0.3.2 - alpha${DEBUG_MODE ? ' - debug' : ''}`;
 
 // TODO detect if connected and set this accordingly
 const LOCAL_MODE = false;

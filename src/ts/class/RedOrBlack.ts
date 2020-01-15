@@ -37,8 +37,9 @@ class RedOrBlack extends Game {
         super.takeTurn();
         let cards: Array<Card> = [];
 
+        let cardCount = this.placedBet.length <= this.deck.cards.length ? this.placedBet.length : this.deck.cards.length;
         // Choose cardCount number of cards and return them
-        for (let i = 0; i < this.placedBet.length; i++) {
+        for (let i = 0; i < cardCount; i++) {
             let card = this.deck.drawCard(true);
             cards.push(card);
             this.cardPot.push(card);
@@ -67,7 +68,7 @@ class RedOrBlack extends Game {
             }
         }
 
-        return true;
+        return !bet;
     }
 
     clearPot() {
