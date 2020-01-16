@@ -29,6 +29,16 @@ class Player {
                 if (doc.exists) {
                     this.getData(doc);
                 } else {
+                    // if doc does not exist
+
+                    // set our data from PROVIDER_VARS
+                    this.name = PROVIDER_VARS.name;
+
+                    // upload profile pic
+                    const storageRef = firebase.storage().ref().child(`avatars/${this.uid}.png`);
+                    storageRef.put(await (await fetch(PROVIDER_VARS.avi)).blob())
+
+                    // then send
                     await this.sendData();
                     this.getData(await this.ref.get());
                 }
