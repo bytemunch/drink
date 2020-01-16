@@ -125,7 +125,12 @@ class Game {
     }
 
     get fullState() {
-        return JSON.parse(JSON.stringify(getProps(this, ['ref'])))
+        let state = JSON.parse(JSON.stringify(getProps(this, ['ref'])));
+
+        state.currentPlayer = this.currentPlayer;
+        state.previousPlayer = this.previousPlayer;
+
+        return state;
     }
 
     get link() {

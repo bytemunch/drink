@@ -2,7 +2,23 @@
 
 const DEBUG_MODE = false;
 
-const VERSION = `0.3.4 - alpha${DEBUG_MODE ? ' - debug' : ''}`;
+const VERSION = `0.3.5 - alpha${DEBUG_MODE ? ' - debug' : ''}`;
+
+const palette = {
+    red: `rgb(148, 75, 75)`,
+    green: `rgb(75, 148, 105)`,
+    blue: `rgb(0, 191, 255)`,
+    darkblue: `rgb(33, 153, 249)`,
+    grey: `rgb(148, 148, 148)`,
+    black: `rgb(17, 17, 17)`,
+    white: `rgb(240, 248, 255)`,
+    greyAlpha: `rgba(0, 0, 0, 0.25)`,
+    facebook: `rgb(64, 101, 179)`,
+    purple: `rgb(142, 77, 216)`
+}
+
+const rgb2hex = (rgb: string) => '#' + rgb.replace(/[rgba\(\)\ ]/g, '').split(',').splice(0, 3).map(d => { const h = Number(d).toString(16); return h.length == 1 ? `0${h}` : h; }).join('');
+
 
 // TODO detect if connected and set this accordingly
 const LOCAL_MODE = false;
@@ -98,20 +114,6 @@ let userdata = new Player;
 
 const animMan = new AnimationManager;
 
-const palette = {
-    red: `rgb(148, 75, 75)`,
-    green: `rgb(75, 148, 105)`,
-    blue: `rgb(0, 191, 255)`,
-    darkblue: `rgb(33, 153, 249)`,
-    grey: `rgb(148, 148, 148)`,
-    black: `rgb(17, 17, 17)`,
-    white: `rgb(240, 248, 255)`,
-    greyAlpha: `rgba(0, 0, 0, 0.25)`,
-    facebook: `rgb(64, 101, 179)`,
-    purple:`rgb(142, 77, 216)`
-
-}
-
 async function popUpTest(title, message, options) {
     let p = document.body.appendChild(new CeInteractivePopUp(title, message, options));
 
@@ -119,12 +121,14 @@ async function popUpTest(title, message, options) {
     console.log(p.val);
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
     // The Firebase SDK is initialized and available here!
     document.body.appendChild(new CePopUp('Please Note:',
         'This game is still in heavy development! \n Please use the most updated Chrome to view and use it for now.\n Accounts may be lost, the app may crash, things may not display properly.\n Please send any feedback or bug reports to sam.drink.app@gmail.com',
         0,
         'info'));
+
+    await preload();
 
     // Check if we followed an invite link
     let params = (new URL(location.href)).searchParams;
@@ -164,4 +168,37 @@ async function authHandler(user: any) {
         updateDOM();
         goToPage('ce-home-page');
     }
+}
+
+async function preload() {
+    // let's try just using the cache and loading everything invisibly
+
+    // let pl = document.createElement('div');
+    // pl.style.display == 'none';
+    // pl.id = 'asset-preload';
+
+    let allPromises = [];
+
+    const fetchImg = async path => await (await fetch(path)).blob();
+
+    let d = new Deck;
+
+    for (let card of d.cards) {
+        if (card.suit == 'joker') {
+            let x = Number(card.number) % 2;
+            if (x == 0) card.number = 'black';
+            if (x == 1) card.number = 'red';
+            //if (x == 2) number = 'white';
+        }
+
+        allPromises.push(fetchImg(`/img/cards/${card.suit}/${card.number}.svg`))
+        // allPromises.push((await fetch()).blob());
+    }
+
+    allPromises.push(fetchImg(`/img/cards/back.svg`));
+
+    // document.body.appendChild(pl);
+
+
+    return Promise.all(allPromises);
 }

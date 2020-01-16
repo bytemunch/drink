@@ -1,12 +1,13 @@
 class Player {
     name: string = 'Player 1';
-    color: string = '#FF00FF';
+    color: string = '#FF00FF'; // use provider type color here in future?
     uid: string = 'PLAYER_SIGNED_OUT';
     ref;
     aviImg;
     extraPlayerCount: number = 0;
 
     constructor(options?) {
+        this.color = rgb2hex(palette.facebook); // use provider type color here in future?
         this.extraPlayerCount = 0;
         for (let o in options) {
             this[o] = options[o];
