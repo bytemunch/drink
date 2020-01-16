@@ -2,7 +2,7 @@
 
 const DEBUG_MODE = false;
 
-const VERSION = `0.3.5 - alpha${DEBUG_MODE ? ' - debug' : ''}`;
+const VERSION = `0.3.6 - alpha${DEBUG_MODE ? ' - debug' : ''}`;
 
 const palette = {
     red: `rgb(148, 75, 75)`,
@@ -190,6 +190,8 @@ async function preload() {
             if (x == 1) card.number = 'red';
             //if (x == 2) number = 'white';
         }
+
+        card.number = card.number.toLowerCase();
 
         allPromises.push(fetchImg(`/img/cards/${card.suit}/${card.number}.svg`))
         // allPromises.push((await fetch()).blob());
