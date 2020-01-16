@@ -32,7 +32,7 @@ class Player {
                     // if doc does not exist
 
                     // set our data from PROVIDER_VARS
-                    this.name = PROVIDER_VARS.name;
+                    this.name = PROVIDER_VARS.name.split(' ')[0];
 
                     // upload profile pic
                     const storageRef = firebase.storage().ref().child(`avatars/${this.uid}.png`);
