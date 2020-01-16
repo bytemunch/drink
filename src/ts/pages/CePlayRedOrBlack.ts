@@ -153,10 +153,14 @@ class CePlayRedOrBlack extends CePage {
                 // On loss, popup loser name + amount of drinks
                 // Put previous cards away
                 let discardBB = document.querySelector('.discard').getBoundingClientRect();
+
+                let movedAllCards = [];
                 for (let card of document.querySelectorAll('ce-card')) {
-                    animMan.animate(card, 'translateTo', 500, 'easeInOutQuint', { x: discardBB.x, y: discardBB.y })
-                        .then(() => { potCount.update(); upNext.update(); })
+                    movedAllCards.push(animMan.animate(card, 'translateTo', 500, 'easeInOutQuint', { x: discardBB.x, y: discardBB.y }))
                 }
+
+                Promise.all(movedAllCards).then(() => { potCount.update(); upNext.update(); })
+
 
                 if (!win) {
 
