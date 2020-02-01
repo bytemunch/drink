@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         0,
         'info'));
 
-    await preload();
+    await loadUntil(preload());
 
     // Check if we followed an invite link
     let params = (new URL(location.href)).searchParams;
