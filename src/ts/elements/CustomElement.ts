@@ -1,4 +1,4 @@
-class CustomElement extends HTMLElement {
+export default class CustomElement extends HTMLElement {
     constructor() {
         super();
     }

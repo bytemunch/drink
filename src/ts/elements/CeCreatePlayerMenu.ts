@@ -1,6 +1,16 @@
-/// <reference path='CeMenu.ts'/>
+import CeMenu from "./CeMenu.js";
 
-class CeCreatePlayerMenu extends CeMenu {
+import {LOCAL_MODE} from "../index.js";
+import Player from "../class/Player.js";
+import CeModifyPlayerMenu from "./CeModifyPlayerMenu.js";
+import CePlayerList from "./CePlayerList.js";
+import errorPopUp from "../functions/errorPopUp.js";
+import CeAvatarUpload from "./CeAvatarUpload.js";
+
+import {userdata} from '../index.js';
+import {gameHandler} from '../index.js';
+
+export default class CeCreatePlayerMenu extends CeMenu {
     constructor() {
         super();
     }
@@ -75,7 +85,7 @@ class CeCreatePlayerMenu extends CeMenu {
             });
 
             if (!LOCAL_MODE) inputs['avatar'].upload();
-            GAME.addPlayer(playerInfo);
+            gameHandler.gameObject.addPlayer(playerInfo);
 
             // add player modify menu to page
             document.querySelector('.page').appendChild(new CeModifyPlayerMenu(newUid))
@@ -98,4 +108,4 @@ class CeCreatePlayerMenu extends CeMenu {
     }
 }
 
-customElements.define('ce-create-player-menu', CeCreatePlayerMenu);
+// customElements.define('ce-create-player-menu', CeCreatePlayerMenu);

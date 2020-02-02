@@ -1,5 +1,7 @@
-// @ts-ignore
-class CeCreatePlayerButton extends CeShowButton {
+import CeShowButton from "./CeShowButton.js";
+
+
+export default class CeCreatePlayerButton extends CeShowButton {
     constructor(tgt) {
         super(tgt);
         this.openImg = './img/add.svg'
@@ -14,4 +16,4 @@ class CeCreatePlayerButton extends CeShowButton {
     }
 }
 
-customElements.define('ce-create-player-button', CeCreatePlayerButton);
+// customElements.define('ce-create-player-button', CeCreatePlayerButton);

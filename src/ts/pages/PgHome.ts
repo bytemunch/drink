@@ -1,6 +1,8 @@
-/// <reference path='CePage.ts'/>
+import Page from "./Page.js";
+import goToPage from "../functions/goToPage.js";
+import { LOCAL_MODE } from "../index.js";
 
-class CeHomePage extends CePage {
+export default class PgHome extends Page {
     constructor() {
         super();
     }
@@ -17,7 +19,7 @@ class CeHomePage extends CePage {
 
         offlineGameButton.addEventListener('click', e => {
             console.log('Offline game button pressed!');
-            goToPage('ce-game-select-page');
+            goToPage('pg-game-select');
         });
 
         offlineGameButton.classList.add('big');
@@ -33,7 +35,7 @@ class CeHomePage extends CePage {
 
             onlineGameButton.addEventListener('click', e => {
                 console.log('Online game button pressed!');
-                goToPage('ce-play-online');
+                goToPage('pg-play-online');
             });
 
             onlineGameButton.classList.add('big', 'green');
@@ -42,5 +44,3 @@ class CeHomePage extends CePage {
         }
     }
 }
-
-customElements.define('ce-home-page', CeHomePage);

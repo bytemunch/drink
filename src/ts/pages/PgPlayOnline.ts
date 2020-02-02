@@ -1,6 +1,12 @@
-/// <reference path='CePage.ts'/>
+import firebase from '../functions/firebase.js';
+import goToPage from "../functions/goToPage.js";
+import errorPopUp from "../functions/errorPopUp.js";
+import RingOfFire from "../class/RingOfFire.js";
+import Page from "./Page.js";
 
-class CePlayOnline extends CePage {
+import {gameHandler} from '../index.js';
+
+export default class PgPlayOnline extends Page {
     constructor() {
         super();
         this.header = 'account';
@@ -15,7 +21,7 @@ class CePlayOnline extends CePage {
 
         // check if not signed in; redirect to login if not
         if (firebase.auth().currentUser === null) {
-            goToPage('ce-login');
+            goToPage('pg-login');
         }
 
         // add elements to page
@@ -46,13 +52,14 @@ class CePlayOnline extends CePage {
 
         joinButton.addEventListener('click', e => {
             console.log('Join button pressed!');
-            GAME = new RingOfFire(true);
-            GAME.roomId = roomInput.value.toUpperCase();
-            GAME.pin = pinInput.value;
-            GAME.initOnline(false)
+            gameHandler.type='ring-of-fire';
+            gameHandler.online = true;
+            gameHandler.gameObject.roomId = roomInput.value.toUpperCase();
+            gameHandler.gameObject.pin = pinInput.value;
+            gameHandler.gameObject.initOnline(false)
             .then(roomJoined=>{
                 if (roomJoined.joined) {
-                    goToPage('ce-setup-rof');
+                    goToPage('pg-setup-rof');
                 } else {
                     errorPopUp(roomJoined.error.err);
                 }
@@ -68,13 +75,14 @@ class CePlayOnline extends CePage {
 
         createButton.addEventListener('click', e => {
             console.log('Create button pressed!');
-            GAME = new RingOfFire(true);
-            GAME.roomId = GAME.createId();
-            GAME.pin = GAME.createPin();
-            GAME.initOnline(true)
+            gameHandler.online=true;
+            gameHandler.type = 'ring-of-fire';
+            gameHandler.gameObject.roomId = gameHandler.gameObject.createId();
+            gameHandler.gameObject.pin = gameHandler.gameObject.createPin();
+            gameHandler.gameObject.initOnline(true)
             .then(roomJoined=>{
                 if (roomJoined.joined) {
-                    goToPage('ce-setup-rof');
+                    goToPage('pg-setup-rof');
                 } else {
                     errorPopUp(roomJoined.error.err);
                 }
@@ -94,7 +102,7 @@ class CePlayOnline extends CePage {
 
         backButton.addEventListener('click', e => {
             console.log('Back button pressed!');
-            goToPage('ce-home-page');
+            goToPage('pg-home');
         });
 
         backButton.classList.add('big','red');
@@ -102,5 +110,3 @@ class CePlayOnline extends CePage {
         this.appendChild(backButton);
     }
 }
-
-customElements.define('ce-play-online',CePlayOnline);

@@ -1,4 +1,12 @@
-class Player {
+import rgb2hex from '../functions/rgb2hex.js';
+import {palette} from '../index.js';
+import updateDOM from '../functions/updateDOM.js';
+import firebase from '../functions/firebase.js';
+
+
+import {PROVIDER_VARS} from '../index.js';
+
+export default class Player {
     name: string = 'Player 1';
     color: string = '#FF00FF'; // use provider type color here in future?
     uid: string = 'PLAYER_SIGNED_OUT';
@@ -16,13 +24,13 @@ class Player {
 
     async sendData() {
         // set data in db from this
-        return firestore.collection("users").doc(this.uid).set(this.safeData, { merge: true });
+        return firebase.firestore().collection("users").doc(this.uid).set(this.safeData, { merge: true });
     }
 
     async populateFrom(uid) {
         this.uid = uid;
 
-        this.ref = firestore.collection('users').doc(uid);
+        this.ref = firebase.firestore().collection('users').doc(uid);
 
         // Pull user data into memory
         const userDoc = await this.ref.get()

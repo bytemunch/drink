@@ -1,12 +1,12 @@
 {
     "compileOnSave": true,
     "compilerOptions": {
-        "module": "none",
-        "target": "es2015",
+        "module": "ES6",
+        "target": "ESNext",
         "noImplicitAny": false,
         "removeComments": true,
         "preserveConstEnums": true,
-        "outFile": "./public/main.js",
+        "outDir": "./public/js/",
         "sourceMap": true,
         "esModuleInterop": true
     },

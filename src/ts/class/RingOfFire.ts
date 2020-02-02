@@ -1,13 +1,26 @@
-class RingOfFire extends Game {
+import CePlayerList from "../elements/CePlayerList.js";
+import Game from "./Game.js";
+import Deck from "./Deck.js";
+import Card from "./Card.js";
+import updateDOM from "../functions/updateDOM.js";
+import errorPopUp from "../functions/errorPopUp.js";
+import CeRule from "../elements/CeRule.js";
+import CeCard from "../elements/CeCard.js";
+import goToPage from "../functions/goToPage.js";
+import CeNextPlayer from "../elements/CeNextPlayer.js";
+
+import {userdata, gameHandler} from '../index.js';
+import RuleSet from "./RuleSet.js";
+
+export default class RingOfFire extends Game {
     type: string;
     deck: Deck;
     ruleset: RuleSet;
     currentCard: Card;
 
-    constructor(x?, y?, z?) {
-        super(x, y, z);
-        GAME = this;
-        this.type = 'rof';
+    constructor(online?, id?, pin?) {
+        super(online, id, pin);
+        this.type = 'ring-of-fire';
         this.ruleset = new RuleSet('default');
         this.deck = new Deck;
         this.currentCard = new Card('', '');
@@ -75,18 +88,18 @@ class RingOfFire extends Game {
         if (oldData.state !== newData.state) {
             console.log('statechange!')
             if (oldData.state === 'setup' && newData.state === 'playing') {
-                goToPage('ce-play-rof');
+                goToPage('pg-play-ring-of-fire');
             }
         }
 
         super.onListenerUpdate(newData, oldData);
 
-        if (GAME.state === 'playing') {
+        if (gameHandler.gameObject.state === 'playing') {
             (<CeNextPlayer>document.querySelector('ce-next-player')).update();
 
             const drawButton = (<HTMLButtonElement>document.querySelector('#draw'));
 
-            if (drawButton && GAME.currentPlayer !== userdata.uid) {
+            if (drawButton && gameHandler.gameObject.currentPlayer !== userdata.uid) {
                 // Disable draw button
                 drawButton.disabled = true;
                 drawButton.classList.add('grey');
@@ -97,7 +110,7 @@ class RingOfFire extends Game {
             }
         }
 
-        if (GAME.state === 'setup') {
+        if (gameHandler.gameObject.state === 'setup') {
             (<CePlayerList>document.querySelector('ce-player-list')).update();
         }
 

@@ -1,6 +1,10 @@
-/// <reference path='CeMenu.ts'/>
+import CeMenu from "./CeMenu.js";
+import { palette } from "../index.js";
+import errorPopUp from "../functions/errorPopUp.js";
+import CeActionSelectDiv from "./CeActionSelectDiv.js";
+import RuleSet from "../class/RuleSet.js";
 
-class CeRuleCreateMenu extends CeMenu {
+export default class CeRuleCreateMenu extends CeMenu {
     defaultRuleSet: RuleSet;
     titleInput: HTMLInputElement;
     ruleInput: HTMLTextAreaElement;
@@ -159,4 +163,4 @@ class CeRuleCreateMenu extends CeMenu {
     }
 }
 
-customElements.define('ce-rule-create-menu', CeRuleCreateMenu);
+// customElements.define('ce-rule-create-menu', CeRuleCreateMenu);

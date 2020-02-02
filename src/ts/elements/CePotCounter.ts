@@ -1,4 +1,8 @@
-class CePotCounter extends UpdateableElement {
+import UpdateableElement from "./UpdateableElement.js";
+import RedOrBlack from "../class/RedOrBlack.js";
+import {gameHandler} from '../index.js';
+
+export default class CePotCounter extends UpdateableElement {
     constructor() {
         super();
     }
@@ -23,8 +27,8 @@ class CePotCounter extends UpdateableElement {
     }
 
     update() {
-        this.textContent = (<RedOrBlack>GAME).cardPot.length.toString();
+        this.textContent = (<RedOrBlack>gameHandler.gameObject).cardPot.length.toString();
     }
 }
 
-customElements.define('ce-pot-counter', CePotCounter);
+// customElements.define('ce-pot-counter', CePotCounter);

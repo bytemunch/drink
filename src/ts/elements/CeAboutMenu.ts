@@ -1,6 +1,6 @@
-/// <reference path='CeMenu.ts'/>
+import CeMenu from "./CeMenu.js";
 
-class CeAboutMenu extends CeMenu {
+export default class CeAboutMenu extends CeMenu {
     constructor() {
         super();
     }
@@ -41,5 +41,3 @@ class CeAboutMenu extends CeMenu {
         this.applyStyle();
     }
 }
-
-customElements.define('ce-about-menu', CeAboutMenu);

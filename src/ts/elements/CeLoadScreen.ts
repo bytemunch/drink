@@ -1,10 +1,11 @@
-/// <reference path='CustomElement.ts'/>
+import CustomElement from './CustomElement.js';
+
 interface ICeLoadElements {
     title: HTMLElement,
     flavor: HTMLElement,
 }
 
-class CeLoadScreen extends CustomElement {
+export default class CeLoadScreen extends CustomElement {
     elements: ICeLoadElements = {
         title: document.createElement('h2'),
         flavor: document.createElement('h3')
@@ -183,4 +184,4 @@ class CeLoadScreen extends CustomElement {
 
 }
 
-customElements.define('ce-load-screen', CeLoadScreen);
+// customElements.define('ce-load-screen', CeLoadScreen);

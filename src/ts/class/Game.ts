@@ -1,4 +1,13 @@
-class Game {
+import Player from "./Player.js";
+import firebase from '../functions/firebase.js';
+import goToPage from "../functions/goToPage.js";
+import easyPOST from "../functions/easyPOST.js";
+import { userdata } from "../index.js";
+import getProps from "../functions/getProps.js";
+
+let firestore = firebase.firestore();
+
+export default class Game {
     players: Object;
 
     ownerUid: string;
@@ -33,6 +42,8 @@ class Game {
             this.pin = roomPin || '0000';
             this.ownerUid = userdata.uid;
         }
+
+        console.log(this);
     }
 
     addPlayer(player: Player) {
@@ -77,9 +88,9 @@ class Game {
             playerOrder: firebase.firestore.FieldValue.arrayRemove(...playersToRemove)
         });
 
-        GAME_CHANGE_LISTENER();
+        this.GAME_CHANGE_LISTENER();
 
-        goToPage('ce-home-page');
+        goToPage('pg-home');
     }
 
     async takeTurn() {
@@ -159,6 +170,9 @@ class Game {
         return this.joinRoom();
     }
 
+    GAME_CHANGE_LISTENER() { console.log('no listener') };
+
+
     async joinRoom() {
         const token = await firebase.auth().currentUser.getIdToken();
         const response = await easyPOST('joinRoom', { pin: this.pin, roomId: this.roomId, token })
@@ -166,8 +180,8 @@ class Game {
 
         if (response.joined) {
             // set up listener
-            GAME_CHANGE_LISTENER();// clear previous listener
-            GAME_CHANGE_LISTENER = firestore.collection('rooms').doc(this.roomId).onSnapshot(doc => {
+            this.GAME_CHANGE_LISTENER();// clear previous listener
+            this.GAME_CHANGE_LISTENER = firestore.collection('rooms').doc(this.roomId).onSnapshot(doc => {
                 let oldData = getProps(this, 'ref');
                 let newData = doc.data();
 

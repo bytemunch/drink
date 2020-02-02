@@ -1,11 +1,15 @@
-/// <reference path='CustomElement.ts'/>
+import CustomElement from "./CustomElement.js";
+import CeModifyPlayerMenu from "./CeModifyPlayerMenu.js";
+import CeAvatar from "./CeAvatar.js";
+
+import {userdata} from '../index.js';
 
 interface ICePlayerElements {
     name: HTMLElement,
     avatar: CeAvatar,
 }
 
-class CePlayer extends CustomElement {
+export default class CePlayer extends CustomElement {
     elements: ICePlayerElements;
     uid;
 
@@ -26,7 +30,7 @@ class CePlayer extends CustomElement {
     
             this.elements = {
                 name: document.createElement('h3'),
-                avatar: document.createElement('ce-avatar') as CeAvatar
+                avatar: document.createElement('ce-avatar') as unknown as CeAvatar
             };
     
             for (let e in this.elements) {
@@ -36,7 +40,7 @@ class CePlayer extends CustomElement {
     
             this.addEventListener('click', e => {
                 if (this.uid !== userdata.uid) {
-                    const modifyMenu = document.querySelector('#modify' + this.uid) as CeModifyPlayerMenu;
+                    const modifyMenu = document.querySelector('#modify' + this.uid) as unknown as CeModifyPlayerMenu;
                     modifyMenu.show();
                 }
     
@@ -75,4 +79,4 @@ class CePlayer extends CustomElement {
     }
 }
 
-customElements.define('ce-player', CePlayer);
+// customElements.define('ce-player', CePlayer);

@@ -1,10 +1,32 @@
-/// <reference types="firebase"/>
+// import * as firebase from '../node_modules/firebase/index';
+
+///<reference types='firebase'/>
+
+import firebase from './functions/firebase.js';
+
+import Player from './class/Player.js';
+import AnimationManager from './class/AnimationManager.js';
+import CePopUp from './elements/CePopUp.js';
+import loadUntil from './functions/loadUntil.js';
+import updateDOM from './functions/updateDOM.js';
+import goToPage from './functions/goToPage.js';
+import Deck from './class/Deck.js';
+import addLoader from './functions/addLoader.js';
+import CeInteractivePopUp from './elements/CeInteractivePopUp.js';
+import ceLoader from './functions/ceLoader.js';
+import pgLoader from './functions/pgLoader.js';
+import GameHandler from './class/GameHandler.js';
+
+
+// import firebase from '../functions/firebase.js';
+
+let firestore;
 
 const DEBUG_MODE = false;
 
-const VERSION = `0.3.6 - alpha${DEBUG_MODE ? ' - debug' : ''}`;
+export const VERSION = `0.3.6 - alpha${DEBUG_MODE ? ' - debug' : ''}`;
 
-const palette = {
+export const palette = {
     red: `rgb(148, 75, 75)`,
     green: `rgb(75, 148, 105)`,
     blue: `rgb(0, 191, 255)`,
@@ -17,23 +39,15 @@ const palette = {
     purple: `rgb(142, 77, 216)`
 }
 
-const rgb2hex = (rgb: string) => '#' + rgb.replace(/[rgba\(\)\ ]/g, '').split(',').splice(0, 3).map(d => { const h = Number(d).toString(16); return h.length == 1 ? `0${h}` : h; }).join('');
-
-
 // TODO detect if connected and set this accordingly
-const LOCAL_MODE = false;
+export const LOCAL_MODE = false;
 
-const userSignedIn = () => {
+export const userSignedIn = () => {
     if (firebase.apps.length == 0) return false;
     return firebase.auth().currentUser !== null;
 }
 
-let GAME: Game | RingOfFire | RedOrBlack;
-
-const TEMP_MS_BETWEEN_TURNS = 1500;
-let TEMP_WAIT_FOR_TURN = false;
-
-let GAME_CHANGE_LISTENER = function () { console.log('no listener') };
+let gameHandler = new GameHandler;
 
 let AJAX_NAV = { prev: location.hash.replace('#', '') }
 
@@ -45,16 +59,7 @@ let PROVIDER_VARS = { avi: '', name: '' }
 // Literally https://github.com/firebase/firebase-tools/issues/1001
 // cannot come soon enough argh
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyBOLi_ZqoVClSIAjV7eylNRagNtEp6tW-Q",
-    authDomain: "ring-of-fire-5d1a4.firebaseapp.com",
-    databaseURL: "https://ring-of-fire-5d1a4.firebaseio.com",
-    projectId: "ring-of-fire-5d1a4",
-    storageBucket: "ring-of-fire-5d1a4.appspot.com",
-    messagingSenderId: "65675668525",
-    appId: "1:65675668525:web:e6865bb78d7596c7"
-};
+
 
 document.body.style.zoom = '1';
 
@@ -74,11 +79,9 @@ window.addEventListener('popstate', e => {
     updateDOM();
 })
 
-let firestore: any;
-
 if (!LOCAL_MODE) {
     // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+    // firebase.initializeApp(firebaseConfig);
 
     firebase.auth().getRedirectResult().then(function (result) {
         if (result.credential) {
@@ -111,8 +114,7 @@ let userdata = new Player;
 // Need issue fixed before presence
 // https://github.com/firebase/firebase-js-sdk/issues/249
 // let presMan: PresenceManager;
-
-const animMan = new AnimationManager;
+export const animMan = new AnimationManager;
 
 async function popUpTest(title, message, options) {
     let p = document.body.appendChild(new CeInteractivePopUp(title, message, options));
@@ -121,12 +123,22 @@ async function popUpTest(title, message, options) {
     console.log(p.val);
 }
 
+
+
 document.addEventListener('DOMContentLoaded', async function () {
     // The Firebase SDK is initialized and available here!
-    document.body.appendChild(new CePopUp('Please Note:',
-        'This game is still in heavy development! \n Please use the most updated Chrome to view and use it for now.\n Accounts may be lost, the app may crash, things may not display properly.\n Please send any feedback or bug reports to sam.drink.app@gmail.com',
-        0,
-        'info'));
+
+    // document.body.appendChild(new CePopUp('Please Note:',
+    //     'This game is still in heavy development! \n Please use the most updated Chrome to view and use it for now.\n Accounts may be lost, the app may crash, things may not display properly.\n Please send any feedback or bug reports to sam.drink.app@gmail.com',
+    //     0,
+    //     'info'));
+
+    let popUp = document.createElement('ce-popup') as CePopUp;
+    popUp.titleTxt = `Please Note:`;
+    popUp.messageTxt = `This game is still in heavy development! \n Please use the most updated Chrome to view and use it for now.\n Accounts may be lost, the app may crash, things may not display properly.\n Please send any feedback or bug reports to sam.drink.app@gmail.com'`;
+    popUp.timer = 0;
+    popUp.type = 'info';
+    document.body.appendChild(popUp);
 
     await loadUntil(preload());
 
@@ -140,9 +152,11 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         firestore = firebase.firestore();
     } else {
-        goToPage('ce-home-page');
+        goToPage('pg-home');
     }
 });
+
+
 
 async function authHandler(user: any) {
     if (user) {
@@ -154,9 +168,10 @@ async function authHandler(user: any) {
 
         userdata.populateFrom(user.uid)
             .then(() => {
+                //@ts-ignore
                 (<NodeListOf<CeAvatar>>document.querySelectorAll('ce-avatar')).forEach((v) => v.update());
                 updateDOM();
-                goToPage('ce-home-page');
+                goToPage('pg-home');
 
             })
             .catch(e => {
@@ -166,9 +181,11 @@ async function authHandler(user: any) {
         // logged out
         userdata = new Player; //clear user info
         updateDOM();
-        goToPage('ce-home-page');
+        goToPage('pg-home');
     }
 }
+
+
 
 async function preload() {
     // let's try just using the cache and loading everything invisibly
@@ -176,6 +193,9 @@ async function preload() {
     // let pl = document.createElement('div');
     // pl.style.display == 'none';
     // pl.id = 'asset-preload';
+
+    ceLoader();
+    pgLoader();
 
     let allPromises = [];
 
@@ -203,4 +223,10 @@ async function preload() {
 
 
     return Promise.all(allPromises);
+}
+
+export {
+    userdata,
+    PROVIDER_VARS,
+    gameHandler
 }

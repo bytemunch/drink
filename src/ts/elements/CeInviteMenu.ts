@@ -1,6 +1,9 @@
-/// <reference path='CeMenu.ts'/>
+import CeMenu from "./CeMenu.js";
 
-class CeInviteMenu extends CeMenu {
+import {gameHandler} from '../index.js';
+
+
+export default class CeInviteMenu extends CeMenu {
     constructor() {
         super();
     }
@@ -21,13 +24,13 @@ class CeInviteMenu extends CeMenu {
         // Show room info
         let roomDisplay = document.createElement('p');
         roomDisplay.classList.add('roominfo');
-        roomDisplay.textContent = `Room: ${GAME.roomId}`;
+        roomDisplay.textContent = `Room: ${gameHandler.gameObject.roomId}`;
         this.menu.appendChild(roomDisplay);
 
         let pin = document.createElement('p');
         pin.style.cssFloat = 'right';
         pin.classList.add('roominfo');
-        pin.textContent = `PIN: ${GAME.pin}`;
+        pin.textContent = `PIN: ${gameHandler.gameObject.pin}`;
         this.menu.appendChild(pin);
 
         let desc = document.createElement('p');
@@ -44,7 +47,7 @@ class CeInviteMenu extends CeMenu {
         link.style.fontSize = 'larger';
 
         link.readOnly = true;
-        link.value = GAME.link;
+        link.value = gameHandler.gameObject.link;
 
         link.addEventListener('click',e=>{
             link.select();
@@ -82,7 +85,7 @@ class CeInviteMenu extends CeMenu {
                 const shareObj = {
                     title: 'Drink!',
                     text: 'Come play a drinking game with me!',
-                    url: GAME.link
+                    url: gameHandler.gameObject.link
                 };
 
                 // @ts-ignore
@@ -94,4 +97,4 @@ class CeInviteMenu extends CeMenu {
     }
 }
 
-customElements.define('ce-invite-menu', CeInviteMenu);
+// customElements.define('ce-invite-menu', CeInviteMenu);

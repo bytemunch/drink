@@ -1,5 +1,9 @@
+import UpdateableElement from "./UpdateableElement.js";
+import CeAvatar from "./CeAvatar.js";
 
-class CeNextPlayerCenter extends UpdateableElement {
+import {gameHandler} from '../index.js';
+
+export default class CeNextPlayerCenter extends UpdateableElement {
     playerName:HTMLHeadingElement;
     playerAvi:CeAvatar;
 
@@ -42,9 +46,9 @@ class CeNextPlayerCenter extends UpdateableElement {
 
     update() {
         super.update();
-        this.playerName.textContent = GAME.players[GAME.currentPlayer].name;
-        this.playerAvi.uid = GAME.currentPlayer;
+        this.playerName.textContent = gameHandler.gameObject.players[gameHandler.gameObject.currentPlayer].name;
+        this.playerAvi.uid = gameHandler.gameObject.currentPlayer;
     }
 }
 
-customElements.define('ce-next-player-center',CeNextPlayerCenter);
+// customElements.define('ce-next-player-center',CeNextPlayerCenter);

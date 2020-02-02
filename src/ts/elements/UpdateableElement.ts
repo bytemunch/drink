@@ -1,5 +1,6 @@
-/// <reference path='CustomElement.ts'/>
-class UpdateableElement extends CustomElement {
+import CustomElement from "./CustomElement.js";
+
+export default class UpdateableElement extends CustomElement {
     
     constructor() {
         super();

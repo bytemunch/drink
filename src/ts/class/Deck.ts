@@ -1,5 +1,9 @@
+import Card from './Card.js';
+import easyPOST from '../functions/easyPOST.js';
+import firebase from '../functions/firebase.js'
+import { gameHandler } from '../index.js';
 
-class Deck {
+export default class Deck {
     public cards: Array<Card> = [];
     constructor(private jokercount: number = 2) {
         const numbers = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "JK"];
@@ -29,6 +33,6 @@ class Deck {
     }
 
     async drawOnline() {
-        return (await easyPOST('rofDrawCard',{token:await firebase.auth().currentUser.getIdToken(true) ,roomId:GAME.roomId})).json();
+        return (await easyPOST('rofDrawCard',{token:await firebase.auth().currentUser.getIdToken(true) ,roomId:gameHandler.gameObject.roomId})).json();
     }
 }

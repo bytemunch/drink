@@ -1,6 +1,14 @@
-/// <reference path='UpdateableElement.ts'/>
 
-class CePlayerList extends UpdateableElement {
+import UpdateableElement from './UpdateableElement.js';
+import CePlayer from './CePlayer.js';
+import firebase from '../functions/firebase.js';
+import CeCreatePlayerButton from './CeCreatePlayerButton.js';
+
+let firestore = firebase.firestore();
+
+import {userdata, gameHandler} from '../index.js';
+
+export default class CePlayerList extends UpdateableElement {
     private players: Array<any> = [];
 
     constructor() {
@@ -14,7 +22,7 @@ class CePlayerList extends UpdateableElement {
 
         // if we are room owner
 
-        if (GAME.ownerUid == userdata.uid || !GAME.online) this.initDragDrop();
+        if (!gameHandler.gameObject.online || gameHandler.gameObject.ownerUid == userdata.uid) this.initDragDrop();
 
         this.update();
     }
@@ -46,7 +54,7 @@ class CePlayerList extends UpdateableElement {
         document.addEventListener('drop', ev => {
             ev.preventDefault();
 
-            if (GAME.ownerUid == userdata.uid) {
+            if (gameHandler.gameObject.ownerUid == userdata.uid) {
                 let target = checkAllParents((<HTMLElement>ev.target));
 
                 let targetParent: HTMLElement;
@@ -80,12 +88,12 @@ class CePlayerList extends UpdateableElement {
                     if (player.tagName == "CE-PLAYER") orderedPlayerList.push((<CePlayer>player).uid);
                 }
 
-                if (GAME.online) {
+                if (gameHandler.gameObject.online) {
                     console.log(orderedPlayerList)
                     // update player order on firebase
-                    firestore.collection('rooms').doc(GAME.roomId).update({ playerOrder: orderedPlayerList });
+                    firestore.collection('rooms').doc(gameHandler.gameObject.roomId).update({ playerOrder: orderedPlayerList });
                 } else {
-                    GAME.playerOrder = orderedPlayerList;
+                    gameHandler.gameObject.playerOrder = orderedPlayerList;
                 }
             }
         }, false)
@@ -99,7 +107,7 @@ class CePlayerList extends UpdateableElement {
         super.update();
 
         // Update data
-        let players = GAME.players;
+        let players = gameHandler.gameObject.players;
 
         this.players = [];
 
@@ -107,8 +115,8 @@ class CePlayerList extends UpdateableElement {
             // sort into this.players in position of turnorder array
             players[p].uid = p;
 
-            if (GAME.playerOrder.length == Object.keys(GAME.players).length) {// JS casting doing bits here ugh
-                const pIdx = GAME.playerOrder.indexOf(p);
+            if (gameHandler.gameObject.playerOrder.length == Object.keys(gameHandler.gameObject.players).length) {// JS casting doing bits here ugh
+                const pIdx = gameHandler.gameObject.playerOrder.indexOf(p);
                 pIdx != -1 ? this.players[pIdx] = players[p] : this.players.push(players[p])
             } else {
                 this.players.push(players[p]);
@@ -130,4 +138,4 @@ class CePlayerList extends UpdateableElement {
     }
 }
 
-customElements.define('ce-player-list', CePlayerList);
+// customElements.define('ce-player-list', CePlayerList);

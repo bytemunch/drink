@@ -1,6 +1,11 @@
-/// <reference path='CePage.ts'/>
+import Page from "./Page.js";
+import goToPage from "../functions/goToPage.js";
+import RingOfFire from "../class/RingOfFire.js";
+import RedOrBlack from "../class/RedOrBlack.js";
 
-class CeGameSelectPage extends CePage {
+import { gameHandler } from '../index.js';
+
+export default class PgGameSelect extends Page {
     constructor() {
         super();
         this.header = 'account';
@@ -18,8 +23,8 @@ class CeGameSelectPage extends CePage {
         rofButton.textContent = 'Ring of Fire';
 
         rofButton.addEventListener('click', e => {
-            GAME = new RingOfFire;
-            goToPage('ce-setup-game');
+            gameHandler.type = 'ring-of-fire';
+            goToPage('pg-setup-game');
         });
 
         rofButton.classList.add('big', 'green');
@@ -30,8 +35,8 @@ class CeGameSelectPage extends CePage {
         redOrBlackButton.textContent = 'Red or Black';
 
         redOrBlackButton.addEventListener('click', e => {
-            GAME = new RedOrBlack;
-            goToPage('ce-setup-game');
+            gameHandler.type = 'red-or-black';
+            goToPage('pg-setup-game');
         });
 
         redOrBlackButton.classList.add('big', 'green');
@@ -44,7 +49,7 @@ class CeGameSelectPage extends CePage {
 
         backButton.addEventListener('click', e => {
             console.log('Back button pressed!');
-            goToPage('ce-home-page');
+            goToPage('pg-home');
         });
 
         backButton.classList.add('big', 'red');
@@ -52,5 +57,3 @@ class CeGameSelectPage extends CePage {
         this.appendChild(backButton);
     }
 }
-
-customElements.define('ce-game-select-page', CeGameSelectPage);

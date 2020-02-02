@@ -1,6 +1,9 @@
-/// <reference path='CeShowButton.ts'/>
+import CeShowButton from "./CeShowButton.js";
+import CeAvatar from "./CeAvatar.js";
 
-class CeAccountButton extends CeShowButton {
+import {userdata} from '../index.js';
+
+export default class CeAccountButton extends CeShowButton {
     avi;
 
     constructor(target) {
@@ -39,4 +42,4 @@ class CeAccountButton extends CeShowButton {
     }
 }
 
-customElements.define('ce-account-button', CeAccountButton);
+// customElements.define('ce-account-button', CeAccountButton);

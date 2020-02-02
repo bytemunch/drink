@@ -1,4 +1,6 @@
-class CeRuleSelect extends HTMLSelectElement {
+import { palette } from "../index.js";
+
+export default class CeRuleSelect extends HTMLSelectElement {
 
     availableRules;
 
@@ -60,4 +62,4 @@ class CeRuleSelect extends HTMLSelectElement {
 
 }
 
-customElements.define('ce-rule-select', CeRuleSelect, { extends: 'select' });
+// customElements.define('ce-rule-select', CeRuleSelect, { extends: 'select' });

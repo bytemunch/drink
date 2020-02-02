@@ -1,6 +1,13 @@
-/// <reference path='CeMenu.ts'/>
+import CeMenu from "./CeMenu.js";
+import { LOCAL_MODE, userSignedIn, userdata } from "../index.js";
+import updateDOM from "../functions/updateDOM.js";
+import goToPage from "../functions/goToPage.js";
+import CeAvatarUpload from "./CeAvatarUpload.js";
+import CeLogInOutButton from "./CeLogInOutButton.js";
 
-class CeAccountMenu extends CeMenu {
+import {PROVIDER_VARS} from '../index.js';
+import {gameHandler} from '../index.js';
+export default class CeAccountMenu extends CeMenu {
     constructor() {
         super();
     }
@@ -95,8 +102,8 @@ class CeAccountMenu extends CeMenu {
 
         backButton.addEventListener('click', e => {
             console.log('Back button pressed!');
-            if (GAME) GAME.leave();
-            goToPage('ce-home-page');
+            if (gameHandler.gameObject) gameHandler.gameObject.leave();
+            goToPage('pg-home');
             this.hide();
         });
 
@@ -113,4 +120,4 @@ class CeAccountMenu extends CeMenu {
     }
 }
 
-customElements.define('ce-account-menu', CeAccountMenu);
+// customElements.define('ce-account-menu', CeAccountMenu);
