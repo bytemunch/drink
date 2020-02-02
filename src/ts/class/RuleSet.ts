@@ -5,7 +5,7 @@ interface IAction {
     target: string;
 }
 
-class RuleSet {
+export default class RuleSet {
     public rules: Object;
     public winState: {if:string,then:{action:{},desc:string,title:string}};
 

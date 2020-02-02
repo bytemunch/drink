@@ -1,6 +1,8 @@
-/// <reference path='UpdateableElement.ts'/>
+import UpdateableElement from "./UpdateableElement.js";
+import { palette } from "../index.js";
+import firebase from '../functions/firebase.js';
 
-class CeAvatar extends UpdateableElement {
+export default class CeAvatar extends UpdateableElement {
     src;
     color;
     realReady;
@@ -63,7 +65,7 @@ class CeAvatar extends UpdateableElement {
     }
 
     async getColor() {
-        const userDoc = await firestore.collection('users').doc(this._uid).get()
+        const userDoc = await firebase.firestore().collection('users').doc(this._uid).get()
         const userData = await userDoc.data() || {};
 
         return userData.color || '#FFFFFF';
@@ -75,4 +77,4 @@ class CeAvatar extends UpdateableElement {
     }
 }
 
-customElements.define('ce-avatar', CeAvatar);
+// customElements.define('ce-avatar', CeAvatar);

@@ -1,4 +1,11 @@
-class CeAvatarUpload extends HTMLElement {
+import errorPopUp from "../functions/errorPopUp.js";
+import firebase from '../functions/firebase.js';
+
+import {userdata} from '../index.js';
+import {PROVIDER_VARS} from '../index.js';
+import shrinkImage from "../functions/shrinkImage.js";
+
+export default class CeAvatarUpload extends HTMLElement {
     realInput;
     fakeUploadButton;
     photoButton;
@@ -94,4 +101,4 @@ class CeAvatarUpload extends HTMLElement {
     }
 }
 
-customElements.define('ce-avatar-upload', CeAvatarUpload);
+// customElements.define('ce-avatar-upload', CeAvatarUpload);

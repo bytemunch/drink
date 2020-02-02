@@ -1,6 +1,10 @@
-/// <reference path='UpdateableElement.ts'/>
+import UpdateableElement from "./UpdateableElement.js";
+import { animMan } from "../index.js";
+import RingOfFire from "../class/RingOfFire.js";
 
-class CeRule extends UpdateableElement {
+import {gameHandler} from '../index.js';
+
+export default class CeRule extends UpdateableElement {
     ruleTitle;
     desc;
 
@@ -44,7 +48,7 @@ class CeRule extends UpdateableElement {
     update(rule?) {
         super.update();
 
-        let castGame = GAME as RingOfFire;
+        let castGame = gameHandler.gameObject as RingOfFire;
 
         if (!castGame.currentCard || castGame.currentCard.number == '') {
             console.error('No card in game');
@@ -75,4 +79,4 @@ class CeRule extends UpdateableElement {
 
 }
 
-customElements.define('ce-rule', CeRule);
+// customElements.define('ce-rule', CeRule);

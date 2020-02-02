@@ -1,6 +1,8 @@
-/// <reference path='CustomElement.ts'/>
+import CustomElement from './CustomElement.js';
 
-class CePopUp extends CustomElement {
+import { palette} from '../index.js';
+
+export default class CePopUp extends CustomElement {
     titleP;
     messageP;
     ok;
@@ -8,21 +10,37 @@ class CePopUp extends CustomElement {
     innerDiv;
     callback;
     callbackArgs;
+    titleTxt;
+    messageTxt;
 
-    constructor(title, message,  timer = 0, type = 'info', callback?, callbackArgs?) {
-        super();
+    // constructor(title, message,  timer = 0, type = 'info', callback?, callbackArgs?) {
+    //     super();
 
-        this.callback = callback;
-        this.callbackArgs = callbackArgs || null;
+    //     this.callback = callback;
+    //     this.callbackArgs = callbackArgs || null;
 
-        this.timer = timer;
+    //     this.timer = timer;
 
+    //     this.type = type;
+
+    //     this.titleTxt = title;
+    //     this.messageTxt = message;
+    // }
+
+    constructor(){super()}
+
+    connectedCallback() {
+        this.classList.add('popup');
+
+        if (this.timer) {
+            setTimeout(this.kill.bind(this), this.timer);
+        }
         this.innerDiv = document.createElement('div');
         this.titleP = document.createElement('p');
         this.messageP = document.createElement('p');
 
-        this.titleP.textContent = title;
-        this.messageP.textContent = message;
+        this.titleP.textContent = this.titleTxt;
+        this.messageP.textContent = this.messageTxt;
 
         this.ok = document.createElement('button');
         this.ok.classList.add('small');
@@ -32,22 +50,11 @@ class CePopUp extends CustomElement {
         })
 
         this.ok.textContent = 'OK';
-
         this.innerDiv.appendChild(this.titleP);
         this.innerDiv.appendChild(this.messageP);
         this.innerDiv.appendChild(this.ok);
-
-        this.type = type;
-
         this.appendChild(this.innerDiv);
-    }
 
-    connectedCallback() {
-        this.classList.add('popup');
-
-        if (this.timer) {
-            setTimeout(this.kill.bind(this), this.timer);
-        }
     }
 
     kill() {
@@ -72,5 +79,3 @@ class CePopUp extends CustomElement {
         }
     }
 }
-
-customElements.define('ce-popup', CePopUp);

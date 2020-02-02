@@ -1,6 +1,16 @@
-/// <reference path='CePage.ts'/>
 
-class CePlayRedOrBlack extends CePage {
+import CePopUp from "../elements/CePopUp.js";
+import CeNextPlayerCenter from "../elements/CeNextPlayerCenter.js";
+import CePotCounter from "../elements/CePotCounter.js";
+import CeCard from "../elements/CeCard.js";
+import { animMan } from "../index.js";
+import goToPage from "../functions/goToPage.js";
+import RedOrBlack from "../class/RedOrBlack.js";
+import Page from "./Page.js";
+
+import {gameHandler} from '../index.js';
+
+export default class PgPlayRedOrBlack extends Page {
 
     constructor() {
         super();
@@ -17,7 +27,7 @@ class CePlayRedOrBlack extends CePage {
 
         let cardW = 70;
 
-        let castGame = <RedOrBlack>GAME;
+        let castGame = <RedOrBlack>gameHandler.gameObject;
 
         // deck image
         let deckImg = document.createElement('img');
@@ -164,14 +174,14 @@ class CePlayRedOrBlack extends CePage {
 
                 if (!win) {
 
-                    let drinkPopUp = new CePopUp('FUNNY TITLE HERE',
-                        `${GAME.players[GAME.previousPlayer].name}, drink ${castGame.cardPot.length}!`,
-                        0,
-                        'info');
+                    // let drinkPopUp = new CePopUp('FUNNY TITLE HERE',
+                    //     `${GAME.players[GAME.previousPlayer].name}, drink ${castGame.cardPot.length}!`,
+                    //     0,
+                    //     'info');
 
-                    drinkPopUp.style.zIndex = '100';
+                    // drinkPopUp.style.zIndex = '100';
 
-                    document.body.appendChild(drinkPopUp);
+                    // document.body.appendChild(drinkPopUp);
                     // show all cards to drink for
 
                     // remove spent cards
@@ -192,15 +202,15 @@ class CePlayRedOrBlack extends CePage {
 
                     let gameOverText = `No cards left! ${maybeText()}`;
 
-                    let gameOverPopUp = new CePopUp('Game Over!',
-                        gameOverText,
-                        0,
-                        'info',
-                        goToPage,
-                        'ce-home-page'
-                    )
+                    // let gameOverPopUp = new CePopUp('Game Over!',
+                    //     gameOverText,
+                    //     0,
+                    //     'info',
+                    //     goToPage,
+                    //     'ce-home-page'
+                    // )
 
-                    document.body.appendChild(gameOverPopUp);
+                    // document.body.appendChild(gameOverPopUp);
                 }
 
                 // reenable buttons
@@ -218,5 +228,3 @@ class CePlayRedOrBlack extends CePage {
         // this.appendChild(cardDisplay);
     }
 }
-
-customElements.define('ce-play-red-or-black', CePlayRedOrBlack);

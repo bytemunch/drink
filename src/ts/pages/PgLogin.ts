@@ -1,6 +1,10 @@
-/// <reference path='CePage.ts'/>
+import firebase from '../functions/firebase.js';
+import { palette } from "../index.js";
+import goToPage from "../functions/goToPage.js";
+import errorPopUp from "../functions/errorPopUp.js";
+import Page from "./Page.js";
 
-class CeLogin extends CePage {
+export default class PgLogin extends Page {
     constructor() {
         super();
         this.header = 'account';
@@ -100,7 +104,7 @@ class CeLogin extends CePage {
 
         backButton.addEventListener('click', e => {
             console.log('Back button pressed!');
-            goToPage('ce-home-page');
+            goToPage('pg-home');
         });
 
         backButton.classList.add('big','red');
@@ -108,5 +112,3 @@ class CeLogin extends CePage {
         this.appendChild(backButton);
     }
 }
-
-customElements.define('ce-login',CeLogin);

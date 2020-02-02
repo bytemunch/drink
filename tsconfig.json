@@ -1,12 +1,12 @@
 {
     "compileOnSave": true,
     "compilerOptions": {
-        "module": "none",
-        "target": "es2015",
+        "module": "ES6",
+        "target": "ESNext",
         "noImplicitAny": false,
         "removeComments": true,
         "preserveConstEnums": true,
-        "outFile": "./public/main.js",
+        "outDir": "./public/js/",
         "sourceMap": true,
         "esModuleInterop": true
     },
@@ -15,7 +15,7 @@
         "./src/ts/class/*",
         "./src/ts/elements/*",
         "./src/ts/pages/*",
-        "./src/ts/index.ts", "./src/ts/functions/shrinkImage.ts"
+        "./src/ts/index.ts"
     ],
     "exclude": [
         "node_modules",

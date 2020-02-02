@@ -1,4 +1,6 @@
-class CeActionSelectDiv extends CustomElement {
+import CustomElement from "./CustomElement.js";
+
+export default class CeActionSelectDiv extends CustomElement {
     constructor() {
         super();
     }
@@ -66,4 +68,4 @@ class CeActionSelectDiv extends CustomElement {
     }
 }
 
-customElements.define('ce-action-select-div', CeActionSelectDiv)
+// customElements.define('ce-action-select-div', CeActionSelectDiv)

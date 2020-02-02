@@ -1,6 +1,6 @@
-/// <reference path='CustomElement.ts'/>
+import CustomElement from "./CustomElement.js";
 
-class CeShowButton extends CustomElement {
+export default class CeShowButton extends CustomElement {
     openState = false;
     openImg;
     closeImg;
@@ -68,4 +68,4 @@ class CeShowButton extends CustomElement {
     }
 }
 
-customElements.define('ce-show-button', CeShowButton);
+// customElements.define('ce-show-button', CeShowButton);

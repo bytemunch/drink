@@ -1,4 +1,4 @@
-class Card {
+export default class Card {
     suit: string;
     number: string;
     constructor(suit, number) {

@@ -1,7 +1,9 @@
-/// <reference path='CustomElement.ts'/>
+import CustomElement from "./CustomElement.js";
+
+import {palette} from '../index.js';
 
 // Abstract base menu class
-class CeMenu extends CustomElement {
+export default class CeMenu extends CustomElement {
     menu;
     titlebar;
     logoutBtn;

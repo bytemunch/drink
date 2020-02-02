@@ -1,6 +1,6 @@
-/// <reference path='CustomElement.ts'/>
+import CustomElement from "./CustomElement.js";
 
-class CeInteractivePopUp extends CustomElement {
+export default class CeInteractivePopUp extends CustomElement {
     titleP;
     messageP;
     innerDiv;
@@ -52,4 +52,4 @@ class CeInteractivePopUp extends CustomElement {
     }
 }
 
-customElements.define('ce-interactive-popup', CeInteractivePopUp);
+// customElements.define('ce-interactive-popup', CeInteractivePopUp);

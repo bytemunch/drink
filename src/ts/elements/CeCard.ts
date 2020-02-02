@@ -1,4 +1,11 @@
-class CeCard extends UpdateableElement {
+import UpdateableElement from "./UpdateableElement.js";
+import Card from "../class/Card.js";
+import { animMan } from "../index.js";
+import RingOfFire from "../class/RingOfFire.js";
+
+import {gameHandler} from '../index.js';
+
+export default class CeCard extends UpdateableElement {
     img: HTMLImageElement;
     backImg: HTMLImageElement;
     currentCard: Card;
@@ -12,7 +19,7 @@ class CeCard extends UpdateableElement {
         this.style.position = 'absolute';
         this.style.display = 'block';
 
-        if (GAME.type === 'rof') this.style.left = `calc((${window.innerWidth}px - ${this.backImg.getBoundingClientRect().width}px) / 2)`;
+        if (gameHandler.gameObject.type === 'ring-of-fire') this.style.left = `calc((${window.innerWidth}px - ${this.backImg.getBoundingClientRect().width}px) / 2)`;
     }
 
     connectedCallback() {
@@ -104,13 +111,11 @@ class CeCard extends UpdateableElement {
     update() {
         super.update();
 
-        if ((<RingOfFire>GAME).currentCard !== this.currentCard && (<RingOfFire>GAME).currentCard.number !== '') {
-            this.drawCard((<RingOfFire>GAME).currentCard);
+        if ((<RingOfFire>gameHandler.gameObject).currentCard !== this.currentCard && (<RingOfFire>gameHandler.gameObject).currentCard.number !== '') {
+            this.drawCard((<RingOfFire>gameHandler.gameObject).currentCard);
         }
 
         this.applyStyle();
     }
 
 }
-
-customElements.define('ce-card', CeCard);

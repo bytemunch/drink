@@ -1,6 +1,10 @@
-/// <reference path='CePage.ts'/>
+import goToPage from "../functions/goToPage.js";
+import RingOfFire from "../class/RingOfFire.js";
+import Page from "./Page.js";
 
-class CePlayOffline extends CePage {
+import {gameHandler} from '../index.js';
+
+export default class PgPlayOffline extends Page {
     constructor() {
         super();
         this.header = 'account';
@@ -21,8 +25,8 @@ class CePlayOffline extends CePage {
 
         playButton.addEventListener('click', e => {
             console.log('Play button pressed!');
-            GAME = new RingOfFire;
-            goToPage('ce-play-rof');
+            gameHandler.type = 'ring-of-fire';
+            goToPage('pg-play-ring-of-fire');
         });
 
         playButton.classList.add('big','green');
@@ -35,7 +39,7 @@ class CePlayOffline extends CePage {
 
         backButton.addEventListener('click', e => {
             console.log('Back button pressed!');
-            goToPage('ce-home-page');
+            goToPage('pg-home');
         });
 
         backButton.classList.add('big','red');
@@ -43,5 +47,3 @@ class CePlayOffline extends CePage {
         this.appendChild(backButton);
     }
 }
-
-customElements.define('ce-play-offline',CePlayOffline);

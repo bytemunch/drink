@@ -1,6 +1,12 @@
-/// <reference path='CeMenu.ts'/>
+import CeMenu from "./CeMenu.js";
+import CePlayerList from "./CePlayerList.js";
+import { LOCAL_MODE } from "../index.js";
+import Player from "../class/Player.js";
+import CeAvatarUpload from "./CeAvatarUpload.js";
 
-class CeModifyPlayerMenu extends CeMenu {
+import {gameHandler} from '../index.js';
+
+export default class CeModifyPlayerMenu extends CeMenu {
     uid;
     constructor(uid) {
         super();
@@ -47,7 +53,7 @@ class CeModifyPlayerMenu extends CeMenu {
                 i = document.createElement('input');
                 i.setAttribute('type', inputs[input].type);
                 i.classList.add('big');
-                i.value = GAME.players[this.uid][input];
+                i.value = gameHandler.gameObject.players[this.uid][input];
             }
 
             i.setAttribute('id', `acc-input-${input}`);
@@ -69,11 +75,11 @@ class CeModifyPlayerMenu extends CeMenu {
             }
 
             if (!LOCAL_MODE) {
-                GAME.addPlayer(new Player(playerInfo));
+                gameHandler.gameObject.addPlayer(new Player(playerInfo));
                 inputs['avatar'].upload();
             }
 
-            GAME.players[this.uid] = playerInfo;
+            gameHandler.gameObject.players[this.uid] = playerInfo;
 
             (<CePlayerList>document.querySelector('ce-player-list')).update();
 
@@ -89,7 +95,7 @@ class CeModifyPlayerMenu extends CeMenu {
         btnRemove.classList.add('big', 'red');
 
         btnRemove.addEventListener('click', async e => {
-            GAME.removePlayer(this.uid);
+            gameHandler.gameObject.removePlayer(this.uid);
             (<CePlayerList>document.querySelector('ce-player-list')).update();
             this.hide();
         })
@@ -101,4 +107,4 @@ class CeModifyPlayerMenu extends CeMenu {
     }
 }
 
-customElements.define('ce-modify-player-menu', CeModifyPlayerMenu);
+// customElements.define('ce-modify-player-menu', CeModifyPlayerMenu);

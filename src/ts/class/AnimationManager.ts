@@ -1,4 +1,4 @@
-class AnimationManager {
+export default class AnimationManager {
     duration: number;
     start: number;
     animationName: string;

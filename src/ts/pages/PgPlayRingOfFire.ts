@@ -1,6 +1,14 @@
-/// <reference path='CePage.ts'/>
+import updateDOM from "../functions/updateDOM.js";
+import CeNextPlayer from "../elements/CeNextPlayer.js";
+import CeCard from "../elements/CeCard.js";
+import CeRule from "../elements/CeRule.js";
+import goToPage from "../functions/goToPage.js";
+import RingOfFire from "../class/RingOfFire.js";
+import Page from "./Page.js";
 
-class CePlayRof extends CePage {
+import {gameHandler} from '../index.js';
+
+export default class PgPlayRingOfFire extends Page {
 
     constructor() {
         super();
@@ -37,7 +45,7 @@ class CePlayRof extends CePage {
 
         drawButton.addEventListener('click', async e => {
 
-            if (GAME.online) {
+            if (gameHandler.gameObject.online) {
                 //debounce
 
                 // TODO Very bad, reeanables button no matter what so can get desync if internet too quick!
@@ -50,14 +58,14 @@ class CePlayRof extends CePage {
             }
 
             if (drawButton.textContent == 'End Game') {
-                goToPage('ce-home-page');
+                goToPage('pg-home');
             } else {
-                await (<RingOfFire>GAME).takeTurn()
-                if (!GAME.online) updateDOM();
+                await (<RingOfFire>gameHandler.gameObject).takeTurn()
+                if (!gameHandler.gameObject.online) updateDOM();
 
                 (<CeRule>document.querySelector('ce-rule')).applyStyle();
 
-                if (GAME.state !== 'finished') {
+                if (gameHandler.gameObject.state !== 'finished') {
                     // updateDOM();
                 } else {
                     // game over
@@ -76,5 +84,3 @@ class CePlayRof extends CePage {
         }, 500)
     }
 }
-
-customElements.define('ce-play-rof', CePlayRof);

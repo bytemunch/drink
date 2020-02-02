@@ -1,6 +1,6 @@
-/// <reference path='CeCreatePlayerButton.ts'/>
+import CeCreatePlayerButton from "./CeCreatePlayerButton.js";
 
-class CeInviteButton extends CeCreatePlayerButton {
+export default class CeInviteButton extends CeCreatePlayerButton {
     constructor(modal) {
         super(modal);
         this.openImg = './img/invite.svg';
@@ -20,4 +20,4 @@ class CeInviteButton extends CeCreatePlayerButton {
     }
 }
 
-customElements.define('ce-invite-button', CeInviteButton);
+// customElements.define('ce-invite-button', CeInviteButton);

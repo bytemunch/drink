@@ -1,4 +1,8 @@
-class RedOrBlack extends Game {
+import Card from "./Card.js";
+import Game from "./Game.js";
+import Deck from "./Deck.js";
+
+export default class RedOrBlack extends Game {
     deck: Deck;
 
     cardPot: Array<Card>;
@@ -15,7 +19,6 @@ class RedOrBlack extends Game {
 
     constructor() {
         super();
-        GAME = this;
         this.type = 'red-or-black';
         this.deck = new Deck;
         this.cardPot = [];

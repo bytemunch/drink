@@ -1,4 +1,8 @@
-class CeGameSelect extends HTMLSelectElement {
+import { palette } from "../index.js";
+import CeRuleSelect from "./CeRuleSelect.js";
+
+
+export default class CeGameSelect extends HTMLSelectElement {
 
     constructor() {
         super();
@@ -43,4 +47,4 @@ class CeGameSelect extends HTMLSelectElement {
 
 }
 
-customElements.define('ce-game-select', CeGameSelect, { extends: 'select' });
+// customElements.define('ce-game-select', CeGameSelect, { extends: 'select' });

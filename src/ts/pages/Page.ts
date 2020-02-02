@@ -1,4 +1,6 @@
-class CePage extends HTMLElement {
+import {VERSION} from '../index.js'
+
+export default class Page extends HTMLElement {
     header = 'full';
 
     constructor() {
@@ -25,5 +27,3 @@ class CePage extends HTMLElement {
         this.appendChild(version);
     }
 }
-
-customElements.define('ce-page',CePage);

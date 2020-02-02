@@ -1,6 +1,10 @@
-/// <reference path='CePage.ts'/>
+import CeCreatePlayerMenu from "../elements/CeCreatePlayerMenu.js";
+import goToPage from "../functions/goToPage.js";
+import Page from "./Page.js";
 
-class CeSetupGame extends CePage {
+import {gameHandler} from '../index.js';
+
+export default class PgSetupGame extends Page {
     constructor() {
         super();
         this.header = 'account';
@@ -25,7 +29,7 @@ class CeSetupGame extends CePage {
         startButton.textContent = 'Start';
 
         startButton.addEventListener('click', e => {
-            goToPage(`ce-play-${GAME.type}`);
+            goToPage(`pg-play-${gameHandler.gameObject.type}`);
         });
 
         startButton.classList.add('big','green');
@@ -37,7 +41,7 @@ class CeSetupGame extends CePage {
 
         backButton.addEventListener('click', e => {
             console.log('Back button pressed!');
-            goToPage('ce-home-page');
+            goToPage('pg-home');
         });
 
         backButton.classList.add('big','red', 'bottom');
@@ -45,5 +49,3 @@ class CeSetupGame extends CePage {
         this.appendChild(backButton);
     }
 }
-
-customElements.define('ce-setup-game',CeSetupGame);

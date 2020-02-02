@@ -1,4 +1,9 @@
-class CeHeader extends HTMLElement {
+import CeAccountMenu from "./CeAccountMenu.js";
+import CeAccountButton from "./CeAccountButton.js";
+import CeShowButton from "./CeShowButton.js";
+import CeAboutMenu from "./CeAboutMenu.js";
+
+export default class CeHeader extends HTMLElement {
     constructor() {
         super();
     }
@@ -50,5 +55,3 @@ class CeHeader extends HTMLElement {
         (<CeHeader>this.querySelector('.' + item)).style.display = 'unset';
     }
 }
-
-customElements.define('ce-header', CeHeader);

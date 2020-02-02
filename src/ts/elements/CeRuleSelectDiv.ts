@@ -1,4 +1,9 @@
-class CeRuleSelectDiv extends CustomElement {
+import CustomElement from "./CustomElement.js";
+import CeRuleCreateMenu from "./CeRuleCreateMenu.js";
+import CeShowButton from "./CeShowButton.js";
+import CeRuleSelect from "./CeRuleSelect.js";
+
+export default class CeRuleSelectDiv extends CustomElement {
     constructor() {
         super();
     }
@@ -25,4 +30,4 @@ class CeRuleSelectDiv extends CustomElement {
     }
 }
 
-customElements.define('ce-rule-select-div', CeRuleSelectDiv)
+// customElements.define('ce-rule-select-div', CeRuleSelectDiv)

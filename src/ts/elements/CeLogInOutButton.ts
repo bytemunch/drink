@@ -1,4 +1,10 @@
-class CeLogInOutButton extends HTMLButtonElement {
+import { userSignedIn } from "../index.js";
+import goToPage from "../functions/goToPage.js";
+import CeMenu from "./CeMenu.js";
+import firebase from '../functions/firebase.js';
+
+
+export default class CeLogInOutButton extends HTMLButtonElement {
     constructor() {
         super();
     }
@@ -18,7 +24,7 @@ class CeLogInOutButton extends HTMLButtonElement {
         if (userSignedIn()) {
             firebase.auth().signOut();
         } else {
-            goToPage('ce-login');
+            goToPage('pg-login');
         }
         (<CeMenu>this.parentElement.parentElement.parentElement).hide();
     }
@@ -28,4 +34,4 @@ class CeLogInOutButton extends HTMLButtonElement {
     }
 }
 
-customElements.define('ce-log-in-out-button',CeLogInOutButton,{extends:'button'})
+// customElements.define('ce-log-in-out-button',CeLogInOutButton,{extends:'button'})
