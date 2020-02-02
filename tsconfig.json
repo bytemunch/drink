@@ -15,7 +15,7 @@
         "./src/ts/class/*",
         "./src/ts/elements/*",
         "./src/ts/pages/*",
-        "./src/ts/index.ts", "./src/ts/functions/shrinkImage.ts"
+        "./src/ts/index.ts"
     ],
     "exclude": [
         "node_modules",

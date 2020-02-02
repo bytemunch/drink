@@ -1,4 +1,4 @@
-function shrinkImage(img, max_height = 64, max_width = 64) {
+export default function shrinkImage(img, max_height = 64, max_width = 64) {
     if (!img) return false;
     let canvas = document.createElement('canvas');
     document.body.appendChild(canvas);

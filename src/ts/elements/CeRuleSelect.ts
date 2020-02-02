@@ -61,5 +61,3 @@ export default class CeRuleSelect extends HTMLSelectElement {
     }
 
 }
-
-// customElements.define('ce-rule-select', CeRuleSelect, { extends: 'select' });

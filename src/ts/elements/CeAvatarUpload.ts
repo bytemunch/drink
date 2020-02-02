@@ -3,6 +3,7 @@ import firebase from '../functions/firebase.js';
 
 import {userdata} from '../index.js';
 import {PROVIDER_VARS} from '../index.js';
+import shrinkImage from "../functions/shrinkImage.js";
 
 export default class CeAvatarUpload extends HTMLElement {
     realInput;
