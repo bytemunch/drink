@@ -29,6 +29,7 @@ export default class PgSetupGame extends Page {
         startButton.textContent = 'Start';
 
         startButton.addEventListener('click', e => {
+            gameHandler.gameObject.state = 'playing';
             goToPage(`pg-play-${gameHandler.gameObject.type}`);
         });
 

@@ -59,7 +59,7 @@ export default class PgPlayOnline extends Page {
             gameHandler.gameObject.initOnline(false)
             .then(roomJoined=>{
                 if (roomJoined.joined) {
-                    goToPage('pg-setup-rof');
+                    goToPage('pg-setup-game');
                 } else {
                     errorPopUp(roomJoined.error.err);
                 }
@@ -75,21 +75,27 @@ export default class PgPlayOnline extends Page {
 
         createButton.addEventListener('click', e => {
             console.log('Create button pressed!');
-            gameHandler.online=true;
-            gameHandler.type = 'ring-of-fire';
-            gameHandler.gameObject.roomId = gameHandler.gameObject.createId();
-            gameHandler.gameObject.pin = gameHandler.gameObject.createPin();
-            gameHandler.gameObject.initOnline(true)
-            .then(roomJoined=>{
-                if (roomJoined.joined) {
-                    goToPage('pg-setup-rof');
-                } else {
-                    errorPopUp(roomJoined.error.err);
-                }
-            })
-            .catch(e=>{
-                console.error(e);
-            })
+            function setupRof() {
+                gameHandler.online = true;
+                gameHandler.type = 'ring-of-fire';
+                gameHandler.gameObject.roomId = gameHandler.gameObject.createId();
+                gameHandler.gameObject.pin = gameHandler.gameObject.createPin();
+                gameHandler.gameObject.initOnline(true)
+                    .then(roomJoined => {
+                        if (roomJoined.joined) {
+                            goToPage('pg-setup-game');
+                        }
+                        else {
+                            errorPopUp(roomJoined.error.err);
+                        }
+                    })
+                    .catch(e => {
+                        console.error(e);
+                    });
+            }
+            
+            gameHandler.online = true;
+            goToPage('pg-game-select');
         });
 
         createButton.classList.add('big','green');
@@ -110,3 +116,4 @@ export default class PgPlayOnline extends Page {
         this.appendChild(backButton);
     }
 }
+

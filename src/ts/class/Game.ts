@@ -1,11 +1,9 @@
 import Player from "./Player.js";
-import firebase from '../functions/firebase.js';
+import firebase, { firestore } from '../functions/firebase.js';
 import goToPage from "../functions/goToPage.js";
 import easyPOST from "../functions/easyPOST.js";
 import { userdata } from "../index.js";
 import getProps from "../functions/getProps.js";
-
-let firestore = firebase.firestore();
 
 export default class Game {
     players: Object;
@@ -26,6 +24,8 @@ export default class Game {
 
     pin: string;
 
+    view:HTMLElement;
+
     ref;
 
     constructor(online = false, roomId?, roomPin?) {
@@ -38,12 +38,10 @@ export default class Game {
         this.addPlayer(userdata);
 
         if (this.online) {
-            this.roomId = roomId || 'TEST';
-            this.pin = roomPin || '0000';
+            this.roomId = roomId || this.createId();
+            this.pin = roomPin || this.createPin();
             this.ownerUid = userdata.uid;
         }
-
-        console.log(this);
     }
 
     addPlayer(player: Player) {
@@ -91,6 +89,10 @@ export default class Game {
         this.GAME_CHANGE_LISTENER();
 
         goToPage('pg-home');
+    }
+
+    async updateFirebase(data) {
+        return this.ref.update(JSON.parse(JSON.stringify(data)));
     }
 
     async takeTurn() {
@@ -193,12 +195,6 @@ export default class Game {
     }
 
     onListenerUpdate(newData, oldData) {
-        for (let prop in oldData) {
-            if (prop == 'deck') { // fix for killing deck object TODO deck.update(newCards) or deck.remove(card)
-                if (newData['deck'].cards !== oldData['deck'].cards) this['deck'].cards = newData['deck'].cards;
-            } else {
-                if (newData[prop] !== oldData[prop]) this[prop] = newData[prop]
-            }
-        }
+
     }
 }

@@ -16,7 +16,7 @@ export default class GameHandler {
                 this.gameObject = new RingOfFire(this.online);
                 break;
             case 'red-or-black':
-                this.gameObject = new RedOrBlack;
+                this.gameObject = new RedOrBlack(this.online);
                 break;
         }
     }

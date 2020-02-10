@@ -1,8 +1,4 @@
-// import * as firebase from '../node_modules/firebase/index';
-
-///<reference types='firebase'/>
-
-import firebase from './functions/firebase.js';
+import firebase, { firestore } from './functions/firebase.js';
 
 import Player from './class/Player.js';
 import AnimationManager from './class/AnimationManager.js';
@@ -16,11 +12,9 @@ import CeInteractivePopUp from './elements/CeInteractivePopUp.js';
 import ceLoader from './functions/ceLoader.js';
 import pgLoader from './functions/pgLoader.js';
 import GameHandler from './class/GameHandler.js';
+import deleteAllRooms from './functions/deleteAllRooms.js';
 
-
-// import firebase from '../functions/firebase.js';
-
-let firestore;
+globalThis.deleteAllRooms = deleteAllRooms;
 
 const DEBUG_MODE = false;
 
@@ -149,8 +143,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     if (!LOCAL_MODE) {
         firebase.auth().onAuthStateChanged(authHandler);
-
-        firestore = firebase.firestore();
     } else {
         goToPage('pg-home');
     }

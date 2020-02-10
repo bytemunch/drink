@@ -92,6 +92,14 @@ export default class RingOfFire extends Game {
             }
         }
 
+        for (let prop in oldData) {
+            if (prop == 'deck') { // fix for killing deck object TODO deck.update(newCards) or deck.remove(card)
+                if (newData['deck'].cards !== oldData['deck'].cards) this['deck'].cards = newData['deck'].cards;
+            } else {
+                if (newData[prop] !== oldData[prop]) this[prop] = newData[prop]
+            }
+        }
+
         super.onListenerUpdate(newData, oldData);
 
         if (gameHandler.gameObject.state === 'playing') {

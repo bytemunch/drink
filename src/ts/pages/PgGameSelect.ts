@@ -24,6 +24,7 @@ export default class PgGameSelect extends Page {
 
         rofButton.addEventListener('click', e => {
             gameHandler.type = 'ring-of-fire';
+            if (gameHandler.online) gameHandler.gameObject.initOnline(true)
             goToPage('pg-setup-game');
         });
 
@@ -36,6 +37,7 @@ export default class PgGameSelect extends Page {
 
         redOrBlackButton.addEventListener('click', e => {
             gameHandler.type = 'red-or-black';
+            if (gameHandler.online) gameHandler.gameObject.initOnline(true)
             goToPage('pg-setup-game');
         });
 

@@ -9,12 +9,20 @@ import RedOrBlack from "../class/RedOrBlack.js";
 import Page from "./Page.js";
 
 import {gameHandler} from '../index.js';
+import Card from "../class/Card.js";
 
 export default class PgPlayRedOrBlack extends Page {
 
+    cardW:number;
+    
     constructor() {
         super();
         this.header = 'account';
+
+        gameHandler.gameObject.view = this;
+        gameHandler.gameObject.state = 'playing';
+
+        console.log(gameHandler);
     }
 
     applyStyle() {
@@ -25,7 +33,7 @@ export default class PgPlayRedOrBlack extends Page {
         super.connectedCallback();
         // add elements to page
 
-        let cardW = 70;
+        this.cardW = 70;
 
         let castGame = <RedOrBlack>gameHandler.gameObject;
 
@@ -34,7 +42,7 @@ export default class PgPlayRedOrBlack extends Page {
         deckImg.style.display = 'block';
         deckImg.style.position = 'absolute';
         deckImg.src = './img/cards/back.svg';
-        deckImg.style.width = ((cardW / 320) * 100) + '%';
+        deckImg.style.width = ((this.cardW / 320) * 100) + '%';
         deckImg.style.height = 'unset';
         deckImg.style.left = ((20 / 320) * 100) + '%';
         this.appendChild(deckImg);
@@ -49,7 +57,7 @@ export default class PgPlayRedOrBlack extends Page {
         discardImg.style.display = 'block';
         discardImg.style.position = 'absolute';
         discardImg.src = './img/cards/back.svg';
-        discardImg.style.width = ((cardW / 320) * 100) + '%';
+        discardImg.style.width = ((this.cardW / 320) * 100) + '%';
         discardImg.style.height = 'unset';
         discardImg.style.right = ((20 / 320) * 100) + '%';
         discardImg.style.opacity = '0.4';
@@ -132,31 +140,7 @@ export default class PgPlayRedOrBlack extends Page {
                 let cards = await castGame.takeTurn();
                 // Animate card draw
 
-                let idx = 0;
-                for (let card of cards) {
-                    let drawnCard = new CeCard;
-                    drawnCard.style.display = 'block';
-                    drawnCard.style.position = 'absolute';
-                    drawnCard.style.width = ((cardW / 320) * 100) + '%';
-                    drawnCard.style.height = 'unset';
-                    drawnCard.style.left = ((20 / 320) * 100) + '%';
-                    this.appendChild(drawnCard);
-
-                    (<CeCard>drawnCard).backImg.style.visibility = 'hidden';
-
-
-                    let bb = drawnCard.firstElementChild.getBoundingClientRect();
-
-                    let offset = -1 * ((bb.width / 4) * ((cards.length / 2) - idx) - bb.width / 8);
-
-                    let tX = (window.innerWidth / 2) - (bb.width / 2) + offset;
-                    let tY = (window.innerHeight / 2) - (bb.height / 2);
-
-                    await animMan.animate(drawnCard, 'translateTo', 250, 'easeOutQuad', { x: tX, y: tY })
-                    await drawnCard.drawCard(card);
-
-                    idx++;
-                }
+                await this.drawCards(cards);
 
                 let win = castGame.checkWin(bet, cards);
 
@@ -169,19 +153,16 @@ export default class PgPlayRedOrBlack extends Page {
                     movedAllCards.push(animMan.animate(card, 'translateTo', 500, 'easeInOutQuint', { x: discardBB.x, y: discardBB.y }))
                 }
 
-                Promise.all(movedAllCards).then(() => { potCount.update(); upNext.update(); })
+                await Promise.all(movedAllCards).then(() => { potCount.update(); upNext.update(); })
 
 
                 if (!win) {
+                    let drinkPopUp = document.createElement('ce-popup') as CePopUp;
+                    drinkPopUp.titleTxt = 'Drink!';
+                    drinkPopUp.messageTxt = `${castGame.players[castGame.previousPlayer].name}, drink ${castGame.cardPot.length}!`
+                    drinkPopUp.style.zIndex = '100';
+                    document.body.appendChild(drinkPopUp);
 
-                    // let drinkPopUp = new CePopUp('FUNNY TITLE HERE',
-                    //     `${GAME.players[GAME.previousPlayer].name}, drink ${castGame.cardPot.length}!`,
-                    //     0,
-                    //     'info');
-
-                    // drinkPopUp.style.zIndex = '100';
-
-                    // document.body.appendChild(drinkPopUp);
                     // show all cards to drink for
 
                     // remove spent cards
@@ -202,15 +183,12 @@ export default class PgPlayRedOrBlack extends Page {
 
                     let gameOverText = `No cards left! ${maybeText()}`;
 
-                    // let gameOverPopUp = new CePopUp('Game Over!',
-                    //     gameOverText,
-                    //     0,
-                    //     'info',
-                    //     goToPage,
-                    //     'ce-home-page'
-                    // )
-
-                    // document.body.appendChild(gameOverPopUp);
+                    let gameOverPopUp = document.createElement('ce-popup') as CePopUp;
+                    gameOverPopUp.titleTxt = 'Game Over!';
+                    gameOverPopUp.messageTxt = gameOverText;
+                    gameOverPopUp.callback = goToPage;
+                    gameOverPopUp.callbackArgs = 'ce-home-page';
+                    document.body.appendChild(gameOverPopUp);
                 }
 
                 // reenable buttons
@@ -222,9 +200,26 @@ export default class PgPlayRedOrBlack extends Page {
             })
             controlGrid.appendChild(c);
         }
+    }
 
-        // Card display
-        // let cardDisplay = new CeCard;
-        // this.appendChild(cardDisplay);
+    async drawCards(cards: Card[]) {
+        let idx = 0;
+        for (let card of cards) {
+            let drawnCard = new CeCard;
+            drawnCard.style.display = 'block';
+            drawnCard.style.position = 'absolute';
+            drawnCard.style.width = ((this.cardW / 320) * 100) + '%';
+            drawnCard.style.height = 'unset';
+            drawnCard.style.left = ((20 / 320) * 100) + '%';
+            this.appendChild(drawnCard);
+            (<CeCard>drawnCard).backImg.style.visibility = 'hidden';
+            let bb = drawnCard.firstElementChild.getBoundingClientRect();
+            let offset = -1 * ((bb.width / 4) * ((cards.length / 2) - idx) - bb.width / 8);
+            let tX = (window.innerWidth / 2) - (bb.width / 2) + offset;
+            let tY = (window.innerHeight / 2) - (bb.height / 2);
+            await animMan.animate(drawnCard, 'translateTo', 250, 'easeOutQuad', { x: tX, y: tY });
+            await drawnCard.drawCard(card);
+            idx++;
+        }
     }
 }
