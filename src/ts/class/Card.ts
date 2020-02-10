@@ -2,8 +2,8 @@ export default class Card {
     suit: string;
     number: string;
     constructor(suit, number) {
-        this.suit = suit;
         this.number = number;
+        this.suit = suit;
     }
     get color() {
         // oooh big boy nested ternary

@@ -8,13 +8,17 @@ import goToPage from "../functions/goToPage.js";
 import RedOrBlack from "../class/RedOrBlack.js";
 import Page from "./Page.js";
 
-import {gameHandler} from '../index.js';
+import { gameHandler } from '../index.js';
 import Card from "../class/Card.js";
 
 export default class PgPlayRedOrBlack extends Page {
 
-    cardW:number;
-    
+    cardW: number;
+
+    potCount: CePotCounter;
+
+    upNext: CeNextPlayerCenter;
+
     constructor() {
         super();
         this.header = 'account';
@@ -48,8 +52,8 @@ export default class PgPlayRedOrBlack extends Page {
         this.appendChild(deckImg);
 
         // up next
-        let upNext = new CeNextPlayerCenter;
-        this.appendChild(upNext);
+        this.upNext = new CeNextPlayerCenter;
+        this.appendChild(this.upNext);
 
         // deck image
         let discardImg = document.createElement('img');
@@ -65,15 +69,15 @@ export default class PgPlayRedOrBlack extends Page {
 
         let dBB = discardImg.getBoundingClientRect();
 
-        let potCount = new CePotCounter;
+        this.potCount = new CePotCounter;
 
         const size = dBB.width * 0.9;
 
-        potCount.style.left = (dBB.left + (dBB.width - size) / 2) + 'px';
-        potCount.style.width = size + 'px';
-        potCount.style.height = size + 'px';
-        potCount.style.marginTop = '6%';
-        this.appendChild(potCount);
+        this.potCount.style.left = (dBB.left + (dBB.width - size) / 2) + 'px';
+        this.potCount.style.width = size + 'px';
+        this.potCount.style.height = size + 'px';
+        this.potCount.style.marginTop = '6%';
+        this.appendChild(this.potCount);
 
         let controlGrid = document.createElement('div');
         controlGrid.style.display = 'grid';
@@ -128,47 +132,35 @@ export default class PgPlayRedOrBlack extends Page {
 
             c.addEventListener('click', async e => {
                 // disable all buttons
+                c.classList.add('keep-color');
+
                 for (let b of document.querySelectorAll('.bet-button')) {
-                    let button = <HTMLButtonElement>b;
-                    let savedColor;
-                    if (button == e.target) savedColor = getComputedStyle(button).backgroundColor;
-                    button.disabled = true;
-                    if (button == e.target) button.style.backgroundColor = savedColor;
+                    (<HTMLButtonElement>b).disabled = true;
                 }
 
-                castGame.placeBet(bet);
-                let cards = await castGame.takeTurn();
+                let cards = await castGame.takeTurn(bet);
                 // Animate card draw
 
-                await this.drawCards(cards);
+                if (!gameHandler.online) {
+                    await this.drawCards(cards);
 
-                let win = castGame.checkWin(bet, cards);
+                    let win = castGame.checkWin(bet, cards);
 
-                // On loss, popup loser name + amount of drinks
-                // Put previous cards away
-                let discardBB = document.querySelector('.discard').getBoundingClientRect();
-
-                let movedAllCards = [];
-                for (let card of document.querySelectorAll('ce-card')) {
-                    movedAllCards.push(animMan.animate(card, 'translateTo', 500, 'easeInOutQuint', { x: discardBB.x, y: discardBB.y }))
-                }
-
-                await Promise.all(movedAllCards).then(() => { potCount.update(); upNext.update(); })
+                    // On loss, popup loser name + amount of drinks
+                    // Put previous cards away
+                    await this.discard();
 
 
-                if (!win) {
-                    let drinkPopUp = document.createElement('ce-popup') as CePopUp;
-                    drinkPopUp.titleTxt = 'Drink!';
-                    drinkPopUp.messageTxt = `${castGame.players[castGame.previousPlayer].name}, drink ${castGame.cardPot.length}!`
-                    drinkPopUp.style.zIndex = '100';
-                    document.body.appendChild(drinkPopUp);
+                    if (!win) {
+                        this.drinkPopUp(castGame);
 
-                    // show all cards to drink for
+                        // show all cards to drink for
 
-                    // remove spent cards
+                        // remove spent cards
 
-                    castGame.clearPot();
-                    potCount.update();
+                        castGame.clearPot();
+                        this.potCount.update();
+                    }
                 }
 
                 // if no cards left
@@ -191,15 +183,39 @@ export default class PgPlayRedOrBlack extends Page {
                     document.body.appendChild(gameOverPopUp);
                 }
 
-                // reenable buttons
-                for (let b of document.querySelectorAll('.bet-button')) {
-                    let button = <HTMLButtonElement>b;
-                    button.disabled = false;
-                    if (button == e.target) button.style.backgroundColor = '';
+                if (!gameHandler.online) {
+                    // reenable buttons
+                    this.enableButtons();
                 }
+
             })
             controlGrid.appendChild(c);
         }
+    }
+
+    enableButtons() {
+        for (let b of document.querySelectorAll('.bet-button')) {
+            let button = <HTMLButtonElement>b;
+            button.disabled = false;
+            button.classList.remove('keep-color');
+        }
+    }
+
+    drinkPopUp(castGame: RedOrBlack) {
+        let drinkPopUp = document.createElement('ce-popup') as CePopUp;
+        drinkPopUp.titleTxt = 'Drink!';
+        drinkPopUp.messageTxt = `${castGame.players[castGame.previousPlayer].name}, drink ${castGame.cardPot.length}!`;
+        drinkPopUp.style.zIndex = '100';
+        document.body.appendChild(drinkPopUp);
+    }
+
+    async discard() {
+        let discardBB = document.querySelector('.discard').getBoundingClientRect();
+        let movedAllCards = [];
+        for (let card of document.querySelectorAll('ce-card')) {
+            movedAllCards.push(animMan.animate(card, 'translateTo', 500, 'easeInOutQuint', { x: discardBB.x, y: discardBB.y }));
+        }
+        return Promise.all(movedAllCards).then(() => { this.potCount.update(); this.upNext.update(); });
     }
 
     async drawCards(cards: Card[]) {

@@ -4,6 +4,7 @@ import goToPage from "../functions/goToPage.js";
 import easyPOST from "../functions/easyPOST.js";
 import { userdata } from "../index.js";
 import getProps from "../functions/getProps.js";
+import strip from "../functions/strip.js";
 
 export default class Game {
     players: Object;
@@ -27,6 +28,8 @@ export default class Game {
     view:HTMLElement;
 
     ref;
+
+    batchedUpdate:any = {};
 
     constructor(online = false, roomId?, roomPin?) {
         this.online = online;
@@ -91,13 +94,17 @@ export default class Game {
         goToPage('pg-home');
     }
 
-    async updateFirebase(data) {
-        return this.ref.update(JSON.parse(JSON.stringify(data)));
+    batchFirebase(data) {
+        Object.assign(this.batchedUpdate, strip(data));
+    }
+
+    updateFirebase() {
+        return this.ref.update(strip(this.batchedUpdate));
     }
 
     async takeTurn() {
         this.turn++;
-        if (this.online) return this.ref.set({ turn: this.turn }, { merge: true });
+        this.batchFirebase({turn: this.turn});
     }
 
     get numPlayers() {
