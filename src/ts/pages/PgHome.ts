@@ -1,6 +1,7 @@
 import Page from "./Page.js";
 import goToPage from "../functions/goToPage.js";
 import { LOCAL_MODE } from "../index.js";
+import addExpandingCircles from "../functions/buttonAnimator.js";
 
 export default class PgHome extends Page {
     constructor() {
@@ -17,9 +18,10 @@ export default class PgHome extends Page {
         let offlineGameButton = document.createElement('button');
         offlineGameButton.textContent = 'Play';
 
-        offlineGameButton.addEventListener('click', e => {
+        offlineGameButton.addEventListener('click', function (e) {
             console.log('Offline game button pressed!');
-            goToPage('pg-game-select');
+            addExpandingCircles(e)
+            .then(()=>goToPage('pg-game-select'));
         });
 
         offlineGameButton.classList.add('big');
