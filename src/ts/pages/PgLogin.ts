@@ -4,6 +4,7 @@ import goToPage from "../functions/goToPage.js";
 import errorPopUp from "../functions/errorPopUp.js";
 import Page from "./Page.js";
 import { AnimButton } from '../types.js';
+import disablePage from '../functions/disablePage.js';
 
 export default class PgLogin extends Page {
     constructor() {
@@ -27,7 +28,7 @@ export default class PgLogin extends Page {
         emailInput.classList.add('big');
         emailInput.type = 'email';
         let emailLabel = document.createElement('p');
-        emailLabel.classList.add('big','label');
+        emailLabel.classList.add('big', 'label');
         emailLabel.textContent = 'Email:';
 
         this.appendChild(emailLabel);
@@ -40,7 +41,7 @@ export default class PgLogin extends Page {
         passwordInput.classList.add('big');
         passwordInput.type = 'password';
         let passwordLabel = document.createElement('p');
-        passwordLabel.classList.add('big','label');
+        passwordLabel.classList.add('big', 'label');
         passwordLabel.textContent = 'Password:';
 
         this.appendChild(passwordLabel);
@@ -69,6 +70,7 @@ export default class PgLogin extends Page {
         signupButton.textContent = 'Sign Up';
 
         signupButton.addEventListener('click', async function (e) {
+            disablePage();
             await (<AnimButton>this).baAnimate(e)
             // confirm password?
             firebase.auth().createUserWithEmailAndPassword(emailInput.value, passwordInput.value)
@@ -78,7 +80,7 @@ export default class PgLogin extends Page {
                 })
         })
 
-        signupButton.classList.add('big','green');
+        signupButton.classList.add('big', 'green');
 
         // Facebook
 
@@ -90,6 +92,7 @@ export default class PgLogin extends Page {
         facebookButton.style.backgroundColor = palette.facebook;
 
         facebookButton.addEventListener('click', async function (e) {
+            disablePage();
             await (<AnimButton>this).baAnimate(e)
             // facebook login
             let fbProvider = new firebase.auth.FacebookAuthProvider;
@@ -106,12 +109,13 @@ export default class PgLogin extends Page {
         backButton.textContent = 'Back';
 
         backButton.addEventListener('click', async function (e) {
+            disablePage();
             await (<AnimButton>this).baAnimate(e)
             console.log('Back button pressed!');
             goToPage('pg-home');
         });
 
-        backButton.classList.add('big','red');
+        backButton.classList.add('big', 'red');
 
         this.appendChild(backButton);
     }
