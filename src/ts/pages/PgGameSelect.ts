@@ -4,6 +4,7 @@ import RingOfFire from "../class/RingOfFire.js";
 import RedOrBlack from "../class/RedOrBlack.js";
 
 import { gameHandler } from '../index.js';
+import { AnimButton } from "../types.js";
 
 export default class PgGameSelect extends Page {
     constructor() {
@@ -22,7 +23,8 @@ export default class PgGameSelect extends Page {
         let rofButton = document.createElement('button');
         rofButton.textContent = 'Ring of Fire';
 
-        rofButton.addEventListener('click', e => {
+        rofButton.addEventListener('click', async function (e) {
+            await (<AnimButton>this).baAnimate(e)
             gameHandler.type = 'ring-of-fire';
             if (gameHandler.online) gameHandler.gameObject.initOnline(true)
             goToPage('pg-setup-game');
@@ -35,7 +37,8 @@ export default class PgGameSelect extends Page {
         let redOrBlackButton = document.createElement('button');
         redOrBlackButton.textContent = 'Red or Black';
 
-        redOrBlackButton.addEventListener('click', e => {
+        redOrBlackButton.addEventListener('click', async function (e) {
+            await (<AnimButton>this).baAnimate(e)
             gameHandler.type = 'red-or-black';
             if (gameHandler.online) gameHandler.gameObject.initOnline(true)
             goToPage('pg-setup-game');
@@ -49,7 +52,8 @@ export default class PgGameSelect extends Page {
         let backButton = document.createElement('button');
         backButton.textContent = 'Back';
 
-        backButton.addEventListener('click', e => {
+        backButton.addEventListener('click',async function (e) {
+            await (<AnimButton>this).baAnimate(e)
             console.log('Back button pressed!');
             goToPage('pg-home');
         });

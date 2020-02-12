@@ -1,7 +1,10 @@
+const duration = 320;
+
 function addCircleStyles() {
-    let style = document.createElement('style');
-    style.id='ex-circle-styles';
-    style.innerHTML = `
+    if (!document.querySelector('#ex-circle-styles')) {
+        let style = document.createElement('style');
+        style.id = 'ex-circle-styles';
+        style.innerHTML = `
     .ex-circle {
         pointer-events: none;
         position: absolute;
@@ -13,16 +16,12 @@ function addCircleStyles() {
         transform: translate(-50%,-50%);
     }
     
-    :root {
-        --al: 320ms;
-    }
-    
     .ex-c-1 {
-        animation: expand-circle var(--al) ease-out forwards, fade-out calc(var(--al)*0.6) linear var(--al) forwards;
+        animation: expand-circle ${duration}ms ease-out forwards, fade-out calc(${duration}ms*0.6) linear ${duration}ms forwards;
     }
     
     .ex-c-2 {
-        animation: expand-circle var(--al) ease-out 100ms forwards, fade-out calc(var(--al)*0.6) linear var(--al) forwards;
+        animation: expand-circle ${duration}ms ease-out ${duration/6}ms forwards, fade-out calc(${duration}ms*0.6) linear ${duration}ms forwards;
     }
     
     @keyframes expand-circle {
@@ -31,8 +30,8 @@ function addCircleStyles() {
             padding-top: 0;
         }
         to {
-            width: 200%;
-            padding-top: 200%;
+            width: 300%;
+            padding-top: 300%;
         }
     }
     
@@ -44,10 +43,12 @@ function addCircleStyles() {
             opacity: 0;
         }
     }`;
-    document.head.appendChild(style);
+        document.head.appendChild(style);
+    }
+
 }
 
-export default function addExpandingCircles(e:MouseEvent) {
+export default function addExpandingCircles(e: MouseEvent) {
 
     if (!document.querySelector('#ex-circle-style')) {
         addCircleStyles();
@@ -58,18 +59,28 @@ export default function addExpandingCircles(e:MouseEvent) {
     let mY = e.clientY - offset.top;
 
     let exC_1 = document.createElement('div');
-    exC_1.classList.add('ex-circle','ex-c-1');
-    exC_1.style.left = mX.toString()+'px';
-    exC_1.style.top = mY.toString()+'px';
+    exC_1.classList.add('ex-circle', 'ex-c-1');
+    exC_1.style.left = mX.toString() + 'px';
+    exC_1.style.top = mY.toString() + 'px';
 
     let exC_2 = document.createElement('div');
-    exC_2.classList.add('ex-circle','ex-c-2');
-    exC_2.style.left = mX.toString()+'px';
-    exC_2.style.top = mY.toString()+'px';
+    exC_2.classList.add('ex-circle', 'ex-c-2');
+    exC_2.style.left = mX.toString() + 'px';
+    exC_2.style.top = mY.toString() + 'px';
 
 
     (<HTMLElement>e.target).appendChild(exC_1);
     (<HTMLElement>e.target).appendChild(exC_2);
 
-    return new Promise(res=>setTimeout(()=>res(),330));
+    return new Promise(res => setTimeout(() => {
+        exC_1.parentElement.removeChild(exC_1);
+        exC_2.parentElement.removeChild(exC_2);
+        res()
+    }, duration*1.2));
+}
+
+export function addAnimate(elem) {
+    elem.baAnimate = async function (e) {
+        return await addExpandingCircles(e);
+    }
 }

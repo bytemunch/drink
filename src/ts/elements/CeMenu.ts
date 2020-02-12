@@ -1,6 +1,8 @@
 import CustomElement from "./CustomElement.js";
 
 import {palette} from '../index.js';
+import { addAnimate } from "../functions/buttonAnimator.js";
+import { AnimButton } from "../types.js";
 
 // Abstract base menu class
 export default class CeMenu extends CustomElement {
@@ -56,15 +58,21 @@ export default class CeMenu extends CustomElement {
         this.h2title.textContent = 'Menu Title';
         this.titlebar.appendChild(this.h2title);
 
-        this.closeButton = document.createElement('img');
-        this.closeButton.src = '/img/close-icon.svg';
-        this.closeButton.style.position = 'relative';
-        this.closeButton.style.float = 'right';
-        this.closeButton.style.width = '32px';
-        this.closeButton.style.height = '32px';
-        this.closeButton.addEventListener('click', this.hide.bind(this));
-        this.closeButton.style.backgroundColor = palette.red;
-        this.titlebar.appendChild(this.closeButton);
+        let closeDiv = document.createElement('button') as AnimButton;
+        closeDiv.classList.add('button-animate');
+        closeDiv.style.position = 'relative';
+        closeDiv.style.backgroundColor = palette.red;
+        closeDiv.style.backgroundImage = 'url(./img/close-icon.svg)';
+        closeDiv.style.backgroundSize= 'contain';
+        closeDiv.style.float = 'right';
+        closeDiv.style.width = '32px';
+        closeDiv.style.height = '32px';
+        closeDiv.addEventListener('click', async (e) => {
+            await closeDiv.baAnimate(e);
+            this.hide();
+        } );
+
+        this.titlebar.appendChild(closeDiv);
 
         this.applyStyle();
     }

@@ -3,6 +3,7 @@ import goToPage from "../functions/goToPage.js";
 import Page from "./Page.js";
 
 import {gameHandler} from '../index.js';
+import { AnimButton } from "../types.js";
 
 export default class PgSetupGame extends Page {
     constructor() {
@@ -28,7 +29,8 @@ export default class PgSetupGame extends Page {
         let startButton = document.createElement('button');
         startButton.textContent = 'Start';
 
-        startButton.addEventListener('click', e => {
+        startButton.addEventListener('click', async function (e) {
+            await (<AnimButton>this).baAnimate(e)
             gameHandler.gameObject.state = 'playing';
             goToPage(`pg-play-${gameHandler.gameObject.type}`);
         });
@@ -40,7 +42,8 @@ export default class PgSetupGame extends Page {
         let backButton = document.createElement('button');
         backButton.textContent = 'Back';
 
-        backButton.addEventListener('click', e => {
+        backButton.addEventListener('click',async function (e) {
+            await (<AnimButton>this).baAnimate(e)
             console.log('Back button pressed!');
             goToPage('pg-home');
         });

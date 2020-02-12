@@ -6,6 +6,7 @@ export default class CeShowButton extends CustomElement {
     closeImg;
     target;
     icon;
+    baAnimate;
 
     constructor(target) {
         super();
@@ -15,7 +16,7 @@ export default class CeShowButton extends CustomElement {
     }
 
     applyStyle() {
-        this.classList.add('show-button');
+        this.classList.add('show-button', 'button-animate');
         // this.style.backgroundColor = palette.blue;
         // this.style.width = '32px';
         // this.style.height = '32px';
@@ -46,13 +47,14 @@ export default class CeShowButton extends CustomElement {
         this.icon.classList.add('icon');
         this.appendChild(this.icon);
 
-        this.addEventListener('click', this.clicked);
+        this.addEventListener('click', e=>this.clicked(e));
 
         this.applyStyle();
     }
 
-    clicked() {
+    async clicked(e:MouseEvent) {
         // close other modals
+        await this.baAnimate(e);
 
         const otherButtons = document.querySelectorAll('.modalToggle') as any;
 

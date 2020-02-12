@@ -1,6 +1,7 @@
 import CustomElement from './CustomElement.js';
 
 import { palette} from '../index.js';
+import { addAnimate } from '../functions/buttonAnimator.js';
 
 export default class CePopUp extends CustomElement {
     titleP;
@@ -43,9 +44,11 @@ export default class CePopUp extends CustomElement {
         this.messageP.textContent = this.messageTxt;
 
         this.ok = document.createElement('button');
+        addAnimate(this.ok);
         this.ok.classList.add('small');
         
-        this.ok.addEventListener('click', e=>{
+        this.ok.addEventListener('click', async (e) => {
+            await this.ok.baAnimate(e);
             this.kill();
         })
 

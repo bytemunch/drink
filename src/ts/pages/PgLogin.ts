@@ -3,6 +3,7 @@ import { palette } from "../index.js";
 import goToPage from "../functions/goToPage.js";
 import errorPopUp from "../functions/errorPopUp.js";
 import Page from "./Page.js";
+import { AnimButton } from '../types.js';
 
 export default class PgLogin extends Page {
     constructor() {
@@ -48,8 +49,9 @@ export default class PgLogin extends Page {
         let loginButton = document.createElement('button');
         loginButton.textContent = 'Login';
 
-        loginButton.addEventListener('click', e => {
+        loginButton.addEventListener('click', async function (e) {
             console.log('Login button pressed!');
+            await (<AnimButton>loginButton).baAnimate(e)
             firebase.auth().signInWithEmailAndPassword(emailInput.value, passwordInput.value)
                 .catch(err => {
                     console.error(err)
@@ -66,9 +68,9 @@ export default class PgLogin extends Page {
         let signupButton = document.createElement('button');
         signupButton.textContent = 'Sign Up';
 
-        signupButton.addEventListener('click', e => {
+        signupButton.addEventListener('click', async function (e) {
+            await (<AnimButton>this).baAnimate(e)
             // confirm password?
-
             firebase.auth().createUserWithEmailAndPassword(emailInput.value, passwordInput.value)
                 .catch(err => {
                     console.error(err)
@@ -87,7 +89,8 @@ export default class PgLogin extends Page {
 
         facebookButton.style.backgroundColor = palette.facebook;
 
-        facebookButton.addEventListener('click', e=>{
+        facebookButton.addEventListener('click', async function (e) {
+            await (<AnimButton>this).baAnimate(e)
             // facebook login
             let fbProvider = new firebase.auth.FacebookAuthProvider;
             firebase.auth().signInWithRedirect(fbProvider);
@@ -102,7 +105,8 @@ export default class PgLogin extends Page {
         let backButton = document.createElement('button');
         backButton.textContent = 'Back';
 
-        backButton.addEventListener('click', e => {
+        backButton.addEventListener('click', async function (e) {
+            await (<AnimButton>this).baAnimate(e)
             console.log('Back button pressed!');
             goToPage('pg-home');
         });

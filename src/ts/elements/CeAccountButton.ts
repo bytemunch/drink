@@ -16,6 +16,8 @@ export default class CeAccountButton extends CeShowButton {
         this.classList.add('updateable-element');
 
         this.style.background = 'none';
+        this.style.overflow = 'hidden';
+        this.style.borderRadius = '1000px';
         this.icon.style.display = 'none';
 
         this.style.position = 'absolute';
@@ -32,8 +34,8 @@ export default class CeAccountButton extends CeShowButton {
         this.applyStyle();
     }
 
-    clicked() {
-        super.clicked();
+    async clicked(e) {
+        super.clicked(e);
         this.style.background = 'none';
     }
 

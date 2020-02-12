@@ -49,6 +49,7 @@ body {
 .icon {
     width : 100%;
     height: 100%;
+    pointer-events:none;
 }
 
 button {
@@ -317,6 +318,11 @@ ce-show-button {
     top             : 1vw;
     z-index         : 9;
     left            : unset;
+    overflow: hidden;
+}
+
+.button-animate {
+    overflow: hidden;
 }
 
 ce-show-button.about {

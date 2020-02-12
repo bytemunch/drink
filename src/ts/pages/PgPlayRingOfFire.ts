@@ -7,6 +7,7 @@ import RingOfFire from "../class/RingOfFire.js";
 import Page from "./Page.js";
 
 import {gameHandler} from '../index.js';
+import { AnimButton } from "../types.js";
 
 export default class PgPlayRingOfFire extends Page {
 
@@ -43,8 +44,8 @@ export default class PgPlayRingOfFire extends Page {
         drawButton.classList.add('big', 'bottom');
         drawButton.id = 'draw';
 
-        drawButton.addEventListener('click', async e => {
-
+        drawButton.addEventListener('click', async function (e) {
+            await (<AnimButton>this).baAnimate(e)
             if (gameHandler.gameObject.online) {
                 //debounce
 
