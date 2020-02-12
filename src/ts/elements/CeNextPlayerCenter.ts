@@ -26,7 +26,6 @@ export default class CeNextPlayerCenter extends UpdateableElement {
         this.appendChild(upnext);
 
         this.playerAvi = new CeAvatar;
-        //@ts-ignore float is on CSSStyleDeclaration
         this.playerAvi.style.position = 'absolute';
         this.playerAvi.style.left = '50%';
         this.playerAvi.style.transform = 'translateX(-50%)';
@@ -50,5 +49,3 @@ export default class CeNextPlayerCenter extends UpdateableElement {
         this.playerAvi.uid = gameHandler.gameObject.currentPlayer;
     }
 }
-
-// customElements.define('ce-next-player-center',CeNextPlayerCenter);

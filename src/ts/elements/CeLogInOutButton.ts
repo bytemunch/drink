@@ -12,7 +12,6 @@ export default class CeLogInOutButton extends HTMLButtonElement {
     connectedCallback() {
         this.classList.add('updateable-element');
         this.classList.add('small', 'logout');
-        //@ts-ignore
         this.style.cssFloat = 'left';
 
         this.addEventListener('click',this.clicked);
@@ -33,5 +32,3 @@ export default class CeLogInOutButton extends HTMLButtonElement {
         this.textContent = userSignedIn() ? 'Log Out' : 'Log In';
     }
 }
-
-// customElements.define('ce-log-in-out-button',CeLogInOutButton,{extends:'button'})

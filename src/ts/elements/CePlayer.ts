@@ -59,9 +59,6 @@ export default class CePlayer extends CustomElement {
     }
 
     set player(player) {
-        // const avatarLink = player.avatar?player.avatar:'/img/noimg.png';
-        // this.elements.avatar.setAttribute('src', avatarLink);
-
         this.elements.avatar.uid = player.uid;
 
         this.uid = player.uid;
@@ -73,10 +70,8 @@ export default class CePlayer extends CustomElement {
             // add showhidebutton for player info
         }
 
-        this.style.opacity = '1';//player.status == 'offline' ? '0.5' : '1';
+        this.style.opacity = '1';
 
         this.style.borderColor = player.color;
     }
 }
-
-// customElements.define('ce-player', CePlayer);

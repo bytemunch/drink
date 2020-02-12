@@ -46,5 +46,3 @@ export default class CeGameSelect extends HTMLSelectElement {
     }
 
 }
-
-// customElements.define('ce-game-select', CeGameSelect, { extends: 'select' });

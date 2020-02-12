@@ -58,7 +58,6 @@ export default class CeAvatar extends UpdateableElement {
 
         let aviImg = await aviRef.getDownloadURL()
             .catch(e => {
-                //console.error(e);
                 return '/img/noimg.png';
             })
         return aviImg;
@@ -76,5 +75,3 @@ export default class CeAvatar extends UpdateableElement {
         this.applyStyle();
     }
 }
-
-// customElements.define('ce-avatar', CeAvatar);

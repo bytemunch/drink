@@ -30,5 +30,3 @@ export default class CePotCounter extends UpdateableElement {
         this.textContent = (<RedOrBlack>gameHandler.gameObject).cardPot.length.toString();
     }
 }
-
-// customElements.define('ce-pot-counter', CePotCounter);

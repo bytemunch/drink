@@ -15,5 +15,3 @@ export default class CeCreatePlayerButton extends CeShowButton {
         this.style.left = 'calc(50% - 16px)';
     }
 }
-
-// customElements.define('ce-create-player-button', CeCreatePlayerButton);

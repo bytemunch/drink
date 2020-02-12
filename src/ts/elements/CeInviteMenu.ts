@@ -96,5 +96,3 @@ export default class CeInviteMenu extends CeMenu {
         this.applyStyle();
     }
 }
-
-// customElements.define('ce-invite-menu', CeInviteMenu);

@@ -6,7 +6,6 @@ export default class CeActionSelectDiv extends CustomElement {
     }
 
     connectedCallback() {
-        // this.attachShadow({mode:'open'});
         // Type, trigger, target
         let types = [
             ["Type","nopopup"],
@@ -67,5 +66,3 @@ export default class CeActionSelectDiv extends CustomElement {
         this.style.width = '100%';
     }
 }
-
-// customElements.define('ce-action-select-div', CeActionSelectDiv)

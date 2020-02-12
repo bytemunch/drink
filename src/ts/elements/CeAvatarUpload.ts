@@ -92,13 +92,6 @@ export default class CeAvatarUpload extends HTMLElement {
 
         const storageRef = firebase.storage().ref().child(`avatars/${this.uid}.png`);
         storageRef.put(this.file)
-        //storageRef.putString(this.file,'data_url',{contentType:'image/png'})
-        .then(snap=>{
-            // room.getAvi(this.uid)
-            // .then(()=>updateDOM())
-        })
         .catch(e=>console.error(e));
     }
 }
-
-// customElements.define('ce-avatar-upload', CeAvatarUpload);

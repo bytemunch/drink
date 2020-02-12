@@ -106,5 +106,3 @@ export default class CeModifyPlayerMenu extends CeMenu {
         this.applyStyle();
     }
 }
-
-// customElements.define('ce-modify-player-menu', CeModifyPlayerMenu);

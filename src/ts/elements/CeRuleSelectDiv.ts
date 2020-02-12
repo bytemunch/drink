@@ -9,7 +9,6 @@ export default class CeRuleSelectDiv extends CustomElement {
     }
 
     connectedCallback() {
-        // this.attachShadow({mode:'open'});
         this.appendChild(new CeRuleSelect);
 
         let ruleCreateMenu = new CeRuleCreateMenu;
@@ -29,5 +28,3 @@ export default class CeRuleSelectDiv extends CustomElement {
         this.style.width = '100%';
     }
 }
-
-// customElements.define('ce-rule-select-div', CeRuleSelectDiv)

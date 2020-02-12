@@ -26,7 +26,6 @@ export default class RingOfFire extends Game {
         this.currentCard = new Card('', '');
     }
 
-    //@ts-ignore
     async takeTurn() {
 
         let card;
@@ -121,8 +120,5 @@ export default class RingOfFire extends Game {
         if (gameHandler.gameObject.state === 'setup') {
             (<CePlayerList>document.querySelector('ce-player-list')).update();
         }
-
-
-
     }
 }

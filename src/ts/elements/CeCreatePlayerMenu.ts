@@ -50,7 +50,7 @@ export default class CeCreatePlayerMenu extends CeMenu {
             let i;
 
             if (inputs[input].type == 'file') {
-                i = new CeAvatarUpload(newUid)//document.createElement('ce-avatar-upload');
+                i = new CeAvatarUpload(newUid)
             } else {
                 i = document.createElement('input');
                 i.setAttribute('type', inputs[input].type);
@@ -107,5 +107,3 @@ export default class CeCreatePlayerMenu extends CeMenu {
         this.applyStyle();
     }
 }
-
-// customElements.define('ce-create-player-menu', CeCreatePlayerMenu);

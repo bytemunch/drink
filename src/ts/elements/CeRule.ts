@@ -78,5 +78,3 @@ export default class CeRule extends UpdateableElement {
     }
 
 }
-
-// customElements.define('ce-rule', CeRule);

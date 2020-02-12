@@ -19,5 +19,3 @@ export default class CeInviteButton extends CeCreatePlayerButton {
         this.classList.add('small');
     }
 }
-
-// customElements.define('ce-invite-button', CeInviteButton);

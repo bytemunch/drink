@@ -1,4 +1,5 @@
 import { palette } from "../index.js";
+import CeGameSelect from "./CeGameSelect.js";
 
 export default class CeRuleSelect extends HTMLSelectElement {
 
@@ -16,8 +17,7 @@ export default class CeRuleSelect extends HTMLSelectElement {
     }
 
     connectedCallback() {
-        //@ts-ignore
-        this.targetGame = document.querySelector('#game-select').value;
+        this.targetGame = (<CeGameSelect>document.querySelector('#game-select')).value;
 
         this.applyStyle();
     }

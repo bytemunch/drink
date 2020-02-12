@@ -3,7 +3,7 @@ import Card from "../class/Card.js";
 import { animMan } from "../index.js";
 import RingOfFire from "../class/RingOfFire.js";
 
-import {gameHandler} from '../index.js';
+import { gameHandler } from '../index.js';
 
 export default class CeCard extends UpdateableElement {
     img: HTMLImageElement;
@@ -48,12 +48,10 @@ export default class CeCard extends UpdateableElement {
         this.applyStyle();
     }
 
-    async drawCard(card:Card) {
+    async drawCard(card: Card) {
         this.currentCard = card;
         let suit = card.suit;
         let number = card.number;
-        // IF this.img.src !== this.backImg.src
-        // discard
 
         // Discards if we haven't already due to it being another player's turn
         if (this.img.src !== this.backImg.src) {
@@ -64,7 +62,6 @@ export default class CeCard extends UpdateableElement {
             let x = Number(number) % 2;
             if (x == 0) number = 'black';
             if (x == 1) number = 'red';
-            //if (x == 2) number = 'white';
         }
 
         number = number.toLowerCase();
@@ -86,12 +83,7 @@ export default class CeCard extends UpdateableElement {
 
                 // begin flip animation
 
-                await animMan.animate(this.img,'turnCard',1000,'easeInOutQuint',{newSrc:newCardSrc});
-
-                // await animMan.animate(this.img,'flip90',500)
-                // this.img.setAttribute('src',newCardSrc);
-                // await animMan.animate(this.img,'flipBack90',500)
-                // console.log('done',suit,number);
+                await animMan.animate(this.img, 'turnCard', 1000, 'easeInOutQuint', { newSrc: newCardSrc });
                 URL.revokeObjectURL(newCardSrc);
                 return true;
             })
@@ -100,7 +92,7 @@ export default class CeCard extends UpdateableElement {
     async discard() {
         // Move currently displayed card off screen / move & fade
         // Display card back
-        await animMan.animate(this.img,'flyRight',500,'linear',{startBB: this.getBoundingClientRect()});
+        await animMan.animate(this.img, 'flyRight', 500, 'linear', { startBB: this.getBoundingClientRect() });
         // reset card
         this.img.style.opacity = '1';
         this.img.style.transform = 'unset';

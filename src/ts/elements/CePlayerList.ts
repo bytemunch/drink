@@ -137,5 +137,3 @@ export default class CePlayerList extends UpdateableElement {
         this.appendChild(addLocalPlayer);
     }
 }
-
-// customElements.define('ce-player-list', CePlayerList);

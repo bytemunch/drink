@@ -22,7 +22,6 @@ export default class CeNextPlayer extends UpdateableElement {
         this.appendChild(upnext);
 
         this.playerAvi = new CeAvatar;
-        //@ts-ignore float is on CSSStyleDeclaration
         this.playerAvi.style.float = 'left';
         this.appendChild(this.playerAvi);
 

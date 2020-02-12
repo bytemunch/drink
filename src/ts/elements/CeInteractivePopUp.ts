@@ -51,5 +51,3 @@ export default class CeInteractivePopUp extends CustomElement {
         this.parentElement.removeChild(this);
     }
 }
-
-// customElements.define('ce-interactive-popup', CeInteractivePopUp);

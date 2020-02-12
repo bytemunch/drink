@@ -4,6 +4,5 @@ export default class CustomElement extends HTMLElement {
     }
 
     connectedCallback() {
-        // this.attachShadow({mode:'open'});
     }
 }

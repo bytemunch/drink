@@ -67,7 +67,7 @@ export default class PgPlayRingOfFire extends Page {
                 (<CeRule>document.querySelector('ce-rule')).applyStyle();
 
                 if (gameHandler.gameObject.state !== 'finished') {
-                    // updateDOM();
+
                 } else {
                     // game over
                     drawButton.textContent = 'End Game';

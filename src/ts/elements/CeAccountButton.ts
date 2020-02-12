@@ -43,5 +43,3 @@ export default class CeAccountButton extends CeShowButton {
         this.avi.uid = userdata.uid;
     }
 }
-
-// customElements.define('ce-account-button', CeAccountButton);

@@ -122,11 +122,6 @@ async function popUpTest(title, message, options) {
 document.addEventListener('DOMContentLoaded', async function () {
     // The Firebase SDK is initialized and available here!
 
-    // document.body.appendChild(new CePopUp('Please Note:',
-    //     'This game is still in heavy development! \n Please use the most updated Chrome to view and use it for now.\n Accounts may be lost, the app may crash, things may not display properly.\n Please send any feedback or bug reports to sam.drink.app@gmail.com',
-    //     0,
-    //     'info'));
-
     let popUp = document.createElement('ce-popup') as CePopUp;
     popUp.titleTxt = `Please Note:`;
     popUp.messageTxt = `This game is still in heavy development! \n Please use the most updated Chrome to view and use it for now.\n Accounts may be lost, the app may crash, things may not display properly.\n Please send any feedback or bug reports to sam.drink.app@gmail.com'`;
@@ -182,10 +177,6 @@ async function authHandler(user: any) {
 async function preload() {
     // let's try just using the cache and loading everything invisibly
 
-    // let pl = document.createElement('div');
-    // pl.style.display == 'none';
-    // pl.id = 'asset-preload';
-
     ceLoader();
     pgLoader();
 
@@ -200,19 +191,14 @@ async function preload() {
             let x = Number(card.number) % 2;
             if (x == 0) card.number = 'black';
             if (x == 1) card.number = 'red';
-            //if (x == 2) number = 'white';
         }
 
         card.number = card.number.toLowerCase();
 
         allPromises.push(fetchImg(`/img/cards/${card.suit}/${card.number}.svg`))
-        // allPromises.push((await fetch()).blob());
     }
 
     allPromises.push(fetchImg(`/img/cards/back.svg`));
-
-    // document.body.appendChild(pl);
-
 
     return Promise.all(allPromises);
 }

@@ -183,5 +183,3 @@ export default class CeLoadScreen extends CustomElement {
     }
 
 }
-
-// customElements.define('ce-load-screen', CeLoadScreen);

@@ -14,20 +14,6 @@ export default class CePopUp extends CustomElement {
     titleTxt;
     messageTxt;
 
-    // constructor(title, message,  timer = 0, type = 'info', callback?, callbackArgs?) {
-    //     super();
-
-    //     this.callback = callback;
-    //     this.callbackArgs = callbackArgs || null;
-
-    //     this.timer = timer;
-
-    //     this.type = type;
-
-    //     this.titleTxt = title;
-    //     this.messageTxt = message;
-    // }
-
     constructor(){super()}
 
     connectedCallback() {
@@ -69,7 +55,6 @@ export default class CePopUp extends CustomElement {
     set type(type) {
         switch (type) {
             case 'error':
-                // red
                 this.innerDiv.style.backgroundColor = palette.red;
                 break;
             case 'warning':

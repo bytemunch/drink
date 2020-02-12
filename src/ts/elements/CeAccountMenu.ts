@@ -122,5 +122,3 @@ export default class CeAccountMenu extends CeMenu {
         this.connectedCallback();
     }
 }
-
-// customElements.define('ce-account-menu', CeAccountMenu);

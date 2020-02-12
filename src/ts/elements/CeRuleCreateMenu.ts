@@ -69,7 +69,6 @@ export default class CeRuleCreateMenu extends CeMenu {
         this.ruleInput.style.height = '50%';
 
         this.menu.appendChild(this.ruleInput)
-        // this.ruleInput.style.backgroundColor = palette.blue;
 
         // Select all on first click
         // Normal textarea on successive clicks
@@ -162,5 +161,3 @@ export default class CeRuleCreateMenu extends CeMenu {
         this.previousCard = card;
     }
 }
-
-// customElements.define('ce-rule-create-menu', CeRuleCreateMenu);
