@@ -183,6 +183,7 @@ export default class PgPlayRedOrBlack extends Page {
                     gameOverPopUp.callback = goToPage;
                     gameOverPopUp.callbackArgs = 'ce-home-page';
                     document.body.appendChild(gameOverPopUp);
+                    gameOverPopUp.show();
                 }
 
                 if (!gameHandler.online) {
@@ -209,6 +210,7 @@ export default class PgPlayRedOrBlack extends Page {
         drinkPopUp.messageTxt = `${castGame.players[castGame.previousPlayer].name}, drink ${castGame.cardPot.length}!`;
         drinkPopUp.style.zIndex = '100';
         document.body.appendChild(drinkPopUp);
+        drinkPopUp.show();
     }
 
     async discard() {

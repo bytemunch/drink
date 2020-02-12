@@ -100,6 +100,8 @@ export default class AnimationManager {
         let easings = {
             // no easing, no acceleration
             linear: function (t) { return t },
+            easeIn: easeIn(1),
+            easeOut: easeOut(1),
             // accelerating from zero velocity
             easeInQuad: easeIn(2),
             // decelerating to zero velocity
@@ -147,7 +149,6 @@ export default class AnimationManager {
             }
 
             requestAnimationFrame(rAFcb.bind(this));
-
         })
     }
 }

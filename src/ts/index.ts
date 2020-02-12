@@ -121,15 +121,14 @@ async function popUpTest(title, message, options) {
 
 document.addEventListener('DOMContentLoaded', async function () {
     // The Firebase SDK is initialized and available here!
+    await loadUntil(preload());
 
     let popUp = document.createElement('ce-popup') as CePopUp;
     popUp.titleTxt = `Please Note:`;
     popUp.messageTxt = `This game is still in heavy development! \n Please use the most updated Chrome to view and use it for now.\n Accounts may be lost, the app may crash, things may not display properly.\n Please send any feedback or bug reports to sam.drink.app@gmail.com'`;
     popUp.timer = 0;
-    popUp.type = 'info';
     document.body.appendChild(popUp);
-
-    await loadUntil(preload());
+    popUp.show();
 
     // Check if we followed an invite link
     let params = (new URL(location.href)).searchParams;

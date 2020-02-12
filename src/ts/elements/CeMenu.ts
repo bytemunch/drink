@@ -1,6 +1,6 @@
 import CustomElement from "./CustomElement.js";
 
-import {palette} from '../index.js';
+import {palette, animMan} from '../index.js';
 import { addAnimate } from "../functions/buttonAnimator.js";
 import { AnimButton } from "../types.js";
 
@@ -103,11 +103,14 @@ export default class CeMenu extends CustomElement {
 
     show() {
         this.openState = true;
+        this.style.opacity = '0';
         this.style.display = 'block';
+        animMan.animate(this, 'fadeIn', 100, 'easeOut');
     }
 
-    hide() {
+    async hide() {
         this.openState = false;
+        await animMan.animate(this, 'fadeOut', 100, 'easeOut')
         this.style.display = 'none';
     }
 

@@ -76,7 +76,7 @@ export default function addExpandingCircles(e: MouseEvent) {
         exC_1.parentElement.removeChild(exC_1);
         exC_2.parentElement.removeChild(exC_2);
         res()
-    }, duration*1.2));
+    }, duration*0.8));
 }
 
 export function addAnimate(elem) {

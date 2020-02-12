@@ -1,20 +1,32 @@
 import killLoader from './killLoader.js';
 import { addAnimate } from './buttonAnimator.js';
+import Page from '../pages/Page.js';
+import { animMan } from '../index.js';
 
-export default function goToPage(page:string) {
+export default async function goToPage(page:string) {
     let app = document.querySelector('#app');
 
-    if (app.querySelector('.page')) app.removeChild(app.querySelector('.page'));
+    let oldPage = app.querySelector('.page') as Page;
+
+    if (oldPage) await animMan.animate(oldPage,'fadeOut',100,'easeIn')
+    .then(()=>{app.removeChild(oldPage)});
 
     let pageElement = document.createElement(page);
+    pageElement.style.opacity = '0';
 
-    if (!app.querySelector('ce-header')) app.appendChild(document.createElement('ce-header'));
+    let header = app.querySelector('ce-header') as HTMLElement;
+    if (!header) {
+        header = document.createElement('ce-header');
+        header.style.opacity = '0';
+        app.appendChild(header);
+        animMan.animate(header,'fadeIn',100,'easeIn');
+    }
 
     app.appendChild(pageElement);
+    animMan.animate(pageElement,'fadeIn',100,'easeIn');
 
     app.querySelectorAll('.button-animate').forEach(elem=>{
         addAnimate(elem)
-        console.log(elem);
     });
     app.querySelectorAll('button').forEach(elem=>addAnimate(elem));
 

@@ -43,13 +43,30 @@ export default class CePopUp extends CustomElement {
         this.innerDiv.appendChild(this.messageP);
         this.innerDiv.appendChild(this.ok);
         this.appendChild(this.innerDiv);
-
     }
 
-    kill() {
+    show() {
+        this.animate([
+            {opacity: 0},
+            {opacity: 1}
+        ], {
+            duration: 100,
+            easing: 'ease-out'
+        })
+    }
+
+    async kill() {
         // animate then
-        if (this.callback) this.callback(this.callbackArgs);
-        this.parentElement.removeChild(this);
+        this.animate([
+            {opacity: 1},
+            {opacity: 0}
+        ], {
+            duration: 100,
+            easing: 'ease-out'
+        }).onfinish = () => {
+            if (this.callback) this.callback(this.callbackArgs);
+            this.parentElement.removeChild(this);
+        }
     }
 
     set type(type) {
