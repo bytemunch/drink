@@ -10,7 +10,6 @@ export default class CeMenu extends CustomElement {
     titlebar;
     logoutBtn;
     openState;
-    closeButton;
     h2title;
 
     constructor() {
@@ -60,6 +59,7 @@ export default class CeMenu extends CustomElement {
 
         let closeDiv = document.createElement('button') as AnimButton;
         closeDiv.classList.add('button-animate');
+        addAnimate(closeDiv);
         closeDiv.style.position = 'relative';
         closeDiv.style.backgroundColor = palette.red;
         closeDiv.style.backgroundImage = 'url(./img/close-icon.svg)';

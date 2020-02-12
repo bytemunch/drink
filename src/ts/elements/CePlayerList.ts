@@ -7,6 +7,7 @@ import CeCreatePlayerButton from './CeCreatePlayerButton.js';
 let firestore = firebase.firestore();
 
 import {userdata, gameHandler} from '../index.js';
+import { addAnimate } from '../functions/buttonAnimator.js';
 
 export default class CePlayerList extends UpdateableElement {
     private players: Array<any> = [];
@@ -134,6 +135,7 @@ export default class CePlayerList extends UpdateableElement {
         });
 
         let addLocalPlayer = new CeCreatePlayerButton(document.querySelector('ce-create-player-menu'));
+        addAnimate(addLocalPlayer);
         this.appendChild(addLocalPlayer);
     }
 }

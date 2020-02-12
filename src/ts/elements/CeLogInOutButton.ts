@@ -5,21 +5,24 @@ import firebase from '../functions/firebase.js';
 
 
 export default class CeLogInOutButton extends HTMLButtonElement {
+    baAnimate;
+    
     constructor() {
         super();
     }
 
     connectedCallback() {
-        this.classList.add('updateable-element');
+        this.classList.add('updateable-element','button-animate');
         this.classList.add('small', 'logout');
         this.style.cssFloat = 'left';
 
-        this.addEventListener('click',this.clicked);
+        this.addEventListener('click',e=>this.clicked(e));
 
         this.update();
     }
 
-    clicked() {
+    async clicked(e) {
+        await this.baAnimate(e);
         if (userSignedIn()) {
             firebase.auth().signOut();
         } else {
