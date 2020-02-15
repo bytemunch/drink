@@ -39,7 +39,7 @@ export default class CeAvatar extends UpdateableElement {
                 this.src = `url(${url})`;
             })
 
-        Promise.all([colorPromise,imgPromise]).then(()=>this.update()).catch(e=>console.error(e));
+        Promise.all([colorPromise, imgPromise]).then(() => this.update()).catch(e => console.error(e));
     }
 
     set ready(bool) {
@@ -56,11 +56,12 @@ export default class CeAvatar extends UpdateableElement {
     async getAvatar() {
         const aviRef = firebase.storage().ref().child(`avatars/${this._uid}.png`);
 
-        let aviImg = await aviRef.getDownloadURL()
-            .catch(e => {
-                return '/img/noimg.png';
-            })
-        return aviImg;
+        try {
+            let aviImg = await aviRef.getDownloadURL()
+            return aviImg;
+        } catch (e) {
+            return '/img/noimg.png';
+        }
     }
 
     async getColor() {

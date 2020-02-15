@@ -39,7 +39,17 @@ self.addEventListener('fetch', evt => {
     if (evt.request.mode !== 'navigate') {
         evt.respondWith(
             fetch(evt.request)
+                .then(res=>{
+                    const status = res.clone().status;
+
+                    if (status=='404' && evt.request.url.includes('ring-of-fire-5d1a4.appspot.com/o/avatars')) {
+                        return fetch('/img/noimg.png')
+                    }
+                    return res;
+                })
                 .catch(() => {
+                    console.log('catch');
+
                     return caches.open(CACHE_NAME)
                         .then(cache => {
                             return cache.match(evt.request.url.match(/[A-Za-z\.0-9]*$/)[0])
