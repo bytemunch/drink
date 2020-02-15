@@ -130,6 +130,7 @@ export default class CePlayerList extends UpdateableElement {
         // Update DOM
         this.players.forEach(p => {
             let pElement = document.createElement('ce-player') as CePlayer;
+            addAnimate(pElement);
             this.appendChild(pElement);
             pElement.player = p;
         });

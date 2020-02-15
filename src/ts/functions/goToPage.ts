@@ -19,11 +19,13 @@ export default async function goToPage(page:string) {
         header = document.createElement('ce-header');
         header.style.opacity = '0';
         app.appendChild(header);
-        animMan.animate(header,'fadeIn',100,'easeIn');
+        animMan.animate(header,'fadeIn',100,'easeIn')
+        .then(()=>header.style.opacity = '1');
     }
 
     app.appendChild(pageElement);
-    animMan.animate(pageElement,'fadeIn',100,'easeIn');
+    animMan.animate(pageElement,'fadeIn',100,'easeIn')
+    .then(()=>pageElement.style.opacity = '1');
 
     app.querySelectorAll('.button-animate').forEach(elem=>{
         addAnimate(elem)
