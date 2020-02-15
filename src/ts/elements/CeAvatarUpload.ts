@@ -1,9 +1,10 @@
 import errorPopUp from "../functions/errorPopUp.js";
-import firebase from '../functions/firebase.js';
+import firebase, { firestore } from '../functions/firebase.js';
 
-import {userdata} from '../index.js';
-import {PROVIDER_VARS} from '../index.js';
+import { userdata } from '../index.js';
+import { PROVIDER_VARS } from '../index.js';
 import shrinkImage from "../functions/shrinkImage.js";
+import dataURItoFile from "../functions/dataURItoFile.js";
 
 export default class CeAvatarUpload extends HTMLElement {
     realInput;
@@ -46,20 +47,20 @@ export default class CeAvatarUpload extends HTMLElement {
         // and don't currently have a profile pic
         if (false) {
             firebase.storage().ref().child(`avatars/${this.uid}.png`).getDownloadURL()
-            .catch(async err=>{
-                if (PROVIDER_VARS.avi) {
-                    fetch(PROVIDER_VARS.avi)
-                    .then(res=>res.blob())
-                    .then(blob=>this.setImage(blob))
-                }
-            })
+                .catch(async err => {
+                    if (PROVIDER_VARS.avi) {
+                        fetch(PROVIDER_VARS.avi)
+                            .then(res => res.blob())
+                            .then(blob => this.setImage(blob))
+                    }
+                })
         }
 
         this.realInput.addEventListener('change', e => {
             const file = this.realInput.files[0]
             file.extension = file.name.split('.').pop();
 
-            if (!['png','jpeg','gif','jpg'].includes(file.extension.toLowerCase())) {
+            if (!['png', 'jpeg', 'gif', 'jpg'].includes(file.extension.toLowerCase())) {
                 errorPopUp('File is not supported! Please choose a PNG, JPEG or GIF image.');
                 return;
             }
@@ -85,13 +86,34 @@ export default class CeAvatarUpload extends HTMLElement {
         this.appendChild(this.preview);
     }
 
-    upload() {
-        if (!this.file) {
-            return; // exit gracefully, image is not required
-        }
+    async upload() {
 
-        const storageRef = firebase.storage().ref().child(`avatars/${this.uid}.png`);
-        storageRef.put(this.file)
-        .catch(e=>console.error(e));
+        return new Promise((res, rej) => {
+            if (!this.file) {
+                rej('no file provided'); // exit gracefully, image is not required
+            }
+
+            const storageRef = firebase.storage().ref().child(`avatars/${this.uid}.png`);
+            const uploader = storageRef.put(this.file);
+
+            uploader.on(firebase.storage.TaskEvent.STATE_CHANGED,
+                (snap) => {
+                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                    var progress = (snap.bytesTransferred / snap.totalBytes) * 100;
+                    // console.log('Upload is ' + progress + '% done');
+                    switch (snap.state) {
+                        case firebase.storage.TaskState.PAUSED: // or 'paused'
+                            // console.log('Upload is paused');
+                            break;
+                        case firebase.storage.TaskState.RUNNING: // or 'running'
+                            // console.log('Upload is running');
+                            break;
+                    }
+                },
+                (error) => { },
+                () => { /*console.log('upload complete');*/ res(); }
+            );
+        })
+
     }
 }

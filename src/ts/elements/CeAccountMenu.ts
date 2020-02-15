@@ -8,6 +8,7 @@ import CeLogInOutButton from "./CeLogInOutButton.js";
 import {PROVIDER_VARS} from '../index.js';
 import {gameHandler} from '../index.js';
 import { AnimButton } from "../types.js";
+import { addAnimate } from "../functions/buttonAnimator.js";
 export default class CeAccountMenu extends CeMenu {
     constructor() {
         super();
@@ -85,7 +86,7 @@ export default class CeAccountMenu extends CeMenu {
 
             for (let input in inputs) {
                 if (inputs[input].type == 'file' && !LOCAL_MODE) {
-                    (<CeAvatarUpload>document.querySelector(`#acc-input-${input}`)).upload();
+                    asyncPromises.push((<CeAvatarUpload>document.querySelector(`#acc-input-${input}`)).upload());
                 } else {
                     userdata[input] = (<HTMLInputElement>document.querySelector(`#acc-input-${input}`)).value;
                 }
@@ -94,6 +95,9 @@ export default class CeAccountMenu extends CeMenu {
             if (userSignedIn()) asyncPromises.push(userdata.sendData());
 
             await (Promise.all(asyncPromises));
+
+            updateDOM();
+
             this.hide();
         })
 
@@ -113,6 +117,9 @@ export default class CeAccountMenu extends CeMenu {
         backButton.classList.add('big', 'red', 'bottom');
 
         this.menu.appendChild(backButton);
+
+        addAnimate(btnUpdate);
+        addAnimate(backButton);
 
         this.applyStyle();
     }

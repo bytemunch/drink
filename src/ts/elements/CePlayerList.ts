@@ -133,6 +133,9 @@ export default class CePlayerList extends UpdateableElement {
             addAnimate(pElement);
             this.appendChild(pElement);
             pElement.player = p;
+
+            // BUGFIX for border not updating
+            if (p.uid === userdata.uid) pElement.style.borderColor = userdata.color;
         });
 
         let addLocalPlayer = new CeCreatePlayerButton(document.querySelector('ce-create-player-menu'));

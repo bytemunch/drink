@@ -81,7 +81,7 @@ export default class CeModifyPlayerMenu extends CeMenu {
 
             if (!LOCAL_MODE) {
                 gameHandler.gameObject.addPlayer(new Player(playerInfo));
-                inputs['avatar'].upload();
+                await inputs['avatar'].upload();
             }
 
             gameHandler.gameObject.players[this.uid] = playerInfo;

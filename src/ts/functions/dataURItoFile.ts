@@ -1,4 +1,4 @@
-function dataURItoFile(data,filename=Date.now().toString()) {
+export default function dataURItoFile(data,filename=Date.now().toString()) {
     const byteString = atob(data.split(',')[1]);
 
     const mimeType = data.split(',')[0].split(':')[1].split(';')[0];

@@ -87,7 +87,7 @@ export default class CeCreatePlayerMenu extends CeMenu {
                 color: inputs['color'].value,
             });
 
-            if (!LOCAL_MODE) inputs['avatar'].upload();
+            if (!LOCAL_MODE) await inputs['avatar'].upload();
             gameHandler.gameObject.addPlayer(playerInfo);
 
             // add player modify menu to page
