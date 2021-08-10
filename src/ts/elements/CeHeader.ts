@@ -2,16 +2,19 @@ import CeAccountMenu from "./CeAccountMenu.js";
 import CeAccountButton from "./CeAccountButton.js";
 import CeShowButton from "./CeShowButton.js";
 import CeAboutMenu from "./CeAboutMenu.js";
+import CustomElement from "./CustomElement.js";
 
-export default class CeHeader extends HTMLElement {
+export default class CeHeader extends CustomElement {
     constructor() {
         super();
     }
 
-    applyStyles() {
+    applyStyle() {
         this.style.position = 'relative';
         this.style.display = 'block';
         this.style.overflow = 'visible';
+
+        super.applyStyle();
     }
 
     connectedCallback() {
@@ -19,7 +22,7 @@ export default class CeHeader extends HTMLElement {
         this.addAccountMenu();
         this.addLogo();
 
-        this.applyStyles();
+        this.applyStyle();
     }
 
     addLogo() {
@@ -27,31 +30,31 @@ export default class CeHeader extends HTMLElement {
         let logo = document.createElement('h1');
         logo.classList.add('logo');
         logo.textContent = 'drink!';
-        this.appendChild(logo);
+        this.shadowRoot.appendChild(logo);
     }
 
     addAccountMenu() {
         let accountMenu = new CeAccountMenu;
-        this.appendChild(accountMenu);
+        this.shadowRoot.appendChild(accountMenu);
         let accountBtn = new CeAccountButton(accountMenu);
         accountBtn.classList.add('account')
-        this.appendChild(accountBtn);
+        this.shadowRoot.appendChild(accountBtn);
     }
 
     addInfo() {
         let infoMenu = new CeAboutMenu;
-        this.appendChild(infoMenu);
+        this.shadowRoot.appendChild(infoMenu);
         let infoBtn = new CeShowButton(infoMenu);
         infoBtn.openImg = './img/info.svg';
         infoBtn.classList.add('info','about');
-        this.appendChild(infoBtn);
+        this.shadowRoot.appendChild(infoBtn);
     }
 
     hideItem(item) {
-        (<CeHeader>this.querySelector('.' + item)).style.display = 'none';
+        (<CeHeader>this.shadowRoot.querySelector('.' + item)).style.display = 'none';
     }
 
     showItem(item) {
-        (<CeHeader>this.querySelector('.' + item)).style.display = 'unset';
+        (<CeHeader>this.shadowRoot.querySelector('.' + item)).style.display = 'unset';
     }
 }

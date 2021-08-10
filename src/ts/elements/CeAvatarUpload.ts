@@ -5,8 +5,9 @@ import { userdata } from '../index.js';
 import { PROVIDER_VARS } from '../index.js';
 import shrinkImage from "../functions/shrinkImage.js";
 import dataURItoFile from "../functions/dataURItoFile.js";
+import CustomElement from "./CustomElement.js";
 
-export default class CeAvatarUpload extends HTMLElement {
+export default class CeAvatarUpload extends CustomElement {
     realInput;
     fakeUploadButton;
     photoButton;
@@ -68,7 +69,7 @@ export default class CeAvatarUpload extends HTMLElement {
             this.setImage(file)
         })
 
-        this.appendChild(this.realInput);
+        this.shadowRoot.appendChild(this.realInput);
 
         this.fakeUploadButton = document.createElement('button');
         this.fakeUploadButton.textContent = 'Upload...';
@@ -78,12 +79,12 @@ export default class CeAvatarUpload extends HTMLElement {
             this.realInput.click();
         })
 
-        this.appendChild(this.fakeUploadButton);
+        this.shadowRoot.appendChild(this.fakeUploadButton);
 
         this.preview = document.createElement('ce-avatar');
         this.preview.uid = this.uid;
         this.preview.classList.add('account-img');
-        this.appendChild(this.preview);
+        this.shadowRoot.appendChild(this.preview);
     }
 
     async upload() {
@@ -111,7 +112,7 @@ export default class CeAvatarUpload extends HTMLElement {
                     }
                 },
                 (error) => { },
-                () => { /*console.log('upload complete');*/ res(); }
+                () => { /*console.log('upload complete');*/ res(0); }
             );
         })
 

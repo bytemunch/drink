@@ -23,9 +23,8 @@ export default class CeRule extends UpdateableElement {
         this.desc.style.opacity = 'inherit';
 
         this.style.position = 'absolute';
-        let cardBB = document.querySelector('.card-display-front').getBoundingClientRect();
-        console.log(cardBB);
-        this.style.top = (cardBB.bottom + 10) + 'px';
+
+        this.style.bottom = '64px';
 
     }
 
@@ -38,8 +37,8 @@ export default class CeRule extends UpdateableElement {
         this.ruleTitle.textContent = '';
         this.desc.textContent = '';
 
-        this.appendChild(this.ruleTitle);
-        this.appendChild(this.desc);
+        this.shadowRoot.appendChild(this.ruleTitle);
+        this.shadowRoot.appendChild(this.desc);
 
         this.applyStyle();
 

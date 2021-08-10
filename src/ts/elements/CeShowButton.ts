@@ -35,7 +35,7 @@ export default class CeShowButton extends CustomElement {
         this.icon = document.createElement('img');
         this.icon.setAttribute('src', this.openImg);
         this.icon.classList.add('icon');
-        this.appendChild(this.icon);
+        this.shadowRoot.appendChild(this.icon);
 
         this.addEventListener('click', e=>this.clicked(e));
 
@@ -44,7 +44,9 @@ export default class CeShowButton extends CustomElement {
 
     async clicked(e:MouseEvent) {
         // close other modals
-        await this.baAnimate(e);
+        
+        // comment out while shadowroot sorted
+        // await this.baAnimate(e);
 
         const otherButtons = document.querySelectorAll('.modalToggle') as any;
 

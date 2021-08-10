@@ -58,10 +58,10 @@ export default class CeLoadScreen extends CustomElement {
         this.applyStyle();
 
         this.elements.title.textContent = 'loading';
-        this.appendChild(this.elements.title);
+        this.shadowRoot.appendChild(this.elements.title);
 
         this.elements.flavor.textContent = 'won\'t be long...';
-        this.appendChild(this.elements.flavor);
+        this.shadowRoot.appendChild(this.elements.flavor);
 
         this.timer = setInterval(this.dots.bind(this), 500);
 
@@ -83,7 +83,7 @@ export default class CeLoadScreen extends CustomElement {
         glass.style.top = '25vh';
         glass.style.position = 'absolute';
 
-        this.appendChild(glass);
+        this.shadowRoot.appendChild(glass);
 
         const glassBB = glass.getBoundingClientRect();
 

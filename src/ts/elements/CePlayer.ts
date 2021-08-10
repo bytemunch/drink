@@ -37,7 +37,7 @@ export default class CePlayer extends CustomElement {
     
             for (let e in this.elements) {
                 this.elements[e].classList.add(e);
-                this.appendChild(this.elements[e]);
+                this.shadowRoot.appendChild(this.elements[e]);
             }
     
             this.addEventListener('click', async e => {

@@ -47,7 +47,7 @@ export default class CeMenu extends CustomElement {
         super.connectedCallback();
 
         this.menu = document.createElement('div');
-        this.appendChild(this.menu);
+        this.shadowRoot.appendChild(this.menu);
 
         this.titlebar = document.createElement('div');
         this.menu.appendChild(this.titlebar);
@@ -78,7 +78,7 @@ export default class CeMenu extends CustomElement {
     }
 
     set title(t:string) {
-        let title = this.querySelector('h2');
+        let title = this.shadowRoot.querySelector('h2');
         title.textContent = t;
     }
 

@@ -14,8 +14,6 @@ export default class CeAboutMenu extends CeMenu {
 
         this.h2title.textContent = 'About';
 
-        
-
         let desc = document.createElement('p');
         desc.textContent = 'Drink! is the drinking game app that you\'ve been missing. It\'ll be fully customizable with ALL THE DRINKING GAMES when it\'s finished! 😎';
         desc.style.padding = '0 20px';

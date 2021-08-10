@@ -1,0 +1,13 @@
+.logo {
+    color: var(--text-color);
+    font-family: Pacifico;
+    position: relative;
+    top: -10px;
+    /* margin-top: -10vh; */
+    overflow: visible;
+    width: 100%;
+    text-align: center;
+    /* margin    : 0; */
+    font-size: 36pt;
+    font-weight: 100;
+}

@@ -9,11 +9,11 @@ export default class CeRuleSelectDiv extends CustomElement {
     }
 
     connectedCallback() {
-        this.appendChild(new CeRuleSelect);
+        this.shadowRoot.appendChild(new CeRuleSelect);
 
         let ruleCreateMenu = new CeRuleCreateMenu;
 
-        this.appendChild(ruleCreateMenu);
+        this.shadowRoot.appendChild(ruleCreateMenu);
 
         let showCardMenu = new CeShowButton(ruleCreateMenu);
 
@@ -22,7 +22,7 @@ export default class CeRuleSelectDiv extends CustomElement {
         showCardMenu.style.left = '5px'
         showCardMenu.openImg = './img/add.svg'
 
-        this.appendChild(showCardMenu);
+        this.shadowRoot.appendChild(showCardMenu);
 
         this.style.display = 'flex';
         this.style.width = '100%';

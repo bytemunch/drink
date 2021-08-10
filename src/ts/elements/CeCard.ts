@@ -33,7 +33,7 @@ export default class CeCard extends UpdateableElement {
         this.backImg.style.top = '0';
         this.backImg.style.width = '100%';
         this.backImg.style.height = 'unset';
-        this.appendChild(this.backImg);
+        this.shadowRoot.appendChild(this.backImg);
 
         this.img = document.createElement('img');
         this.img.setAttribute('src', `/img/cards/back.svg`);
@@ -43,7 +43,7 @@ export default class CeCard extends UpdateableElement {
         this.img.style.top = '0';
         this.img.style.width = '100%';
         this.img.style.height = 'unset';
-        this.appendChild(this.img);
+        this.shadowRoot.appendChild(this.img);
 
         this.applyStyle();
     }

@@ -58,9 +58,9 @@ export default class CeActionSelectDiv extends CustomElement {
         triggerSelect.id = 'trigger-select';
         targetSelect.id = 'target-select';
 
-        this.appendChild(typeSelect);
-        this.appendChild(triggerSelect);
-        this.appendChild(targetSelect);
+        this.shadowRoot.appendChild(typeSelect);
+        this.shadowRoot.appendChild(triggerSelect);
+        this.shadowRoot.appendChild(targetSelect);
 
         this.style.display = 'flex';
         this.style.width = '100%';

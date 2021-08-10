@@ -23,13 +23,13 @@ export default class CeNextPlayerCenter extends UpdateableElement {
         let upnext = document.createElement('h3');
         upnext.textContent = 'Up Next:';
         upnext.style.textAlign = 'center';
-        this.appendChild(upnext);
+        this.shadowRoot.appendChild(upnext);
 
         this.playerAvi = new CeAvatar;
         this.playerAvi.style.position = 'absolute';
         this.playerAvi.style.left = '50%';
         this.playerAvi.style.transform = 'translateX(-50%)';
-        this.appendChild(this.playerAvi);
+        this.shadowRoot.appendChild(this.playerAvi);
 
         this.playerName = document.createElement('h4');
         this.playerName.textContent = 'player name';
@@ -38,7 +38,7 @@ export default class CeNextPlayerCenter extends UpdateableElement {
         this.playerName.style.top = '250%';
         this.playerName.style.width = '100%';
 
-        this.appendChild(this.playerName);
+        this.shadowRoot.appendChild(this.playerName);
 
         this.update();
     }

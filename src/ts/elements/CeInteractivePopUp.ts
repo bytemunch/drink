@@ -39,7 +39,7 @@ export default class CeInteractivePopUp extends CustomElement {
             }
         })
 
-        this.appendChild(this.innerDiv);
+        this.shadowRoot.appendChild(this.innerDiv);
     }
 
     connectedCallback() {

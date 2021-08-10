@@ -29,7 +29,7 @@ export default class CeAccountButton extends CeShowButton {
         super.connectedCallback();
         this.avi = new CeAvatar;
         
-        this.appendChild(this.avi);
+        this.shadowRoot.appendChild(this.avi);
         this.update();
         this.applyStyle();
     }

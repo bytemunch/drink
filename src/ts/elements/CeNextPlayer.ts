@@ -19,15 +19,15 @@ export default class CeNextPlayer extends UpdateableElement {
 
         let upnext = document.createElement('h3');
         upnext.textContent = 'Up Next:';
-        this.appendChild(upnext);
+        this.shadowRoot.appendChild(upnext);
 
         this.playerAvi = new CeAvatar;
         this.playerAvi.style.float = 'left';
-        this.appendChild(this.playerAvi);
+        this.shadowRoot.appendChild(this.playerAvi);
 
         this.playerName = document.createElement('h4');
         this.playerName.textContent = 'player name';
-        this.appendChild(this.playerName);
+        this.shadowRoot.appendChild(this.playerName);
 
         this.update();
     }

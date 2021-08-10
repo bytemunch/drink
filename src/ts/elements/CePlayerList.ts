@@ -131,7 +131,7 @@ export default class CePlayerList extends UpdateableElement {
         this.players.forEach(p => {
             let pElement = document.createElement('ce-player') as CePlayer;
             addAnimate(pElement);
-            this.appendChild(pElement);
+            this.shadowRoot.appendChild(pElement);
             pElement.player = p;
 
             // BUGFIX for border not updating
@@ -140,6 +140,6 @@ export default class CePlayerList extends UpdateableElement {
 
         let addLocalPlayer = new CeCreatePlayerButton(document.querySelector('ce-create-player-menu'));
         addAnimate(addLocalPlayer);
-        this.appendChild(addLocalPlayer);
+        this.shadowRoot.appendChild(addLocalPlayer);
     }
 }

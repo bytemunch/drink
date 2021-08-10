@@ -42,7 +42,9 @@ export default class CePopUp extends CustomElement {
         this.innerDiv.appendChild(this.titleP);
         this.innerDiv.appendChild(this.messageP);
         this.innerDiv.appendChild(this.ok);
-        this.appendChild(this.innerDiv);
+        this.shadowRoot.appendChild(this.innerDiv);
+
+        this.applyStyle();
     }
 
     show() {
