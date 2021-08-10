@@ -1,5 +1,8 @@
+# clean public folder
 rm -rf ./public/*
 
+# compile typescript
 tsc
-lessc ./src/less/main.less ./public/styles.css
+
+# add other files
 rsync -a ./src/root/* ./public/
