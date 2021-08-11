@@ -19,6 +19,8 @@ export default class CeMenu extends CustomElement {
 
     applyStyle() {
         super.applyStyle();
+
+        // TODO move this to CSS
         
         this.menu.style.backgroundColor = palette.green;
         this.menu.style.width = `90%`;

@@ -273,16 +273,6 @@ ce-avatar-upload>* {
     float: left;
 }
 
-ce-account-button {
-    background: none;
-    position: relative;
-    left: calc(99% - 32px);
-    top: 1vw;
-    width: 32px;
-    height: 32px;
-    display: block;
-}
-
 .action-select {
     width: 33.3%;
     background-color: var(--blue);
