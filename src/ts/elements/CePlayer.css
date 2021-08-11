@@ -1,0 +1,11 @@
+:host {
+    padding: 5%;
+}
+
+h3.name {
+    position: absolute;
+    left: 48px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0;
+}

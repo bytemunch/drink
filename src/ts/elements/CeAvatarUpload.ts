@@ -85,6 +85,8 @@ export default class CeAvatarUpload extends CustomElement {
         this.preview.uid = this.uid;
         this.preview.classList.add('account-img');
         this.shadowRoot.appendChild(this.preview);
+
+        this.applyStyle();
     }
 
     async upload() {

@@ -61,6 +61,7 @@ export default class CePlayer extends CustomElement {
     applyStyle() {
         // for drag drop
         this.classList.add('dd-item');
+        super.applyStyle();
     }
 
     set player(player) {

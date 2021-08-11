@@ -1,0 +1,56 @@
+:host(.bigGrid) {
+    display: grid;
+    width: 100%;
+    height: 40vh;
+    grid-template-columns: repeat(2, 44%);
+    grid-auto-rows: 20%;
+    grid-auto-flow: row;
+    grid-gap: 2.5%;
+    overflow-x: visible;
+    overflow-y: scroll;
+    position: relative;
+    margin-left: 5%;
+}
+
+:host(.bigGrid) ce-player {
+    height: 100%;
+    width: 100%;
+    border-width: 2px;
+    border-style: solid;
+    overflow: hidden;
+    position: relative;
+}
+
+:host(.smallList) {
+    width: 24px;
+    position: absolute;
+    top: calc(32px + 2%);
+    /*Menu button height*/
+    background-color: var(--shadow);
+    right: 0;
+    overflow: hidden;
+    z-index: 1;
+}
+
+:host(.smallList) .ready {
+    display: none;
+}
+
+:host(.smallList) .avatar {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+}
+
+:host(.smallList) .name {
+    position: absolute;
+    left: 24px;
+    /*avatar width*/
+    font-size: medium;
+}
+
+:host(.smallList) ce-player {
+    position: relative;
+    display: block;
+    height: 24px;
+}

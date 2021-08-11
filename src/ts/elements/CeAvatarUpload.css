@@ -1,0 +1,11 @@
+:host {
+    width: 80%;
+    height: 40px;
+    display: block;
+    margin-left: 10%;
+}
+
+:host>* {
+    margin-right: 3%;
+    float: right;
+}

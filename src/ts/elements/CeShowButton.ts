@@ -15,6 +15,17 @@ export default class CeShowButton extends CustomElement {
         this.closeImg = './img/close-icon.svg';
     }
 
+    applyStyle() {
+        super.applyStyle();
+
+        // add stylesheet explicitly for extensions
+        // TODO find a more elegant solution, maybe always inherit styles?
+        let sharedStylesheet = document.createElement('link');
+        sharedStylesheet.href = `./styles/CeShowButton.css`;
+        sharedStylesheet.rel = "stylesheet";
+        this.shadowRoot.appendChild(sharedStylesheet);
+    }
+
     moveToTopRight() {
         this.style.left = `calc(${document.body.style.marginLeft} + ${ document.body.style.width} - (${this.style.width}))`;
         this.style.top = `calc(5vh - ${this.style.height} / 2)`;

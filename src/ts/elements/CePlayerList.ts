@@ -101,9 +101,6 @@ export default class CePlayerList extends UpdateableElement {
 
     }
 
-    applyStyle() {
-    }
-
     update() {
         super.update();
 

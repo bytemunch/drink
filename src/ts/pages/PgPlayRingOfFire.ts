@@ -60,7 +60,13 @@ export default class PgPlayRingOfFire extends Page {
                 await (<RingOfFire>gameHandler.gameObject).takeTurn()
                 if (!gameHandler.gameObject.online) updateDOM();
 
-                (<CeRule>document.querySelector('ce-rule')).applyStyle();
+                // ! this is now different when using shadowDOM
+                // ! this is now a tomorrow problem
+                // TODO replace updateDOM with observer mixin pattern
+
+                console.log(this);
+                
+                (<CeRule>this.shadowRoot.querySelector('ce-rule')).applyStyle();
 
                 if (gameHandler.gameObject.state !== 'finished') {
 
