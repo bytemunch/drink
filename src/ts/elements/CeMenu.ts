@@ -18,6 +18,8 @@ export default class CeMenu extends CustomElement {
     }
 
     applyStyle() {
+        super.applyStyle();
+        
         this.menu.style.backgroundColor = palette.green;
         this.menu.style.width = `90%`;
         this.menu.style.height = `90%`;
@@ -60,7 +62,9 @@ export default class CeMenu extends CustomElement {
         let closeDiv = document.createElement('button') as AnimButton;
         closeDiv.classList.add('button-animate');
         addAnimate(closeDiv);
-        closeDiv.style.position = 'relative';
+        closeDiv.style.position = 'absolute';
+        closeDiv.style.top = '0';
+        closeDiv.style.right = '0';
         closeDiv.style.backgroundColor = palette.red;
         closeDiv.style.backgroundImage = 'url(./img/close-icon.svg)';
         closeDiv.style.backgroundSize= 'contain';

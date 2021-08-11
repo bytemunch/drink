@@ -15,10 +15,6 @@ export default class CeShowButton extends CustomElement {
         this.closeImg = './img/close-icon.svg';
     }
 
-    applyStyle() {
-        this.classList.add('show-button', 'button-animate');
-    }
-
     moveToTopRight() {
         this.style.left = `calc(${document.body.style.marginLeft} + ${ document.body.style.width} - (${this.style.width}))`;
         this.style.top = `calc(5vh - ${this.style.height} / 2)`;

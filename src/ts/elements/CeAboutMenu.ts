@@ -5,10 +5,6 @@ export default class CeAboutMenu extends CeMenu {
         super();
     }
 
-    applyStyle() {
-        super.applyStyle();
-    }
-
     connectedCallback() {
         super.connectedCallback();
 

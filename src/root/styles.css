@@ -182,21 +182,6 @@ img {
     object-fit: cover;
 }
 
-a {
-    font-size: xx-large;
-    margin: 2vw 0;
-    display: block;
-    width: 100%;
-    text-align: center;
-}
-
-.menu-title {
-    text-align: center;
-    position: absolute;
-    width: 100%;
-    pointer-events: none;
-}
-
 ce-player-list.bigGrid {
     display: grid;
     width: 100%;
@@ -286,32 +271,6 @@ ce-avatar-upload>* {
     display: block;
     font-size: 17pt;
     float: left;
-}
-
-.show-button,
-ce-show-button {
-    background-color: var(--blue);
-    width: 32px;
-    height: 32px;
-    display: block;
-    position: absolute;
-    right: 1vw;
-    top: 1vw;
-    z-index: 9;
-    left: unset;
-    overflow: hidden;
-}
-
-.button-animate {
-    overflow: hidden;
-}
-
-ce-show-button.about {
-    position: absolute;
-    top: 1vw;
-    /* left : calc(50% - 16px); */
-    left: 1vw;
-    right: unset;
 }
 
 ce-account-button {
