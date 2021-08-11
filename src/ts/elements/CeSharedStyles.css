@@ -1,0 +1,51 @@
+* {
+    color: var(--text-color);
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    overflow: inherit;
+}
+
+input {
+    color: black;
+    font-family: sans-serif;
+    font-size: large;
+    position: relative;
+    text-align: center;
+}
+
+p {
+    pointer-events: none;
+}
+
+p.label {
+    font-size: large;
+    width: 80%;
+    text-align: center;
+    position: relative;
+    margin-bottom: 0;
+}
+
+button {
+    border: none;
+    background-color: var(--blue);
+    color: var(--text-color);
+    overflow: hidden;
+    position: relative;
+}
+
+button.small {
+    padding: 2%;
+    float: right;
+    height: 32px;
+}
+
+button.big {
+    font-size: large;
+    float: left;
+    min-height: 40px;
+}
+
+button:disabled:not(.keep-color) {
+    background-color: var(--grey);
+}

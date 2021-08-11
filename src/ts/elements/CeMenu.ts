@@ -20,6 +20,11 @@ export default class CeMenu extends CustomElement {
     applyStyle() {
         super.applyStyle();
 
+        let newStyle = document.createElement('link');
+        newStyle.href = `./styles/CeMenu.css`;
+        newStyle.rel = "stylesheet";
+        this.shadowRoot.appendChild(newStyle);
+
         // TODO move this to CSS
         
         this.menu.style.backgroundColor = palette.green;

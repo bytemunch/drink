@@ -7,3 +7,4 @@ Fix animations
     - add small loading animation when waiting for firebase response
 
 Move CSS to component level rather than the current mishmash of global and element styling
+    - smart solution for shared styles across similar components
