@@ -1,13 +1,11 @@
+import CustomElement from '../elements/CustomElement.js';
 import {VERSION} from '../index.js'
 
-export default class Page extends HTMLElement {
+export default class Page extends CustomElement {
     header = 'full';
 
     constructor() {
         super();
-    }
-
-    applyStyle() {
     }
 
     connectedCallback() {
@@ -24,6 +22,8 @@ export default class Page extends HTMLElement {
         version.style.pointerEvents = 'none';
         version.textContent = VERSION;
 
-        this.appendChild(version);
+        this.shadowRoot.appendChild(version);
+
+        this.applyStyle();
     }
 }

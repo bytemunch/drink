@@ -10,10 +10,6 @@ export default class PgHome extends Page {
         super();
     }
 
-    applyStyle() {
-
-    }
-
     connectedCallback() {
         super.connectedCallback();
         // add elements to page
@@ -22,13 +18,13 @@ export default class PgHome extends Page {
 
         offlineGameButton.addEventListener('click', async function (e) {
             disablePage();
-            await (<AnimButton>this).baAnimate(e)
+            // await (<AnimButton>this).baAnimate(e)
             goToPage('pg-game-select');
         });
 
         offlineGameButton.classList.add('big');
 
-        this.appendChild(offlineGameButton);
+        this.shadowRoot.appendChild(offlineGameButton);
 
         if (!LOCAL_MODE) {
             offlineGameButton.textContent = 'Play Local';
@@ -38,14 +34,14 @@ export default class PgHome extends Page {
 
             onlineGameButton.addEventListener('click', async function (e) {
                 disablePage();
-                await (<AnimButton>this).baAnimate(e)
+                // await (<AnimButton>this).baAnimate(e)
                 console.log('Online game button pressed!');
                 goToPage('pg-play-online')
             });
 
             onlineGameButton.classList.add('big', 'green');
 
-            this.appendChild(onlineGameButton);
+            this.shadowRoot.appendChild(onlineGameButton);
         }
     }
 }

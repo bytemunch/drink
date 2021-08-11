@@ -12,10 +12,6 @@ export default class PgPlayOffline extends Page {
         this.header = 'account';
     }
 
-    applyStyle() {
-
-    }
-
     connectedCallback() {
         super.connectedCallback();
         // add elements to page
@@ -27,7 +23,7 @@ export default class PgPlayOffline extends Page {
 
         playButton.addEventListener('click', async function (e) {
             disablePage();
-            await (<AnimButton>this).baAnimate(e)
+            // await (<AnimButton>this).baAnimate(e)
             console.log('Play button pressed!');
             gameHandler.type = 'ring-of-fire';
             goToPage('pg-play-ring-of-fire');
@@ -35,7 +31,7 @@ export default class PgPlayOffline extends Page {
 
         playButton.classList.add('big', 'green');
 
-        this.appendChild(playButton);
+        this.shadowRoot.appendChild(playButton);
 
 
         let backButton = document.createElement('button');
@@ -43,13 +39,13 @@ export default class PgPlayOffline extends Page {
 
         backButton.addEventListener('click', async function (e) {
             disablePage();
-            await (<AnimButton>this).baAnimate(e)
+            // await (<AnimButton>this).baAnimate(e)
             console.log('Back button pressed!');
             goToPage('pg-home');
         });
 
         backButton.classList.add('big', 'red');
 
-        this.appendChild(backButton);
+        this.shadowRoot.appendChild(backButton);
     }
 }

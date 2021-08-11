@@ -16,26 +16,22 @@ export default class PgPlayRingOfFire extends Page {
         this.header = 'account';
     }
 
-    applyStyle() {
-
-    }
-
     connectedCallback() {
         super.connectedCallback();
         // add elements to page
 
         let nextPlayer = new CeNextPlayer;
-        this.appendChild(nextPlayer);
+        this.shadowRoot.appendChild(nextPlayer);
 
         // Card display
         let cardDisplay = new CeCard;
-        this.appendChild(cardDisplay);
+        this.shadowRoot.appendChild(cardDisplay);
         cardDisplay.style.width = '40%';
 
 
         // Rule Display
         let ruleDisplay = new CeRule;
-        this.appendChild(ruleDisplay);
+        this.shadowRoot.appendChild(ruleDisplay);
 
         // Draw button
 
@@ -45,7 +41,7 @@ export default class PgPlayRingOfFire extends Page {
         drawButton.id = 'draw';
 
         drawButton.addEventListener('click', async function (e) {
-            await (<AnimButton>this).baAnimate(e)
+            // await (<AnimButton>this).baAnimate(e)
             if (gameHandler.gameObject.online) {
                 //debounce
 
@@ -76,7 +72,7 @@ export default class PgPlayRingOfFire extends Page {
             }
         })
 
-        this.appendChild(drawButton);
+        this.shadowRoot.appendChild(drawButton);
 
 
         // Update DOM after joined

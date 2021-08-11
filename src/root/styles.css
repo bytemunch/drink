@@ -46,26 +46,6 @@ body {
     pointer-events: none;
 }
 
-.green {
-    background-color: var(--green);
-}
-
-.red {
-    background-color: var(--red);
-}
-
-.black {
-    background-color: var(--black);
-}
-
-.purple {
-    background-color: var(--purple);
-}
-
-.grey {
-    background-color: var(--grey);
-}
-
 .topbar {
     height: 24px;
 }
@@ -103,12 +83,6 @@ body {
     border: 3px white solid;
     border-radius: 50%;
     /* Circle!! */
-}
-
-.big {
-    margin: 1vh 0 1vh 10%;
-    font-size: large;
-    width: 80%;
 }
 
 button.bottom {

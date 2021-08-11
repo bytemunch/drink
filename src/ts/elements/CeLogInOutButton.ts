@@ -22,7 +22,7 @@ export default class CeLogInOutButton extends HTMLButtonElement {
     }
 
     async clicked(e) {
-        await this.baAnimate(e);
+        // await this.baAnimate(e);
         if (userSignedIn()) {
             firebase.auth().signOut();
         } else {

@@ -77,7 +77,7 @@ export default class CeAccountMenu extends CeMenu {
 
         btnUpdate.addEventListener('click', async (e) => {
             let asyncPromises = [];
-            asyncPromises.push((<AnimButton>btnUpdate).baAnimate(e));
+            // asyncPromises.push((<AnimButton>btnUpdate).baAnimate(e));
             // load here
             if ((<HTMLInputElement>document.querySelector(`#acc-input-name`)).value == '') {
                 console.error('no name input');
@@ -107,7 +107,7 @@ export default class CeAccountMenu extends CeMenu {
         backButton.textContent = 'Back to Home';
 
         backButton.addEventListener('click',  async (e) => {
-            await (<AnimButton>backButton).baAnimate(e)
+            // await (<AnimButton>backButton).baAnimate(e)
             console.log('Back button pressed!');
             if (gameHandler.gameObject) gameHandler.gameObject.leave();
             goToPage('pg-home');

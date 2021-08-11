@@ -79,7 +79,7 @@ export default class CeMenu extends CustomElement {
         closeDiv.style.width = '32px';
         closeDiv.style.height = '32px';
         closeDiv.addEventListener('click', async (e) => {
-            await closeDiv.baAnimate(e);
+            // await closeDiv.baAnimate(e);
             this.hide();
         } );
 

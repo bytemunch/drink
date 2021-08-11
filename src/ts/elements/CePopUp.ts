@@ -34,7 +34,7 @@ export default class CePopUp extends CustomElement {
         this.ok.classList.add('small');
         
         this.ok.addEventListener('click', async (e) => {
-            await this.ok.baAnimate(e);
+            // await this.ok.baAnimate(e);
             this.kill();
         })
 

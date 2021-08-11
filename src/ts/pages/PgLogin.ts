@@ -12,10 +12,6 @@ export default class PgLogin extends Page {
         this.header = 'account';
     }
 
-    applyStyle() {
-
-    }
-
     connectedCallback() {
         super.connectedCallback();
 
@@ -31,8 +27,8 @@ export default class PgLogin extends Page {
         emailLabel.classList.add('big', 'label');
         emailLabel.textContent = 'Email:';
 
-        this.appendChild(emailLabel);
-        this.appendChild(emailInput);
+        this.shadowRoot.appendChild(emailLabel);
+        this.shadowRoot.appendChild(emailInput);
 
         // Password
 
@@ -44,15 +40,15 @@ export default class PgLogin extends Page {
         passwordLabel.classList.add('big', 'label');
         passwordLabel.textContent = 'Password:';
 
-        this.appendChild(passwordLabel);
-        this.appendChild(passwordInput);
+        this.shadowRoot.appendChild(passwordLabel);
+        this.shadowRoot.appendChild(passwordInput);
 
         let loginButton = document.createElement('button');
         loginButton.textContent = 'Login';
 
         loginButton.addEventListener('click', async function (e) {
             console.log('Login button pressed!');
-            await (<AnimButton>loginButton).baAnimate(e)
+            // await (<AnimButton>loginButton).baAnimate(e)
             firebase.auth().signInWithEmailAndPassword(emailInput.value, passwordInput.value)
                 .catch(err => {
                     console.error(err)
@@ -62,7 +58,7 @@ export default class PgLogin extends Page {
 
         loginButton.classList.add('big');
 
-        this.appendChild(loginButton);
+        this.shadowRoot.appendChild(loginButton);
 
         // Signup
 
@@ -71,7 +67,7 @@ export default class PgLogin extends Page {
 
         signupButton.addEventListener('click', async function (e) {
             disablePage();
-            await (<AnimButton>this).baAnimate(e)
+            // await (<AnimButton>this).baAnimate(e)
             // confirm password?
             firebase.auth().createUserWithEmailAndPassword(emailInput.value, passwordInput.value)
                 .catch(err => {
@@ -84,7 +80,7 @@ export default class PgLogin extends Page {
 
         // Facebook
 
-        this.appendChild(signupButton);
+        this.shadowRoot.appendChild(signupButton);
 
         let facebookButton = document.createElement('button');
         facebookButton.textContent = 'Continue with Facebook';
@@ -93,7 +89,7 @@ export default class PgLogin extends Page {
 
         facebookButton.addEventListener('click', async function (e) {
             disablePage();
-            await (<AnimButton>this).baAnimate(e)
+            // await (<AnimButton>this).baAnimate(e)
             // facebook login
             let fbProvider = new firebase.auth.FacebookAuthProvider;
             firebase.auth().signInWithRedirect(fbProvider);
@@ -101,7 +97,7 @@ export default class PgLogin extends Page {
 
         facebookButton.classList.add('big');
 
-        this.appendChild(facebookButton);
+        this.shadowRoot.appendChild(facebookButton);
 
         // Back
 
@@ -110,13 +106,13 @@ export default class PgLogin extends Page {
 
         backButton.addEventListener('click', async function (e) {
             disablePage();
-            await (<AnimButton>this).baAnimate(e)
+            // await (<AnimButton>this).baAnimate(e)
             console.log('Back button pressed!');
             goToPage('pg-home');
         });
 
         backButton.classList.add('big', 'red');
 
-        this.appendChild(backButton);
+        this.shadowRoot.appendChild(backButton);
     }
 }

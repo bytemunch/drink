@@ -14,10 +14,6 @@ export default class PgPlayOnline extends Page {
         this.header = 'account';
     }
 
-    applyStyle() {
-
-    }
-
     connectedCallback() {
         super.connectedCallback();
 
@@ -35,8 +31,8 @@ export default class PgPlayOnline extends Page {
         roomLabel.classList.add('big', 'label');
         roomLabel.textContent = 'Room ID:';
 
-        this.appendChild(roomLabel);
-        this.appendChild(roomInput);
+        this.shadowRoot.appendChild(roomLabel);
+        this.shadowRoot.appendChild(roomInput);
 
         let pinInput = document.createElement('input');
         pinInput.id = 'pin-input';
@@ -45,8 +41,8 @@ export default class PgPlayOnline extends Page {
         pinLabel.classList.add('big', 'label');
         pinLabel.textContent = 'Room PIN:';
 
-        this.appendChild(pinLabel);
-        this.appendChild(pinInput);
+        this.shadowRoot.appendChild(pinLabel);
+        this.shadowRoot.appendChild(pinInput);
 
 
         let joinButton = document.createElement('button');
@@ -70,14 +66,14 @@ export default class PgPlayOnline extends Page {
 
         joinButton.classList.add('big');
 
-        this.appendChild(joinButton);
+        this.shadowRoot.appendChild(joinButton);
 
         let createButton = document.createElement('button');
         createButton.textContent = 'Create Room';
 
         createButton.addEventListener('click', async function (e) {
             disablePage();
-            await (<AnimButton>this).baAnimate(e)
+            // await (<AnimButton>this).baAnimate(e)
             console.log('Create button pressed!');
 
             gameHandler.online = true;
@@ -86,7 +82,7 @@ export default class PgPlayOnline extends Page {
 
         createButton.classList.add('big', 'green');
 
-        this.appendChild(createButton);
+        this.shadowRoot.appendChild(createButton);
 
 
         let backButton = document.createElement('button');
@@ -94,14 +90,14 @@ export default class PgPlayOnline extends Page {
 
         backButton.addEventListener('click', async function (e) {
             disablePage();
-            await (<AnimButton>this).baAnimate(e)
+            // await (<AnimButton>this).baAnimate(e)
             console.log('Back button pressed!');
             goToPage('pg-home');
         });
 
         backButton.classList.add('big', 'red');
 
-        this.appendChild(backButton);
+        this.shadowRoot.appendChild(backButton);
     }
 }
 

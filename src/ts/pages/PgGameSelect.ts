@@ -13,10 +13,6 @@ export default class PgGameSelect extends Page {
         this.header = 'account';
     }
 
-    applyStyle() {
-
-    }
-
     connectedCallback() {
         super.connectedCallback();
         // add elements to page
@@ -26,7 +22,7 @@ export default class PgGameSelect extends Page {
 
         rofButton.addEventListener('click', async function (e) {
             disablePage();
-            await (<AnimButton>this).baAnimate(e)
+            // await (<AnimButton>this).baAnimate(e)
             gameHandler.type = 'ring-of-fire';
             if (gameHandler.online) gameHandler.gameObject.initOnline(true)
             goToPage('pg-setup-game');
@@ -34,14 +30,14 @@ export default class PgGameSelect extends Page {
 
         rofButton.classList.add('big', 'green');
 
-        this.appendChild(rofButton);
+        this.shadowRoot.appendChild(rofButton);
 
         let redOrBlackButton = document.createElement('button');
         redOrBlackButton.textContent = 'Red or Black';
 
         redOrBlackButton.addEventListener('click', async function (e) {
             disablePage();
-            await (<AnimButton>this).baAnimate(e)
+            // await (<AnimButton>this).baAnimate(e)
             gameHandler.type = 'red-or-black';
             if (gameHandler.online) gameHandler.gameObject.initOnline(true)
             goToPage('pg-setup-game');
@@ -49,7 +45,7 @@ export default class PgGameSelect extends Page {
 
         redOrBlackButton.classList.add('big', 'green');
 
-        this.appendChild(redOrBlackButton);
+        this.shadowRoot.appendChild(redOrBlackButton);
 
 
         let backButton = document.createElement('button');
@@ -57,13 +53,13 @@ export default class PgGameSelect extends Page {
 
         backButton.addEventListener('click', async function (e) {
             disablePage();
-            await (<AnimButton>this).baAnimate(e)
+            // await (<AnimButton>this).baAnimate(e)
             console.log('Back button pressed!');
             goToPage('pg-home');
         });
 
         backButton.classList.add('big', 'red');
 
-        this.appendChild(backButton);
+        this.shadowRoot.appendChild(backButton);
     }
 }

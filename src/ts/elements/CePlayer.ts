@@ -41,7 +41,7 @@ export default class CePlayer extends CustomElement {
             }
     
             this.addEventListener('click', async e => {
-                await this.baAnimate(e);
+                // await this.baAnimate(e);
                 if (this.uid !== userdata.uid) {
                     const modifyMenu = document.querySelector('#modify' + this.uid) as unknown as CeModifyPlayerMenu;
                     modifyMenu.show();

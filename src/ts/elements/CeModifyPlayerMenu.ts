@@ -69,7 +69,7 @@ export default class CeModifyPlayerMenu extends CeMenu {
         btnUpdate.classList.add('big');
 
         btnUpdate.addEventListener('click', async e => {
-            await (<AnimButton>btnUpdate).baAnimate(e)
+            // await (<AnimButton>btnUpdate).baAnimate(e)
 
             // load here
 
@@ -101,7 +101,7 @@ export default class CeModifyPlayerMenu extends CeMenu {
         btnRemove.classList.add('big', 'red');
 
         btnRemove.addEventListener('click', async (e) => {
-            await (<AnimButton>btnRemove).baAnimate(e)
+            // await (<AnimButton>btnRemove).baAnimate(e)
             gameHandler.gameObject.removePlayer(this.uid);
             (<CePlayerList>document.querySelector('ce-player-list')).update();
             this.hide();

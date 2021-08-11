@@ -73,7 +73,7 @@ export default class CeCreatePlayerMenu extends CeMenu {
         btnUpdate.classList.add('big');
 
         btnUpdate.addEventListener('click', async (e) => {
-            await (<AnimButton>btnUpdate).baAnimate(e)
+            // await (<AnimButton>btnUpdate).baAnimate(e)
             // load here
             if (inputs.name.value == '') {
                 console.error('no name input');

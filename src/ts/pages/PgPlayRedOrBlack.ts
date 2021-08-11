@@ -30,10 +30,6 @@ export default class PgPlayRedOrBlack extends Page {
         console.log(gameHandler);
     }
 
-    applyStyle() {
-
-    }
-
     connectedCallback() {
         super.connectedCallback();
         // add elements to page
@@ -50,11 +46,11 @@ export default class PgPlayRedOrBlack extends Page {
         deckImg.style.width = ((this.cardW / 320) * 100) + '%';
         deckImg.style.height = 'unset';
         deckImg.style.left = ((20 / 320) * 100) + '%';
-        this.appendChild(deckImg);
+        this.shadowRoot.appendChild(deckImg);
 
         // up next
         this.upNext = new CeNextPlayerCenter;
-        this.appendChild(this.upNext);
+        this.shadowRoot.appendChild(this.upNext);
 
         // deck image
         let discardImg = document.createElement('img');
@@ -66,7 +62,7 @@ export default class PgPlayRedOrBlack extends Page {
         discardImg.style.height = 'unset';
         discardImg.style.right = ((20 / 320) * 100) + '%';
         discardImg.style.opacity = '0.4';
-        this.appendChild(discardImg);
+        this.shadowRoot.appendChild(discardImg);
 
         let dBB = discardImg.getBoundingClientRect();
 
@@ -78,7 +74,7 @@ export default class PgPlayRedOrBlack extends Page {
         this.potCount.style.width = size + 'px';
         this.potCount.style.height = size + 'px';
         this.potCount.style.marginTop = '6%';
-        this.appendChild(this.potCount);
+        this.shadowRoot.appendChild(this.potCount);
 
         let controlGrid = document.createElement('div');
         controlGrid.style.display = 'grid';
@@ -91,7 +87,7 @@ export default class PgPlayRedOrBlack extends Page {
         controlGrid.style.height = '120px';
         controlGrid.style.left = '10%';
         controlGrid.style.bottom = '10%';
-        this.appendChild(controlGrid);
+        this.shadowRoot.appendChild(controlGrid);
 
         const controls = {
             "RR": {
@@ -132,7 +128,7 @@ export default class PgPlayRedOrBlack extends Page {
             c.appendChild(p);
 
             c.addEventListener('click', async e => {
-                await (<AnimButton>c).baAnimate(e)
+                // await (<AnimButton>c).baAnimate(e)
                 // disable all buttons
                 c.classList.add('keep-color');
 
@@ -231,7 +227,7 @@ export default class PgPlayRedOrBlack extends Page {
             drawnCard.style.width = ((this.cardW / 320) * 100) + '%';
             drawnCard.style.height = 'unset';
             drawnCard.style.left = ((20 / 320) * 100) + '%';
-            this.appendChild(drawnCard);
+            this.shadowRoot.appendChild(drawnCard);
             (<CeCard>drawnCard).backImg.style.visibility = 'hidden';
             let bb = drawnCard.firstElementChild.getBoundingClientRect();
             let offset = -1 * ((bb.width / 4) * ((cards.length / 2) - idx) - bb.width / 8);
