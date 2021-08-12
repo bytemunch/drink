@@ -1,0 +1,12 @@
+:host {
+    display: block;
+    position: absolute;
+    border-radius: 1000px;
+    color: yellow;
+    z-index: 5;
+    font-size: 26pt;
+    text-align: center;
+    line-height: 270%;
+    opacity: 0.9;
+    background-color: var(--red);
+}

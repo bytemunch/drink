@@ -62,9 +62,6 @@ export default class CeActionSelectDiv extends CustomElement {
         this.shadowRoot.appendChild(triggerSelect);
         this.shadowRoot.appendChild(targetSelect);
 
-        this.style.display = 'flex';
-        this.style.width = '100%';
-
         this.applyStyle();
     }
 }

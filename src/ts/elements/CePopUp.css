@@ -29,3 +29,15 @@ button {
     float: right;
     height: 32px;
 }
+
+.error {
+    background-color: var(--red);
+}
+
+.warning {
+    background-color: var(--green);
+}
+
+.info {
+    background-color: var(--blurple);
+}

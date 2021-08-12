@@ -13,8 +13,6 @@ export default class CeNextPlayer extends UpdateableElement {
 
     connectedCallback() {
         super.connectedCallback();
-        this.style.display = 'block';
-        this.style.position = 'absolute';
         
 
         let upnext = document.createElement('h3');
@@ -22,7 +20,6 @@ export default class CeNextPlayer extends UpdateableElement {
         this.shadowRoot.appendChild(upnext);
 
         this.playerAvi = new CeAvatar;
-        this.playerAvi.style.float = 'left';
         this.shadowRoot.appendChild(this.playerAvi);
 
         this.playerName = document.createElement('h4');

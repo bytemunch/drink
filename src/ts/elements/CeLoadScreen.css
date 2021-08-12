@@ -1,0 +1,21 @@
+:host {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    background-color: var(--blurple);
+    background-image: -webkit-linear-gradient(top, rgb(76, 123, 224) 0%, rgb(115, 133, 212) 51%);
+    display: block;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+#glass {
+    width: 80vw;
+    height: 50vh;
+    clip-path: polygon(0 0, 100% 0, 85% 100%, 15% 100%);
+    background-color: #c0c0c06e;
+    left: 10vw;
+    top: 25vh;
+    position: absolute;
+}

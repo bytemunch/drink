@@ -6,4 +6,6 @@ Fix animations
     - fix loading animation to prevent flash of no content
     - add small loading animation when waiting for firebase response
 
-Remove dot notated styles
+Use observer pattern for game UI
+
+Use html templating

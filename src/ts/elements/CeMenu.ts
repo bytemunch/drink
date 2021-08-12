@@ -17,43 +17,15 @@ export default class CeMenu extends CustomElement {
         this.openState = 'false';
     }
 
-    applyStyle() {
-        super.applyStyle();
-
-        // TODO move this to CSS
-        
-        this.menu.style.backgroundColor = palette.green;
-        this.menu.style.width = `90%`;
-        this.menu.style.height = `90%`;
-        this.menu.style.marginTop = '5vh';
-        this.menu.style.position = 'absolute';
-        this.menu.style.top = '0';
-        this.menu.style.left = `5%`;
-        this.menu.style.display = 'block';
-        this.menu.style.zIndex = '10';
-
-        this.titlebar.style.width = '100%';
-        this.titlebar.style.height = '32px';
-
-        this.style.backgroundColor = palette.greyAlpha;
-        this.style.width = '100%';
-        this.style.height = '100vh';
-        this.style.position = 'absolute';
-        this.style.top = '0';
-        this.style.left = '0';
-        this.style.display = this.openState ? 'block' : 'none';
-        this.style.zIndex = '10';
-
-        this.hide();
-    }
-
     connectedCallback() {
         super.connectedCallback();
 
         this.menu = document.createElement('div');
+        this.menu.id = 'menu';
         this.shadowRoot.appendChild(this.menu);
 
         this.titlebar = document.createElement('div');
+        this.titlebar.id = 'title'
         this.menu.appendChild(this.titlebar);
 
         this.h2title = document.createElement('h2');
@@ -63,22 +35,18 @@ export default class CeMenu extends CustomElement {
 
         let closeDiv = document.createElement('button') as AnimButton;
         closeDiv.classList.add('button-animate');
+        closeDiv.id = 'close';
+
         addAnimate(closeDiv);
-        closeDiv.style.position = 'absolute';
-        closeDiv.style.top = '0';
-        closeDiv.style.right = '0';
-        closeDiv.style.backgroundColor = palette.red;
-        closeDiv.style.backgroundImage = 'url(./img/close-icon.svg)';
-        closeDiv.style.backgroundSize= 'contain';
-        closeDiv.style.float = 'right';
-        closeDiv.style.width = '32px';
-        closeDiv.style.height = '32px';
+
         closeDiv.addEventListener('click', async (e) => {
             // await closeDiv.baAnimate(e);
             this.hide();
         } );
 
         this.titlebar.appendChild(closeDiv);
+
+        this.hide();
 
         this.applyStyle();
     }
@@ -92,6 +60,7 @@ export default class CeMenu extends CustomElement {
 
         // Leave room button
         let btnLeave = document.createElement('button');
+        btnLeave.classList.add('btn-leave', 'big');
         btnLeave.textContent = 'Leave Game';
 
         btnLeave.addEventListener('click', async e => {
@@ -100,15 +69,13 @@ export default class CeMenu extends CustomElement {
             this.hide();
         })
 
-        btnLeave.style.backgroundColor = palette.red;
-
-        btnLeave.classList.add('big');
-
         this.menu.appendChild(btnLeave);
     }
 
     show() {
         this.openState = true;
+
+        // TODO use animation fill to do this style setting?
         this.style.opacity = '0';
         this.style.display = 'block';
         animMan.animate(this, 'fadeIn', 100, 'easeOut');

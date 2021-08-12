@@ -7,12 +7,6 @@ export default class CeInviteButton extends CeCreatePlayerButton {
 
     }
 
-    applyStyle() {
-        super.applyStyle();
-        this.style.right = 'unset';
-        this.style.top = 'unset'
-    }
-
     connectedCallback() {
         super.connectedCallback();
 

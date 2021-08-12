@@ -14,7 +14,6 @@ export default class CeLogInOutButton extends HTMLButtonElement {
     connectedCallback() {
         this.classList.add('updateable-element','button-animate');
         this.classList.add('small', 'logout');
-        this.style.cssFloat = 'left';
 
         this.addEventListener('click',e=>this.clicked(e));
 

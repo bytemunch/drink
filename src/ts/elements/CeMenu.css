@@ -1,3 +1,14 @@
+:host {
+    background-color: var(--shadow);
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    z-index: 10;
+}
+
 a {
     font-size: xx-large;
     margin: 2vw 0;
@@ -11,4 +22,37 @@ a {
     position: absolute;
     width: 100%;
     pointer-events: none;
+}
+
+#menu {
+    background-color: var(--green);
+    width: 90%;
+    height: 90%;
+    margin-top: 5vh;
+    position: absolute;
+    top: 0;
+    left: 5%;
+    display: block;
+    z-index: 10;
+}
+
+#title {
+    width: 100%;
+    height: 32px;
+}
+
+#close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: var(--red);
+    background-image: url(../img/close-icon.svg);
+    background-size: contain;
+    float: right;
+    width: 32px;
+    height: 32px;
+}
+
+.btn-leave {
+    background-color: var(--red);
 }

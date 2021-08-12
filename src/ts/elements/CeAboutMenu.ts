@@ -12,7 +12,6 @@ export default class CeAboutMenu extends CeMenu {
 
         let desc = document.createElement('p');
         desc.textContent = 'Drink! is the drinking game app that you\'ve been missing. It\'ll be fully customizable with ALL THE DRINKING GAMES when it\'s finished! 😎';
-        desc.style.padding = '0 20px';
         this.menu.appendChild(desc);
 
         let faqLink = document.createElement('a');

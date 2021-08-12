@@ -9,14 +9,6 @@ export default class CeHeader extends CustomElement {
         super();
     }
 
-    applyStyle() {
-        this.style.position = 'relative';
-        this.style.display = 'block';
-        this.style.overflow = 'visible';
-
-        super.applyStyle();
-    }
-
     connectedCallback() {
         this.addInfo();
         this.addAccountMenu();

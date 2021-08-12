@@ -25,8 +25,7 @@ export default class CeAvatarUpload extends CustomElement {
         let image = document.createElement('img');
         image.setAttribute('src', URL.createObjectURL(file));
         image.style.display = 'none';
-        image.style.width = 'unset';
-        image.style.height = 'unset';
+
         document.body.appendChild(image);
 
         image.addEventListener('load', () => {

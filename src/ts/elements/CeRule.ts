@@ -12,21 +12,6 @@ export default class CeRule extends UpdateableElement {
         super();
     }
 
-    applyStyle() {
-        this.style.width = '100%';
-
-        this.style.display = 'block';
-
-        this.ruleTitle.style.opacity = 'inherit';
-        this.desc.style.opacity = 'inherit';
-
-        this.style.position = 'absolute';
-
-        this.style.bottom = '64px';
-
-        super.applyStyle();
-    }
-
     connectedCallback() {
         super.connectedCallback();
 

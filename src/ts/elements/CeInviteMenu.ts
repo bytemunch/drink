@@ -8,11 +8,6 @@ export default class CeInviteMenu extends CeMenu {
         super();
     }
 
-    applyStyle() {
-        super.applyStyle();
-        this.logoutBtn.style.display = 'none';
-    }
-
     connectedCallback() {
         super.connectedCallback();
 
@@ -27,23 +22,18 @@ export default class CeInviteMenu extends CeMenu {
         this.menu.appendChild(roomDisplay);
 
         let pin = document.createElement('p');
-        pin.style.cssFloat = 'right';
-        pin.classList.add('roominfo');
+        pin.classList.add('roominfo', 'pin');
         pin.textContent = `PIN: ${gameHandler.gameObject.pin}`;
         this.menu.appendChild(pin);
 
         let desc = document.createElement('p');
         desc.textContent = 'Copy this link to invite your friends!';
-        desc.style.width = '100%';
+        desc.classList.add('desc');
         this.menu.appendChild(desc);
 
         // copy-pasteable link here
         let link = document.createElement('input');
         link.classList.add('big');
-        link.style.marginLeft = '1.5%';
-        link.style.width = '80%';
-
-        link.style.fontSize = 'larger';
 
         link.readOnly = true;
         link.value = gameHandler.gameObject.link;
@@ -56,12 +46,8 @@ export default class CeInviteMenu extends CeMenu {
         this.menu.appendChild(link);
 
         let copyButton = document.createElement('button');
-        copyButton.style.backgroundImage = 'url(img/copy.svg)';
-        copyButton.style.backgroundSize = 'contain';
-        copyButton.style.width = '32px';
-        copyButton.style.height = '32px';
-        copyButton.style.cssFloat = 'right';
-        copyButton.style.marginLeft = '5px';
+        copyButton.classList.add('copy');
+
         copyButton.addEventListener('click',e=>{
             link.select();
             document.execCommand('copy');
@@ -74,11 +60,8 @@ export default class CeInviteMenu extends CeMenu {
             link.style.width = '70%';
 
             let shareButton = document.createElement('button');
-            shareButton.style.backgroundImage = 'url(img/share.svg)';
-            shareButton.style.backgroundSize = 'contain';
-            shareButton.style.width = '32px';
-            shareButton.style.height = '32px';
-            shareButton.style.cssFloat = 'right';
+            shareButton.classList.add('share');
+
             shareButton.addEventListener('click', e=>{
 
                 const shareObj = {

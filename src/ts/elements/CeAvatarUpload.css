@@ -9,3 +9,8 @@
     margin-right: 3%;
     float: right;
 }
+
+img {
+    /* uploaded invisible image for resizing */
+    display: none;
+}

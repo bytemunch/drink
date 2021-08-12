@@ -14,10 +14,6 @@ export default class CeAvatar extends UpdateableElement {
 
     applyStyle() {
         super.applyStyle();
-        this.style.backgroundImage = this.src;
-        this.style.backgroundSize = 'cover';
-        this.style.borderColor = this.color;
-        this.ready = this.realReady;
     }
 
     connectedCallback() {
@@ -74,6 +70,8 @@ export default class CeAvatar extends UpdateableElement {
 
     update() {
         super.update();
-        this.applyStyle();
+        this.style.backgroundImage = this.src;
+        this.style.borderColor = this.color;
+        this.ready = this.realReady;
     }
 }

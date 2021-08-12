@@ -72,17 +72,6 @@ export default class CePopUp extends CustomElement {
     }
 
     set type(type) {
-        switch (type) {
-            case 'error':
-                this.innerDiv.style.backgroundColor = palette.red;
-                break;
-            case 'warning':
-                this.innerDiv.style.backgroundColor = palette.green;
-                break;
-            case 'info':
-            default:
-                this.innerDiv.style.backgroundColor = palette.darkblue;
-                break;
-        }
+        this.innerDiv.classList.add(type);
     }
 }

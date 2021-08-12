@@ -1,0 +1,10 @@
+:host {
+    display: flex;
+    width: 100%;
+}
+
+ce-show-button {
+    position: relative;
+    float: right;
+    left: 5px;
+}

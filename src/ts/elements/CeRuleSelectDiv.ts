@@ -17,14 +17,10 @@ export default class CeRuleSelectDiv extends CustomElement {
 
         let showCardMenu = new CeShowButton(ruleCreateMenu);
 
-        showCardMenu.style.position = 'relative'
-        showCardMenu.style.cssFloat = 'right'
-        showCardMenu.style.left = '5px'
         showCardMenu.openImg = './img/add.svg'
 
         this.shadowRoot.appendChild(showCardMenu);
 
-        this.style.display = 'flex';
-        this.style.width = '100%';
+        this.applyStyle();
     }
 }

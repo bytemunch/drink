@@ -18,18 +18,6 @@ export default class CeLoadScreen extends CustomElement {
         this.killTrigger = killTrigger;
     }
 
-    applyStyle() {
-        this.style.width = '100vw';
-        this.style.height = '100vh';
-        this.style.position = 'absolute';
-        this.style.backgroundColor = 'rgb(76, 123, 224)';
-        this.style.backgroundImage = '-webkit-linear-gradient(top,rgb(76, 123, 224)  0%, rgb(115, 133, 212) 51%)';
-        this.style.display = 'block';
-        this.style.top = '0';
-        this.style.left = '0';
-        this.style.zIndex = '100';
-    }
-
     dots() {
         let currentText = this.elements.title.textContent;
         let matches = currentText.match(/[\.]/g);
@@ -75,13 +63,7 @@ export default class CeLoadScreen extends CustomElement {
 
         let glass = document.createElement('div');
 
-        glass.style.width = '80vw';
-        glass.style.height = '50vh';
-        glass.style.clipPath = 'polygon(0 0, 100% 0, 85% 100%, 15% 100%)';
-        glass.style.backgroundColor = '#c0c0c06e';
-        glass.style.left = '10vw';
-        glass.style.top = '25vh';
-        glass.style.position = 'absolute';
+        glass.id = 'glass';
 
         this.shadowRoot.appendChild(glass);
 

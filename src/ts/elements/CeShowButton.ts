@@ -16,6 +16,7 @@ export default class CeShowButton extends CustomElement {
     }
 
     moveToTopRight() {
+        // TODO put this in a class
         this.style.left = `calc(${document.body.style.marginLeft} + ${ document.body.style.width} - (${this.style.width}))`;
         this.style.top = `calc(5vh - ${this.style.height} / 2)`;
         this.style.position = `fixed`;

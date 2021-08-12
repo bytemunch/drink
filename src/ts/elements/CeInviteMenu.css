@@ -3,3 +3,33 @@
     font-size: 17pt;
     float: left;
 }
+
+.pin {
+    float: right;
+}
+
+.desc {
+    width: 100%;
+}
+
+input {
+    margin-left: 1.5%;
+    width: 80%;
+    font-size: larger;
+}
+
+button {
+    background-size: contain;
+    width: 32px;
+    height: 32px;
+    float: right;
+}
+
+.copy {
+    margin-left: 5px;
+    background-image: url(../img/copy.svg);
+}
+
+.share {
+    background-image: url(../img/share.svg);
+}

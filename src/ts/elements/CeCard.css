@@ -1,8 +1,18 @@
 :host {
     overflow: visible;
+    position: absolute;
+    display: block;
 }
 
 :host(.large) img {
     width: unset;
     height: 40vh;
+}
+
+img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: unset;
 }

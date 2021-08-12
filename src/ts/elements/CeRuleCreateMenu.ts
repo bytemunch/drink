@@ -28,8 +28,6 @@ export default class CeRuleCreateMenu extends CeMenu {
         title.style.pointerEvents = 'none';
         this.menu.appendChild(title);
 
-        this.logoutBtn.style.display = 'none';
-
         // Select for card
         const cards = ["INFO", "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "JK"];
 

@@ -1,3 +1,9 @@
+:host {
+    position: relative;
+    display: block;
+    overflow: visible;
+}
+
 .logo {
     color: var(--text-color);
     font-family: Pacifico;
