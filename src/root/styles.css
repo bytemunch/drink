@@ -40,76 +40,11 @@ body {
     padding: 0;
 }
 
-.icon {
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-}
-
-.topbar {
-    height: 24px;
-}
-
 #app {
-    height: 100%;
-    width: 100%;
-}
-
-#page {
-    height: 100%;
-}
-
-#pageInner {
     height: 100%;
     width: 100%;
 }
 
 .hidden {
     display: none;
-}
-
-.topbar {
-    padding: 2%;
-}
-
-.topbar * {
-    margin: 2%;
-}
-
-button.bottom {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    margin-bottom: 2vh;
-    margin-top: 0;
-}
-
-img {
-    width: 24px;
-    height: 24px;
-    object-fit: cover;
-}
-
-.card-display {
-    overflow: visible;
-}
-
-.card-display.large img {
-    width: unset;
-    height: 40vh;
-}
-
-.rule-display>p {
-    text-align: center;
-}
-
-.roominfo {
-    display: block;
-    font-size: 17pt;
-    float: left;
-}
-
-.action-select {
-    width: 33.3%;
-    background-color: var(--blue);
 }

@@ -11,7 +11,6 @@ export default class CeInviteMenu extends CeMenu {
     applyStyle() {
         super.applyStyle();
         this.logoutBtn.style.display = 'none';
-
     }
 
     connectedCallback() {

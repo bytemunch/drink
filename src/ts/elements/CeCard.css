@@ -1,0 +1,8 @@
+:host {
+    overflow: visible;
+}
+
+:host(.large) img {
+    width: unset;
+    height: 40vh;
+}

@@ -2,7 +2,7 @@ import UpdateableElement from "./UpdateableElement.js";
 import { animMan } from "../index.js";
 import RingOfFire from "../class/RingOfFire.js";
 
-import {gameHandler} from '../index.js';
+import { gameHandler } from '../index.js';
 
 export default class CeRule extends UpdateableElement {
     ruleTitle;
@@ -13,8 +13,6 @@ export default class CeRule extends UpdateableElement {
     }
 
     applyStyle() {
-        this.classList.add('rule-display');
-
         this.style.width = '100%';
 
         this.style.display = 'block';
@@ -26,6 +24,7 @@ export default class CeRule extends UpdateableElement {
 
         this.style.bottom = '64px';
 
+        super.applyStyle();
     }
 
     connectedCallback() {

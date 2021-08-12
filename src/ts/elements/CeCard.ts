@@ -20,6 +20,7 @@ export default class CeCard extends UpdateableElement {
         this.style.display = 'block';
 
         if (gameHandler.gameObject.type === 'ring-of-fire') this.style.left = `calc((${window.innerWidth}px - ${this.backImg.getBoundingClientRect().width}px) / 2)`;
+        super.applyStyle();
     }
 
     connectedCallback() {

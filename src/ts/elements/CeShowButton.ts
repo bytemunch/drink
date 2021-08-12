@@ -16,7 +16,6 @@ export default class CeShowButton extends CustomElement {
     }
 
     applyStyle() {
-        super.applyStyle();
 
         // add stylesheet explicitly for extensions
         // TODO find a more elegant solution, maybe always inherit styles?
@@ -24,6 +23,9 @@ export default class CeShowButton extends CustomElement {
         sharedStylesheet.href = `./styles/CeShowButton.css`;
         sharedStylesheet.rel = "stylesheet";
         this.shadowRoot.appendChild(sharedStylesheet);
+
+        super.applyStyle();
+
     }
 
     moveToTopRight() {

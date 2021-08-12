@@ -1,7 +1,6 @@
 import CeAboutMenu from "../elements/CeAboutMenu.js";
 import CeAccountButton from "../elements/CeAccountButton.js";
 import CeAccountMenu from "../elements/CeAccountMenu.js";
-import CeActionSelectDiv from "../elements/CeActionSelectDiv.js";
 import CeAvatar from "../elements/CeAvatar.js";
 import CeAvatarUpload from "../elements/CeAvatarUpload.js";
 import CeCard from "../elements/CeCard.js";
@@ -33,7 +32,6 @@ export default function ceLoader() {
     customElements.define('ce-about-menu', CeAboutMenu);
     customElements.define('ce-account-button', CeAccountButton);
     customElements.define('ce-account-menu', CeAccountMenu);
-    customElements.define('ce-action-select-div', CeActionSelectDiv);
     customElements.define('ce-avatar', CeAvatar);
     customElements.define('ce-avatar-upload', CeAvatarUpload);
     customElements.define('ce-card', CeCard);

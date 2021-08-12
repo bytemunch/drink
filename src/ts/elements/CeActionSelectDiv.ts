@@ -64,5 +64,7 @@ export default class CeActionSelectDiv extends CustomElement {
 
         this.style.display = 'flex';
         this.style.width = '100%';
+
+        this.applyStyle();
     }
 }
