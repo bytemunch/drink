@@ -120,8 +120,6 @@ export default class CeAccountMenu extends CeMenu {
 
         addAnimate(btnUpdate);
         addAnimate(backButton);
-
-        this.applyStyle();
     }
 
     update() {
