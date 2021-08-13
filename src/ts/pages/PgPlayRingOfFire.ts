@@ -37,8 +37,8 @@ export default class PgPlayRingOfFire extends Page {
 
         let drawButton = document.createElement('button');
         drawButton.textContent = 'Draw Card';
-        drawButton.classList.add('big', 'bottom');
-        drawButton.id = 'draw';
+        drawButton.classList.add('big');
+        drawButton.id = 'draw-button';
 
         drawButton.addEventListener('click', async function (e) {
             // await (<AnimButton>this).baAnimate(e)
@@ -58,16 +58,8 @@ export default class PgPlayRingOfFire extends Page {
                 goToPage('pg-home');
             } else {
                 await (<RingOfFire>gameHandler.gameObject).takeTurn()
-                if (!gameHandler.gameObject.online) updateDOM();
-
-                // ! this is now different when using shadowDOM
-                // ! this is now a tomorrow problem
-                // TODO replace updateDOM with observer mixin pattern
-
-                console.log(this);
+                if (!gameHandler.gameObject.online) gameHandler.update();
                 
-                (<CeRule>this.shadowRoot.querySelector('ce-rule')).applyStyle();
-
                 if (gameHandler.gameObject.state !== 'finished') {
 
                 } else {
@@ -79,11 +71,5 @@ export default class PgPlayRingOfFire extends Page {
         })
 
         this.shadowRoot.appendChild(drawButton);
-
-
-        // Update DOM after joined
-        setTimeout(() => {
-            updateDOM();
-        }, 500)
     }
 }

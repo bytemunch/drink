@@ -4,6 +4,11 @@
     display: block;
 }
 
+:host(.ring-of-fire) {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 :host(.large) img {
     width: unset;
     height: 40vh;

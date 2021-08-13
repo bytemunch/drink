@@ -12,12 +12,12 @@ export default class CeCard extends UpdateableElement {
 
     constructor() {
         super();
+
+        gameHandler.updater.push(this.update.bind(this));
     }
 
     applyStyle() {
-        this.classList.add('card-display');
-
-        if (gameHandler.gameObject.type === 'ring-of-fire') this.style.left = `calc((${window.innerWidth}px - ${this.backImg.getBoundingClientRect().width}px) / 2)`;
+        this.classList.add('card-display', gameHandler.gameObject.type);
         super.applyStyle();
     }
 
@@ -26,12 +26,12 @@ export default class CeCard extends UpdateableElement {
 
         this.backImg = document.createElement('img');
         this.backImg.setAttribute('src', `/img/cards/back.svg`);
-        this.backImg.classList.add('back-img');
+        this.backImg.classList.add('back-img', gameHandler.gameObject.type);
         this.shadowRoot.appendChild(this.backImg);
 
         this.img = document.createElement('img');
         this.img.setAttribute('src', `/img/cards/back.svg`);
-        this.backImg.classList.add('card-display-front');
+        this.img.classList.add('card-display-front', gameHandler.gameObject.type);
         this.shadowRoot.appendChild(this.img);
 
         this.applyStyle();
@@ -95,8 +95,6 @@ export default class CeCard extends UpdateableElement {
         if ((<RingOfFire>gameHandler.gameObject).currentCard !== this.currentCard && (<RingOfFire>gameHandler.gameObject).currentCard.number !== '') {
             this.drawCard((<RingOfFire>gameHandler.gameObject).currentCard);
         }
-
-        this.applyStyle();
     }
 
 }

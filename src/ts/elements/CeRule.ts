@@ -10,6 +10,7 @@ export default class CeRule extends UpdateableElement {
 
     constructor() {
         super();
+        gameHandler.updater.push(this.update.bind(this));
     }
 
     connectedCallback() {

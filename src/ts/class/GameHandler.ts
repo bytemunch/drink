@@ -5,6 +5,8 @@ export default class GameHandler {
     gameObject:RedOrBlack|RingOfFire;
     online;
 
+    updater = [];
+
     constructor() {
         this.online = false;
     }
@@ -18,6 +20,12 @@ export default class GameHandler {
             case 'red-or-black':
                 this.gameObject = new RedOrBlack(this.online);
                 break;
+        }
+    }
+
+    update() {
+        for (let f of this.updater) {
+            f();
         }
     }
 }
