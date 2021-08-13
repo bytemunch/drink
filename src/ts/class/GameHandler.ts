@@ -25,7 +25,12 @@ export default class GameHandler {
 
     update() {
         for (let f of this.updater) {
-            f();
+            try {
+                f();
+            } catch (e) {
+                console.warn('Updater tried to use a missing function!');
+                // TODO remove missing function from updater here?
+            }
         }
     }
 }

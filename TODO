@@ -11,3 +11,5 @@ Use observer pattern for game UI
 Use html templating
 
 RuleSelect does not inherit from CustomElement
+
+Fix adding local players

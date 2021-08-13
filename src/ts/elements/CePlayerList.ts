@@ -6,7 +6,7 @@ import CeCreatePlayerButton from './CeCreatePlayerButton.js';
 
 let firestore = firebase.firestore();
 
-import {userdata, gameHandler} from '../index.js';
+import { userdata, gameHandler } from '../index.js';
 import { addAnimate } from '../functions/buttonAnimator.js';
 
 export default class CePlayerList extends UpdateableElement {
@@ -24,6 +24,8 @@ export default class CePlayerList extends UpdateableElement {
         // if we are room owner
 
         if (!gameHandler.gameObject.online || gameHandler.gameObject.ownerUid == userdata.uid) this.initDragDrop();
+
+        gameHandler.updater.push(this.update.bind(this));
 
         this.update();
     }
@@ -122,7 +124,9 @@ export default class CePlayerList extends UpdateableElement {
         }
 
         // Clear DOM
-        Array.from(this.childNodes).forEach(el => this.removeChild(el));
+        Array.from(this.shadowRoot.childNodes).forEach(el => {
+            if ((<Element>el).tagName == 'CE-PLAYER') this.shadowRoot.removeChild(el)
+        });
 
         // Update DOM
         this.players.forEach(p => {
@@ -134,9 +138,5 @@ export default class CePlayerList extends UpdateableElement {
             // BUGFIX for border not updating
             if (p.uid === userdata.uid) pElement.style.borderColor = userdata.color;
         });
-
-        let addLocalPlayer = new CeCreatePlayerButton(document.querySelector('ce-create-player-menu'));
-        addAnimate(addLocalPlayer);
-        this.shadowRoot.appendChild(addLocalPlayer);
     }
 }

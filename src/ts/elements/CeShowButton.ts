@@ -34,12 +34,13 @@ export default class CeShowButton extends CustomElement {
         this.icon.classList.add('icon');
         this.shadowRoot.appendChild(this.icon);
 
-        this.addEventListener('click', e=>this.clicked(e));
+        this.addEventListener('click', this.clicked.bind(this));
 
         this.applyStyle();
     }
 
-    async clicked(e:MouseEvent) {
+    async clicked() {
+        console.log('cliky',this)
         // close other modals
         
         // comment out while shadowroot sorted

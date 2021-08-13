@@ -5,6 +5,7 @@ import Page from "./Page.js";
 import { gameHandler } from '../index.js';
 import { AnimButton } from "../types.js";
 import disablePage from "../functions/disablePage.js";
+import CeCreatePlayerButton from "../elements/CeCreatePlayerButton.js";
 
 export default class PgSetupGame extends Page {
     constructor() {
@@ -22,6 +23,9 @@ export default class PgSetupGame extends Page {
         let playerInfo = document.createElement('ce-player-list');
         playerInfo.classList.add('bigGrid');
         this.shadowRoot.appendChild(playerInfo);
+
+        let createPlayerBtn = new CeCreatePlayerButton(createPlayer);
+        this.shadowRoot.appendChild(createPlayerBtn);
 
         let startButton = document.createElement('button');
         startButton.textContent = 'Start';

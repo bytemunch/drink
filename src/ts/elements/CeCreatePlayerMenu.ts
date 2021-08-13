@@ -99,7 +99,7 @@ export default class CeCreatePlayerMenu extends CeMenu {
             inputs.name.value = 'Player ' + (userdata.extraPlayerCount + 2);
             inputs.avatar.uid = newUid;
 
-            (<CePlayerList>document.querySelector('ce-player-list')).update();
+            gameHandler.update();
 
             // close modal
             this.hide();
