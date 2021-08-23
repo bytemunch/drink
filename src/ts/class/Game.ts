@@ -55,13 +55,13 @@ export default class Game {
 
     async removePlayer(uid) {
         delete this.players[uid];
-        this.playerOrder.splice(this.playerOrder.indexOf(uid) - 1, 1);
+        this.playerOrder.splice(this.playerOrder.indexOf(uid), 1);
 
         if (this.online) {
             // remove local player from firebase
         }
 
-        return true;
+        return;
     }
 
     modifyPlayer(id, fields) {

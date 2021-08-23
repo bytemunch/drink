@@ -13,7 +13,6 @@ import {userdata, gameHandler} from '../index.js';
 import RuleSet from "./RuleSet.js";
 
 export default class RingOfFire extends Game {
-    type: string;
     deck: Deck;
     ruleset: RuleSet;
     currentCard: Card;
