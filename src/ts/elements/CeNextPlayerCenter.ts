@@ -11,8 +11,8 @@ export default class CeNextPlayerCenter extends UpdateableElement {
         super();
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    async connectedCallback() {
+        await super.connectedCallback();
 
         let upnext = document.createElement('h3');
         upnext.textContent = 'Up Next:';

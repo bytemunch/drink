@@ -7,8 +7,8 @@ export default class CeInviteButton extends CeCreatePlayerButton {
 
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    async connectedCallback() {
+        await super.connectedCallback();
 
         this.classList.add('small');
     }

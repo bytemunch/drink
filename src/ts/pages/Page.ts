@@ -8,7 +8,9 @@ export default class Page extends CustomElement {
         super();
     }
 
-    connectedCallback() {
+    async connectedCallback() {
+        await super.connectedCallback();
+
         this.classList.add('page');
 
         let version = document.createElement('p');

@@ -40,8 +40,8 @@ export default class CeLoadScreen extends CustomElement {
         this.elements.flavor.textContent = messages[rNum];
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    async connectedCallback() {
+        await super.connectedCallback();
 
         this.applyStyle();
 

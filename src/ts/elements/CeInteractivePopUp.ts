@@ -42,7 +42,8 @@ export default class CeInteractivePopUp extends CustomElement {
         this.shadowRoot.appendChild(this.innerDiv);
     }
 
-    connectedCallback() {
+    async connectedCallback() {
+        await super.connectedCallback();
         this.classList.add('popup');
     }
 

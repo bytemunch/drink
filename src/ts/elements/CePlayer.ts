@@ -22,11 +22,11 @@ export default class CePlayer extends CustomElement {
         this.uid = uid;
     }
 
-    connectedCallback() {
+    async connectedCallback() {
         // FIRES EVERY DRAG!
 
         if (!this.connectedOnce) {
-            super.connectedCallback();
+            await super.connectedCallback();
 
             this.draggable = true;
     

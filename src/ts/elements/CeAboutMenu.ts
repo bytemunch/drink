@@ -5,8 +5,8 @@ export default class CeAboutMenu extends CeMenu {
         super();
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    async connectedCallback() {
+        await super.connectedCallback();
 
         this.h2title.textContent = 'About';
 

@@ -6,8 +6,8 @@ export default class UpdateableElement extends CustomElement {
         super();
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    async connectedCallback() {
+        await super.connectedCallback();
         this.classList.add('updateable-element');
     }
 

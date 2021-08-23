@@ -21,8 +21,8 @@ export default class CeCard extends UpdateableElement {
         super.applyStyle();
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    async connectedCallback() {
+        await super.connectedCallback();
 
         this.backImg = document.createElement('img');
         this.backImg.setAttribute('src', `/img/cards/back.svg`);

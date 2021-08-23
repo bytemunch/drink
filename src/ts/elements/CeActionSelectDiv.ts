@@ -5,7 +5,9 @@ export default class CeActionSelectDiv extends CustomElement {
         super();
     }
 
-    connectedCallback() {
+    async connectedCallback() {
+        await super.connectedCallback();
+
         // Type, trigger, target
         let types = [
             ["Type","nopopup"],

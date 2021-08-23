@@ -8,7 +8,9 @@ export default class CeRuleSelectDiv extends CustomElement {
         super();
     }
 
-    connectedCallback() {
+    async connectedCallback() {
+        await super.connectedCallback();
+
         this.shadowRoot.appendChild(new CeRuleSelect);
 
         let ruleCreateMenu = new CeRuleCreateMenu;

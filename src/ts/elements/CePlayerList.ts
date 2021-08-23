@@ -16,8 +16,8 @@ export default class CePlayerList extends UpdateableElement {
         super();
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    async connectedCallback() {
+        await super.connectedCallback();
 
         this.applyStyle();
 

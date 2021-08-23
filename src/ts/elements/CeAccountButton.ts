@@ -16,8 +16,8 @@ export default class CeAccountButton extends CeShowButton {
         this.classList.add('updateable-element');
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    async connectedCallback() {
+        await super.connectedCallback();
         this.avi = new CeAvatar;
         
         this.shadowRoot.appendChild(this.avi);

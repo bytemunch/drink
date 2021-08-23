@@ -40,6 +40,13 @@ export default class CustomElement extends HTMLElement {
         this.shadowRoot.appendChild(newStyle);
     }
 
-    connectedCallback() {
+    async connectedCallback() {
+        this.shadowRoot.innerHTML = await fetch(`./templates/${this.constructor.name}.html`)
+        .then(res=>{
+            if (res.ok) {
+                return res.text();
+            }
+            return '';
+        })
     }
 }

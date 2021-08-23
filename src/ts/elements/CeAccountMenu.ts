@@ -19,8 +19,8 @@ export default class CeAccountMenu extends CeMenu {
         this.classList.add('updateable-element');
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    async connectedCallback() {
+        await super.connectedCallback();
 
         // add logout button
 

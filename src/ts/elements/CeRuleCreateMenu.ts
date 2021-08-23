@@ -20,8 +20,8 @@ export default class CeRuleCreateMenu extends CeMenu {
         super.applyStyle();
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    async connectedCallback() {
+        await super.connectedCallback();
         let title = document.createElement('h1');
         title.textContent = 'Create Ruleset';
         title.style.position = 'relative';

@@ -10,8 +10,8 @@ export default class PgHome extends Page {
         super();
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    async connectedCallback() {
+        await super.connectedCallback();
         // add elements to page
         let offlineGameButton = document.createElement('button');
         offlineGameButton.textContent = 'Play';

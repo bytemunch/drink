@@ -38,7 +38,9 @@ export default class CeAvatarUpload extends CustomElement {
         image.addEventListener('error', e => console.error(e));
     }
 
-    connectedCallback() {
+    async connectedCallback() {
+        await super.connectedCallback();
+
         this.realInput = document.createElement('input');
         this.realInput.setAttribute('type', 'file');
         this.realInput.setAttribute('hidden', 'hidden');

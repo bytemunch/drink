@@ -12,8 +12,8 @@ export default class PgPlayOffline extends Page {
         this.header = 'account';
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    async connectedCallback() {
+        await super.connectedCallback();
         // add elements to page
 
         // Player config bits!!

@@ -9,7 +9,9 @@ export default class CeHeader extends CustomElement {
         super();
     }
 
-    connectedCallback() {
+    async connectedCallback() {
+        await super.connectedCallback();
+
         this.addInfo();
         this.addAccountMenu();
         this.addLogo();

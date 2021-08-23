@@ -16,35 +16,31 @@ export default class CePopUp extends CustomElement {
 
     constructor(){super()}
 
-    connectedCallback() {
+    async connectedCallback() {
+        await super.connectedCallback();
+
         this.classList.add('popup');
 
         if (this.timer) {
             setTimeout(this.kill.bind(this), this.timer);
         }
-        this.innerDiv = document.createElement('div');
-        this.titleP = document.createElement('p');
-        this.messageP = document.createElement('p');
+
+        this.titleP = this.shadowRoot.querySelector('.title');
+        this.messageP = this.shadowRoot.querySelector('.message');
 
         this.titleP.textContent = this.titleTxt;
         this.messageP.textContent = this.messageTxt;
 
-        this.ok = document.createElement('button');
-        addAnimate(this.ok);
+        this.ok = this.shadowRoot.querySelector('button');
         this.ok.classList.add('small');
         
         this.ok.addEventListener('click', async (e) => {
-            // await this.ok.baAnimate(e);
             this.kill();
         })
 
-        this.ok.textContent = 'OK';
-        this.innerDiv.appendChild(this.titleP);
-        this.innerDiv.appendChild(this.messageP);
-        this.innerDiv.appendChild(this.ok);
-        this.shadowRoot.appendChild(this.innerDiv);
-
         this.applyStyle();
+
+        (<HTMLButtonElement>this.ok).disabled = false;
     }
 
     show() {

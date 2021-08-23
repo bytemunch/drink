@@ -7,7 +7,9 @@ export default class CePotCounter extends UpdateableElement {
         super();
     }
 
-    connectedCallback() {
+    async connectedCallback() {
+        await super.connectedCallback();
+
         this.textContent = '0';
 
         this.applyStyle();

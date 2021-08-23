@@ -13,8 +13,8 @@ export default class PgSetupGame extends Page {
         this.header = 'account';
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    async connectedCallback() {
+        await super.connectedCallback();
         // add elements to page
         // Player config bits!!
         let createPlayer = new CeCreatePlayerMenu;

@@ -17,8 +17,8 @@ export default class CeMenu extends CustomElement {
         this.openState = 'false';
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    async connectedCallback() {
+        await super.connectedCallback();
 
         this.menu = document.createElement('div');
         this.menu.id = 'menu';

@@ -8,8 +8,8 @@ export default class CeInviteMenu extends CeMenu {
         super();
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    async connectedCallback() {
+        await super.connectedCallback();
 
         let title = document.createElement('h1');
         title.textContent = 'Invite';

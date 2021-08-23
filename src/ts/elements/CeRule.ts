@@ -13,8 +13,8 @@ export default class CeRule extends UpdateableElement {
         gameHandler.updater.push(this.update.bind(this));
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    async connectedCallback() {
+        await super.connectedCallback();
 
         this.ruleTitle = document.createElement('p');
         this.desc = document.createElement('p');

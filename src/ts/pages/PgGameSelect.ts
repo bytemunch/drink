@@ -13,8 +13,8 @@ export default class PgGameSelect extends Page {
         this.header = 'account';
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    async connectedCallback() {
+        await super.connectedCallback();
         // add elements to page
 
         let rofButton = document.createElement('button');

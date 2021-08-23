@@ -24,8 +24,8 @@ export default class CeShowButton extends CustomElement {
         return 'unset';
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    async connectedCallback() {
+        await super.connectedCallback();
 
         this.classList.add('modalToggle');
 

@@ -16,8 +16,8 @@ export default class PgPlayRingOfFire extends Page {
         this.header = 'account';
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    async connectedCallback() {
+        await super.connectedCallback();
         // add elements to page
 
         let nextPlayer = new CeNextPlayer;

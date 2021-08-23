@@ -30,8 +30,8 @@ export default class PgPlayRedOrBlack extends Page {
         console.log(gameHandler);
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    async connectedCallback() {
+        await super.connectedCallback();
         // add elements to page
 
         this.cardW = 70;

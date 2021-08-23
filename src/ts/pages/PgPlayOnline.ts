@@ -14,8 +14,8 @@ export default class PgPlayOnline extends Page {
         this.header = 'account';
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    async connectedCallback() {
+        await super.connectedCallback();
 
         // check if not signed in; redirect to login if not
         if (firebase.auth().currentUser === null) {

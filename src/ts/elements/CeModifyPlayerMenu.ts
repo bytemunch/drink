@@ -19,8 +19,8 @@ export default class CeModifyPlayerMenu extends CeMenu {
         super.applyStyle();
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    async connectedCallback() {
+        await super.connectedCallback();
 
         this.id="modify"+this.uid;
 

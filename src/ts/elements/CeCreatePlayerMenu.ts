@@ -20,8 +20,8 @@ export default class CeCreatePlayerMenu extends CeMenu {
         super.applyStyle();
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    async connectedCallback() {
+        await super.connectedCallback();
 
         this.h2title.textContent = 'Add Player';
 

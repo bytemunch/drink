@@ -14,8 +14,8 @@ export default class CeNextPlayer extends UpdateableElement {
         gameHandler.updater.push(this.update.bind(this));
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    async connectedCallback() {
+        await super.connectedCallback();
         
 
         let upnext = document.createElement('h3');

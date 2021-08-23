@@ -16,8 +16,8 @@ export default class CeAvatar extends UpdateableElement {
         super.applyStyle();
     }
 
-    connectedCallback() {
-        super.connectedCallback();
+    async connectedCallback() {
+        await super.connectedCallback();
         this.classList.add('account-img');
         this.applyStyle();
     }
