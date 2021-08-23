@@ -7,7 +7,6 @@ import CeAccountMenu from "./CeAccountMenu.js";
 
 export default class CePlayer extends CustomElement {
     uid;
-    baAnimate;
 
     connectedOnce: boolean = false;
 
@@ -24,7 +23,6 @@ export default class CePlayer extends CustomElement {
             this.draggable = true;
 
             this.addEventListener('click', async e => {
-                // await this.baAnimate(e);
                 if (this.uid !== userdata.uid) {
                     // const modifyMenu = document.querySelector('#modify' + this.uid) as unknown as CeModifyPlayerMenu;
                     // modifyMenu.show();

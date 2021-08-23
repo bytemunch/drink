@@ -6,7 +6,6 @@ export default class CeShowButton extends CustomElement {
     closeImg;
     target;
     icon;
-    baAnimate;
 
     constructor(target) {
         super();
@@ -43,9 +42,6 @@ export default class CeShowButton extends CustomElement {
         console.log('cliky',this)
         // close other modals
         
-        // comment out while shadowroot sorted
-        // await this.baAnimate(e);
-
         const otherButtons = document.querySelectorAll('.modalToggle') as any;
 
         for (let b of otherButtons) {

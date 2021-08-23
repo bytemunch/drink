@@ -46,7 +46,6 @@ export default class PgLogin extends Page {
 
         loginButton.addEventListener('click', async function (e) {
             console.log('Login button pressed!');
-            // await (<AnimButton>loginButton).baAnimate(e)
             firebase.auth().signInWithEmailAndPassword(emailInput.value, passwordInput.value)
                 .catch(err => {
                     console.error(err)
@@ -65,7 +64,6 @@ export default class PgLogin extends Page {
 
         signupButton.addEventListener('click', async function (e) {
             disablePage();
-            // await (<AnimButton>this).baAnimate(e)
             // confirm password?
             firebase.auth().createUserWithEmailAndPassword(emailInput.value, passwordInput.value)
                 .catch(err => {
@@ -86,7 +84,6 @@ export default class PgLogin extends Page {
 
         facebookButton.addEventListener('click', async function (e) {
             disablePage();
-            // await (<AnimButton>this).baAnimate(e)
             // facebook login
             let fbProvider = new firebase.auth.FacebookAuthProvider;
             firebase.auth().signInWithRedirect(fbProvider);
@@ -103,7 +100,6 @@ export default class PgLogin extends Page {
 
         backButton.addEventListener('click', async function (e) {
             disablePage();
-            // await (<AnimButton>this).baAnimate(e)
             console.log('Back button pressed!');
             goToPage('pg-home');
         });

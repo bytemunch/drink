@@ -2,7 +2,6 @@ import CustomElement from "./CustomElement.js";
 
 import { animMan } from '../index.js';
 import { addAnimate } from "../functions/buttonAnimator.js";
-import { AnimButton } from "../types.js";
 
 // Abstract base menu class
 export default class CeMenu extends CustomElement {
@@ -33,14 +32,13 @@ export default class CeMenu extends CustomElement {
         this.h2title.textContent = 'Menu Title';
         this.titlebar.appendChild(this.h2title);
 
-        let closeDiv = document.createElement('button') as AnimButton;
+        let closeDiv = document.createElement('button');
         closeDiv.classList.add('button-animate');
         closeDiv.id = 'close';
 
         addAnimate(closeDiv);
 
         closeDiv.addEventListener('click', async (e) => {
-            // await closeDiv.baAnimate(e);
             this.hide();
         });
 

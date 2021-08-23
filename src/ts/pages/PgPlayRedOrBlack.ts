@@ -10,7 +10,6 @@ import Page from "./Page.js";
 
 import { gameHandler } from '../index.js';
 import Card from "../class/Card.js";
-import { AnimButton } from "../types.js";
 
 export default class PgPlayRedOrBlack extends Page {
 
@@ -128,7 +127,6 @@ export default class PgPlayRedOrBlack extends Page {
             c.appendChild(p);
 
             c.addEventListener('click', async e => {
-                // await (<AnimButton>c).baAnimate(e)
                 // disable all buttons
                 c.classList.add('keep-color');
 

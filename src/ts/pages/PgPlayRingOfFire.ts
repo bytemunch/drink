@@ -1,4 +1,3 @@
-import updateDOM from "../functions/updateDOM.js";
 import CeNextPlayer from "../elements/CeNextPlayer.js";
 import CeCard from "../elements/CeCard.js";
 import CeRule from "../elements/CeRule.js";
@@ -7,7 +6,6 @@ import RingOfFire from "../class/RingOfFire.js";
 import Page from "./Page.js";
 
 import {gameHandler} from '../index.js';
-import { AnimButton } from "../types.js";
 
 export default class PgPlayRingOfFire extends Page {
 
@@ -41,7 +39,6 @@ export default class PgPlayRingOfFire extends Page {
         drawButton.id = 'draw-button';
 
         drawButton.addEventListener('click', async function (e) {
-            // await (<AnimButton>this).baAnimate(e)
             if (gameHandler.gameObject.online) {
                 //debounce
 

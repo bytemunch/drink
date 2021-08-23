@@ -2,14 +2,13 @@ import CePlayerList from "../elements/CePlayerList.js";
 import Game from "./Game.js";
 import Deck from "./Deck.js";
 import Card from "./Card.js";
-import updateDOM from "../functions/updateDOM.js";
 import errorPopUp from "../functions/errorPopUp.js";
 import CeRule from "../elements/CeRule.js";
 import CeCard from "../elements/CeCard.js";
 import goToPage from "../functions/goToPage.js";
 import CeNextPlayer from "../elements/CeNextPlayer.js";
 
-import {userdata, gameHandler} from '../index.js';
+import {userdata, gameHandler, observer} from '../index.js';
 import RuleSet from "./RuleSet.js";
 
 export default class RingOfFire extends Game {
@@ -34,7 +33,7 @@ export default class RingOfFire extends Game {
         } else {
             card = this.deck.drawCard();
             this.currentCard = card;
-            updateDOM();
+            observer.send({channel:'DOMUpdate'});
         }
 
         console.log(card);

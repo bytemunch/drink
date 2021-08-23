@@ -4,7 +4,6 @@ import RingOfFire from "../class/RingOfFire.js";
 import RedOrBlack from "../class/RedOrBlack.js";
 
 import { gameHandler } from '../index.js';
-import { AnimButton } from "../types.js";
 import disablePage from "../functions/disablePage.js";
 
 export default class PgGameSelect extends Page {
@@ -22,7 +21,6 @@ export default class PgGameSelect extends Page {
 
         rofButton.addEventListener('click', async function (e) {
             disablePage();
-            // await (<AnimButton>this).baAnimate(e)
             gameHandler.type = 'ring-of-fire';
             if (gameHandler.online) gameHandler.gameObject.initOnline(true)
             goToPage('pg-setup-game');
@@ -37,7 +35,6 @@ export default class PgGameSelect extends Page {
 
         redOrBlackButton.addEventListener('click', async function (e) {
             disablePage();
-            // await (<AnimButton>this).baAnimate(e)
             gameHandler.type = 'red-or-black';
             if (gameHandler.online) gameHandler.gameObject.initOnline(true)
             goToPage('pg-setup-game');
@@ -53,7 +50,6 @@ export default class PgGameSelect extends Page {
 
         backButton.addEventListener('click', async function (e) {
             disablePage();
-            // await (<AnimButton>this).baAnimate(e)
             console.log('Back button pressed!');
             goToPage('pg-home');
         });

@@ -1,13 +1,11 @@
 import CeMenu from "./CeMenu.js";
-import { LOCAL_MODE, userSignedIn, userdata } from "../index.js";
-import updateDOM from "../functions/updateDOM.js";
+import { LOCAL_MODE, userSignedIn, userdata, observer } from "../index.js";
 import goToPage from "../functions/goToPage.js";
 import CeAvatarUpload from "./CeAvatarUpload.js";
 import CeLogInOutButton from "./CeLogInOutButton.js";
 
 import {PROVIDER_VARS} from '../index.js';
 import {gameHandler} from '../index.js';
-import { AnimButton } from "../types.js";
 import { addAnimate } from "../functions/buttonAnimator.js";
 export default class CeAccountMenu extends CeMenu {
     constructor() {
@@ -77,7 +75,6 @@ export default class CeAccountMenu extends CeMenu {
 
         btnUpdate.addEventListener('click', async (e) => {
             let asyncPromises = [];
-            // asyncPromises.push((<AnimButton>btnUpdate).baAnimate(e));
             // load here
             if ((<HTMLInputElement>document.querySelector(`#acc-input-name`)).value == '') {
                 console.error('no name input');
@@ -96,7 +93,7 @@ export default class CeAccountMenu extends CeMenu {
 
             await (Promise.all(asyncPromises));
 
-            updateDOM();
+            observer.send({channel:'DOMUpdate'});
 
             this.hide();
         })
@@ -107,7 +104,6 @@ export default class CeAccountMenu extends CeMenu {
         backButton.textContent = 'Back to Home';
 
         backButton.addEventListener('click',  async (e) => {
-            // await (<AnimButton>backButton).baAnimate(e)
             console.log('Back button pressed!');
             if (gameHandler.gameObject) gameHandler.gameObject.leave();
             goToPage('pg-home');

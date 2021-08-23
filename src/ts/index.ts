@@ -4,7 +4,6 @@ import Player from './class/Player.js';
 import AnimationManager from './class/AnimationManager.js';
 import CePopUp from './elements/CePopUp.js';
 import loadUntil from './functions/loadUntil.js';
-import updateDOM from './functions/updateDOM.js';
 import goToPage from './functions/goToPage.js';
 import Deck from './class/Deck.js';
 import addLoader from './functions/addLoader.js';
@@ -35,17 +34,7 @@ let observer = new Observer;
 
 let AJAX_NAV = { prev: location.hash.replace('#', '') }
 
-let INVITE_CREDS = { room: '', pin: '' }
-
 let PROVIDER_VARS = { avi: '', name: '' }
-// Local mode is gonna wait til alpha release
-// or maybe use DEBUG_MODE to switch between dev project and live project
-// Literally https://github.com/firebase/firebase-tools/issues/1001
-// cannot come soon enough argh
-
-
-
-document.body.style.zoom = '1';
 
 window.addEventListener('popstate', e => {
     addLoader('pageOpen');
@@ -59,8 +48,6 @@ window.addEventListener('popstate', e => {
 
         return;
     }
-
-    updateDOM();
 })
 
 if (!LOCAL_MODE) {
@@ -107,8 +94,6 @@ async function popUpTest(title, message, options) {
     console.log(p.val);
 }
 
-
-
 document.addEventListener('DOMContentLoaded', async function () {
     // The Firebase SDK is initialized and available here!
     await loadUntil(preload());
@@ -120,19 +105,12 @@ document.addEventListener('DOMContentLoaded', async function () {
     document.body.appendChild(popUp);
     popUp.show();
 
-    // Check if we followed an invite link
-    let params = (new URL(location.href)).searchParams;
-    INVITE_CREDS.room = params.get('r') || '';
-    INVITE_CREDS.pin = params.get('p') || '';
-
     if (!LOCAL_MODE) {
         firebase.auth().onAuthStateChanged(authHandler);
     } else {
         goToPage('pg-home');
     }
 });
-
-
 
 async function authHandler(user: any) {
     if (user) {
@@ -146,9 +124,8 @@ async function authHandler(user: any) {
             .then(() => {
                 //@ts-ignore
                 (<NodeListOf<CeAvatar>>document.querySelectorAll('ce-avatar')).forEach((v) => v.update());
-                updateDOM();
+                observer.send({channel:'DOMUpdate'});
                 goToPage('pg-home');
-
             })
             .catch(e => {
                 console.error('userdata.populateFrom:', e);
@@ -156,7 +133,7 @@ async function authHandler(user: any) {
     } else {
         // logged out
         userdata = new Player; //clear user info
-        updateDOM();
+        observer.send({channel:'DOMUpdate'});
         goToPage('pg-home');
     }
 }

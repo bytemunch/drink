@@ -5,7 +5,6 @@ import Player from "../class/Player.js";
 import CeAvatarUpload from "./CeAvatarUpload.js";
 
 import {gameHandler} from '../index.js';
-import { AnimButton } from "../types.js";
 import { addAnimate } from "../functions/buttonAnimator.js";
 
 export default class CeModifyPlayerMenu extends CeMenu {
@@ -69,8 +68,6 @@ export default class CeModifyPlayerMenu extends CeMenu {
         btnUpdate.classList.add('big');
 
         btnUpdate.addEventListener('click', async e => {
-            // await (<AnimButton>btnUpdate).baAnimate(e)
-
             // load here
 
             const playerInfo = {
@@ -101,7 +98,6 @@ export default class CeModifyPlayerMenu extends CeMenu {
         btnRemove.classList.add('big', 'red');
 
         btnRemove.addEventListener('click', async (e) => {
-            // await (<AnimButton>btnRemove).baAnimate(e)
             gameHandler.gameObject.removePlayer(this.uid);
             observer.send({channel:'DOMUpdate'});
             this.hide();

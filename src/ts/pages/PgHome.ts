@@ -2,7 +2,6 @@ import Page from "./Page.js";
 import goToPage from "../functions/goToPage.js";
 import { LOCAL_MODE } from "../index.js";
 import addExpandingCircles, { addAnimate } from "../functions/buttonAnimator.js";
-import {AnimButton} from '../types';
 import disablePage from "../functions/disablePage.js";
 
 export default class PgHome extends Page {
@@ -18,7 +17,6 @@ export default class PgHome extends Page {
 
         offlineGameButton.addEventListener('click', async function (e) {
             disablePage();
-            // await (<AnimButton>this).baAnimate(e)
             goToPage('pg-game-select');
         });
 
@@ -34,7 +32,6 @@ export default class PgHome extends Page {
 
             onlineGameButton.addEventListener('click', async function (e) {
                 disablePage();
-                // await (<AnimButton>this).baAnimate(e)
                 console.log('Online game button pressed!');
                 goToPage('pg-play-online')
             });

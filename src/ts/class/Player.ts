@@ -1,8 +1,7 @@
-import updateDOM from '../functions/updateDOM.js';
 import firebase from '../functions/firebase.js';
 
 
-import {PROVIDER_VARS} from '../index.js';
+import {observer, PROVIDER_VARS} from '../index.js';
 
 export default class Player {
     name: string = 'Player 1';
@@ -50,7 +49,7 @@ export default class Player {
                 }
             })
             .catch(e => console.error(e))
-            .finally(() => updateDOM())
+            .finally(() => observer.send({channel:'DOMUpdate'}))
 
         return userDoc;
     }

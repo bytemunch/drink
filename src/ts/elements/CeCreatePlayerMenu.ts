@@ -9,7 +9,6 @@ import CeAvatarUpload from "./CeAvatarUpload.js";
 
 import {userdata} from '../index.js';
 import {gameHandler} from '../index.js';
-import { AnimButton } from "../types.js";
 
 export default class CeCreatePlayerMenu extends CeMenu {
     constructor() {
@@ -73,7 +72,6 @@ export default class CeCreatePlayerMenu extends CeMenu {
         btnUpdate.classList.add('big');
 
         btnUpdate.addEventListener('click', async (e) => {
-            // await (<AnimButton>btnUpdate).baAnimate(e)
             // load here
             if (inputs.name.value == '') {
                 console.error('no name input');

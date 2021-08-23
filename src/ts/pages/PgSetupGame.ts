@@ -3,7 +3,6 @@ import goToPage from "../functions/goToPage.js";
 import Page from "./Page.js";
 
 import { gameHandler } from '../index.js';
-import { AnimButton } from "../types.js";
 import disablePage from "../functions/disablePage.js";
 import CeCreatePlayerButton from "../elements/CeCreatePlayerButton.js";
 
@@ -32,7 +31,6 @@ export default class PgSetupGame extends Page {
 
         startButton.addEventListener('click', async function (e) {
             disablePage();
-            // await (<AnimButton>this).baAnimate(e)
             gameHandler.gameObject.state = 'playing';
             goToPage(`pg-play-${gameHandler.gameObject.type}`);
         });
@@ -46,7 +44,6 @@ export default class PgSetupGame extends Page {
 
         backButton.addEventListener('click', async function (e) {
             disablePage();
-            // await (<AnimButton>this).baAnimate(e)
             console.log('Back button pressed!');
             goToPage('pg-home');
         });

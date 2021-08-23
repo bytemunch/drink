@@ -5,7 +5,6 @@ import firebase from '../functions/firebase.js';
 
 
 export default class CeLogInOutButton extends HTMLButtonElement {
-    baAnimate;
     
     constructor() {
         super();
@@ -21,7 +20,6 @@ export default class CeLogInOutButton extends HTMLButtonElement {
     }
 
     async clicked(e) {
-        // await this.baAnimate(e);
         if (userSignedIn()) {
             firebase.auth().signOut();
         } else {

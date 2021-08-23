@@ -75,7 +75,7 @@ export default function addExpandingCircles(e: MouseEvent) {
     return new Promise(res => setTimeout(() => {
         exC_1.parentElement.removeChild(exC_1);
         exC_2.parentElement.removeChild(exC_2);
-        res()
+        res(1)
     }, duration*0.8));
 }
 
