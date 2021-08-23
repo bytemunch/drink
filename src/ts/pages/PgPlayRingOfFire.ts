@@ -5,7 +5,7 @@ import goToPage from "../functions/goToPage.js";
 import RingOfFire from "../class/RingOfFire.js";
 import Page from "./Page.js";
 
-import {gameHandler} from '../index.js';
+import {gameHandler, observer} from '../index.js';
 
 export default class PgPlayRingOfFire extends Page {
 
@@ -38,19 +38,11 @@ export default class PgPlayRingOfFire extends Page {
         drawButton.classList.add('big');
         drawButton.id = 'draw-button';
 
+        observer.watch('draw-toggle', msg => {
+            drawButton.disabled = msg == 'disable';
+        })
+
         drawButton.addEventListener('click', async function (e) {
-            if (gameHandler.gameObject.online) {
-                //debounce
-
-                // TODO Very bad, reeanables button no matter what so can get desync if internet too quick!
-                drawButton.disabled = true;
-                drawButton.classList.add('grey');
-                setTimeout(() => {
-                    drawButton.disabled = false;
-                    drawButton.classList.remove('grey');
-                }, 1500)
-            }
-
             if (drawButton.textContent == 'End Game') {
                 goToPage('pg-home');
             } else {

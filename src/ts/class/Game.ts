@@ -25,11 +25,11 @@ export default class Game {
 
     pin: string;
 
-    view:HTMLElement;
+    view: HTMLElement;
 
     ref;
 
-    batchedUpdate:any = {};
+    batchedUpdate: any = {};
 
     constructor(online = false, roomId?, roomPin?) {
         this.online = online;
@@ -51,6 +51,12 @@ export default class Game {
         this.players[player.uid] = player.safeData;
 
         this.playerOrder.push(player.uid);
+
+        if (this.ref && this.online) {
+            this.batchFirebase({ players: this.players, playerOrder: this.playerOrder });
+            this.updateFirebase();
+        }
+
     }
 
     async removePlayer(uid) {
@@ -59,6 +65,8 @@ export default class Game {
 
         if (this.online) {
             // remove local player from firebase
+            this.batchFirebase({ players: this.players, playerOrder: this.playerOrder });
+            this.updateFirebase();
         }
 
         return;
@@ -104,7 +112,12 @@ export default class Game {
 
     async takeTurn() {
         this.turn++;
-        this.batchFirebase({turn: this.turn});
+        if (this.online) {
+            this.batchFirebase({ turn: this.turn });
+            this.updateFirebase();
+        }
+
+        
     }
 
     get numPlayers() {

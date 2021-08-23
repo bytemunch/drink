@@ -1,5 +1,5 @@
 import UpdateableElement from "./UpdateableElement.js";
-import { animMan } from "../index.js";
+import { animMan, observer } from "../index.js";
 import RingOfFire from "../class/RingOfFire.js";
 
 import { gameHandler } from '../index.js';
@@ -11,6 +11,7 @@ export default class CeRule extends UpdateableElement {
     constructor() {
         super();
         gameHandler.updater.push(this.update.bind(this));
+        observer.watch('ce-card', this.update.bind(this));
     }
 
     async connectedCallback() {

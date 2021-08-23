@@ -8,7 +8,7 @@ import CeCard from "../elements/CeCard.js";
 import goToPage from "../functions/goToPage.js";
 import CeNextPlayer from "../elements/CeNextPlayer.js";
 
-import {userdata, gameHandler, observer} from '../index.js';
+import { userdata, gameHandler, observer } from '../index.js';
 import RuleSet from "./RuleSet.js";
 
 export default class RingOfFire extends Game {
@@ -25,7 +25,6 @@ export default class RingOfFire extends Game {
     }
 
     async takeTurn() {
-
         let card;
 
         if (this.online) {
@@ -33,7 +32,7 @@ export default class RingOfFire extends Game {
         } else {
             card = this.deck.drawCard();
             this.currentCard = card;
-            observer.send({channel:'DOMUpdate'});
+            observer.send({ channel: 'DOMUpdate' });
         }
 
         console.log(card);
@@ -78,8 +77,8 @@ export default class RingOfFire extends Game {
 
         if (newCard.suit != oldCard.suit || newCard.number != oldCard.number) {
             this.currentCard = newData.currentCard;
-            (<CeCard>document.querySelector('ce-card')).update();
-            (<CeRule>document.querySelector('ce-rule')).update();
+            observer.send({ channel: 'ce-card' });
+            observer.send({ channel: 'ce-rule' });
         }
 
         if (oldData.state !== newData.state) {
@@ -100,23 +99,20 @@ export default class RingOfFire extends Game {
         super.onListenerUpdate(newData, oldData);
 
         if (gameHandler.gameObject.state === 'playing') {
-            (<CeNextPlayer>document.querySelector('ce-next-player')).update();
+            observer.send({ channel: 'ce-next-player' })
 
-            const drawButton = (<HTMLButtonElement>document.querySelector('#draw'));
-
-            if (drawButton && gameHandler.gameObject.currentPlayer !== userdata.uid) {
+            // TODO uids will not stay set length, dictated by firebase so may break anytime
+            if (gameHandler.gameObject.currentPlayer.substr(0,28) !== userdata.uid) {
                 // Disable draw button
-                drawButton.disabled = true;
-                drawButton.classList.add('grey');
+                observer.send({channel: 'draw-toggle', message:'disable'})
             } else {
                 // enable draw button
-                drawButton.disabled = false;
-                drawButton.classList.remove('grey');
+                observer.send({channel: 'draw-toggle', message:'enable'})
             }
         }
 
         if (gameHandler.gameObject.state === 'setup') {
-            (<CePlayerList>document.querySelector('ce-player-list')).update();
+            observer.send({ channel: 'DOMUpdate' })
         }
     }
 }

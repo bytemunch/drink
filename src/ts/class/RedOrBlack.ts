@@ -23,7 +23,6 @@ export default class RedOrBlack extends Game {
 
     //@ts-ignore some bullshit about type unsafe overloading idfc
     async takeTurn(bet: string): Promise<Card[]> {
-        super.takeTurn();
 
         let cards: Array<Card> = [];
 
@@ -43,9 +42,9 @@ export default class RedOrBlack extends Game {
                 cardPot: this.cardPot,
                 placedBet: bet
             })
-
-            this.updateFirebase();
         }
+
+        super.takeTurn();
 
         return cards;
     }

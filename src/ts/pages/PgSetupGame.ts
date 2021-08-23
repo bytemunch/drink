@@ -32,6 +32,7 @@ export default class PgSetupGame extends Page {
         startButton.addEventListener('click', async function (e) {
             disablePage();
             gameHandler.gameObject.state = 'playing';
+            gameHandler.gameObject.batchFirebase({state: gameHandler.gameObject.state});
             goToPage(`pg-play-${gameHandler.gameObject.type}`);
         });
 

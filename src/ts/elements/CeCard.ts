@@ -1,6 +1,6 @@
 import UpdateableElement from "./UpdateableElement.js";
 import Card from "../class/Card.js";
-import { animMan } from "../index.js";
+import { animMan, observer } from "../index.js";
 import RingOfFire from "../class/RingOfFire.js";
 
 import { gameHandler } from '../index.js';
@@ -14,6 +14,8 @@ export default class CeCard extends UpdateableElement {
         super();
 
         gameHandler.updater.push(this.update.bind(this));
+
+        observer.watch('ce-card', this.update.bind(this));
     }
 
     applyStyle() {

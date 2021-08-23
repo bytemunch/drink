@@ -1,7 +1,7 @@
 import UpdateableElement from "./UpdateableElement.js";
 import CeAvatar from "./CeAvatar.js";
 
-import {gameHandler} from '../index.js';
+import {gameHandler, observer} from '../index.js';
 
 export default class CeNextPlayer extends UpdateableElement {
     playerName:HTMLHeadingElement;
@@ -12,6 +12,8 @@ export default class CeNextPlayer extends UpdateableElement {
 
         // TODO put this in UpdateableElement?
         gameHandler.updater.push(this.update.bind(this));
+
+        observer.watch('ce-next-player', this.update.bind(this));
     }
 
     async connectedCallback() {
