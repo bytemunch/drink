@@ -1,9 +1,7 @@
 import firebase from '../functions/firebase.js';
-import { palette } from "../index.js";
 import goToPage from "../functions/goToPage.js";
 import errorPopUp from "../functions/errorPopUp.js";
 import Page from "./Page.js";
-import { AnimButton } from '../types.js';
 import disablePage from '../functions/disablePage.js';
 
 export default class PgLogin extends Page {
@@ -84,8 +82,7 @@ export default class PgLogin extends Page {
 
         let facebookButton = document.createElement('button');
         facebookButton.textContent = 'Continue with Facebook';
-
-        facebookButton.style.backgroundColor = palette.facebook;
+        facebookButton.classList.add('fb');
 
         facebookButton.addEventListener('click', async function (e) {
             disablePage();

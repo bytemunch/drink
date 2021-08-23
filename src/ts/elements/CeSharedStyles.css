@@ -73,3 +73,7 @@ button:disabled:not(.keep-color) {
 .grey {
     background-color: var(--grey);
 }
+
+.fb {
+    background-color: var(--facebook);
+}

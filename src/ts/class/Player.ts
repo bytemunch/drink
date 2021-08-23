@@ -1,5 +1,3 @@
-import rgb2hex from '../functions/rgb2hex.js';
-import {palette} from '../index.js';
 import updateDOM from '../functions/updateDOM.js';
 import firebase from '../functions/firebase.js';
 
@@ -15,7 +13,6 @@ export default class Player {
     extraPlayerCount: number = 0;
 
     constructor(options?) {
-        this.color = rgb2hex(palette.facebook); // use provider type color here in future?
         this.extraPlayerCount = 0;
         for (let o in options) {
             this[o] = options[o];

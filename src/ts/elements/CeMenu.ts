@@ -1,6 +1,6 @@
 import CustomElement from "./CustomElement.js";
 
-import {palette, animMan} from '../index.js';
+import { animMan } from '../index.js';
 import { addAnimate } from "../functions/buttonAnimator.js";
 import { AnimButton } from "../types.js";
 
@@ -42,7 +42,7 @@ export default class CeMenu extends CustomElement {
         closeDiv.addEventListener('click', async (e) => {
             // await closeDiv.baAnimate(e);
             this.hide();
-        } );
+        });
 
         this.titlebar.appendChild(closeDiv);
 
@@ -51,7 +51,7 @@ export default class CeMenu extends CustomElement {
         this.applyStyle();
     }
 
-    set title(t:string) {
+    set title(t: string) {
         let title = this.shadowRoot.querySelector('h2');
         title.textContent = t;
     }

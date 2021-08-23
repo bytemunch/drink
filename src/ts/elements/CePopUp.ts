@@ -1,8 +1,5 @@
 import CustomElement from './CustomElement.js';
 
-import { palette} from '../index.js';
-import { addAnimate } from '../functions/buttonAnimator.js';
-
 export default class CePopUp extends CustomElement {
     titleP;
     messageP;

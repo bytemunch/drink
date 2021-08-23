@@ -1,5 +1,4 @@
 import UpdateableElement from "./UpdateableElement.js";
-import { palette } from "../index.js";
 import firebase from '../functions/firebase.js';
 
 export default class CeAvatar extends UpdateableElement {
@@ -42,11 +41,9 @@ export default class CeAvatar extends UpdateableElement {
     set ready(bool) {
         this.realReady = bool;
         if (bool === true) {
-            this.style.borderTopColor = palette.green;
-            this.style.borderBottomColor = palette.green;
-        } else if (bool === false) {
-            this.style.borderTopColor = palette.red;
-            this.style.borderBottomColor = palette.red;
+            this.classList.add('ready');
+        } else {
+            this.classList.remove('ready');
         }
     }
 

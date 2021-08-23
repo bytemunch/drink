@@ -1,4 +1,3 @@
-import { palette } from "../index.js";
 import CeGameSelect from "./CeGameSelect.js";
 
 // TODO does not use shadow dom!
@@ -12,7 +11,6 @@ export default class CeRuleSelect extends HTMLSelectElement {
     }
 
     applyStyle() {
-        this.style.backgroundColor = palette.blue;
         this.classList.add('big');
         this.style.width = '60%';
         this.id = 'rule-select';

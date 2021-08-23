@@ -20,19 +20,6 @@ const DEBUG_MODE = false;
 
 export const VERSION = `0.3.6 - alpha${DEBUG_MODE ? ' - debug' : ''}`;
 
-export const palette = {
-    red: `rgb(148, 75, 75)`,
-    green: `rgb(75, 148, 105)`,
-    blue: `rgb(0, 191, 255)`,
-    darkblue: `rgb(33, 153, 249)`,
-    grey: `rgb(148, 148, 148)`,
-    black: `rgb(17, 17, 17)`,
-    white: `rgb(240, 248, 255)`,
-    greyAlpha: `rgba(0, 0, 0, 0.25)`,
-    facebook: `rgb(64, 101, 179)`,
-    purple: `rgb(142, 77, 216)`
-}
-
 // TODO detect if connected and set this accordingly
 export const LOCAL_MODE = false;
 

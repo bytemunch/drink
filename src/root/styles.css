@@ -16,6 +16,7 @@
     --black: #111111;
     --text-color: rgba(240, 248, 255, 0.87);
     --shadow: rgba(0, 0, 0, 0.25);
+    --facebook: rgb(64, 101, 179);
 }
 
 body {

@@ -1,4 +1,3 @@
-import { palette } from "../index.js";
 import CeRuleSelect from "./CeRuleSelect.js";
 
 
@@ -9,7 +8,6 @@ export default class CeGameSelect extends HTMLSelectElement {
     }
 
     applyStyle() {
-        this.style.backgroundColor = palette.blue;
         this.classList.add('big');
         this.id = 'game-select';
     }

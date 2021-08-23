@@ -1,5 +1,4 @@
 import CeMenu from "./CeMenu.js";
-import { palette } from "../index.js";
 import errorPopUp from "../functions/errorPopUp.js";
 import CeActionSelectDiv from "./CeActionSelectDiv.js";
 import RuleSet from "../class/RuleSet.js";
@@ -33,7 +32,6 @@ export default class CeRuleCreateMenu extends CeMenu {
 
         this.cardSelector = document.createElement('select');
         this.cardSelector.classList.add('big');
-        this.cardSelector.style.backgroundColor = palette.blue;
         this.cardSelector.id = 'card-select';
 
         for (let c of cards) {
@@ -56,14 +54,12 @@ export default class CeRuleCreateMenu extends CeMenu {
         // Text input for rule title
         this.titleInput = document.createElement('input');
         this.titleInput.classList.add('big');
-        this.titleInput.style.color = palette.black;
 
         this.menu.appendChild(this.titleInput);
 
         // Text input for rule
         this.ruleInput = document.createElement('textarea');
         this.ruleInput.classList.add('big');
-        this.ruleInput.style.color = palette.black;
         this.ruleInput.style.height = '50%';
 
         this.menu.appendChild(this.ruleInput)
@@ -87,7 +83,6 @@ export default class CeRuleCreateMenu extends CeMenu {
         // Update Button
         let updateButton = document.createElement('button');
         updateButton.textContent = 'Update';
-        updateButton.style.backgroundColor = palette.blue;
         updateButton.classList.add('big', 'bottom');
 
         updateButton.addEventListener('click', () => {
