@@ -24,6 +24,8 @@ export default class CustomElement extends HTMLElement {
 
         let parentStyles = [];
 
+        // TODO dont add link if stylesheet is 404
+
         while (parentClassName !== 'CustomElement') {
             let newStyle = document.createElement('link');
             newStyle.rel = "stylesheet";

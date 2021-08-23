@@ -5,7 +5,7 @@ import firebase from '../functions/firebase.js';
 
 let firestore = firebase.firestore();
 
-import { userdata, gameHandler } from '../index.js';
+import { userdata, gameHandler, observer } from '../index.js';
 import { addAnimate } from '../functions/buttonAnimator.js';
 
 export default class CePlayerList extends UpdateableElement {
@@ -25,6 +25,8 @@ export default class CePlayerList extends UpdateableElement {
         if (!gameHandler.gameObject.online || gameHandler.gameObject.ownerUid == userdata.uid) this.initDragDrop();
 
         gameHandler.updater.push(this.update.bind(this));
+
+        observer.watch('DOMUpdate', this.update.bind(this));
 
         this.update();
     }

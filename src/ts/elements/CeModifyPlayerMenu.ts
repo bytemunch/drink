@@ -1,6 +1,6 @@
 import CeMenu from "./CeMenu.js";
 import CePlayerList from "./CePlayerList.js";
-import { LOCAL_MODE } from "../index.js";
+import { LOCAL_MODE, observer } from "../index.js";
 import Player from "../class/Player.js";
 import CeAvatarUpload from "./CeAvatarUpload.js";
 
@@ -86,7 +86,7 @@ export default class CeModifyPlayerMenu extends CeMenu {
 
             gameHandler.gameObject.players[this.uid] = playerInfo;
 
-            (<CePlayerList>document.querySelector('ce-player-list')).update();
+            observer.send({channel:'DOMUpdate'})
 
             // close modal
             this.hide()
@@ -103,7 +103,7 @@ export default class CeModifyPlayerMenu extends CeMenu {
         btnRemove.addEventListener('click', async (e) => {
             // await (<AnimButton>btnRemove).baAnimate(e)
             gameHandler.gameObject.removePlayer(this.uid);
-            (<CePlayerList>document.querySelector('ce-player-list')).update();
+            observer.send({channel:'DOMUpdate'});
             this.hide();
         })
 
@@ -112,6 +112,13 @@ export default class CeModifyPlayerMenu extends CeMenu {
         addAnimate(btnUpdate);
         addAnimate(btnRemove);
 
+        observer.watch(`open-modify-${this.uid}`, this.show.bind(this));
+
         this.applyStyle();
+    }
+
+    show() {
+        super.show();
+        console.log('show called!',this);
     }
 }

@@ -13,6 +13,7 @@ import ceLoader from './functions/ceLoader.js';
 import pgLoader from './functions/pgLoader.js';
 import GameHandler from './class/GameHandler.js';
 import deleteAllRooms from './functions/deleteAllRooms.js';
+import { Observer } from './class/Observer.js';
 
 globalThis.deleteAllRooms = deleteAllRooms;
 
@@ -29,6 +30,8 @@ export const userSignedIn = () => {
 }
 
 let gameHandler = new GameHandler;
+
+let observer = new Observer;
 
 let AJAX_NAV = { prev: location.hash.replace('#', '') }
 
@@ -192,5 +195,6 @@ async function preload() {
 export {
     userdata,
     PROVIDER_VARS,
-    gameHandler
+    gameHandler,
+    observer
 }

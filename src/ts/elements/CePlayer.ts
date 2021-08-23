@@ -2,7 +2,7 @@ import CustomElement from "./CustomElement.js";
 import CeModifyPlayerMenu from "./CeModifyPlayerMenu.js";
 import CeAvatar from "./CeAvatar.js";
 
-import { userdata } from '../index.js';
+import { observer, userdata } from '../index.js';
 import CeAccountMenu from "./CeAccountMenu.js";
 
 export default class CePlayer extends CustomElement {
@@ -26,8 +26,9 @@ export default class CePlayer extends CustomElement {
             this.addEventListener('click', async e => {
                 // await this.baAnimate(e);
                 if (this.uid !== userdata.uid) {
-                    const modifyMenu = document.querySelector('#modify' + this.uid) as unknown as CeModifyPlayerMenu;
-                    modifyMenu.show();
+                    // const modifyMenu = document.querySelector('#modify' + this.uid) as unknown as CeModifyPlayerMenu;
+                    // modifyMenu.show();
+                    observer.send({channel: `open-modify-${this.uid}`});
                 } else {
                     console.log('opening account menu');
                     (<CeAccountMenu>document.querySelector('ce-account-menu')).show();

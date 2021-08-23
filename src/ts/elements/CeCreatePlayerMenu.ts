@@ -91,7 +91,7 @@ export default class CeCreatePlayerMenu extends CeMenu {
             gameHandler.gameObject.addPlayer(playerInfo);
 
             // add player modify menu to page
-            document.querySelector('.page').appendChild(new CeModifyPlayerMenu(newUid))
+            document.querySelector('.page').shadowRoot.appendChild(new CeModifyPlayerMenu(newUid))
 
             // Uhhhh reset modal? or something idk why i'm doin shit so backwards ahhahaa
             userdata.extraPlayerCount++;
