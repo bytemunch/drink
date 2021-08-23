@@ -2,7 +2,6 @@
 import UpdateableElement from './UpdateableElement.js';
 import CePlayer from './CePlayer.js';
 import firebase from '../functions/firebase.js';
-import CeCreatePlayerButton from './CeCreatePlayerButton.js';
 
 let firestore = firebase.firestore();
 

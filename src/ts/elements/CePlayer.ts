@@ -2,24 +2,17 @@ import CustomElement from "./CustomElement.js";
 import CeModifyPlayerMenu from "./CeModifyPlayerMenu.js";
 import CeAvatar from "./CeAvatar.js";
 
-import {userdata} from '../index.js';
+import { userdata } from '../index.js';
 import CeAccountMenu from "./CeAccountMenu.js";
 
-interface ICePlayerElements {
-    name: HTMLElement,
-    avatar: CeAvatar,
-}
-
 export default class CePlayer extends CustomElement {
-    elements: ICePlayerElements;
     uid;
     baAnimate;
 
-    connectedOnce:boolean = false;
+    connectedOnce: boolean = false;
 
-    constructor(uid) {
+    constructor() {
         super();
-        this.uid = uid;
     }
 
     async connectedCallback() {
@@ -29,17 +22,7 @@ export default class CePlayer extends CustomElement {
             await super.connectedCallback();
 
             this.draggable = true;
-    
-            this.elements = {
-                name: document.createElement('h3'),
-                avatar: document.createElement('ce-avatar') as unknown as CeAvatar
-            };
-    
-            for (let e in this.elements) {
-                this.elements[e].classList.add(e);
-                this.shadowRoot.appendChild(this.elements[e]);
-            }
-    
+
             this.addEventListener('click', async e => {
                 // await this.baAnimate(e);
                 if (this.uid !== userdata.uid) {
@@ -50,12 +33,11 @@ export default class CePlayer extends CustomElement {
                     (<CeAccountMenu>document.querySelector('ce-account-menu')).show();
                 }
             })
-    
+
             this.applyStyle();
         }
 
         this.connectedOnce = true;
-
     }
 
     applyStyle() {
@@ -65,19 +47,22 @@ export default class CePlayer extends CustomElement {
     }
 
     set player(player) {
-        this.elements.avatar.uid = player.uid;
+        this.HTMLReady.then(() => {
+            let avatar = (<CeAvatar>this.shadowRoot.querySelector('ce-avatar'));
+            avatar.uid = player.uid;
 
-        this.uid = player.uid;
+            this.uid = player.uid;
 
-        this.elements.name.textContent = player.name;
+            this.shadowRoot.querySelector('.name').textContent = player.name;
 
-        if (this.classList.contains('big')) {
-            this.elements.avatar.ready = player.ready;
-            // add showhidebutton for player info
-        }
+            if (this.classList.contains('big')) {
+                avatar.ready = player.ready;
+                // add showhidebutton for player info
+            }
 
-        this.style.opacity = '1';
+            this.style.opacity = '1';
 
-        this.style.borderColor = player.color;
+            this.style.borderColor = player.color;
+        })
     }
 }

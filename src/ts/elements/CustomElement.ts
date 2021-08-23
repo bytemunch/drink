@@ -1,8 +1,14 @@
 export default class CustomElement extends HTMLElement {
+
+    HTMLReady;
+    HTMLReadyRes;
+
     constructor() {
         super();
-
         this.attachShadow({mode: 'open'});
+        this.HTMLReady = new Promise(res=>{
+            this.HTMLReadyRes = res;
+        })
     }
 
     applyStyle() {
@@ -48,5 +54,7 @@ export default class CustomElement extends HTMLElement {
             }
             return '';
         })
+
+        this.HTMLReadyRes();
     }
 }

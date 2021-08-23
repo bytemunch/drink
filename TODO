@@ -8,6 +8,4 @@ Fix animations
 
 Use observer pattern for game UI
 
-CePlayer broken
-
 RuleSelect does not inherit from CustomElement
