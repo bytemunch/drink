@@ -1,7 +1,7 @@
-import UpdateableElement from "./UpdateableElement.js";
 import firebase from '../functions/firebase.js';
+import CustomElement from './CustomElement.js';
 
-export default class CeAvatar extends UpdateableElement {
+export default class CeAvatar extends CustomElement {
     src;
     color;
     realReady;

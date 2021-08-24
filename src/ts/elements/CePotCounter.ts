@@ -1,8 +1,8 @@
-import UpdateableElement from "./UpdateableElement.js";
 import RedOrBlack from "../class/RedOrBlack.js";
 import {gameHandler} from '../index.js';
+import CustomElement from "./CustomElement.js";
 
-export default class CePotCounter extends UpdateableElement {
+export default class CePotCounter extends CustomElement {
     constructor() {
         super();
     }

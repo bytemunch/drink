@@ -1,16 +1,14 @@
-import UpdateableElement from "./UpdateableElement.js";
 import CeAvatar from "./CeAvatar.js";
 
 import {gameHandler, observer} from '../index.js';
+import CustomElement from "./CustomElement.js";
 
-export default class CeNextPlayer extends UpdateableElement {
+export default class CeNextPlayer extends CustomElement {
     playerName:HTMLHeadingElement;
     playerAvi:CeAvatar;
 
     constructor() {
         super();
-
-        observer.watch('ce-next-player', this.update.bind(this));
     }
 
     async connectedCallback() {

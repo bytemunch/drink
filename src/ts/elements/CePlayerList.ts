@@ -1,5 +1,4 @@
 
-import UpdateableElement from './UpdateableElement.js';
 import CePlayer from './CePlayer.js';
 import firebase from '../functions/firebase.js';
 
@@ -7,13 +6,13 @@ let firestore = firebase.firestore();
 
 import { userdata, gameHandler, observer } from '../index.js';
 import { addAnimate } from '../functions/buttonAnimator.js';
+import CustomElement from './CustomElement.js';
 
-export default class CePlayerList extends UpdateableElement {
+export default class CePlayerList extends CustomElement {
     private players: Array<any> = [];
 
     constructor() {
         super();
-        observer.watch('ce-player-list', this.update.bind(this));
     }
 
     async connectedCallback() {

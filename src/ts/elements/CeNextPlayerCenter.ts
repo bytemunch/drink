@@ -1,9 +1,9 @@
-import UpdateableElement from "./UpdateableElement.js";
 import CeAvatar from "./CeAvatar.js";
 
 import {gameHandler} from '../index.js';
+import CustomElement from "./CustomElement.js";
 
-export default class CeNextPlayerCenter extends UpdateableElement {
+export default class CeNextPlayerCenter extends CustomElement {
     playerName:HTMLHeadingElement;
     playerAvi:CeAvatar;
 

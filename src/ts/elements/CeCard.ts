@@ -1,19 +1,17 @@
-import UpdateableElement from "./UpdateableElement.js";
 import Card from "../class/Card.js";
 import { animMan, observer } from "../index.js";
 import RingOfFire from "../class/RingOfFire.js";
 
 import { gameHandler } from '../index.js';
+import CustomElement from "./CustomElement.js";
 
-export default class CeCard extends UpdateableElement {
+export default class CeCard extends CustomElement {
     img: HTMLImageElement;
     backImg: HTMLImageElement;
     currentCard: Card;
 
     constructor() {
         super();
-
-        observer.watch('ce-card', this.update.bind(this));
     }
 
     applyStyle() {

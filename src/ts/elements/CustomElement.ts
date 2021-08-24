@@ -1,3 +1,5 @@
+import { observer } from "../index.js";
+
 export default class CustomElement extends HTMLElement {
 
     HTMLReady;
@@ -6,6 +8,7 @@ export default class CustomElement extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({mode: 'open'});
+        observer.watch(this.tagName.toLowerCase(), this.update.bind(this));
         this.HTMLReady = new Promise(res=>{
             this.HTMLReadyRes = res;
         })
@@ -58,5 +61,9 @@ export default class CustomElement extends HTMLElement {
         })
 
         this.HTMLReadyRes();
+    }
+
+    update() {
+
     }
 }
