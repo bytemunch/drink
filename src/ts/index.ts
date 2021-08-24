@@ -124,6 +124,7 @@ async function authHandler(user: any) {
             .then(() => {
                 //@ts-ignore
                 (<NodeListOf<CeAvatar>>document.querySelectorAll('ce-avatar')).forEach((v) => v.update());
+                // TODO send this update correctly
                 observer.send({channel:'DOMUpdate'});
                 goToPage('pg-home');
             })
@@ -133,6 +134,7 @@ async function authHandler(user: any) {
     } else {
         // logged out
         userdata = new Player; //clear user info
+        // TODO send this update correctly
         observer.send({channel:'DOMUpdate'});
         goToPage('pg-home');
     }

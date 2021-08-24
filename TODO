@@ -6,6 +6,12 @@ Fix animations
     - fix loading animation to prevent flash of no content
     - add small loading animation when waiting for firebase response
 
-Use observer pattern for game UI
+Presence
+
+Observer: channel that is HTML tag name should always trigger update() on that element
+
+Fix updating avatar on log in/out
+
+Allow no image uploaded on local player creation
 
 RuleSelect does not inherit from CustomElement

@@ -10,9 +10,6 @@ export default class CeNextPlayer extends UpdateableElement {
     constructor() {
         super();
 
-        // TODO put this in UpdateableElement?
-        gameHandler.updater.push(this.update.bind(this));
-
         observer.watch('ce-next-player', this.update.bind(this));
     }
 

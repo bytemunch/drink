@@ -13,8 +13,6 @@ export default class CeCard extends UpdateableElement {
     constructor() {
         super();
 
-        gameHandler.updater.push(this.update.bind(this));
-
         observer.watch('ce-card', this.update.bind(this));
     }
 

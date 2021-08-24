@@ -49,6 +49,7 @@ export default class Player {
                 }
             })
             .catch(e => console.error(e))
+            //TODO send this update correctly
             .finally(() => observer.send({channel:'DOMUpdate'}))
 
         return userDoc;

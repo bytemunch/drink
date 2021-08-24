@@ -13,6 +13,7 @@ export default class CePlayerList extends UpdateableElement {
 
     constructor() {
         super();
+        observer.watch('ce-player-list', this.update.bind(this));
     }
 
     async connectedCallback() {
@@ -23,10 +24,6 @@ export default class CePlayerList extends UpdateableElement {
         // if we are room owner
 
         if (!gameHandler.gameObject.online || gameHandler.gameObject.ownerUid == userdata.uid) this.initDragDrop();
-
-        gameHandler.updater.push(this.update.bind(this));
-
-        observer.watch('DOMUpdate', this.update.bind(this));
 
         this.update();
     }

@@ -32,7 +32,7 @@ export default class RingOfFire extends Game {
         } else {
             card = this.deck.drawCard();
             this.currentCard = card;
-            observer.send({ channel: 'DOMUpdate' });
+            observer.send({ channel: 'ce-card' });
         }
 
         console.log(card);
@@ -112,7 +112,7 @@ export default class RingOfFire extends Game {
         }
 
         if (gameHandler.gameObject.state === 'setup') {
-            observer.send({ channel: 'DOMUpdate' })
+            observer.send({ channel: 'ce-player-list' })
         }
     }
 }

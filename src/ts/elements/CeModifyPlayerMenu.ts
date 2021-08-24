@@ -83,7 +83,7 @@ export default class CeModifyPlayerMenu extends CeMenu {
 
             gameHandler.gameObject.players[this.uid] = playerInfo;
 
-            observer.send({channel:'DOMUpdate'})
+            observer.send({channel:'ce-player-list'})
 
             // close modal
             this.hide()
@@ -99,7 +99,7 @@ export default class CeModifyPlayerMenu extends CeMenu {
 
         btnRemove.addEventListener('click', async (e) => {
             gameHandler.gameObject.removePlayer(this.uid);
-            observer.send({channel:'DOMUpdate'});
+            observer.send({channel:'ce-player-list'});
             this.hide();
         })
 

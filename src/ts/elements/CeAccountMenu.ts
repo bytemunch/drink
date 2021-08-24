@@ -93,8 +93,6 @@ export default class CeAccountMenu extends CeMenu {
 
             await (Promise.all(asyncPromises));
 
-            observer.send({channel:'DOMUpdate'});
-
             this.hide();
         })
 

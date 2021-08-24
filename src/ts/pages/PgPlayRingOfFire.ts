@@ -47,7 +47,6 @@ export default class PgPlayRingOfFire extends Page {
                 goToPage('pg-home');
             } else {
                 await (<RingOfFire>gameHandler.gameObject).takeTurn()
-                if (!gameHandler.gameObject.online) gameHandler.update();
                 
                 if (gameHandler.gameObject.state !== 'finished') {
 
