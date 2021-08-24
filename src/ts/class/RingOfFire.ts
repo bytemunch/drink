@@ -48,7 +48,8 @@ export default class RingOfFire extends Game {
             return false;
         }
 
-        super.takeTurn();
+        await super.takeTurn();
+        observer.send({ channel: 'ce-next-player' });
 
         if (this.ruleset.winState.if == 'LAST_KING') {
             if (card.number == 'K') {
