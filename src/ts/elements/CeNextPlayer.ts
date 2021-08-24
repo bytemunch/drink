@@ -13,19 +13,12 @@ export default class CeNextPlayer extends CustomElement {
 
     async connectedCallback() {
         await super.connectedCallback();
-        
 
-        let upnext = document.createElement('h3');
-        upnext.textContent = 'Up Next:';
-        this.shadowRoot.appendChild(upnext);
+        this.playerAvi = this.shadowRoot.querySelector('ce-avatar');
 
-        this.playerAvi = new CeAvatar;
-        this.shadowRoot.appendChild(this.playerAvi);
+        this.playerName = this.shadowRoot.querySelector('#player-name')
 
-        this.playerName = document.createElement('h4');
-        this.playerName.textContent = 'player name';
-        this.shadowRoot.appendChild(this.playerName);
-
+        this.applyStyle();
         this.update();
     }
 

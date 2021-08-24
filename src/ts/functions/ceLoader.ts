@@ -6,12 +6,10 @@ import CeAvatarUpload from "../elements/CeAvatarUpload.js";
 import CeCard from "../elements/CeCard.js";
 import CeCreatePlayerButton from "../elements/CeCreatePlayerButton.js";
 import CeCreatePlayerMenu from "../elements/CeCreatePlayerMenu.js";
-import CeGameSelect from "../elements/CeGameSelect.js";
 import CeInteractivePopUp from "../elements/CeInteractivePopUp.js";
 import CeInviteButton from "../elements/CeInviteButton.js";
 import CeInviteMenu from "../elements/CeInviteMenu.js";
 import CeLoadScreen from "../elements/CeLoadScreen.js";
-import CeLogInOutButton from "../elements/CeLogInOutButton.js";
 import CeMenu from "../elements/CeMenu.js";
 import CeModifyPlayerMenu from "../elements/CeModifyPlayerMenu.js";
 import CeNextPlayer from "../elements/CeNextPlayer.js";
@@ -21,9 +19,6 @@ import CePlayerList from "../elements/CePlayerList.js";
 import CePopUp from "../elements/CePopUp.js";
 import CePotCounter from "../elements/CePotCounter.js";
 import CeRule from "../elements/CeRule.js";
-import CeRuleCreateMenu from "../elements/CeRuleCreateMenu.js";
-import CeRuleSelect from "../elements/CeRuleSelect.js";
-import CeRuleSelectDiv from "../elements/CeRuleSelectDiv.js";
 import CeShowButton from "../elements/CeShowButton.js";
 import CeHeader from "../elements/CeHeader.js";
 
@@ -37,13 +32,11 @@ export default function ceLoader() {
     customElements.define('ce-card', CeCard);
     customElements.define('ce-create-player-button', CeCreatePlayerButton);
     customElements.define('ce-create-player-menu', CeCreatePlayerMenu);
-    customElements.define('ce-game-select', CeGameSelect, { extends: 'select' });
     customElements.define('ce-header',CeHeader);
     customElements.define('ce-interactive-popup',CeInteractivePopUp);
     customElements.define('ce-invite-button',CeInviteButton);
     customElements.define('ce-invite-menu',CeInviteMenu);
     customElements.define('ce-load-screen',CeLoadScreen);
-    customElements.define('ce-log-in-out-button',CeLogInOutButton,{extends:'button'});
     customElements.define('ce-menu',CeMenu);
     customElements.define('ce-modify-player-menu',CeModifyPlayerMenu);
     customElements.define('ce-next-player',CeNextPlayer);
@@ -53,8 +46,5 @@ export default function ceLoader() {
     customElements.define('ce-popup',CePopUp);
     customElements.define('ce-pot-counter',CePotCounter);
     customElements.define('ce-rule',CeRule);
-    customElements.define('ce-rule-create-menu',CeRuleCreateMenu);
-    customElements.define('ce-rule-select',CeRuleSelect,{extends:'select'});
-    customElements.define('ce-rule-select-div',CeRuleSelectDiv);
     customElements.define('ce-show-button',CeShowButton);
 }

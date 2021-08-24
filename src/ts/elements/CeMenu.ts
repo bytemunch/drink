@@ -19,30 +19,19 @@ export default class CeMenu extends CustomElement {
     async connectedCallback() {
         await super.connectedCallback();
 
-        this.menu = document.createElement('div');
-        this.menu.id = 'menu';
-        this.shadowRoot.appendChild(this.menu);
+        this.menu = this.shadowRoot.querySelector('#menu');
 
-        this.titlebar = document.createElement('div');
-        this.titlebar.id = 'title'
-        this.menu.appendChild(this.titlebar);
+        this.titlebar = this.shadowRoot.querySelector('#title');
 
-        this.h2title = document.createElement('h2');
-        this.h2title.classList.add('menu-title');
-        this.h2title.textContent = 'Menu Title';
-        this.titlebar.appendChild(this.h2title);
+        this.h2title = this.shadowRoot.querySelector('h2.menu-title');
 
-        let closeDiv = document.createElement('button');
-        closeDiv.classList.add('button-animate');
-        closeDiv.id = 'close';
+        let closeDiv = this.shadowRoot.querySelector('#close');
 
         addAnimate(closeDiv);
 
         closeDiv.addEventListener('click', async (e) => {
             this.hide();
         });
-
-        this.titlebar.appendChild(closeDiv);
 
         this.hide();
 

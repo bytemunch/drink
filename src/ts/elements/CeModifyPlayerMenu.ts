@@ -22,62 +22,29 @@ export default class CeModifyPlayerMenu extends CeMenu {
 
         this.id="modify"+this.uid;
 
-        this.h2title.textContent = 'Modify Player';
+        this.title = 'Modify Player';
 
-        let inputs: any = {
-            name: {
-                label: 'Display Name',
-                type: 'text'
-            },
-            color: {
-                label: 'Color',
-                type: 'color'
-            },
-            avatar: {
-                label: 'Profile Pic',
-                type: 'file'
-            }
-        }
+        let nameInput = this.shadowRoot.querySelector('#acc-input-name') as HTMLInputElement;
+        let avatarInput = this.shadowRoot.querySelector('#acc-input-avatar') as CeAvatarUpload;
+        let colorInput = this.shadowRoot.querySelector('#acc-input-color') as HTMLInputElement;
 
-        for (let input in inputs) {
-            let l = document.createElement('p');
-            l.textContent = inputs[input].label;
-            l.classList.add('big', 'label')
-            this.menu.appendChild(l);
+        nameInput.value = gameHandler.gameObject.players[this.uid].name;
+        colorInput.value = gameHandler.gameObject.players[this.uid].color;
 
-            let i;
-
-            if (inputs[input].type == 'file') {
-                i = new CeAvatarUpload(this.uid)//document.createElement('ce-avatar-upload');
-            } else {
-                i = document.createElement('input');
-                i.setAttribute('type', inputs[input].type);
-                i.classList.add('big');
-                i.value = gameHandler.gameObject.players[this.uid][input];
-            }
-
-            i.setAttribute('id', `acc-input-${input}`);
-            this.menu.appendChild(i);
-            inputs[input] = i;
-        }
-
-        let btnUpdate = document.createElement('button');
-        btnUpdate.textContent = 'Update Player';
-        btnUpdate.classList.add('button-animate');
-        btnUpdate.classList.add('big');
+        let btnUpdate = this.shadowRoot.querySelector('#update');
 
         btnUpdate.addEventListener('click', async e => {
             // load here
 
             const playerInfo = {
                 uid: this.uid,
-                name: inputs['name'].value,
-                color: inputs['color'].value,
+                name: nameInput.value,
+                color: colorInput.value,
             }
 
             if (!LOCAL_MODE) {
                 gameHandler.gameObject.addPlayer(new Player(playerInfo));
-                await inputs['avatar'].upload();
+                await avatarInput.upload();
             }
 
             gameHandler.gameObject.players[this.uid] = playerInfo;
@@ -88,21 +55,13 @@ export default class CeModifyPlayerMenu extends CeMenu {
             this.hide()
         })
 
-        this.menu.appendChild(btnUpdate);
-
-
-        let btnRemove = document.createElement('button');
-        btnRemove.classList.add('button-animate');
-        btnRemove.textContent = 'Delete Player';
-        btnRemove.classList.add('big', 'red');
+        let btnRemove = this.shadowRoot.querySelector('#remove');
 
         btnRemove.addEventListener('click', async (e) => {
             gameHandler.gameObject.removePlayer(this.uid);
             observer.send({channel:'ce-player-list'});
             this.hide();
         })
-
-        this.menu.appendChild(btnRemove);
 
         addAnimate(btnUpdate);
         addAnimate(btnRemove);

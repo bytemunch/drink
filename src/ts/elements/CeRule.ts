@@ -16,14 +16,11 @@ export default class CeRule extends CustomElement {
     async connectedCallback() {
         await super.connectedCallback();
 
-        this.ruleTitle = document.createElement('p');
-        this.desc = document.createElement('p');
+        this.ruleTitle = this.shadowRoot.querySelector('#title');
+        this.desc = this.shadowRoot.querySelector('#desc');
 
         this.ruleTitle.textContent = '';
         this.desc.textContent = '';
-
-        this.shadowRoot.appendChild(this.ruleTitle);
-        this.shadowRoot.appendChild(this.desc);
 
         this.applyStyle();
 

@@ -41,9 +41,7 @@ export default class CeAvatarUpload extends CustomElement {
     async connectedCallback() {
         await super.connectedCallback();
 
-        this.realInput = document.createElement('input');
-        this.realInput.setAttribute('type', 'file');
-        this.realInput.setAttribute('hidden', 'hidden');
+        this.realInput = this.shadowRoot.querySelector('#real-input');
 
         // If we have external profile pic
         // and don't currently have a profile pic
@@ -70,22 +68,14 @@ export default class CeAvatarUpload extends CustomElement {
             this.setImage(file)
         })
 
-        this.shadowRoot.appendChild(this.realInput);
-
-        this.fakeUploadButton = document.createElement('button');
-        this.fakeUploadButton.textContent = 'Upload...';
-        this.fakeUploadButton.classList.add('small');
+        this.fakeUploadButton = this.shadowRoot.querySelector('#fake-input');
 
         this.fakeUploadButton.addEventListener('click', () => {
             this.realInput.click();
         })
 
-        this.shadowRoot.appendChild(this.fakeUploadButton);
-
-        this.preview = document.createElement('ce-avatar');
+        this.preview = this.shadowRoot.querySelector('ce-avatar');
         this.preview.uid = this.uid;
-        this.preview.classList.add('account-img');
-        this.shadowRoot.appendChild(this.preview);
 
         this.applyStyle();
     }

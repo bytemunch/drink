@@ -2,19 +2,15 @@ import CeMenu from "./CeMenu.js";
 import { LOCAL_MODE, userSignedIn, userdata, observer } from "../index.js";
 import goToPage from "../functions/goToPage.js";
 import CeAvatarUpload from "./CeAvatarUpload.js";
-import CeLogInOutButton from "./CeLogInOutButton.js";
 
 import {PROVIDER_VARS} from '../index.js';
 import {gameHandler} from '../index.js';
 import { addAnimate } from "../functions/buttonAnimator.js";
+import firebase from "../functions/firebase.js";
+
 export default class CeAccountMenu extends CeMenu {
     constructor() {
         super();
-    }
-
-    applyStyle() {
-        super.applyStyle();
-        this.classList.add('updateable-element');
     }
 
     async connectedCallback() {
@@ -23,83 +19,46 @@ export default class CeAccountMenu extends CeMenu {
         // add logout button
 
         if (!LOCAL_MODE) {
-            this.logoutBtn = new CeLogInOutButton;
-            this.titlebar.appendChild(this.logoutBtn);
+            this.logoutBtn = this.shadowRoot.querySelector('#login');
+            this.logoutBtn.textContent = userSignedIn() ? 'Log Out' : 'Log In';
+            this.logoutBtn.addEventListener('click', e=>{
+                if (userSignedIn()) {
+                    firebase.auth().signOut();
+                } else {
+                    goToPage('pg-login');
+                }
+                this.hide();
+            })
         }
 
         this.title = 'Account';
 
-        let inputs: any = {
-            name: {
-                label: 'Display Name',
-                type: 'text'
-            },
-            color: {
-                label: 'Color',
-                type: 'color'
-            },
-            avatar: {
-                label: 'Profile Pic',
-                type: 'file'
-            }
-        }
+        (<HTMLInputElement>this.shadowRoot.querySelector('#acc-input-name')).value = userdata.name || PROVIDER_VARS.name || '';
+        (<HTMLInputElement>this.shadowRoot.querySelector('#acc-input-color')).value = userdata.color || '#FF00FF';
 
-        for (let input in inputs) {
-            let l = document.createElement('p');
-            l.textContent = inputs[input].label;
-            l.classList.add('big', 'label')
-            this.menu.appendChild(l);
-
-            let i;
-
-            if (inputs[input].type == 'file') {
-                i = document.createElement('ce-avatar-upload');
-            } else {
-                i = document.createElement('input');
-                i.setAttribute('type', inputs[input].type);
-                i.classList.add('big');
-                i.value = userdata[input] || '';
-                if (input == 'name' && PROVIDER_VARS.name && !userdata.name) {
-                    i.value = PROVIDER_VARS.name;
-                }
-            }
-
-            i.setAttribute('id', `acc-input-${input}`);
-            this.menu.appendChild(i);
-
-        }
-
-        let btnUpdate = document.createElement('button');
-        btnUpdate.textContent = 'Update';
-        btnUpdate.classList.add('big');
+        let btnUpdate = this.shadowRoot.querySelector('#update');
 
         btnUpdate.addEventListener('click', async (e) => {
             let asyncPromises = [];
             // load here
-            if ((<HTMLInputElement>document.querySelector(`#acc-input-name`)).value == '') {
+            if ((<HTMLInputElement>this.shadowRoot.querySelector(`#acc-input-name`)).value == '') {
                 console.error('no name input');
                 return;
             }
 
-            for (let input in inputs) {
-                if (inputs[input].type == 'file' && !LOCAL_MODE) {
-                    asyncPromises.push((<CeAvatarUpload>document.querySelector(`#acc-input-${input}`)).upload());
-                } else {
-                    userdata[input] = (<HTMLInputElement>document.querySelector(`#acc-input-${input}`)).value;
-                }
-            }
+            asyncPromises.push((<CeAvatarUpload>this.shadowRoot.querySelector(`#acc-input-avatar`)).upload());
+            userdata.name = (<HTMLInputElement>this.shadowRoot.querySelector(`#acc-input-name`)).value;
+            userdata.color = (<HTMLInputElement>this.shadowRoot.querySelector(`#acc-input-color`)).value;
 
             if (userSignedIn()) asyncPromises.push(userdata.sendData());
 
             await (Promise.all(asyncPromises));
 
             this.hide();
-        })
+            observer.send({channel:'ce-account-button'});
+        });
 
-        this.menu.appendChild(btnUpdate);
-
-        let backButton = document.createElement('button');
-        backButton.textContent = 'Back to Home';
+        let backButton = this.shadowRoot.querySelector('#home');
 
         backButton.addEventListener('click',  async (e) => {
             console.log('Back button pressed!');
@@ -108,16 +67,13 @@ export default class CeAccountMenu extends CeMenu {
             this.hide();
         });
 
-        backButton.classList.add('big', 'red', 'bottom');
-
-        this.menu.appendChild(backButton);
-
         addAnimate(btnUpdate);
         addAnimate(backButton);
     }
 
     update() {
         this.removeChild(this.menu);
+        // TODO don't recall connectedCallback
         this.connectedCallback();
     }
 }

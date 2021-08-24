@@ -12,15 +12,11 @@ export default class CeAccountButton extends CeShowButton {
 
     applyStyle() {
         super.applyStyle();
-
-        this.classList.add('updateable-element');
     }
 
     async connectedCallback() {
         await super.connectedCallback();
-        this.avi = new CeAvatar;
-        
-        this.shadowRoot.appendChild(this.avi);
+        this.avi = this.shadowRoot.querySelector('ce-avatar');
         this.update();
         this.applyStyle();
     }

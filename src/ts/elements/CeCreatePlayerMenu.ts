@@ -21,58 +21,20 @@ export default class CeCreatePlayerMenu extends CeMenu {
     async connectedCallback() {
         await super.connectedCallback();
 
-        this.h2title.textContent = 'Add Player';
+        this.title = 'Add Player';
 
         let newUid = `${userdata.uid}-${userdata.extraPlayerCount}`;
+        let nameInput = this.shadowRoot.querySelector('#acc-input-name') as HTMLInputElement;
+        let avatarInput = this.shadowRoot.querySelector('#acc-input-avatar') as CeAvatarUpload;
+        let colorInput = this.shadowRoot.querySelector('#acc-input-color') as HTMLInputElement;
 
-        let inputs: any = {
-            name: {
-                label: 'Display Name',
-                type: 'text'
-            },
-            color: {
-                label: 'Color',
-                type: 'color'
-            },
-            avatar: {
-                label: 'Profile Pic',
-                type: 'file'
-            }
-        }
+        nameInput.value = 'Player ' + (userdata.extraPlayerCount + 2);
 
-        for (let input in inputs) {
-            let l = document.createElement('p');
-            l.textContent = inputs[input].label;
-            l.classList.add('big', 'label')
-            this.menu.appendChild(l);
-
-            let i;
-
-            if (inputs[input].type == 'file') {
-                i = new CeAvatarUpload(newUid)
-            } else {
-                i = document.createElement('input');
-                i.setAttribute('type', inputs[input].type);
-                i.classList.add('big');
-            }
-
-            if (input == 'name') {
-                i.value = 'Player ' + (userdata.extraPlayerCount + 2);
-            }
-
-            i.setAttribute('id', `acc-input-${input}`);
-            this.menu.appendChild(i);
-            inputs[input] = i;
-        }
-
-        let btnUpdate = document.createElement('button');
-        btnUpdate.textContent = 'Add Player';
-        btnUpdate.classList.add('button-animate');
-        btnUpdate.classList.add('big');
+        let btnUpdate = this.shadowRoot.querySelector('#update');
 
         btnUpdate.addEventListener('click', async (e) => {
             // load here
-            if (inputs.name.value == '') {
+            if (nameInput.value == '') {
                 console.error('no name input');
                 errorPopUp('Please enter a name!');
                 return;
@@ -80,11 +42,11 @@ export default class CeCreatePlayerMenu extends CeMenu {
 
             const playerInfo = new Player({
                 uid: newUid,
-                name: inputs['name'].value,
-                color: inputs['color'].value,
+                name: nameInput.value,
+                color: colorInput.value,
             });
 
-            if (!LOCAL_MODE) await inputs['avatar'].upload();
+            if (!LOCAL_MODE) await avatarInput.upload();
             gameHandler.gameObject.addPlayer(playerInfo);
 
             // add player modify menu to page
@@ -93,8 +55,8 @@ export default class CeCreatePlayerMenu extends CeMenu {
             // Uhhhh reset modal? or something idk why i'm doin shit so backwards ahhahaa
             userdata.extraPlayerCount++;
             newUid = `${userdata.uid}-${userdata.extraPlayerCount}`;
-            inputs.name.value = 'Player ' + (userdata.extraPlayerCount + 2);
-            inputs.avatar.uid = newUid;
+            nameInput.value = 'Player ' + (userdata.extraPlayerCount + 2);
+            avatarInput.uid = newUid;
 
             // update playerlist
             observer.send({ channel: 'ce-player-list' });
