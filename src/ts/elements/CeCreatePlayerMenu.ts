@@ -3,7 +3,6 @@ import CeMenu from "./CeMenu.js";
 import { LOCAL_MODE, observer } from "../index.js";
 import Player from "../class/Player.js";
 import CeModifyPlayerMenu from "./CeModifyPlayerMenu.js";
-import CePlayerList from "./CePlayerList.js";
 import errorPopUp from "../functions/errorPopUp.js";
 import CeAvatarUpload from "./CeAvatarUpload.js";
 

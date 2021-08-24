@@ -2,7 +2,6 @@ import CeMenu from "./CeMenu.js";
 
 import {gameHandler} from '../index.js';
 
-
 export default class CeInviteMenu extends CeMenu {
     constructor() {
         super();

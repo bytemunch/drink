@@ -1,5 +1,5 @@
 import Card from "../class/Card.js";
-import { animMan, observer } from "../index.js";
+import { animMan } from "../index.js";
 import RingOfFire from "../class/RingOfFire.js";
 
 import { gameHandler } from '../index.js';

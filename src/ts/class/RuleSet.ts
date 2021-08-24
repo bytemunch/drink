@@ -1,4 +1,3 @@
-
 interface IAction {
     type: string;
     trigger: string;

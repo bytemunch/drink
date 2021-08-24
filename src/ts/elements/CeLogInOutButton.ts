@@ -3,7 +3,6 @@ import goToPage from "../functions/goToPage.js";
 import CeMenu from "./CeMenu.js";
 import firebase from '../functions/firebase.js';
 
-
 export default class CeLogInOutButton extends HTMLButtonElement {
     
     constructor() {

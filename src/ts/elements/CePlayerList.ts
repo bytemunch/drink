@@ -4,7 +4,7 @@ import firebase from '../functions/firebase.js';
 
 let firestore = firebase.firestore();
 
-import { userdata, gameHandler, observer } from '../index.js';
+import { userdata, gameHandler } from '../index.js';
 import { addAnimate } from '../functions/buttonAnimator.js';
 import CustomElement from './CustomElement.js';
 

@@ -1,6 +1,6 @@
 import CeAvatar from "./CeAvatar.js";
 
-import {gameHandler, observer} from '../index.js';
+import {gameHandler} from '../index.js';
 import CustomElement from "./CustomElement.js";
 
 export default class CeNextPlayer extends CustomElement {

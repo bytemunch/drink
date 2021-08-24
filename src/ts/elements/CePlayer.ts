@@ -1,5 +1,4 @@
 import CustomElement from "./CustomElement.js";
-import CeModifyPlayerMenu from "./CeModifyPlayerMenu.js";
 import CeAvatar from "./CeAvatar.js";
 
 import { observer, userdata } from '../index.js';

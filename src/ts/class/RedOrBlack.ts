@@ -2,7 +2,6 @@ import Card from "./Card.js";
 import Game from "./Game.js";
 import Deck from "./Deck.js";
 import PgPlayRedOrBlack from "../pages/PgPlayRedOrBlack.js";
-import strip from "../functions/strip.js";
 
 export default class RedOrBlack extends Game {
     deck: Deck;

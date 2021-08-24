@@ -1,5 +1,4 @@
 import CeMenu from "./CeMenu.js";
-import CePlayerList from "./CePlayerList.js";
 import { LOCAL_MODE, observer } from "../index.js";
 import Player from "../class/Player.js";
 import CeAvatarUpload from "./CeAvatarUpload.js";

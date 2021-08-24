@@ -1,6 +1,5 @@
 import firebase from '../functions/firebase.js';
 
-
 import {observer, PROVIDER_VARS} from '../index.js';
 
 export default class Player {

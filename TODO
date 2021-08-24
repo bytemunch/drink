@@ -5,6 +5,7 @@ Reorganize file structure
 Fix animations
     - fix loading animation to prevent flash of no content
     - add small loading animation when waiting for firebase response
+    - use smart awaits to prevent FOUC
 
 Presence
 

@@ -1,7 +1,6 @@
 import firebase from '../functions/firebase.js';
 import goToPage from "../functions/goToPage.js";
 import errorPopUp from "../functions/errorPopUp.js";
-import RingOfFire from "../class/RingOfFire.js";
 import Page from "./Page.js";
 
 import { gameHandler } from '../index.js';

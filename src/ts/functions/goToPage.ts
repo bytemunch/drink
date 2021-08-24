@@ -24,6 +24,7 @@ export default async function goToPage(page:string) {
     }
 
     app.appendChild(pageElement);
+    // TODO await page load here
     animMan.animate(pageElement,'fadeIn',100,'easeIn')
     .then(()=>pageElement.style.opacity = '1');
 

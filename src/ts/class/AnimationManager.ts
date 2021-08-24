@@ -144,7 +144,7 @@ export default class AnimationManager {
 
                     requestAnimationFrame(rAFcb.bind(this))
                 } else {
-                    resolve();
+                    resolve(1);
                 }
             }
 

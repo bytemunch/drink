@@ -1,7 +1,5 @@
 import Page from "./Page.js";
 import goToPage from "../functions/goToPage.js";
-import RingOfFire from "../class/RingOfFire.js";
-import RedOrBlack from "../class/RedOrBlack.js";
 
 import { gameHandler } from '../index.js';
 import disablePage from "../functions/disablePage.js";

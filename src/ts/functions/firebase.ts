@@ -1,5 +1,3 @@
-// import firebase from "../../../node_modules/firebase/index";
-
 declare const firebase;
 
 // Your web app's Firebase configuration

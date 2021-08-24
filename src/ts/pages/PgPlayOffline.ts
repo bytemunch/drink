@@ -1,5 +1,4 @@
 import goToPage from "../functions/goToPage.js";
-import RingOfFire from "../class/RingOfFire.js";
 import Page from "./Page.js";
 
 import { gameHandler } from '../index.js';

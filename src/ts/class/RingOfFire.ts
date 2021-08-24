@@ -1,12 +1,9 @@
-import CePlayerList from "../elements/CePlayerList.js";
 import Game from "./Game.js";
 import Deck from "./Deck.js";
 import Card from "./Card.js";
 import errorPopUp from "../functions/errorPopUp.js";
 import CeRule from "../elements/CeRule.js";
-import CeCard from "../elements/CeCard.js";
 import goToPage from "../functions/goToPage.js";
-import CeNextPlayer from "../elements/CeNextPlayer.js";
 
 import { userdata, gameHandler, observer } from '../index.js';
 import RuleSet from "./RuleSet.js";

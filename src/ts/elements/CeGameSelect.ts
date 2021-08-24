@@ -1,6 +1,5 @@
 import CeRuleSelect from "./CeRuleSelect.js";
 
-
 export default class CeGameSelect extends HTMLSelectElement {
 
     constructor() {
