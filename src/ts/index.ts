@@ -18,7 +18,7 @@ globalThis.deleteAllRooms = deleteAllRooms;
 
 const DEBUG_MODE = false;
 
-export const VERSION = `0.3.6 - alpha${DEBUG_MODE ? ' - debug' : ''}`;
+export const VERSION = `0.4 - alpha${DEBUG_MODE ? ' - debug' : ''}`;
 
 // TODO detect if connected and set this accordingly
 export const LOCAL_MODE = false;
