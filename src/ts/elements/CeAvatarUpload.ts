@@ -82,9 +82,9 @@ export default class CeAvatarUpload extends CustomElement {
 
     async upload() {
 
-        return new Promise((res, rej) => {
+        return new Promise((res) => {
             if (!this.file) {
-                rej('no file provided'); // exit gracefully, image is not required
+                res('no file provided'); // exit gracefully, image is not required
             }
 
             const storageRef = firebase.storage().ref().child(`avatars/${this.uid}.png`);
