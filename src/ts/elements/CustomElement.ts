@@ -49,6 +49,8 @@ export default class CustomElement extends HTMLElement {
         newStyle.href = `./styles/${this.constructor.name}.css`;
         newStyle.rel = "stylesheet";
         this.shadowRoot.appendChild(newStyle);
+
+        this.HTMLReadyRes();
     }
 
     async connectedCallback() {
@@ -59,8 +61,6 @@ export default class CustomElement extends HTMLElement {
             }
             return '';
         })
-
-        this.HTMLReadyRes();
     }
 
     update() {

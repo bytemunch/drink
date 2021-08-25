@@ -26,6 +26,7 @@ export default class CeNextPlayerCenter extends CustomElement {
 
         this.shadowRoot.appendChild(this.playerName);
 
+        this.applyStyle();
         this.update();
     }
 

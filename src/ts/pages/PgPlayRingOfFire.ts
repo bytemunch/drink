@@ -15,28 +15,9 @@ export default class PgPlayRingOfFire extends Page {
     }
 
     async connectedCallback() {
-        await super.connectedCallback();
-        // add elements to page
+        await super.connectedCallback();        
 
-        let nextPlayer = new CeNextPlayer;
-        this.shadowRoot.appendChild(nextPlayer);
-
-        // Card display
-        let cardDisplay = new CeCard;
-        this.shadowRoot.appendChild(cardDisplay);
-        cardDisplay.style.width = '40%';
-
-
-        // Rule Display
-        let ruleDisplay = new CeRule;
-        this.shadowRoot.appendChild(ruleDisplay);
-
-        // Draw button
-
-        let drawButton = document.createElement('button');
-        drawButton.textContent = 'Draw Card';
-        drawButton.classList.add('big');
-        drawButton.id = 'draw-button';
+        let drawButton = this.shadowRoot.querySelector('#draw-button') as HTMLButtonElement;
 
         observer.watch('draw-toggle', msg => {
             drawButton.disabled = msg == 'disable';

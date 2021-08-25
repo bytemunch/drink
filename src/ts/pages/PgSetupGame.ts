@@ -14,20 +14,11 @@ export default class PgSetupGame extends Page {
 
     async connectedCallback() {
         await super.connectedCallback();
-        // add elements to page
-        // Player config bits!!
-        let createPlayer = new CeCreatePlayerMenu;
-        this.shadowRoot.appendChild(createPlayer);
 
-        let playerInfo = document.createElement('ce-player-list');
-        playerInfo.classList.add('bigGrid');
-        this.shadowRoot.appendChild(playerInfo);
+        let createPlayerBtn = this.shadowRoot.querySelector('ce-create-player-button') as CeCreatePlayerButton;
+        createPlayerBtn.target = this.shadowRoot.querySelector('ce-create-player-menu');
 
-        let createPlayerBtn = new CeCreatePlayerButton(createPlayer);
-        this.shadowRoot.appendChild(createPlayerBtn);
-
-        let startButton = document.createElement('button');
-        startButton.textContent = 'Start';
+        let startButton = this.shadowRoot.querySelector('#start-button');
 
         startButton.addEventListener('click', async function (e) {
             disablePage();
@@ -36,12 +27,7 @@ export default class PgSetupGame extends Page {
             goToPage(`pg-play-${gameHandler.gameObject.type}`);
         });
 
-        startButton.classList.add('big', 'green');
-
-        this.shadowRoot.appendChild(startButton);
-
-        let backButton = document.createElement('button');
-        backButton.textContent = 'Back';
+        let backButton = this.shadowRoot.querySelector('#back-button');
 
         backButton.addEventListener('click', async function (e) {
             disablePage();
@@ -49,8 +35,6 @@ export default class PgSetupGame extends Page {
             goToPage('pg-home');
         });
 
-        backButton.classList.add('big', 'red', 'bottom');
-
-        this.shadowRoot.appendChild(backButton);
+        this.applyStyle();
     }
 }

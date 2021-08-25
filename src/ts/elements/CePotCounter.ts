@@ -9,13 +9,12 @@ export default class CePotCounter extends CustomElement {
 
     async connectedCallback() {
         await super.connectedCallback();
-
-        this.textContent = '0';
+        this.shadowRoot.querySelector('p').textContent = "0";
 
         this.applyStyle();
     }
 
     update() {
-        this.textContent = (<RedOrBlack>gameHandler.gameObject).cardPot.length.toString();
+        this.shadowRoot.querySelector('p').textContent = (<RedOrBlack>gameHandler.gameObject).cardPot.length.toString();
     }
 }

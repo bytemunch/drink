@@ -134,10 +134,11 @@ async function authHandler(user: any) {
     } else {
         // logged out
         userdata = new Player; //clear user info
-        // TODO send this update correctly
-        observer.send({channel:'DOMUpdate'});
         goToPage('pg-home');
     }
+
+    observer.send({channel:'ce-account-menu'});
+    observer.send({channel:'ce-account-button'});
 }
 
 

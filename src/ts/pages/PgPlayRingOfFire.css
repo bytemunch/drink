@@ -6,3 +6,7 @@
 #draw-button:disabled {
     background-color: var(--grey);
 }
+
+ce-card {
+    width: 40%;
+}

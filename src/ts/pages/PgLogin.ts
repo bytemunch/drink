@@ -13,36 +13,10 @@ export default class PgLogin extends Page {
     async connectedCallback() {
         await super.connectedCallback();
 
-        // add elements to page
+        let emailInput = this.shadowRoot.querySelector('#email-input') as HTMLInputElement;
+        let passwordInput = this.shadowRoot.querySelector('#password-input') as HTMLInputElement;
 
-        // Email
-
-        let emailInput = document.createElement('input');
-        emailInput.id = 'room-input';
-        emailInput.classList.add('big');
-        emailInput.type = 'email';
-        let emailLabel = document.createElement('p');
-        emailLabel.classList.add('big', 'label');
-        emailLabel.textContent = 'Email:';
-
-        this.shadowRoot.appendChild(emailLabel);
-        this.shadowRoot.appendChild(emailInput);
-
-        // Password
-
-        let passwordInput = document.createElement('input');
-        passwordInput.id = 'pin-input';
-        passwordInput.classList.add('big');
-        passwordInput.type = 'password';
-        let passwordLabel = document.createElement('p');
-        passwordLabel.classList.add('big', 'label');
-        passwordLabel.textContent = 'Password:';
-
-        this.shadowRoot.appendChild(passwordLabel);
-        this.shadowRoot.appendChild(passwordInput);
-
-        let loginButton = document.createElement('button');
-        loginButton.textContent = 'Login';
+        let loginButton = this.shadowRoot.querySelector('#login-button');
 
         loginButton.addEventListener('click', async function (e) {
             console.log('Login button pressed!');
@@ -53,14 +27,8 @@ export default class PgLogin extends Page {
                 })
         });
 
-        loginButton.classList.add('big');
 
-        this.shadowRoot.appendChild(loginButton);
-
-        // Signup
-
-        let signupButton = document.createElement('button');
-        signupButton.textContent = 'Sign Up';
+        let signupButton = this.shadowRoot.querySelector('#signup-button');
 
         signupButton.addEventListener('click', async function (e) {
             disablePage();
@@ -72,15 +40,7 @@ export default class PgLogin extends Page {
                 })
         })
 
-        signupButton.classList.add('big', 'green');
-
-        // Facebook
-
-        this.shadowRoot.appendChild(signupButton);
-
-        let facebookButton = document.createElement('button');
-        facebookButton.textContent = 'Continue with Facebook';
-        facebookButton.classList.add('fb');
+        let facebookButton = this.shadowRoot.querySelector('#facebook-button');
 
         facebookButton.addEventListener('click', async function (e) {
             disablePage();
@@ -89,23 +49,12 @@ export default class PgLogin extends Page {
             firebase.auth().signInWithRedirect(fbProvider);
         })
 
-        facebookButton.classList.add('big');
-
-        this.shadowRoot.appendChild(facebookButton);
-
-        // Back
-
-        let backButton = document.createElement('button');
-        backButton.textContent = 'Back';
+        let backButton = this.shadowRoot.querySelector('#back-button');
 
         backButton.addEventListener('click', async function (e) {
             disablePage();
             console.log('Back button pressed!');
             goToPage('pg-home');
         });
-
-        backButton.classList.add('big', 'red');
-
-        this.shadowRoot.appendChild(backButton);
     }
 }

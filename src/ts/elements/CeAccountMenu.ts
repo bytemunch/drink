@@ -72,7 +72,7 @@ export default class CeAccountMenu extends CeMenu {
     }
 
     update() {
-        this.removeChild(this.menu);
+        this.shadowRoot.removeChild(this.menu);
         // TODO don't recall connectedCallback
         this.connectedCallback();
     }

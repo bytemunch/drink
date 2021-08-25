@@ -1,0 +1,10 @@
+#version {
+    position: absolute;
+    color: rgba(0, 0, 0, 0.3);
+    top: 0;
+    left: 0;
+    text-align: center;
+    font-size: small;
+    z-index: 100;
+    pointer-events: none;
+}

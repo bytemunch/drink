@@ -20,31 +20,10 @@ export default class PgPlayOnline extends Page {
             goToPage('pg-login');
         }
 
-        // add elements to page
+        let roomInput = this.shadowRoot.querySelector('#room-input') as HTMLInputElement;
+        let pinInput = this.shadowRoot.querySelector('#pin-input') as HTMLInputElement;
 
-        let roomInput = document.createElement('input');
-        roomInput.id = 'room-input';
-        roomInput.classList.add('big');
-        let roomLabel = document.createElement('p');
-        roomLabel.classList.add('big', 'label');
-        roomLabel.textContent = 'Room ID:';
-
-        this.shadowRoot.appendChild(roomLabel);
-        this.shadowRoot.appendChild(roomInput);
-
-        let pinInput = document.createElement('input');
-        pinInput.id = 'pin-input';
-        pinInput.classList.add('big');
-        let pinLabel = document.createElement('p');
-        pinLabel.classList.add('big', 'label');
-        pinLabel.textContent = 'Room PIN:';
-
-        this.shadowRoot.appendChild(pinLabel);
-        this.shadowRoot.appendChild(pinInput);
-
-
-        let joinButton = document.createElement('button');
-        joinButton.textContent = 'Join Room';
+        let joinButton = this.shadowRoot.querySelector('#join-button');
 
         joinButton.addEventListener('click', e => {
             console.log('Join button pressed!');
@@ -62,12 +41,7 @@ export default class PgPlayOnline extends Page {
                 })
         });
 
-        joinButton.classList.add('big');
-
-        this.shadowRoot.appendChild(joinButton);
-
-        let createButton = document.createElement('button');
-        createButton.textContent = 'Create Room';
+        let createButton = this.shadowRoot.querySelector('#create-button');
 
         createButton.addEventListener('click', async function (e) {
             disablePage();
@@ -77,23 +51,13 @@ export default class PgPlayOnline extends Page {
             goToPage('pg-game-select');
         });
 
-        createButton.classList.add('big', 'green');
-
-        this.shadowRoot.appendChild(createButton);
-
-
-        let backButton = document.createElement('button');
-        backButton.textContent = 'Back';
-
+        let backButton = this.shadowRoot.querySelector('#back-button');
         backButton.addEventListener('click', async function (e) {
             disablePage();
             console.log('Back button pressed!');
             goToPage('pg-home');
         });
 
-        backButton.classList.add('big', 'red');
-
-        this.shadowRoot.appendChild(backButton);
     }
 }
 

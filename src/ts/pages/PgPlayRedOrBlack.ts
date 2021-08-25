@@ -1,9 +1,8 @@
 
 import CePopUp from "../elements/CePopUp.js";
-import CeNextPlayerCenter from "../elements/CeNextPlayerCenter.js";
 import CePotCounter from "../elements/CePotCounter.js";
 import CeCard from "../elements/CeCard.js";
-import { animMan } from "../index.js";
+import { animMan, observer } from "../index.js";
 import goToPage from "../functions/goToPage.js";
 import RedOrBlack from "../class/RedOrBlack.js";
 import Page from "./Page.js";
@@ -17,8 +16,6 @@ export default class PgPlayRedOrBlack extends Page {
 
     potCount: CePotCounter;
 
-    upNext: CeNextPlayerCenter;
-
     constructor() {
         super();
         this.header = 'account';
@@ -31,62 +28,17 @@ export default class PgPlayRedOrBlack extends Page {
 
     async connectedCallback() {
         await super.connectedCallback();
-        // add elements to page
 
         this.cardW = 70;
 
         let castGame = <RedOrBlack>gameHandler.gameObject;
 
-        // deck image
-        let deckImg = document.createElement('img');
-        deckImg.style.display = 'block';
-        deckImg.style.position = 'absolute';
-        deckImg.src = './img/cards/back.svg';
-        deckImg.style.width = ((this.cardW / 320) * 100) + '%';
-        deckImg.style.height = 'unset';
-        deckImg.style.left = ((20 / 320) * 100) + '%';
-        this.shadowRoot.appendChild(deckImg);
+        await new Promise(res=>{
+            res(1);
+        })
 
-        // up next
-        this.upNext = new CeNextPlayerCenter;
-        this.shadowRoot.appendChild(this.upNext);
-
-        // deck image
-        let discardImg = document.createElement('img');
-        discardImg.classList.add('discard');
-        discardImg.style.display = 'block';
-        discardImg.style.position = 'absolute';
-        discardImg.src = './img/cards/back.svg';
-        discardImg.style.width = ((this.cardW / 320) * 100) + '%';
-        discardImg.style.height = 'unset';
-        discardImg.style.right = ((20 / 320) * 100) + '%';
-        discardImg.style.opacity = '0.4';
-        this.shadowRoot.appendChild(discardImg);
-
-        let dBB = discardImg.getBoundingClientRect();
-
-        this.potCount = new CePotCounter;
-
-        const size = dBB.width * 0.9;
-
-        this.potCount.style.left = (dBB.left + (dBB.width - size) / 2) + 'px';
-        this.potCount.style.width = size + 'px';
-        this.potCount.style.height = size + 'px';
-        this.potCount.style.marginTop = '6%';
-        this.shadowRoot.appendChild(this.potCount);
-
-        let controlGrid = document.createElement('div');
-        controlGrid.style.display = 'grid';
-        controlGrid.style.gridTemplateColumns = '1fr 1fr 1fr';
-        controlGrid.style.gridTemplateRows = '1fr 1fr';
-        controlGrid.style.gridGap = '20px';
-        controlGrid.style.position = 'absolute';
-        controlGrid.style.width = '80%';
-        controlGrid.style.maxWidth = '80%';
-        controlGrid.style.height = '120px';
-        controlGrid.style.left = '10%';
-        controlGrid.style.bottom = '10%';
-        this.shadowRoot.appendChild(controlGrid);
+        this.potCount = this.shadowRoot.querySelector('ce-pot-counter');
+        let controlGrid = this.shadowRoot.querySelector('#control-grid');
 
         const controls = {
             "RR": {
@@ -118,12 +70,9 @@ export default class PgPlayRedOrBlack extends Page {
         for (let bet in controls) {
             let c = document.createElement('button');
             c.classList.add(controls[bet].color, 'bet-button')
-            c.style.width = '100%';
-            c.style.height = '100%';
 
             let p = document.createElement('p');
             p.textContent = controls[bet].txt;
-            p.style.textAlign = 'center';
             c.appendChild(p);
 
             c.addEventListener('click', async e => {
@@ -188,6 +137,8 @@ export default class PgPlayRedOrBlack extends Page {
             })
             controlGrid.appendChild(c);
         }
+
+        this.applyStyle();
     }
 
     enableButtons() {
@@ -208,12 +159,15 @@ export default class PgPlayRedOrBlack extends Page {
     }
 
     async discard() {
-        let discardBB = document.querySelector('.discard').getBoundingClientRect();
+        let discardBB = this.shadowRoot.querySelector('#discard-img').getBoundingClientRect();
         let movedAllCards = [];
-        for (let card of document.querySelectorAll('ce-card')) {
+        for (let card of this.shadowRoot.querySelectorAll('ce-card')) {
             movedAllCards.push(animMan.animate(card, 'translateTo', 500, 'easeInOutQuint', { x: discardBB.x, y: discardBB.y }));
         }
-        return Promise.all(movedAllCards).then(() => { this.potCount.update(); this.upNext.update(); });
+        return Promise.all(movedAllCards).then(() => {
+            this.potCount.update();
+            observer.send({ channel: 'ce-next-player-center' });
+        });
     }
 
     async drawCards(cards: Card[]) {
@@ -226,8 +180,9 @@ export default class PgPlayRedOrBlack extends Page {
             drawnCard.style.height = 'unset';
             drawnCard.style.left = ((20 / 320) * 100) + '%';
             this.shadowRoot.appendChild(drawnCard);
+            await drawnCard.HTMLReady;
             (<CeCard>drawnCard).backImg.style.visibility = 'hidden';
-            let bb = drawnCard.firstElementChild.getBoundingClientRect();
+            let bb = drawnCard.shadowRoot.firstElementChild.getBoundingClientRect();
             let offset = -1 * ((bb.width / 4) * ((cards.length / 2) - idx) - bb.width / 8);
             let tX = (window.innerWidth / 2) - (bb.width / 2) + offset;
             let tY = (window.innerHeight / 2) - (bb.height / 2);
