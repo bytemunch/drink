@@ -1,10 +1,9 @@
-import CeCreatePlayerMenu from "../elements/CeCreatePlayerMenu.js";
 import goToPage from "../functions/goToPage.js";
 import Page from "./Page.js";
 
 import { gameHandler } from '../index.js';
 import disablePage from "../functions/disablePage.js";
-import CeCreatePlayerButton from "../elements/CeCreatePlayerButton.js";
+import CeShowButton from "../elements/CeShowButton.js";
 
 export default class PgSetupGame extends Page {
     constructor() {
@@ -15,7 +14,8 @@ export default class PgSetupGame extends Page {
     async connectedCallback() {
         await super.connectedCallback();
 
-        let createPlayerBtn = this.shadowRoot.querySelector('ce-create-player-button') as CeCreatePlayerButton;
+        let createPlayerBtn = this.shadowRoot.querySelector('#create-player-button') as CeShowButton;
+        createPlayerBtn.img = './img/add.svg';
         createPlayerBtn.target = this.shadowRoot.querySelector('ce-create-player-menu');
 
         let startButton = this.shadowRoot.querySelector('#start-button');
