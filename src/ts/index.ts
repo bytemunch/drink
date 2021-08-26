@@ -149,6 +149,8 @@ async function preload() {
     ceLoader();
     pgLoader();
 
+    return;
+
     let allPromises = [];
 
     const fetchImg = async path => await (await fetch(path)).blob();
